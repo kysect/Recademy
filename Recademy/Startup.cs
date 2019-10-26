@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using EmbeddedBlazorContent;
 using Microsoft.AspNetCore.Builder;
@@ -44,6 +45,16 @@ namespace Recademy
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAchievementService, AchievementService>();
+
+            services.AddScoped(
+                s =>
+                {
+                    var navigationManager = s.GetRequiredService<NavigationManager>();
+                    return new HttpClient
+                    {
+                        BaseAddress = new Uri(navigationManager.BaseUri)
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
