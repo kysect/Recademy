@@ -28,6 +28,18 @@ namespace Recademy.Context
                 .HasOne(us => us.Skill)
                 .WithMany(s => s.UserSkills)
                 .HasForeignKey(s => s.SkillName);
+
+            modelBuilder.Entity<ProjectSkill>()
+                .HasKey(ps => new { ps.SkillName, ps.ProjectId });
+            modelBuilder.Entity<ProjectSkill>()
+                .HasOne(ps => ps.ProjectInfo)
+                .WithMany(p => p.Skills)
+                .HasForeignKey(p => p.ProjectId);
+
+            modelBuilder.Entity<ProjectSkill>()
+                .HasOne(ps => ps.Skill)
+                .WithMany(s => s.ProjectSkills)
+                .HasForeignKey(s => s.SkillName);
         }
 
         public DbSet<User> Users { get; set; }
@@ -38,7 +50,7 @@ namespace Recademy.Context
 
         public DbSet<UserSkill> UserSkills { get; set; }
 
-        //public DbSet<ProjectSkill> ProjectSkills { get; set; }
+        public DbSet<ProjectSkill> ProjectSkills { get; set; }
 
     }
 }
