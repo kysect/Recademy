@@ -19,7 +19,9 @@ namespace Recademy.Services
         public User GetUserInfo(GetUserInfoDto argues)
         {
             User userInfo = Context.Users
-                .Include(s => s.ProjectInfos).FirstOrDefault(s => s.Id == argues.UserId);
+                .Include(s => s.ProjectInfos)
+                .Include(s => s.UserSkills)
+                .FirstOrDefault(s => s.Id == argues.UserId);
 
             return userInfo;
         }
