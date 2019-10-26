@@ -1,4 +1,9 @@
 ﻿@page "/uploadProject"
+@using Recademy.Dto
+@using Recademy.Services.Abstraction
+@inject IGithubService GithubService
+@inject ITagSevice TagService
+@inject IUserService UserService
 
 <h3>UploadProjectPage</h3>
 
@@ -8,28 +13,47 @@
 
         <div class="row">
             <div class="text-label col-sm-2">Select title</div>
-            <MatTextField @bind-Value="@ProjectTitle" Label="Title" Outlined="true" class="col-sm-2"></MatTextField>
+            <MatTextField @bind-Value="@_projectTitle" Label="Title" Outlined="true" class="col-sm-2"></MatTextField>
         </div>
 
         <div class="row">
             <div class="text-label col-sm-2">Select repository</div>
-            <MatAutocomplete Collection="@options" ItemType="string" Label="Pick repository" class="col-sm-2"></MatAutocomplete>
+            <MatAutocomplete Collection="@_repositories" ItemType="GhRepositoryDto" Label="Pick repository" class="col-sm-2" @bind-Value="@_selectedRepository">
+            </MatAutocomplete>
         </div>
 
         <div class="row">
             <div class="text-label col-sm-2">Add tag</div>
-            <MatTextField @bind-Value="@Tag" Label="Tag" Outlined="true" class="col-sm-2"></MatTextField>
+            <MatAutocomplete Collection="@_tags" ItemType="string" Label="Pick tag" class="col-sm-2" @bind-Value="@_selectedTag"></MatAutocomplete>
         </div>
+        <MatButton Raised="true" Icon="done" OnClick="Click">@_buttonText</MatButton>
     </div>
 </div>
 
 @code {
-    public string ProjectTitle { get; set; }
-    public string Tag { get; set; } 
-    string[] options = new[]
+
+    protected override void OnInitialized()
     {
-        "One",
-        "Two",
-        "Three"
-    };
+        _repositories = GithubService.GhGetRepositories(GhGetRepositoriesDto.GetGto(1));
+        _tags = TagService.GetAllTags().Tags;
+    }
+
+    private void Click()
+    {
+        if (string.IsNullOrEmpty(_projectTitle))
+            _buttonText = "Nope";
+        else
+        {
+            _buttonText = "Project added";
+            UserService.AddProject(AddProjectDto.Of(_selectedRepository.RepositoryName, 1, _selectedRepository.RepositoryUrl, _selectedTag));
+        }
+    }
+
+    private List<GhRepositoryDto> _repositories;
+    private List<string> _tags;
+
+    private GhRepositoryDto _selectedRepository;
+    private string _selectedTag;
+    private string _projectTitle { get; set; }
+    private string _buttonText { get; set; } = "Add";
 }
