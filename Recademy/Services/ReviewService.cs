@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Recademy.Context;
 using Recademy.Dto;
 using Recademy.Models;
+using Recademy.Types;
 
 namespace Recademy.Services
 {
@@ -14,12 +17,20 @@ namespace Recademy.Services
             Context = context;
         }
 
-        public ReviewRequest AddReviewRequest(AddReviewRequestDto argues)
+        public List<ReviewRequest> GetReviewRequests()
+        {
+            List<ReviewRequest> reqList = Context.ReviewRequests.Where(s => s.State == ProjectState.Requested).ToList();
+
+            return reqList;
+        }
+
+        public ReviewRequest AddReviewRequest(int ProjectId)
         {
             ReviewRequest newRequest = new ReviewRequest()
             {
                 DateCreate = DateTime.Now,
-                ProjectId = argues.ProjectId
+                ProjectId = ProjectId,
+                State = ProjectState.Requested
             };
             Context.Add(newRequest);
             Context.SaveChanges();
@@ -27,14 +38,16 @@ namespace Recademy.Services
             return newRequest;
         }
 
-        public ReviewResponse AcceptReviewRequest(AcceptReviewRequestDto argues)
+        public ReviewResponse SendReviewResponse(SendReviewRequestDto argues)
         {
             ReviewResponse newReview = new ReviewResponse()
             {
                 ReviewRequestId = argues.ReviewRequestId,
                 Description = argues.ReviewText
             };
+            Context.ReviewRequests.Find(argues.ReviewRequestId).State = ProjectState.Reviewed;
             Context.ReviewResponses.Add(newReview);
+            Context.SaveChanges();
             return newReview;
         }
     }
