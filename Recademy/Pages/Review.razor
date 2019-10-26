@@ -1,0 +1,22 @@
+﻿@page "/review/{ProjectId:int}"
+<h3>Review @ProjectId</h3>
+<p>
+    <MatTextField @bind-Value="@textArea" Label="Your review" TextArea="true"></MatTextField>
+</p>
+<MatButton Outlined="true" Icon="send" OnClick="@Click">@buttonMessage</MatButton>
+
+@code
+{
+    public string textArea = "";
+
+    string buttonMessage = "Send review";
+    void Click()
+    {
+        if (textArea == "")
+            buttonMessage = "Nope";
+        else
+            buttonMessage = "Review sent";
+    }
+    [Parameter]
+    public int ProjectId { get; set; }
+}
