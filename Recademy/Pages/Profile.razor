@@ -36,7 +36,7 @@
         @foreach (var t in projects)
         {
             <div class="col-md-4">
-                <p>@t</p>
+                <a href="/projectInfo/@t.Item2">@t.Item1</a>
             </div>
         }
     </div>
@@ -57,12 +57,12 @@
         "Kotlin"
     };
 
-    string[] projects = new[]
+    (string, int)[] projects = new[]
     {
-        "Fluda",
-        "BirdyApi",
-        "Alog",
-        "Lab2"
+        ("Fluda", 1),
+        ("BirdyApi", 2),
+        ("Alog", 3),
+        ("Lab2", 4)
     };
 
 }
