@@ -95,43 +95,33 @@ namespace Recademy.Services
         /// <returns></returns>
         public int GetActivityInCount(int userId)
         {
-            int count = 0;
-
-            var reviewResponses = Context.ReviewResponses.Where(x => x.ReviewerId == userId).ToList();
-
-            int year = DateTime.Now.Year;
-            foreach (var el in reviewResponses)
-            {
-                var reviewRequest = Context.ReviewRequests.Where(x => x.Id == el.ReviewRequestId).ToList().FirstOrDefault();
-
-                if (reviewRequest == null)
-                    continue;
-
-                if (reviewRequest.DateCreate.Year == year)
-                    count++;
-            }
+            int count = Context.ReviewResponses
+                .Where(x => x.ReviewerId == userId)
+                .Count(r => r.CreationTime.Year == DateTime.Now.Year);
 
             return count;
         }
+
         /// <summary>
         /// get a score ranking by user's activities
         /// key is user id, value is activity score
         /// </summary>
         /// <returns></returns>
-        public List<KeyValuePair<int, int>> GetRanking()
+        public Dictionary<string, int> GetRanking()
         {
-            List<KeyValuePair<int, int>> ranking = new List<KeyValuePair<int, int>>();
+            Dictionary<string, int> ranking = new Dictionary<string, int>();
+            List<User> users = Context.Users.ToList();
 
-            var users = Context.Users.ToList();
-
-            foreach (var user in users)
+            foreach (User user in users)
             {
-                var value = GetActivityInCount(user.Id);
+                int value = GetActivityInCount(user.Id);
                 if (value != 0)
-                    ranking.Add(new KeyValuePair<int, int>(user.Id, value));
+                    ranking[user.Name] = value;
             }
 
-            var result = ranking.OrderByDescending(x => x.Value).ToList();
+            var result = ranking
+                .OrderByDescending(x => x.Value)
+                .ToDictionary(r => r.Key, r => r.Value);
 
             return result;
         }

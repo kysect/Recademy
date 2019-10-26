@@ -11,5 +11,6 @@ namespace Recademy.Services.Abstraction
         List<int> GetActivity(int userId);
 
         ProjectInfo AddProject(AddProjectDto argues);
+        Dictionary<string, int> GetRanking();
     }
 }
