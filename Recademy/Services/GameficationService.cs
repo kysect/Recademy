@@ -1,6 +1,8 @@
-﻿namespace Recademy.Services
+﻿using Recademy.Services.Abstraction;
+
+namespace Recademy.Services
 {
-    public class GameficationService
+    public class GameficationService : IGameficationService
     {
     }
 }

@@ -5,10 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Recademy.Context;
 using Recademy.Dto;
 using Recademy.Models;
+using Recademy.Services.Abstraction;
 
 namespace Recademy.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         public RecademyContext Context;
 
