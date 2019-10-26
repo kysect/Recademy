@@ -10,7 +10,7 @@ using Recademy.Context;
 namespace Recademy.Migrations
 {
     [DbContext(typeof(RecademyContext))]
-    [Migration("20191026114249_InitialCreate")]
+    [Migration("20191026163952_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,28 +45,6 @@ namespace Recademy.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("ProjectInfos");
-                });
-
-            modelBuilder.Entity("Recademy.Models.ProjectSkill", b =>
-                {
-                    b.Property<int>("ProjectId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ProjectInfoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SkillName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ProjectId");
-
-                    b.HasIndex("ProjectInfoId");
-
-                    b.HasIndex("SkillName");
-
-                    b.ToTable("ProjectSkill");
                 });
 
             modelBuilder.Entity("Recademy.Models.ReviewRequest", b =>
@@ -155,23 +133,16 @@ namespace Recademy.Migrations
             modelBuilder.Entity("Recademy.Models.UserSkill", b =>
                 {
                     b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("SkillName")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("UserId1")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId");
+                    b.HasKey("UserId", "SkillName");
 
                     b.HasIndex("SkillName");
 
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("UserSkill");
+                    b.ToTable("UserSkills");
                 });
 
             modelBuilder.Entity("Recademy.Models.ProjectInfo", b =>
@@ -181,17 +152,6 @@ namespace Recademy.Migrations
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Recademy.Models.ProjectSkill", b =>
-                {
-                    b.HasOne("Recademy.Models.ProjectInfo", null)
-                        .WithMany("Skills")
-                        .HasForeignKey("ProjectInfoId");
-
-                    b.HasOne("Recademy.Models.Skill", null)
-                        .WithMany("ProjectSkills")
-                        .HasForeignKey("SkillName");
                 });
 
             modelBuilder.Entity("Recademy.Models.ReviewRequest", b =>
@@ -218,13 +178,15 @@ namespace Recademy.Migrations
 
             modelBuilder.Entity("Recademy.Models.UserSkill", b =>
                 {
-                    b.HasOne("Recademy.Models.Skill", null)
+                    b.HasOne("Recademy.Models.Skill", "Skill")
                         .WithMany("UserSkills")
-                        .HasForeignKey("SkillName");
+                        .HasForeignKey("SkillName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Recademy.Models.User", null)
+                    b.HasOne("Recademy.Models.User", "User")
                         .WithMany("UserSkills")
-                        .HasForeignKey("UserId1")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

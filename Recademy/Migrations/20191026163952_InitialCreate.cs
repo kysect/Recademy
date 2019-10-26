@@ -56,55 +56,27 @@ namespace Recademy.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserSkill",
+                name: "UserSkills",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SkillName = table.Column<string>(nullable: true),
-                    UserId1 = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false),
+                    SkillName = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserSkill", x => x.UserId);
+                    table.PrimaryKey("PK_UserSkills", x => new { x.UserId, x.SkillName });
                     table.ForeignKey(
-                        name: "FK_UserSkill_Skills_SkillName",
+                        name: "FK_UserSkills_Skills_SkillName",
                         column: x => x.SkillName,
                         principalTable: "Skills",
                         principalColumn: "Name",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserSkill_Users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_UserSkills_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProjectSkill",
-                columns: table => new
-                {
-                    ProjectId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SkillName = table.Column<string>(nullable: true),
-                    ProjectInfoId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectSkill", x => x.ProjectId);
-                    table.ForeignKey(
-                        name: "FK_ProjectSkill_ProjectInfos_ProjectInfoId",
-                        column: x => x.ProjectInfoId,
-                        principalTable: "ProjectInfos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ProjectSkill_Skills_SkillName",
-                        column: x => x.SkillName,
-                        principalTable: "Skills",
-                        principalColumn: "Name",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -162,16 +134,6 @@ namespace Recademy.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectSkill_ProjectInfoId",
-                table: "ProjectSkill",
-                column: "ProjectInfoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectSkill_SkillName",
-                table: "ProjectSkill",
-                column: "SkillName");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ReviewRequests_ProjectId",
                 table: "ReviewRequests",
                 column: "ProjectId");
@@ -188,26 +150,18 @@ namespace Recademy.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserSkill_SkillName",
-                table: "UserSkill",
+                name: "IX_UserSkills_SkillName",
+                table: "UserSkills",
                 column: "SkillName");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserSkill_UserId1",
-                table: "UserSkill",
-                column: "UserId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProjectSkill");
-
-            migrationBuilder.DropTable(
                 name: "ReviewResponses");
 
             migrationBuilder.DropTable(
-                name: "UserSkill");
+                name: "UserSkills");
 
             migrationBuilder.DropTable(
                 name: "ReviewRequests");
