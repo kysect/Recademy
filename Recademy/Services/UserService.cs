@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Context;
 using Recademy.Dto;
@@ -27,20 +28,21 @@ namespace Recademy.Services
             return userInfo;
         }
 
-        public Dictionary<int, int> GetActivity(int userId)
+        /// <summary>
+        /// return a user activity, index is month, value is activity number
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<int> GetActivity(int userId)
         {
-            Dictionary<int,int> result = new Dictionary<int, int>();
-            var reviewRequests = Context.ReviewRequests.Where(x => x.Id == userId);
-            int year = DateTime.Now.Year;
+            List<int> result = Enumerable.Repeat(0,13).ToList();
 
+            var reviewRequests = Context.ReviewRequests.Where(x => x.User.Id == userId);
+            int year = DateTime.Now.Year;
             foreach (var el in reviewRequests)
             {
-                // if date create == current year
-                // put into activity dictionary
                 if (el.DateCreate.Year == year)
-                {
                     result[el.DateCreate.Month]++;
-                }
             }
 
             return result;
@@ -54,7 +56,7 @@ namespace Recademy.Services
                 GithubLink = argues.ProjectUrl,
                 Title = argues.ProjectName
             };
-            
+
             Context.ProjectInfos.Add(newProject);
             Context.SaveChanges();
             return newProject;
