@@ -4,11 +4,12 @@ using System.Net.Http.Headers;
 using Recademy.Dto;
 using Recademy.Utils;
 using Octokit;
+using Recademy.Services.Abstraction;
 using ProductHeaderValue = Octokit.ProductHeaderValue;
 
 namespace Recademy.Services
 {
-    public class GithubService
+    public class GithubService : IGithubService
     {
         public List<GhRepositoryDto> GhGetRepositories(GhGetRepositoriesDto argues)
         {
