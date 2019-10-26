@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Recademy.Dto
 {
-    public class GhAuthorizeResultDto
+    public class AddReviewRequestDto
     {
-        public int UserId { get; set; }
+        public int ProjectId { get; set; }
     }
 }

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Recademy.Dto
 {
-    public class UserInfoDto
+    public class AcceptReviewRequestDto
     {
-        public string Name { get; set; }
-        public List<ProjectDto> Projects { get; set; }
+        public int ReviewRequestId { get; set; }
+        public string ReviewText { get; set; }
     }
 }

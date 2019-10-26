@@ -1,13 +1,41 @@
 using System;
+using Recademy.Context;
 using Recademy.Dto;
+using Recademy.Models;
 
 namespace Recademy.Services
 {
     public class ReviewService
     {
-        public ReviewDto AddReview(AddReviewDto argues)
+        public RecademyContext Context;
+
+        public ReviewService(RecademyContext context)
         {
-            throw new NotImplementedException();
+            Context = context;
+        }
+
+        public ReviewRequest AddReviewRequest(AddReviewRequestDto argues)
+        {
+            ReviewRequest newRequest = new ReviewRequest()
+            {
+                DateCreate = DateTime.Now,
+                ProjectId = argues.ProjectId
+            };
+            Context.Add(newRequest);
+            Context.SaveChanges();
+
+            return newRequest;
+        }
+
+        public ReviewResponse AcceptReviewRequest(AcceptReviewRequestDto argues)
+        {
+            ReviewResponse newReview = new ReviewResponse()
+            {
+                ReviewRequestId = argues.ReviewRequestId,
+                Description = argues.ReviewText
+            };
+            Context.ReviewResponses.Add(newReview);
+            return newReview;
         }
     }
 }
