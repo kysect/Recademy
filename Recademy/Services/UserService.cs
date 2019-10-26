@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Context;
@@ -22,6 +23,25 @@ namespace Recademy.Services
                 .Include(s => s.ProjectInfos).FirstOrDefault(s => s.Id == argues.UserId);
 
             return userInfo;
+        }
+
+        public Dictionary<int, int> GetActivity(int userId)
+        {
+            Dictionary<int,int> result = new Dictionary<int, int>();
+            var reviewRequests = Context.ReviewRequests.Where(x => x.Id == userId);
+            int year = DateTime.Now.Year;
+
+            foreach (var el in reviewRequests)
+            {
+                // if date create == current year
+                // put into activity dictionary
+                if (el.DateCreate.Year == year)
+                {
+                    result[el.DateCreate.Month]++;
+                }
+            }
+
+            return result;
         }
 
         public ProjectInfo AddProject(AddProjectDto argues)
