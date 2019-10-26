@@ -10,5 +10,6 @@ namespace Recademy.Dto
         public int UserId { get; set; }
         public string ProjectName { get; set; }
         public string ProjectUrl { get; set; }
+        public List<TagsDto> Tags { get; set; }
     }
 }
