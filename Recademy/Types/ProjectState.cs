@@ -2,6 +2,7 @@
 {
     public enum ProjectState
     {
-        Reviewed, Requested
+        Requested,
+        Reviewed,
     }
 }
