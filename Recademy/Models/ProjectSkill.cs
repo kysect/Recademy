@@ -9,7 +9,6 @@ namespace Recademy.Models
 {
     public class ProjectSkill
     {
-        [Key]
         [ForeignKey("ProjectInfo")]
         public int ProjectId { get; set; }
         
