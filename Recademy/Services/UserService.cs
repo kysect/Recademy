@@ -16,12 +16,12 @@ namespace Recademy.Services
             Context = context;
         }
 
-        public User GetUserInfo(GetUserInfoDto argues)
+        public User GetUserInfo(int userId)
         {
             User userInfo = Context.Users
                 .Include(s => s.ProjectInfos)
                 .Include(s => s.UserSkills)
-                .FirstOrDefault(s => s.Id == argues.UserId);
+                .FirstOrDefault(s => s.Id == userId);
 
             return userInfo;
         }
