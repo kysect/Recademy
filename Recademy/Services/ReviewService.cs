@@ -21,7 +21,12 @@ namespace Recademy.Services
 
         public List<ReviewRequest> GetReviewRequests()
         {
-            List<ReviewRequest> reqList = Context.ReviewRequests.Include(s => s.ProjectInfo).Where(s => s.State == ProjectState.Requested).ToList();
+            List<ReviewRequest> reqList = Context
+                .ReviewRequests
+                .Include(s => s.ProjectInfo)
+                .Include(s => s.User)
+                .Where(s => s.State == ProjectState.Requested)
+                .ToList();
 
             return reqList;
         }
@@ -55,12 +60,12 @@ namespace Recademy.Services
             return reqList;
         }
 
-        public ReviewRequest AddReviewRequest(int ProjectId)
+        public ReviewRequest AddReviewRequest(int projectId)
         {
             ReviewRequest newRequest = new ReviewRequest()
             {
                 DateCreate = DateTime.Now,
-                ProjectId = ProjectId,
+                ProjectId = projectId,
                 State = ProjectState.Requested
             };
             Context.Add(newRequest);

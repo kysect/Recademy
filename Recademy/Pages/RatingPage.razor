@@ -1,6 +1,29 @@
 ﻿@page "/rating"
-<h3>Rating</h3>
+@using Recademy.Services.Abstraction
 
-@code {
+@inject IUserService UserService
 
+<h3>Reviewers rating</h3>
+
+<MatTable Items="@Result" class="mat-elevation-z5">
+    <MatTableHeader>
+        <th>Name</th>
+        <th>Price</th>
+    </MatTableHeader>
+    <MatTableRow>
+        <td>@context.Key</td>
+        <td>@context.Value</td>
+    </MatTableRow>
+</MatTable>
+ 
+@code
+{
+    Dictionary<string, int> Result;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Dictionary<string, int> rate = UserService.GetRanking();
+    }
+ 
 }
