@@ -52,7 +52,8 @@ namespace Recademy.Services
             {
                 AuthorId = argues.UserId,
                 GithubLink = argues.ProjectUrl,
-                Title = argues.ProjectName
+                Title = argues.ProjectName,
+                Skills = argues.Tags.Select(t => new ProjectSkill(){SkillName = t}).ToList()
             };
             
             Context.ProjectInfos.Add(newProject);
