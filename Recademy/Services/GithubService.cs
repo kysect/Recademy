@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using Recademy.Dto;
 using Recademy.Utils;
 using Octokit;
+using ProductHeaderValue = Octokit.ProductHeaderValue;
 
 namespace Recademy.Services
 {
