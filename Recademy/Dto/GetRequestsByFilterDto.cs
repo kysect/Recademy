@@ -9,13 +9,5 @@ namespace Recademy.Dto
     {
         public int UserId { get; set; }
         public List<string> Tags { get; set; }
-
-        public static TagsDto Of(string tag)
-        {
-            return new TagsDto()
-            {
-                Tags = new List<string> { tag }
-            };
-        }
     }
 }
