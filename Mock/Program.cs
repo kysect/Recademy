@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -69,7 +69,7 @@ namespace Mock
 
                         db.SaveChanges();
 
-                        var newResponse = rewresGen.GetResponse(newRequest);
+                        var newResponse = rewresGen.GetResponse(newRequest, newUser.Id-1);
 
                         db.ReviewResponses.Add(newResponse);
 
