@@ -10,7 +10,7 @@ namespace Recademy.Dto
         public int UserId { get; set; }
         public string ProjectName { get; set; }
         public string ProjectUrl { get; set; }
-        public TagsDto Tags { get; set; }
+        public List<string> Tags { get; set; }
 
         public static AddProjectDto Of(string projectName, int userId, string url, string tag)
         {
@@ -19,7 +19,7 @@ namespace Recademy.Dto
                 UserId = userId,
                 ProjectUrl = url,
                 ProjectName = projectName,
-                Tags = TagsDto.Of(tag)
+                Tags = new List<string>() { tag }
             };
         }
     }

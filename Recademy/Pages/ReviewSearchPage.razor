@@ -1,4 +1,8 @@
 ﻿@page "/reviewSearch"
+@using Recademy.Models
+@using Recademy.Services.Abstraction
+@inject IReviewService ReviewService
+
 <style type="text/css">.project-item-line {
      margin-top: 20px;
      padding-bottom: 20px;
@@ -12,14 +16,15 @@
 </nav>
 <hr/>
 <div class="container">
-    @foreach (var proj in projectNames)
+    @foreach (ReviewRequest request in _reviewRequests)
     {
     <div class="col-md-12 row border-bottom project-item-line">
         <div class="col-md-1">
-            <span class="row">@proj.Item1</span>
-            <span class="row">@proj.Item2</span>
+            <span class="row">@request.ProjectInfo.Title</span>
+            <span class="row">@request.ProjectInfo.User.Name</span>
+            <span class="row">@request.DateCreate</span>
         </div>
-        <a href="review/@proj.Item3">
+        <a href="review/@request.ProjectInfo.Id">
             <button type="button" class="btn btn-outline-success">Accept</button>
         </a>
     </div>
@@ -28,10 +33,10 @@
 
 @code {
 
-    (string, string, int)[] projectNames = new[]
+    protected override void OnInitialized()
     {
-        ("Project1", "Fredi", 1),
-        ("Project2", "Sergey", 3)
-    };
+        _reviewRequests = ReviewService.GetReviewRequests();
+    }
 
+    private List<ReviewRequest> _reviewRequests;
 }
