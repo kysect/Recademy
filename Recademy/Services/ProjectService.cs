@@ -9,10 +9,5 @@ namespace Recademy.Services
         {
             throw new NotImplementedException();
         }
-
-        public ProjectsDto GetUserProjects(GetUserProjectsDto argues)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
