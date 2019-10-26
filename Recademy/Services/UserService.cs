@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
@@ -42,10 +42,7 @@ namespace Recademy.Services
 
             AchievementService achievements = new AchievementService(Context);
 
-            foreach (var el in userInfo.UserSkills)
-            {
-                skillNames.Add(el.SkillName);
-            }
+            skillNames = userInfo.UserSkills.Select(el => el.SkillName).ToList();
 
             List<ProjectDto> projectInfos = new List<ProjectDto>();
 
