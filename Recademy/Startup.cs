@@ -43,6 +43,7 @@ namespace Recademy
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAchievementService, AchievementService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
