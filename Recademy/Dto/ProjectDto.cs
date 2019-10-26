@@ -2,8 +2,8 @@
 {
     public class ProjectDto
     {
-        public string UserId { get; set; }
-        public string ProjectId { get; set; }
+        public int UserId { get; set; }
+        public int ProjectId { get; set; }
         public string ProjectName { get; set; }
         public string ProjectUrl { get; set; }
     }

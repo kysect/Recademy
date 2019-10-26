@@ -7,7 +7,7 @@ namespace Recademy.Dto
 {
     public class UserInfoDto
     {
-        public string userId { get; set; }
-        public ProjectsDto Projects { get; set; }
+        public string Name { get; set; }
+        public List<ProjectDto> Projects { get; set; }
     }
 }
