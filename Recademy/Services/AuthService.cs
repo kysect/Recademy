@@ -1,9 +1,10 @@
 ﻿using System;
 using Recademy.Dto;
+using Recademy.Services.Abstraction;
 
 namespace Recademy.Services
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
     }
 }

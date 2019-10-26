@@ -12,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Recademy.Context;
+using Recademy.Services;
+using Recademy.Services.Abstraction;
 
 namespace Recademy
 {
@@ -33,6 +35,14 @@ namespace Recademy
 
             services.AddDbContext<RecademyContext>(options =>
               options.UseSqlServer(Configuration["connectionString:RecademyDB"]));
+
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IGameficationService, GameficationService>();
+            services.AddScoped<IGithubService, GithubService>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<ITagSevice, TagSevice>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
