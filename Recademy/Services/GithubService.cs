@@ -1,18 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
 using Recademy.Dto;
+using Recademy.Utils;
+using Octokit;
 
 namespace Recademy.Services
 {
     public class GithubService
     {
-        public GhAuthorizeResultDto GhAuthorize(GhAuthorizeDto argues)
+        public List<GhRepositoryDto> GhGetRepositories(GhGetRepositoriesDto argues)
         {
-            throw new NotImplementedException();
-        }
+            string accessToken = GhUtil.Token;
+            string clientId = GhUtil.ClientId;
+            string clientSecret = GhUtil.ClientSecret;
 
-        public GhRepositoriesDto GhGetRepositories(GhGetRepositoriesDto argues)
-        {
-            throw new NotImplementedException();
+            GitHubClient client = new GitHubClient(new ProductHeaderValue("Recademy"));
+            client.Credentials = new Credentials(accessToken);
+
+            var repositories = client.Repository.GetAllForCurrent().Result;
+
+            List<GhRepositoryDto> repoList = new List<GhRepositoryDto>();
+            foreach (var repository in repositories)
+            {
+                repoList.Add(new GhRepositoryDto()
+                {
+                    RepositoryName = repository.Name,
+                    RepositoryUrl = repository.Url
+                });
+            }
+
+            return repoList;
         }
     }
 }
