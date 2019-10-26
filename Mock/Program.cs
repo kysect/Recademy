@@ -12,8 +12,8 @@ namespace Mock
         public const string ConnectionString =
             "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=RecademyDB;Integrated Security=True;";
 
-        public const int UsersGenCount = 1;
-        public const int ProjectForUserCount = 2;
+        public const int UsersGenCount = 16;
+        public const int ProjectForUserCount = 6;
 
 
         static void Main(string[] args)
@@ -30,6 +30,18 @@ namespace Mock
             List<ReviewRequest> rewRequests = new List<ReviewRequest>();
 
             Random _rnd = new Random();
+
+            using (var db = CreateContext())
+            {
+                var skillsForDeleteList = db.Skills.ToList();
+                db.Skills.RemoveRange(skillsForDeleteList);
+                db.SaveChanges();
+
+                var techs = skillGen.GetTechnologiesList();
+                db.Skills.AddRange(techs);
+
+                db.SaveChanges();
+            }
 
             using (var db = CreateContext())
             {

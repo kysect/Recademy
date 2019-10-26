@@ -29,5 +29,15 @@ namespace Mock.Generators
             Skill result = new Skill() { Name = _skills[randVal], Description = "some description for skill"};
             return result;
         }
+
+        public List<Skill> GetTechnologiesList()
+        {
+            List<Skill> techsList = new List<Skill>();
+            foreach (var el in _skills)
+            {
+                techsList.Add(new Skill() {Name = el, Description = "some description"});
+            }
+            return techsList;
+        }
     }
 }
