@@ -8,5 +8,10 @@ namespace Recademy.Dto
     public class GhGetRepositoriesDto
     {
         public int UserId { get; set; }
+
+        public static GhGetRepositoriesDto GetGto(int id)
+        {
+            return new GhGetRepositoriesDto() {UserId = id};
+        }
     }
 }
