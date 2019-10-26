@@ -1,5 +1,9 @@
-﻿@page "/review/{ProjectId:int}"
-<h3>Review @ProjectId</h3>
+﻿@page "/review/{requestId:int}"
+@using Recademy.Dto
+@using Recademy.Services.Abstraction
+@inject IReviewService ReviewService
+
+<h3>Review @requestId</h3>
 <p>
     <MatTextField @bind-Value="@textArea" Label="Your review" TextArea="true"></MatTextField>
 </p>
@@ -15,8 +19,11 @@
         if (textArea == "")
             buttonMessage = "Nope";
         else
+        {
+            ReviewService.SendReviewResponse(SendReviewRequestDto.Of(requestId, textArea));
             buttonMessage = "Review sent";
+        }
     }
     [Parameter]
-    public int ProjectId { get; set; }
+    public int requestId { get; set; }
 }
