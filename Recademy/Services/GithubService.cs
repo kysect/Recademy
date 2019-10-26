@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Headers;
 using Recademy.Dto;
 using Recademy.Utils;
@@ -20,7 +21,7 @@ namespace Recademy.Services
             GitHubClient client = new GitHubClient(new ProductHeaderValue("Recademy"));
             client.Credentials = new Credentials(accessToken);
 
-            var repositories = client.Repository.GetAllPublic().Result;
+            var repositories = client.Repository.GetAllForCurrent().Result.Where(k => !k.Private);
 
             List<GhRepositoryDto> repoList = new List<GhRepositoryDto>();
             foreach (var repository in repositories)
