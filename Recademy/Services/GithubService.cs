@@ -1,26 +1,18 @@
-﻿using Recademy.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using Recademy.Dto;
 
 namespace Recademy.Services
 {
     public class GithubService
     {
-        public GithubService()
-        {
-
-        }
-
         public GhAuthorizeResultDto GhAuthorize(GhAuthorizeDto argues)
         {
-
+            throw new NotImplementedException();
         }
 
         public GhRepositoriesDto GhGetRepositories(GhGetRepositoriesDto argues)
         {
-
+            throw new NotImplementedException();
         }
     }
 }
