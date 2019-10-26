@@ -1,0 +1,86 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Mock.Generators;
+using Recademy.Models;
+using Recademy.Context;
+namespace Mock
+{
+    class Program
+    {
+        public const string ConnectionString =
+            "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=RecademyDB;Integrated Security=True;";
+
+        public const int UsersGenCount = 1;
+        public const int ProjectForUserCount = 2;
+
+
+        static void Main(string[] args)
+        {
+            UserGenerator userGen = new UserGenerator();
+            ProjectInfoesGenerator projGen = new ProjectInfoesGenerator();
+            SkillGenerator skillGen = new SkillGenerator();
+            ReviewRequestGenerator rewGen = new ReviewRequestGenerator();
+            ReviewResponseGenerator rewresGen = new ReviewResponseGenerator();
+
+            List<User> users = new List<User>();
+            List<ProjectInfo> projectInfos = new List<ProjectInfo>();
+            List<Skill> skills = new List<Skill>();
+            List<ReviewRequest> rewRequests = new List<ReviewRequest>();
+
+            Random _rnd = new Random();
+
+            using (var db = CreateContext())
+            {
+                for (int i = 0; i < UsersGenCount; ++i)
+                {
+                    var newUser = userGen.GetUser();
+                    db.Users.Add(newUser);
+                    db.SaveChanges();
+                    for (int j = 0; j < ProjectForUserCount; ++j)
+                    { 
+                        var newProject = projGen.GetProjectInfo(newUser);
+
+                        db.ProjectInfos.Add(newProject);
+
+                        db.SaveChanges();
+
+                        var rndVal = _rnd.Next(0, 2);
+
+                        if (rndVal == 0)
+                            continue;
+
+                        var newRequest = rewGen.GetRequest(newProject, newUser, newUser.Id - 1);
+
+                        db.ReviewRequests.Add(newRequest);
+
+                        db.SaveChanges();
+
+                        var newResponse = rewresGen.GetResponse(newRequest);
+
+                        db.ReviewResponses.Add(newResponse);
+
+                        db.SaveChanges();
+                    }
+                }
+
+
+                db.SaveChanges();
+
+
+
+
+
+            }
+        }
+
+        private static RecademyContext CreateContext()
+        {
+            var builder = new DbContextOptionsBuilder();
+            builder.UseSqlServer(ConnectionString);
+            var context = new RecademyContext(builder.Options);
+            return context;
+        }
+    }
+}
