@@ -4,11 +4,12 @@ using System.Linq;
 using Recademy.Context;
 using Recademy.Dto;
 using Recademy.Models;
+using Recademy.Services.Abstraction;
 using Recademy.Types;
 
 namespace Recademy.Services
 {
-    public class ReviewService
+    public class ReviewService : IReviewService
     {
         public RecademyContext Context;
 
