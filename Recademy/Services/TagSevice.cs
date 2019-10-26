@@ -2,10 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Recademy.Context;
 using Recademy.Dto;
+using Recademy.Services.Abstraction;
 
 namespace Recademy.Services
 {
-    public class TagSevice
+    public class TagSevice : ITagSevice
     {
         public RecademyContext Context;
 
