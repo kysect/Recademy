@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29318.209
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recademy", "Recademy\Recademy.csproj", "{2D8182CF-19D6-46FC-ADD5-A98E313AD2B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mock", "Mock\Mock.csproj", "{44EF1379-6CE9-41B6-B5D4-FA4917D19AA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mock", "Mock\Mock.csproj", "{44EF1379-6CE9-41B6-B5D4-FA4917D19AA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
