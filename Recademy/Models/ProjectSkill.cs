@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace Recademy.Models
 {
-    public class ProjectSkill
-    {
-        [Key]
-        [ForeignKey("ProjectInfo")]
-        public int ProjectId { get; set; }
+    //public class ProjectSkill
+    //{
+    //    [ForeignKey("ProjectInfo")]
+    //    public int ProjectId { get; set; }
         
-        [ForeignKey("Skill")]
-        public string SkillName { get; set; }
-    }
+    //    [ForeignKey("Skill")]
+    //    public string SkillName { get; set; }
+    //}
 }

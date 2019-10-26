@@ -11,7 +11,6 @@ namespace Recademy.Models
         public Skill()
         {
             UserSkills = new List<UserSkill>();
-            ProjectSkills = new List<ProjectSkill>();
         }
 
         [Key]
@@ -20,7 +19,5 @@ namespace Recademy.Models
         public string Description { get; set; }
 
         public ICollection<UserSkill> UserSkills { get; set; }
-
-        public ICollection<ProjectSkill> ProjectSkills { get; set; }
     }
 }
