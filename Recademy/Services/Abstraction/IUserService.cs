@@ -7,7 +7,8 @@ namespace Recademy.Services.Abstraction
     public interface IUserService
     {
         User GetUserInfo(int userId);
-        Dictionary<int, int> GetActivity(int userId);
+        List<int> GetActivity(int userId);
+
         ProjectInfo AddProject(AddProjectDto argues);
     }
 }
