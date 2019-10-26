@@ -8,6 +8,13 @@ namespace Recademy.Models
 {
     public class User
     {
+        public User()
+        {
+            UserSkills = new List<UserSkill>();
+            ProjectInfos = new List<ProjectInfo>();
+            ReviewRequests = new List<ReviewRequest>();
+        }
+
         [Key]
         public int Id { get; set; }
         
@@ -15,7 +22,7 @@ namespace Recademy.Models
         
         public string GithubLink { get; set; }
 
-        public ICollection<Skill> Skills { get; set; }
+        public ICollection<UserSkill> UserSkills { get; set; }
 
         public ICollection<ProjectInfo> ProjectInfos { get; set; }
 

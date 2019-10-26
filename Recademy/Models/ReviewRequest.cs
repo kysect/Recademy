@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Recademy.Types;
 
 namespace Recademy.Models
 {
@@ -19,7 +20,7 @@ namespace Recademy.Models
 
         public int ReviewerId { get; set; }
 
-        public Enum State { get; set; }
+        public ProjectState State { get; set; }
         
         public ProjectInfo ProjectInfo { get; set; }
 

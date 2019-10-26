@@ -9,6 +9,11 @@ namespace Recademy.Models
 {
     public class ProjectInfo
     {
+        public ProjectInfo()
+        {
+            Skills = new List<ProjectSkill>();
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -21,7 +26,7 @@ namespace Recademy.Models
 
         public string GithubLink { get; set; }
 
-        public ICollection<Skill> Skills { get; set; }
+        public ICollection<ProjectSkill> Skills { get; set; }
 
         public User User { get; set; }
     }
