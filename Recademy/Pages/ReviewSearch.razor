@@ -1,0 +1,37 @@
+﻿@page "/reviewSearch"
+<style type="text/css">.project-item-line {
+     margin-top: 20px;
+     padding-bottom: 20px;
+ }</style>
+
+<nav class="navbar navbar-light bg-light justify-content-between">
+    <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Go</button>
+    </form>
+</nav>
+<hr/>
+<div class="container">
+    @foreach (var proj in projectNames)
+    {
+    <div class="col-md-12 row border-bottom project-item-line">
+        <div class="col-md-1">
+            <span class="row">@proj.Item1</span>
+            <span class="row">@proj.Item2</span>
+        </div>
+        <a href="review/@proj.Item3">
+            <button type="button" class="btn btn-outline-success">Accept</button>
+        </a>
+    </div>
+    }
+</div>
+
+@code {
+
+    (string, string, int)[] projectNames = new[]
+    {
+        ("Project1", "Fredi", 1),
+        ("Project2", "Sergey", 3)
+    };
+
+}

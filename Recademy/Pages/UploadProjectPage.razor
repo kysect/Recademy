@@ -1,0 +1,35 @@
+﻿@page "/uploadProject"
+
+<h3>UploadProjectPage</h3>
+
+<div class="container">
+    <div class="upload-project-title">Upload project</div>
+    <div class="upload-project-content container">
+
+        <div class="row">
+            <div class="text-label col-sm-2">Select title</div>
+            <MatTextField @bind-Value="@ProjectTitle" Label="Title" Outlined="true" class="col-sm-2"></MatTextField>
+        </div>
+
+        <div class="row">
+            <div class="text-label col-sm-2">Select repository</div>
+            <MatAutocomplete Collection="@options" ItemType="string" Label="Pick repository" class="col-sm-2"></MatAutocomplete>
+        </div>
+
+        <div class="row">
+            <div class="text-label col-sm-2">Add tag</div>
+            <MatTextField @bind-Value="@Tag" Label="Tag" Outlined="true" class="col-sm-2"></MatTextField>
+        </div>
+    </div>
+</div>
+
+@code {
+    public string ProjectTitle { get; set; }
+    public string Tag { get; set; } 
+    string[] options = new[]
+    {
+        "One",
+        "Two",
+        "Three"
+    };
+}
