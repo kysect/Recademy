@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Recademy.Data;
 using Recademy.Context;
 
 namespace Recademy
@@ -30,7 +29,6 @@ namespace Recademy
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
 
             services.AddDbContext<RecademyContext>(options =>
               options.UseSqlServer(Configuration["connectionString:RecademyDB"]));
