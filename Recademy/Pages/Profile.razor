@@ -28,8 +28,8 @@
 <div>
     <span>
         Projects
-        <a href="/uploadProject">
-            <button type="button" class="btn btn-primary" >
+        <a href="uploadProject">
+            <button type="button" class="btn btn-primary">
                 <MatIcon Icon="add"></MatIcon>
             </button>
         </a>
@@ -38,7 +38,7 @@
         @foreach (var t in projects)
         {
             <div class="col-md-4">
-                <a href="/projectInfo/@t.Item2">@t.Item1</a>
+                <a href="projectInfo/@t.Item2">@t.Item1</a>
             </div>
         }
     </div>
