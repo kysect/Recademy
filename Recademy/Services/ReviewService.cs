@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Recademy.Context;
 using Recademy.Dto;
 using Recademy.Models;
@@ -20,7 +21,7 @@ namespace Recademy.Services
 
         public List<ReviewRequest> GetReviewRequests()
         {
-            List<ReviewRequest> reqList = Context.ReviewRequests.Where(s => s.State == ProjectState.Requested).ToList();
+            List<ReviewRequest> reqList = Context.ReviewRequests.Include(s => s.ProjectInfo).Where(s => s.State == ProjectState.Requested).ToList();
 
             return reqList;
         }

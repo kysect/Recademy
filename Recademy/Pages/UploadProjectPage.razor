@@ -2,7 +2,7 @@
 @using Recademy.Dto
 @using Recademy.Services.Abstraction
 @inject IGithubService GithubService
-@inject ITagSevice TagService
+@inject ITagService TagService
 @inject IUserService UserService
 
 <h3>UploadProjectPage</h3>
@@ -35,7 +35,7 @@
     protected override void OnInitialized()
     {
         _repositories = GithubService.GhGetRepositories(GhGetRepositoriesDto.GetGto(1));
-        _tags = TagService.GetAllTags().Tags;
+        _tags = TagService.GetAllTags();
     }
 
     private void Click()
