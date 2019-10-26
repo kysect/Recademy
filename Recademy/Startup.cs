@@ -41,7 +41,7 @@ namespace Recademy
             services.AddScoped<IGithubService, GithubService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IReviewService, ReviewService>();
-            services.AddScoped<ITagSevice, TagSevice>();
+            services.AddScoped<ITagService, TagService>();
             services.AddScoped<IUserService, UserService>();
         }
 

@@ -3,15 +3,16 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Context;
 using Recademy.Dto;
+using Recademy.Models;
 using Recademy.Services.Abstraction;
 
 namespace Recademy.Services
 {
-    public class TagSevice : ITagSevice
+    public class TagService : ITagService
     {
         public RecademyContext Context;
 
-        public TagSevice(RecademyContext context)
+        public TagService(RecademyContext context)
         {
             Context = context;
         }
@@ -29,6 +30,20 @@ namespace Recademy.Services
         {
             List<string> tags = Context.Skills.Select(s => s.Name).ToList();
             return tags;
+        }
+
+        public TagProfileDto GetTagProfile(string tagName)
+        {
+            List<ProjectInfo> projects = Context.ProjectInfos
+                .Include(p => p.Skills)
+                .Where(p => p.Skills.Any(s => s.SkillName == tagName))
+                .ToList();
+
+            return new TagProfileDto
+            {
+                TagName = tagName,
+                Projects = projects.Select(ProjectDto.Of).ToList()
+            };
         }
     }
 }
