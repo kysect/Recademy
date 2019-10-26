@@ -37,12 +37,13 @@ namespace Recademy.Services
         {
             List<int> result = Enumerable.Repeat(0,13).ToList();
 
-            var reviewRequests = Context.ReviewRequests.Where(x => x.User.Id == userId);
+            var reviewResponses = Context.ReviewResponses.Where(x => x.ReviewerId == userId);
+
             int year = DateTime.Now.Year;
-            foreach (var el in reviewRequests)
+            foreach (var el in reviewResponses)
             {
-                if (el.DateCreate.Year == year)
-                    result[el.DateCreate.Month]++;
+                if (el.ReviewRequest.DateCreate.Year == year)
+                    result[el.ReviewRequest.DateCreate.Month]++;
             }
 
             return result;
