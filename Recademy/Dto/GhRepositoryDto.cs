@@ -9,5 +9,10 @@ namespace Recademy.Dto
     {
         public string RepositoryName { get; set; }
         public string RepositoryUrl { get; set; }
+
+        public override string ToString()
+        {
+            return RepositoryName;
+        }
     }
 }
