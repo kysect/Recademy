@@ -23,11 +23,15 @@ namespace Mock.Generators
         /// Get a random skill
         /// </summary>
         /// <returns></returns>
-        public Skill GetSkill()
+        public string GetSkillName()
         {
             var randVal = _random.Next(0, _skills.Count);
-            Skill result = new Skill() { Name = _skills[randVal], Description = "some description for skill"};
-            return result;
+            return _skills[randVal];
+        }
+
+        public int GetRandomTechnology()
+        {
+            return _random.Next(_skills.Count);
         }
 
         public List<Skill> GetTechnologiesList()
