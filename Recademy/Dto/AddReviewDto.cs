@@ -7,8 +7,8 @@ namespace Recademy.Dto
 {
     public class AddReviewDto
     {
-        public string UserId { get; set; }
-        public string ProjectId { get; set; }
+        public int UserId { get; set; }
+        public int ProjectId { get; set; }
         public string ReviewText { get; set; }
     }
 }

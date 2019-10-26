@@ -7,6 +7,6 @@ namespace Recademy.Dto
 {
     public class AuthorizeDto
     {
-        public string UserId { get; set; }
+        public int UserId { get; set; }
     }
 }
