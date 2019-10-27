@@ -2,7 +2,7 @@
 @using Recademy.Dto
 @using Recademy.Services.Abstraction
 @inject IReviewService ReviewService
-@inject IProjectService ProjectService
+@inject IGithubService GithubService
 
 <h3>Review @requestId</h3>
 <p>
@@ -40,6 +40,7 @@ else
             buttonMessage = "Nope";
         else
         {
+            GithubService.CreateIssues(project.Link, textArea);
             ReviewService.SendReviewResponse(SendReviewRequestDto.Of(requestId, textArea));
             buttonMessage = "Review sent";
         }
