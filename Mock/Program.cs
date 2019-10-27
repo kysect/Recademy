@@ -14,8 +14,8 @@ namespace Mock
         public const string ConnectionString =
             "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=RecademyDB;Integrated Security=True;";
 
-        public const int UsersGenCount = 16;
-        public const int ProjectForUserCount = 6;
+        public const int UsersGenCount = 15;
+        public const int ProjectForUserCount = 4;
 
 
         static void Main(string[] args)
@@ -33,6 +33,7 @@ namespace Mock
 
             Random _rnd = new Random();
             int rndVal;
+            HashSet<string> a = new HashSet<string>();
 
             using (var db = CreateContext())
             {
@@ -55,9 +56,15 @@ namespace Mock
                     db.SaveChanges();
 
                     rndVal = _rnd.Next(0, 4);
+                    a = new HashSet<string>();
                     for (int k = 0; k < rndVal; ++k)
                     {
-                        db.UserSkills.Add(new UserSkill() { SkillName = skillGen.GetSkillName(), UserId = newUser.Id});
+                        string SkillName = skillGen.GetSkillName();
+                        if (a.Add(SkillName))
+                        {
+                            db.UserSkills.Add(new UserSkill() { SkillName = SkillName, UserId = newUser.Id });
+                        }
+                    
                     }
 
                     db.SaveChanges();
@@ -72,9 +79,12 @@ namespace Mock
 
                         rndVal = _rnd.Next(0, 3);
 
-                        for(int k = 0;k<rndVal;++k)
+                        a = new HashSet<string>();
+                        for (int k = 0; k < rndVal; ++k)
                         {
-                            db.ProjectSkills.Add(new ProjectSkill() { ProjectId = newProject.Id, SkillName = skillGen.GetSkillName() });
+                            string SkillName = skillGen.GetSkillName();
+                            if(a.Add(SkillName))
+                                db.ProjectSkills.Add(new ProjectSkill() { ProjectId = newProject.Id, SkillName = SkillName });
                         }
 
                         db.SaveChanges();

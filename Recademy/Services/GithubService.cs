@@ -18,17 +18,28 @@ namespace Recademy.Services
 
             GitHubClient client = new GitHubClient(new ProductHeaderValue("Recademy"));
             client.Credentials = new Credentials(accessToken);
-
             var repositories = client.Repository.GetAllForCurrent().Result.Where(k => !k.Private);
 
             List<GhRepositoryDto> repoList = new List<GhRepositoryDto>();
             foreach (var repository in repositories)
             {
+                string readme;
+                try
+                {
+                    var request = client.Repository.Content.GetReadme(repository.Owner.Login, repository.Name).Result;
+                    readme = request.Content;
+                }
+                catch (AggregateException)
+                {
+                    readme = "No readme";
+                }
+
                 repoList.Add(new GhRepositoryDto()
                 {
                     RepositoryName = repository.Name,
-                    RepositoryUrl = repository.Url
-                });
+                    RepositoryUrl = repository.Url,
+                    Readme = readme
+            });
             }
 
             return repoList;
