@@ -80,7 +80,8 @@ namespace Recademy.Services
             ReviewResponse newReview = new ReviewResponse()
             {
                 ReviewRequestId = argues.ReviewRequestId,
-                Description = argues.ReviewText
+                Description = argues.ReviewText,
+                ReviewerId = 1
             };
             Context.ReviewRequests.Find(argues.ReviewRequestId).State = ProjectState.Reviewed;
             Context.ReviewResponses.Add(newReview);
