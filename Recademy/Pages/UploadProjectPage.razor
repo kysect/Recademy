@@ -57,7 +57,7 @@
     public int Id { get; set; }
     protected override void OnInitialized()
     {
-        Id = !int.TryParse(Storage.GetItemAsync("storageKey").Result, out int id) ? 1 : id;
+        Id = !int.TryParse(Storage.GetItemAsync("storageKey").Result ?? string.Empty, out int id) ? 1 : id;
         _repositories = GithubService.GhGetRepositories(Id);
         _tags = TagService.GetAllTags();
     }
