@@ -13,6 +13,7 @@
     .project-info {
         margin-bottom: 20px;
     }
+
 </style>
 <div class="container">
     <div class="row align-items-center">
@@ -29,10 +30,13 @@
             <div class="row justify-content-end">
                 @foreach (var t in _currentUser.Achievements)
                 {
-                    <div class="col-md-1">
-                        <p><MatIcon Icon=@t.Icon></MatIcon></p>
+                    <div class="col-md-2">
+        
+                        <MatChip Label="@t.Name" LeadingIcon=@t.Icon></MatChip>
+     
                     </div>
                 }
+
             </div>
         </div>
     </div>
