@@ -13,29 +13,11 @@
     <div class="col-md-auto">
         @foreach (var t in _currentUser.Achievements)
         {
-            if (t.Name == "First Request!")
-            {
-                <MatIcon Icon="repeat_one"></MatIcon>
-            }
-
-            if (t.Name == "3 projects")
-            {
-                <MatIcon Icon="alarm_on"></MatIcon>
-            }
-
-            if (t.Name == "So experienced")
-            {
-                <MatIcon Icon="extension"></MatIcon>
-            }
-
-            if (t.Name == "You skilled!")
-            {
-                <MatIcon Icon="favorite_border"></MatIcon>
-            }
+            <MatIcon Icon=@t.Icon></MatIcon>
         }
 
-        @foreach(var el in _currentUser.Skills)
-        {  
+        @foreach (var el in _currentUser.Skills)
+        {
             <p>>@el</p>
         }
 
