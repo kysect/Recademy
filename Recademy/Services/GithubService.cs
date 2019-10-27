@@ -62,7 +62,7 @@ namespace Recademy.Services
             await client.Issue.Create(splittedUrl[3], splittedUrl[4], issue);
         }
 
-        public string GetReadme(string repoLink)
+        public static string GetReadme(string repoLink)
         {
             string accessToken = GhUtil.Token;
             string clientId = GhUtil.ClientId;
