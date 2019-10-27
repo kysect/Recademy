@@ -5,6 +5,6 @@ namespace Recademy.Services.Abstraction
 {
     public interface IGithubService
     {
-        List<GhRepositoryDto> GhGetRepositories(GhGetRepositoriesDto argues);
+        List<GhRepositoryDto> GhGetRepositories(int userId);
     }
 }

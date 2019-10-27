@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Recademy.Services;
+﻿using System.Collections.Generic;
 
 namespace Recademy.Dto
 {
@@ -13,7 +9,5 @@ namespace Recademy.Dto
         public List<int> Activities { get; set; }
         public List<ProjectDto> ProjectDtos { get; set; }
         public List<AchievementsDto> Achievements { get; set; }
-
-
     }
 }
