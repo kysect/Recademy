@@ -1,9 +1,12 @@
 ﻿@page "/uploadProject"
+@using Cloudcrate.AspNetCore.Blazor.Browser.Storage
 @using Recademy.Dto
 @using Recademy.Services.Abstraction
+
 @inject IGithubService GithubService
 @inject ITagService TagService
 @inject IUserService UserService
+@inject LocalStorage Storage
 
 <h3>UploadProjectPage</h3>
 
@@ -32,9 +35,11 @@
 
 @code {
 
+    public int Id { get; set; }
     protected override void OnInitialized()
     {
-        _repositories = GithubService.GhGetRepositories(1);
+        Id = !int.TryParse(Storage.GetItemAsync("storageKey").Result, out int id) ? 1 : id;
+        _repositories = GithubService.GhGetRepositories(Id);
         _tags = TagService.GetAllTags();
     }
 
@@ -45,7 +50,7 @@
         else
         {
             _buttonText = "Project added";
-            UserService.AddProject(AddProjectDto.Of(_projectTitle, 1, _selectedRepository.RepositoryUrl, _selectedTag));
+            UserService.AddProject(AddProjectDto.Of(_projectTitle, Id, _selectedRepository.RepositoryUrl, _selectedTag));
         }
     }
 
