@@ -1,4 +1,6 @@
-﻿using Recademy.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Recademy.Models;
 
 namespace Recademy.Dto
 {
@@ -8,6 +10,7 @@ namespace Recademy.Dto
         public int ProjectId { get; set; }
         public string ProjectName { get; set; }
         public string ProjectUrl { get; set; }
+        public List<string> ProjectSkills { get; set; }
 
         public static ProjectDto Of(ProjectInfo projectInfo)
         {
@@ -16,7 +19,8 @@ namespace Recademy.Dto
                 ProjectId = projectInfo.Id,
                 UserId = projectInfo.AuthorId,
                 ProjectName = projectInfo.Title,
-                ProjectUrl = projectInfo.GithubLink
+                ProjectUrl = projectInfo.GithubLink,
+                ProjectSkills = projectInfo.Skills.Select(s => s.SkillName).ToList()
             };
         }
     }
