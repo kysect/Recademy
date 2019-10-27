@@ -1,0 +1,29 @@
+﻿@page "/review/{requestId:int}"
+@using Recademy.Dto
+@using Recademy.Services.Abstraction
+@inject IReviewService ReviewService
+
+<h3>Review @requestId</h3>
+<p>
+    <MatTextField @bind-Value="@textArea" Label="Your review" TextArea="true"></MatTextField>
+</p>
+<MatButton Outlined="true" Icon="send" OnClick="@Click">@buttonMessage</MatButton>
+
+@code
+{
+    public string textArea = "";
+
+    string buttonMessage = "Send review";
+    void Click()
+    {
+        if (textArea == "")
+            buttonMessage = "Nope";
+        else
+        {
+            ReviewService.SendReviewResponse(SendReviewRequestDto.Of(requestId, textArea));
+            buttonMessage = "Review sent";
+        }
+    }
+    [Parameter]
+    public int requestId { get; set; }
+}
