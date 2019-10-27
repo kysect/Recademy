@@ -1,4 +1,4 @@
-﻿@page "/review/{requestId:int}"
+﻿@page "/Review/{requestId:int}"
 @using Cloudcrate.AspNetCore.Blazor.Browser.Storage
 @using Recademy.Dto
 @using Recademy.Services.Abstraction
@@ -7,7 +7,7 @@
 @inject LocalStorage Storage
 @inject IGithubService GithubService
 
-<h3>Review @requestId</h3>
+<h3>Review</h3>
 <p>
     <MatTextField @bind-Value="@textArea" Label="Your review" TextArea="true"></MatTextField>
 </p>
@@ -36,7 +36,7 @@ else
     {
         project = ReviewService.GetReviewInfo(requestId);
 
-        Id = !int.TryParse(Storage.GetItemAsync("storageKey").Result, out int id) ? 1 : id;
+        //Id = !int.TryParse(Storage.GetItemAsync("storageKey").Result, out int id) ? 1 : id;
     }
 
     ReviewProjectDto project;

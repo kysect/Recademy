@@ -24,6 +24,7 @@ namespace Recademy.Services
             List<ReviewRequest> reqList = Context
                 .ReviewRequests
                 .Include(s => s.ProjectInfo)
+                .ThenInclude(p => p.Skills)
                 .Include(s => s.User)
                 .Where(s => s.State == ProjectState.Requested)
                 .ToList();
