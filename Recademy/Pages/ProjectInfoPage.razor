@@ -1,6 +1,10 @@
 ﻿@page "/projectInfo/{ProjectId:int}"
+@using Recademy.Models
+@using Recademy.Services.Abstraction
+@inject IProjectService ProjectService
+
 <div class="row">
-    <p class="col-md-2">@curProject.Item1</p>
+    <p class="col-md-2">@projectInfo.Id</p>
     <button type="button" class="btn btn-outline-secondary col-md-2">Request Review</button>
 </div>
 <hr/>
@@ -8,7 +12,7 @@
     <div>
         <p>Readme</p>
         <div class="border-dark">
-            @readme
+            @projectInfo.Description
         </div>
     </div>
     <div>
@@ -25,21 +29,10 @@
     [Parameter]
     public int ProjectId { get; set; }
 
-    (string, string) curProject;
+    ProjectInfo projectInfo;
 
     protected override void OnInitialized()
     {
-        curProject = projects[ProjectId];
+        projectInfo = ProjectService.GetProjectInfo(ProjectId);
     }
-
-    Dictionary<int, (string, string)> projects = new Dictionary<int, (string, string)>()
-    {
-        { 1, ("Fluda", "C#")},
-        { 2, ("BirdyApi", "C#" ) },
-        { 3, ("Algo", "C#" ) },
-        { 4, ("Lab2", "C#" ) }
-    };
-
-    string readme = @"FFFFFFFFFFFFFFFFRRRRRRRRRRRffffffffffffffffffffffffffffffffffffffffffffRRRRRRRRRRRRRRRRRRRRRRRRRRRjsoivnlersfigdvk \n[wceolsdmcposd;vmjfoenwjlgnaiwubfwvuirjkbgsv m,";
-
 }

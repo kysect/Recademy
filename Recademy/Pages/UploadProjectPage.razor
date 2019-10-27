@@ -45,7 +45,7 @@
         else
         {
             _buttonText = "Project added";
-            UserService.AddProject(AddProjectDto.Of(_selectedRepository.RepositoryName, 1, _selectedRepository.RepositoryUrl, _selectedTag));
+            UserService.AddProject(AddProjectDto.Of(_projectTitle, 1, _selectedRepository.RepositoryUrl, _selectedTag));
         }
     }
 

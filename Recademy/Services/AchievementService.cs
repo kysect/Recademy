@@ -13,24 +13,24 @@ namespace Recademy.Services
 
             if (userInfo.ReviewRequests.Count >= 1)
             {
-                achievements.Add(new AchievementsDto() { Name = "First Request!", Description = "You did your first request, and we gave u some goods :)" });
+                achievements.Add(new AchievementsDto() { Name = "First Request!", Description = "You did your first request, and we gave u some goods :)", Icon = "repeat_one" });
             }
 
             if (userInfo.ProjectInfos.Count >= 3)
             {
                 achievements.Add(new AchievementsDto()
-                { Name = "3 projects", Description = "You have at least 3 projects!" });
-            }
+                { Name = "3 projects", Description = "You have at least 3 projects!", Icon = "alarm_on" });
+                }
 
 
             if (userInfo.UserSkills.Count >= 3)
             {
-                achievements.Add(new AchievementsDto() { Name = "So experienced", Description = "You have skilled at least in 3 techologies, good job" });
-            }
+                achievements.Add(new AchievementsDto() { Name = "So experienced", Description = "You have skilled at least in 3 techologies, good job", Icon = "extension" });
+                }
             else if (userInfo.UserSkills.Count >= 1)
             {
-                achievements.Add(new AchievementsDto() { Name = "You skilled!", Description = "You have skilled at least in 1 technology, u so good!" });
-            }
+                achievements.Add(new AchievementsDto() { Name = "You skilled!", Description = "You have skilled at least in 1 technology, u so good!", Icon = "favorite_border" });
+                }
 
             return achievements;
         }
