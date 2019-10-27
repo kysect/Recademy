@@ -8,29 +8,48 @@
 @inject IUserService UserService
 @inject LocalStorage Storage
 
-<h3>UploadProjectPage</h3>
+<style>
+    .form-line {
+        margin: 10px 0px;
+    }
+
+    .form {
+        margin-top: 20px;
+    }
+    .accept {
+        margin-top: 35px;
+    }
+</style>
 
 <div class="container">
-    <div class="upload-project-title">Upload project</div>
-    <div class="upload-project-content container">
+    <div class="mat-h3">Upload project</div>
+    <div class="container form">
 
-        <div class="row">
-            <div class="text-label col-sm-2">Select title</div>
-            <MatTextField @bind-Value="@_projectTitle" Label="Title" Outlined="true" class="col-sm-2"></MatTextField>
+        <div class="row align-items-center form-line">
+            <div class="text-label col-md-3">Select title</div>
+            <MatTextField @bind-Value="@_projectTitle" Label="Title" Outlined="true" class="col-md-5 offset-md-1"></MatTextField>
         </div>
 
-        <div class="row">
-            <div class="text-label col-sm-2">Select repository</div>
-            <MatAutocomplete Collection="@_repositories" ItemType="GhRepositoryDto" Label="Pick repository" class="col-sm-2" @bind-Value="@_selectedRepository">
-            </MatAutocomplete>
+        <div class="row align-items-center form-line">
+            <div class="text-label col-md-3">Select repository</div>
+            <div class="col-md-5 offset-md-1">
+                <MatAutocomplete Collection="@_repositories" FullWidth="true" ItemType="GhRepositoryDto" Label="Pick repository" @bind-Value="@_selectedRepository"></MatAutocomplete>
+            </div>
         </div>
 
-        <div class="row">
-            <div class="text-label col-sm-2">Add tag</div>
-            <MatAutocomplete Collection="@_tags" ItemType="string" Label="Pick tag" class="col-sm-2" @bind-Value="@_selectedTag"></MatAutocomplete>
+        <div class="row align-items-center form-line">
+            <div class="text-label col-md-3">Add tag</div>
+            <div class="col-md-5 offset-md-1">
+                <MatAutocomplete Collection="@_tags" FullWidth="true" ItemType="string" Label="Pick tag" @bind-Value="@_selectedTag"></MatAutocomplete>
+            </div>
         </div>
-        <MatButton Raised="true" Icon="done" OnClick="Click">@_buttonText</MatButton>
+        <div class="row form-line accept">
+            <div class="col-md-3 offset-md-6">
+                <MatButton Raised="true" Icon="done" OnClick="Click">@_buttonText</MatButton>
+            </div>
+        </div>
     </div>
+        
 </div>
 
 @code {
