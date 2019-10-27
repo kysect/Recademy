@@ -1,0 +1,24 @@
+﻿@using Cloudcrate.AspNetCore.Blazor.Browser.Storage;
+@inject LocalStorage Storage
+
+@page "/FakeAuthorize"
+
+<h3>FakeAuthorize</h3>
+
+<input type="text" @bind="value" />
+       <button @onclick="SetValue">Set</button>
+       <button @onclick="GetValue">Get</button>
+
+@code {
+    string value;
+
+    async Task SetValue()
+    {
+        await Storage.SetItemAsync("storageKey", value);
+    }
+
+    async Task GetValue()
+    {
+        value = await Storage.GetItemAsync("storageKey");
+    }
+}
