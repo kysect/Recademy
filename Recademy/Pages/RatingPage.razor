@@ -7,8 +7,8 @@
 
 <MatTable Items="@Result" class="mat-elevation-z5">
     <MatTableHeader>
-        <th>Name</th>
-        <th>Price</th>
+        <th>Username</th>
+        <th>Points</th>
     </MatTableHeader>
     <MatTableRow>
         <td>@context.Key</td>
@@ -24,6 +24,7 @@
     {
         base.OnInitialized();
         Dictionary<string, int> rate = UserService.GetRanking();
+        Result = rate;
     }
  
 }

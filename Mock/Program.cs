@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Mock.Generators;
 using Recademy.Models;
 using Recademy.Context;
+using Recademy.Types;
+
 namespace Mock
 {
     class Program
@@ -69,7 +71,11 @@ namespace Mock
 
                         db.SaveChanges();
 
+                        if (newRequest.State == ProjectState.Requested)
+                            continue;
+
                         var newResponse = rewresGen.GetResponse(newRequest, newUser.Id-1);
+
 
                         db.ReviewResponses.Add(newResponse);
 
