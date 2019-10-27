@@ -2,6 +2,8 @@
 @namespace Recademy.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
+@using EmbeddedBlazorContent
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +13,7 @@
     <base href="~/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
+    @Html.EmbeddedBlazorContent()
 </head>
 <body>
     <app>
