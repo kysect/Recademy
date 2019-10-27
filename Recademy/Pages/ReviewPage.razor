@@ -28,13 +28,14 @@ else
     public string textArea = "";
 
     string buttonMessage = "Send review";
-    
+
     public int Id { get; set; }
 
     protected override void OnInitialized()
     {
         project = ReviewService.GetReviewInfo(requestId);
-        Id = Storage.GetItemAsync<int>("storageKey").Result;
+
+        Id = !int.TryParse(Storage.GetItemAsync("storageKey").Result, out int id) ? 1 : id;
     }
 
     ReviewProjectDto project;
