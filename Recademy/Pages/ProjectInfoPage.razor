@@ -2,7 +2,9 @@
 @using Recademy.Dto
 @using Recademy.Models
 @using Recademy.Services.Abstraction
+@using Services
 @inject IProjectService ProjectService
+@inject IReviewService ReviewService
 
 <style>
     .id {
@@ -15,6 +17,10 @@
         border-color: darkviolet;
         border-width: 2px;
         border-radius: 20px;
+    }
+
+    .buttons {
+        margin: 20px 0px;
     }
 </style>
 
@@ -33,7 +39,21 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-md-10 readme">
-            README
+            @GithubService.GetReadme(projectInfo.ProjectUrl);
+        </div>
+    </div>
+    <div class="row justify-content-center buttons">
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-3">
+                    <MatButton Link="@projectInfo.ProjectUrl">
+                        <i class="fa fa-github" aria-hidden="true"></i> &nbsp; Github
+                    </MatButton>
+                </div>
+                <div class="col-md-3">
+                    <MatButton Raised="true" OnClick="Click" Icon=@Icon>@buttonText</MatButton>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -43,9 +63,19 @@
     public int ProjectId { get; set; }
 
     ProjectDto projectInfo;
+    string buttonText { get; set; } = "Revie Request";
+    string Icon { get; set; } = "playlist_add";
 
     protected override void OnInitialized()
     {
         projectInfo = ProjectDto.Of(ProjectService.GetProjectInfo(ProjectId));
     }
+
+    protected void Click()
+    {
+        buttonText = "Request added";
+        Icon = "playlist_add_check";
+        ReviewService.AddReviewRequest(projectInfo.ProjectId);
+    }
+
 }
