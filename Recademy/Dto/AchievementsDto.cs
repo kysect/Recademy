@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Recademy.Dto
+﻿namespace Recademy.Dto
 {
     public class AchievementsDto
     {
-        public string Name;
+        public string Name { get; set; }
 
-        public string Description;
+        public string Description { get; set; }
+
+        public string Icon { get; set; }
     }
 }

@@ -24,6 +24,7 @@ namespace Recademy.Services
             List<ReviewRequest> reqList = Context
                 .ReviewRequests
                 .Include(s => s.ProjectInfo)
+                .ThenInclude(p => p.Skills)
                 .Include(s => s.User)
                 .Where(s => s.State == ProjectState.Requested)
                 .ToList();
@@ -85,6 +86,15 @@ namespace Recademy.Services
             Context.ReviewResponses.Add(newReview);
             Context.SaveChanges();
             return newReview;
+        }
+
+        public ReviewProjectDto GetReviewInfo(int requestId)
+        {
+           int projectId = Context.ReviewRequests.Find(requestId).ProjectId;
+ 
+           ProjectInfo project = Context.ProjectInfos.Include(s => s.Skills).FirstOrDefault(s => s.Id == projectId);
+
+           return new ReviewProjectDto() { Id = projectId, Title = project.Title, Link = project.GithubLink};
         }
     }
 }

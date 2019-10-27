@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Recademy.Dto
+﻿namespace Recademy.Dto
 {
     public class SendReviewRequestDto
     {
@@ -12,7 +7,7 @@ namespace Recademy.Dto
 
         public static SendReviewRequestDto Of(int id, string text)
         {
-            return new SendReviewRequestDto()
+            return new SendReviewRequestDto
             {
                 ReviewRequestId = id,
                 ReviewText = text
