@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "profile/1", 
+      "launchUrl": "UploadProject", 
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
