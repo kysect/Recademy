@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using Recademy.Context;
 using Recademy.Dto;
 using Recademy.Services.Abstraction;
@@ -19,7 +20,7 @@ namespace Recademy.Services
 
         public ProjectInfo GetProjectInfo(int projectId)
         {
-            return Context.ProjectInfos.SingleOrDefault(k => k.Id == projectId);
+            return Context.ProjectInfos.Include(s => s.Skills).FirstOrDefault(k => k.Id == projectId);
         }
     }
 }

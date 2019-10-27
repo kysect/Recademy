@@ -7,6 +7,8 @@ using Octokit;
 using Recademy.Services.Abstraction;
 using ProductHeaderValue = Octokit.ProductHeaderValue;
 using System;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Recademy.Services
 {
@@ -21,7 +23,6 @@ namespace Recademy.Services
             GitHubClient client = new GitHubClient(new ProductHeaderValue("Recademy"));
             client.Credentials = new Credentials(accessToken);
             var repositories = client.Repository.GetAllForCurrent().Result.Where(k => !k.Private);
-
             List<GhRepositoryDto> repoList = new List<GhRepositoryDto>();
             foreach (var repository in repositories)
             {
@@ -46,6 +47,43 @@ namespace Recademy.Services
             }
 
             return repoList;
+        }
+
+        public async Task CreateIssues(string repoLink, string issueText)
+        {
+            string accessToken = GhUtil.Token;
+            GitHubClient client = new GitHubClient(new ProductHeaderValue("Recademy"));
+            client.Credentials = new Credentials(accessToken);
+            string[] splittedUrl = repoLink.Split('/');
+            string issueName = GhUtil.IssueText + "Test Reviewer";
+            NewIssue issue = new NewIssue(issueName);
+            issue.Body = issueText;
+
+            await client.Issue.Create(splittedUrl[3], splittedUrl[4], issue);
+        }
+
+        public string GetReadme(string repoLink)
+        {
+            string accessToken = GhUtil.Token;
+            string clientId = GhUtil.ClientId;
+            string clientSecret = GhUtil.ClientSecret;
+
+            GitHubClient client = new GitHubClient(new ProductHeaderValue("Recademy"));
+            client.Credentials = new Credentials(accessToken);
+
+            string[] splittedUrl = repoLink.Split('/');
+            string readme;
+            try
+            {
+                var request = client.Repository.Content.GetReadme(splittedUrl[3], splittedUrl[4]).Result;
+                readme = request.Content;
+            }
+            catch (AggregateException)
+            {
+                readme = "No readme";
+            }
+
+            return readme;
         }
     }
 }

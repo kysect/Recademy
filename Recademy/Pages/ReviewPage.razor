@@ -1,8 +1,11 @@
 ﻿@page "/review/{requestId:int}"
+@using Cloudcrate.AspNetCore.Blazor.Browser.Storage
 @using Recademy.Dto
 @using Recademy.Services.Abstraction
 @inject IReviewService ReviewService
 @inject IProjectService ProjectService
+@inject LocalStorage Storage
+@inject IGithubService GithubService
 
 <h3>Review @requestId</h3>
 <p>
@@ -13,7 +16,7 @@
     <p>Вы проиграли</p>
 }
 else
-{ 
+{
     <p>@project.RequesTime</p>
     <p>@project.Title</p>
     <p>@project.Description</p>
@@ -27,9 +30,13 @@ else
 
     string buttonMessage = "Send review";
 
+    public int Id { get; set; }
+
     protected override void OnInitialized()
     {
         project = ReviewService.GetReviewInfo(requestId);
+
+        Id = !int.TryParse(Storage.GetItemAsync("storageKey").Result, out int id) ? 1 : id;
     }
 
     ReviewProjectDto project;
@@ -40,6 +47,7 @@ else
             buttonMessage = "Nope";
         else
         {
+            GithubService.CreateIssues(project.Link, textArea);
             ReviewService.SendReviewResponse(SendReviewRequestDto.Of(requestId, textArea));
             buttonMessage = "Review sent";
         }
