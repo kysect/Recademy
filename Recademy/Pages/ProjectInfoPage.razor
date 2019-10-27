@@ -1,22 +1,59 @@
 ﻿@page "/projectInfo/{ProjectId:int}"
-<div class="row">
-    <p class="col-md-2">@curProject.Item1</p>
-    <button type="button" class="btn btn-outline-secondary col-md-2">Request Review</button>
+@using Recademy.Dto
+@using Recademy.Models
+@using Recademy.Services.Abstraction
+@using Services
+@inject IProjectService ProjectService
+@inject IReviewService ReviewService
+
+<style>
+    .id {
+        color: grey;
+    }
+    .readme {
+        margin: 20px;
+        padding: 10px 15px;
+        border-style: solid;
+        border-color: darkviolet;
+        border-width: 2px;
+        border-radius: 20px;
+    }
+
+    .buttons {
+        margin: 20px 0px;
+    }
+</style>
+
+<div class="mat-h3">
+    @projectInfo.ProjectName<span class="id">#@projectInfo.ProjectId</span>
 </div>
 <hr/>
 <div class="content">
-    <div>
-        <p>Readme</p>
-        <div class="border-dark">
-            @readme
+    <div class="row">
+        <MatChipSet>
+            @foreach (var skill in projectInfo.ProjectSkills)
+            {
+                <MatChip Label="@skill" LeadingIcon="code"></MatChip>
+            }
+        </MatChipSet>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-10 readme">
+            @GithubService.GetReadme(projectInfo.ProjectUrl);
         </div>
     </div>
-    <div>
-        <p>Review</p>
-        <div class="row">
-            <span class="col-1">TestReviewer</span>
-            <span class="badge badge-secondary col-md-2">Some label</span>
-            <button type="button" class="btn btn-info col-md-2">Open</button>
+    <div class="row justify-content-center buttons">
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-3">
+                    <MatButton Link="@projectInfo.ProjectUrl">
+                        <i class="fa fa-github" aria-hidden="true"></i> &nbsp; Github
+                    </MatButton>
+                </div>
+                <div class="col-md-3">
+                    <MatButton Raised="true" OnClick="Click" Icon=@Icon>@buttonText</MatButton>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -25,21 +62,20 @@
     [Parameter]
     public int ProjectId { get; set; }
 
-    (string, string) curProject;
+    ProjectDto projectInfo;
+    string buttonText { get; set; } = "Revie Request";
+    string Icon { get; set; } = "playlist_add";
 
     protected override void OnInitialized()
     {
-        curProject = projects[ProjectId];
+        projectInfo = ProjectDto.Of(ProjectService.GetProjectInfo(ProjectId));
     }
 
-    Dictionary<int, (string, string)> projects = new Dictionary<int, (string, string)>()
+    protected void Click()
     {
-        { 1, ("Fluda", "C#")},
-        { 2, ("BirdyApi", "C#" ) },
-        { 3, ("Algo", "C#" ) },
-        { 4, ("Lab2", "C#" ) }
-    };
-
-    string readme = @"FFFFFFFFFFFFFFFFRRRRRRRRRRRffffffffffffffffffffffffffffffffffffffffffffRRRRRRRRRRRRRRRRRRRRRRRRRRRjsoivnlersfigdvk \n[wceolsdmcposd;vmjfoenwjlgnaiwubfwvuirjkbgsv m,";
+        buttonText = "Request added";
+        Icon = "playlist_add_check";
+        ReviewService.AddReviewRequest(projectInfo.ProjectId);
+    }
 
 }

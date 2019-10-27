@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Context;
 using Recademy.Dto;
@@ -19,49 +18,30 @@ namespace Recademy.Services
             Context = context;
         }
 
-        public User GetUserInfo(int userId)
-        {
-            User userInfo = Context.Users
-                .Include(s => s.ProjectInfos)
-                .Include(s => s.UserSkills)
-                .Include(u => u.ReviewRequests)
-                .FirstOrDefault(s => s.Id == userId);
-
-            return userInfo;
-        }
-
         public UserInfoDto GetUserInfoDto(int userId)
         {
             User userInfo = Context.Users
                 .Include(s => s.ProjectInfos)
+                .ThenInclude(p => p.Skills)
                 .Include(s => s.UserSkills)
                 .Include(u => u.ReviewRequests)
                 .FirstOrDefault(s => s.Id == userId);
 
-            List<string> skillNames = new List<string>();
-
-            AchievementService achievements = new AchievementService(Context);
-
-            skillNames = userInfo.UserSkills.Select(el => el.SkillName).ToList();
-
-            List<ProjectDto> projectInfos = new List<ProjectDto>();
-
-            foreach (var el in userInfo.ProjectInfos)
-            {
-                projectInfos.Add(ProjectDto.Of(el));
-            }
+            var achievements = new AchievementService();
+            List<string> skillNames = userInfo.UserSkills.Select(el => el.SkillName).ToList();
 
             UserInfoDto result = new UserInfoDto()
             {
                 UserName = userInfo.Name,
                 Activities = GetActivity(userId),
                 Skills = skillNames,
-                Achievements = achievements.GetAchievements(userId),
-                ProjectDtos = projectInfos
+                Achievements = achievements.GetAchievements(userInfo),
+                ProjectDtos = userInfo.ProjectInfos.Select(ProjectDto.Of).ToList()
             };
 
             return result;
         }
+
         /// <summary>
         /// return a user activity, index is month, value is activity number
         /// </summary>
@@ -69,20 +49,16 @@ namespace Recademy.Services
         /// <returns></returns>
         public List<int> GetActivity(int userId)
         {
-            List<int> result = Enumerable.Repeat(0, 13).ToList();
+            List<int> result = Enumerable.Repeat(0, 12).ToList();
 
-            var reviewResponses = Context.ReviewResponses.Where(x => x.ReviewerId == userId).ToList();
+            List<ReviewResponse> reviewList = Context.ReviewResponses
+                .Where(x => x.ReviewerId == userId)
+                .Where(r => r.CreationTime.Year == DateTime.Now.Year)
+                .ToList();
 
-            int year = DateTime.Now.Year;
-            foreach (var el in reviewResponses)
+            foreach (ReviewResponse el in reviewList)
             {
-                var reviewRequest = Context.ReviewRequests.Where(x => x.Id == el.ReviewRequestId).ToList().FirstOrDefault();
-
-                if (reviewRequest == null)
-                    continue;
-
-                if (reviewRequest.DateCreate.Year == year)
-                    result[el.ReviewRequest.DateCreate.Month]++;
+                result[el.CreationTime.Month]++;
             }
 
             return result;
@@ -95,11 +71,12 @@ namespace Recademy.Services
         /// <returns></returns>
         public int GetActivityInCount(int userId)
         {
-            int count = Context.ReviewResponses
+            List<ReviewResponse> activities = Context.ReviewResponses
                 .Where(x => x.ReviewerId == userId)
-                .Count(r => r.CreationTime.Year == DateTime.Now.Year);
+                .Where(r => r.CreationTime.Year == DateTime.Now.Year)
+                .ToList();
 
-            return count;
+            return activities.Count;
         }
 
         /// <summary>
@@ -133,7 +110,7 @@ namespace Recademy.Services
                 AuthorId = argues.UserId,
                 GithubLink = argues.ProjectUrl,
                 Title = argues.ProjectName,
-                Skills = argues.Tags.Select(t => new ProjectSkill() { SkillName = t }).ToList()
+                Skills = argues.Tags.Select(t => new ProjectSkill { SkillName = t }).ToList()
             };
 
             Context.ProjectInfos.Add(newProject);
