@@ -9,6 +9,7 @@
     .project-item {
         margin: 10px 0px;
     }
+
     .project-info {
         margin-bottom: 20px;
     }
@@ -29,7 +30,7 @@
                 @foreach (var t in _currentUser.Achievements)
                 {
                     <div class="col-md-1">
-                        <img src="@star" width="45px" height="45px" alt="">
+                        <p><MatIcon Icon=@t.Icon></MatIcon></p>
                     </div>
                 }
             </div>
@@ -71,34 +72,34 @@
     <div class="container">
         @foreach (ProjectDto project in _currentUser.ProjectDtos)
         {
-        <div class="container project-item">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="mat-h5">@project.ProjectName</div>
-                </div>
-                <div class="col-md-10">
-                    <div class="row justify-content-end">
-                        <div class="col-8">
-                            <div class="row justify-content-end">
-                                @foreach (string skill in project.ProjectSkills)
-                                {
-                                    <div class="col-2">
-                                        <div class="row">
-                                            <MatChip Label="@skill" LeadingIcon="code"></MatChip>
+            <div class="container project-item">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="mat-h5">@project.ProjectName</div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row justify-content-end">
+                            <div class="col-8">
+                                <div class="row justify-content-end">
+                                    @foreach (string skill in project.ProjectSkills)
+                                    {
+                                        <div class="col-2">
+                                            <div class="row">
+                                                <MatChip Label="@skill" LeadingIcon="code"></MatChip>
+                                            </div>
                                         </div>
-                                    </div>
-                                }
+                                    }
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="row">
-                                <MatButton Outlined="true" Icon="cloud_upload">Open</MatButton>
+                            <div class="col-2">
+                                <div class="row">
+                                    <MatButton Outlined="true" Icon="cloud_upload">Open</MatButton>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         }
     </div>
 </div>
