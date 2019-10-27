@@ -86,5 +86,16 @@ namespace Recademy.Services
             Context.SaveChanges();
             return newReview;
         }
+
+        public ReviewProjectDto GetReviewInfo(int requestId)
+        {
+           ReviewRequest request = Context.ReviewRequests.SingleOrDefault(k => k.Id == requestId);
+           if (request == null)
+               return null;
+
+           ProjectInfo project = Context.ProjectInfos.Find(request.ProjectId);
+
+           return new ReviewProjectDto(request.DateCreate, project.Description, project.Title, project.GithubLink);
+        }
     }
 }

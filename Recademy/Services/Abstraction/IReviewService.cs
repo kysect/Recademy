@@ -9,5 +9,6 @@ namespace Recademy.Services.Abstraction
         List<ReviewRequest> GetReviewRequests();
         ReviewRequest AddReviewRequest(int ProjectId);
         ReviewResponse SendReviewResponse(SendReviewRequestDto argues);
+        ReviewProjectDto GetReviewInfo(int requestId);
     }
 }

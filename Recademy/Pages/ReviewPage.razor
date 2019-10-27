@@ -2,11 +2,23 @@
 @using Recademy.Dto
 @using Recademy.Services.Abstraction
 @inject IReviewService ReviewService
+@inject IProjectService ProjectService
 
 <h3>Review @requestId</h3>
 <p>
     <MatTextField @bind-Value="@textArea" Label="Your review" TextArea="true"></MatTextField>
 </p>
+@if (project == null)
+{
+    <p>Вы проиграли</p>
+}
+else
+{ 
+    <p>@project.RequesTime</p>
+    <p>@project.Title</p>
+    <p>@project.Description</p>
+    <p>@project.Link</p>
+}
 <MatButton Outlined="true" Icon="send" OnClick="@Click">@buttonMessage</MatButton>
 
 @code
@@ -14,6 +26,14 @@
     public string textArea = "";
 
     string buttonMessage = "Send review";
+
+    protected override void OnInitialized()
+    {
+        project = ReviewService.GetReviewInfo(requestId);
+    }
+
+    ReviewProjectDto project;
+
     void Click()
     {
         if (textArea == "")
