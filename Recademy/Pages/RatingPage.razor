@@ -5,7 +5,7 @@
 
 <h3>Reviewers rating</h3>
 
-<MatTable Items="@Result" class="mat-elevation-z5">
+<MatTable Items="@_result" class="mat-elevation-z5">
     <MatTableHeader>
         <th>Username</th>
         <th>Points</th>
@@ -18,13 +18,13 @@
  
 @code
 {
-    Dictionary<string, int> Result;
+    Dictionary<string, int> _result;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         Dictionary<string, int> rate = UserService.GetRanking();
-        Result = rate;
+        _result = rate;
     }
  
 }

@@ -11,7 +11,10 @@ namespace Mock.Generators
     public class ProjectInfoesGenerator
     {
         
-        private List<string> links = new List<string>() { "https://github.com/riiji/VkQueue", "https://github.com/riiji/VK-music-bot-for-discord", "https://github.com/riiji/RPG" };
+        private List<string> links = new List<string>() { "https://github.com/riiji/VkQueue", "https://github.com/riiji/VK-music-bot-for-discord", 
+            "https://github.com/riiji/RPG", "https://github.com/TEF-Y/Main", "https://github.com/InRedikaWB/Fluda", "https://github.com/InRedikaWB/VkLibrary", "https://github.com/InRedikaWB/is-arch-lect",
+        "https://github.com/InRedikaWB/CodeforcesApiWrapper"
+        };
 
         private readonly IdGenerator _idGenerator = new IdGenerator();
         private readonly TitleGenerator _titleGenerator = new TitleGenerator();
@@ -27,7 +30,7 @@ namespace Mock.Generators
 
             int authorId = _idGenerator.GetId();
 
-            ProjectInfo result = new ProjectInfo() { Title = title, GithubLink = "https://github.com/InRedikaWB", AuthorId = user.Id, User = user, Description = "some description"};
+            ProjectInfo result = new ProjectInfo() { Title = title, GithubLink = links[_rnd.Next(links.Count)], AuthorId = user.Id, User = user, Description = "some description"};
 
             return result;
         }
