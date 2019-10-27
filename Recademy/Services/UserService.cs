@@ -22,6 +22,7 @@ namespace Recademy.Services
         {
             User userInfo = Context.Users
                 .Include(s => s.ProjectInfos)
+                .ThenInclude(p => p.Skills)
                 .Include(s => s.UserSkills)
                 .Include(u => u.ReviewRequests)
                 .FirstOrDefault(s => s.Id == userId);
