@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Recademy.Dto;
 using Recademy.Utils;
@@ -38,8 +39,9 @@ namespace Recademy.Services
                 {
                     RepositoryName = repository.Name,
                     RepositoryUrl = repository.Url,
-                    Readme = readme
-            });
+                    Readme = readme,
+                    Language = repository.Language
+                });
             }
 
             return repoList;
