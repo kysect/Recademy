@@ -5,6 +5,7 @@
         public string RepositoryName { get; set; }
         public string RepositoryUrl { get; set; }
         public string Readme { get; set; }
+        public string Language { get; set; }
 
         public override string ToString()
         {
