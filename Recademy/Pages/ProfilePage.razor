@@ -67,9 +67,7 @@
             <div class="row justify-content-end">
                 <div class="col-2">
                     <div class="row justify-content-end">
-                        <a href="UploadProject">
-                            <MatButton Raised="true" Icon="cloud_upload">Add</MatButton>
-                        </a>
+                            <MatButton Raised="true" Icon="cloud_upload" Link="UploadProject">Add</MatButton>
                     </div>
                 </div>
             </div>
@@ -101,9 +99,7 @@
                         </div>
                         <div class="col-2">
                             <div class="row">
-                                <a href="ProjectInfo/@project.ProjectId">
-                                    <MatButton Outlined="true">Open</MatButton>
-                                </a>
+                                    <MatButton Outlined="true" Link=@("ProjectInfo/" + project.ProjectId.ToString())>Open</MatButton>
                             </div>
                         </div>
                     </div>
