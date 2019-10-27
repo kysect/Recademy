@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Recademy.Dto
 {
@@ -14,12 +11,12 @@ namespace Recademy.Dto
 
         public static AddProjectDto Of(string projectName, int userId, string url, string tag)
         {
-            return new AddProjectDto()
+            return new AddProjectDto
             {
                 UserId = userId,
                 ProjectUrl = url,
                 ProjectName = projectName,
-                Tags = new List<string>() { tag }
+                Tags = new List<string> { tag }
             };
         }
     }
