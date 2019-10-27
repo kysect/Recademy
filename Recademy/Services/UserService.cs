@@ -53,7 +53,6 @@ namespace Recademy.Services
 
             List<ReviewResponse> reviewList = Context.ReviewResponses
                 .Where(x => x.ReviewerId == userId)
-                .Where(r => r.CreationTime.Year == DateTime.Now.Year)
                 .ToList();
 
             foreach (ReviewResponse el in reviewList)
@@ -73,7 +72,6 @@ namespace Recademy.Services
         {
             List<ReviewResponse> activities = Context.ReviewResponses
                 .Where(x => x.ReviewerId == userId)
-                .Where(r => r.CreationTime.Year == DateTime.Now.Year)
                 .ToList();
 
             return activities.Count;
