@@ -1,26 +1,39 @@
 ﻿@page "/projectInfo/{ProjectId:int}"
+@using Recademy.Dto
 @using Recademy.Models
 @using Recademy.Services.Abstraction
 @inject IProjectService ProjectService
 
-<div class="row">
-    <p class="col-md-2">@projectInfo.Id</p>
-    <button type="button" class="btn btn-outline-secondary col-md-2">Request Review</button>
+<style>
+    .id {
+        color: grey;
+    }
+    .readme {
+        margin: 20px;
+        padding: 10px 15px;
+        border-style: solid;
+        border-color: darkviolet;
+        border-width: 2px;
+        border-radius: 20px;
+    }
+</style>
+
+<div class="mat-h3">
+    @projectInfo.ProjectName<span class="id">#@projectInfo.ProjectId</span>
 </div>
 <hr/>
 <div class="content">
-    <div>
-        <p>Readme</p>
-        <div class="border-dark">
-            @projectInfo.Description
-        </div>
+    <div class="row">
+        <MatChipSet>
+            @foreach (var skill in projectInfo.ProjectSkills)
+            {
+                <MatChip Label="@skill" LeadingIcon="code"></MatChip>
+            }
+        </MatChipSet>
     </div>
-    <div>
-        <p>Review</p>
-        <div class="row">
-            <span class="col-1">TestReviewer</span>
-            <span class="badge badge-secondary col-md-2">Some label</span>
-            <button type="button" class="btn btn-info col-md-2">Open</button>
+    <div class="row justify-content-center">
+        <div class="col-md-10 readme">
+            README
         </div>
     </div>
 </div>
@@ -29,10 +42,10 @@
     [Parameter]
     public int ProjectId { get; set; }
 
-    ProjectInfo projectInfo;
+    ProjectDto projectInfo;
 
     protected override void OnInitialized()
     {
-        projectInfo = ProjectService.GetProjectInfo(ProjectId);
+        projectInfo = ProjectDto.Of(ProjectService.GetProjectInfo(ProjectId));
     }
 }
