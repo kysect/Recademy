@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Cloudcrate.AspNetCore.Blazor.Browser.Storage;
 using EmbeddedBlazorContent;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -55,6 +56,8 @@ namespace Recademy
                         BaseAddress = new Uri(navigationManager.BaseUri)
                     };
                 });
+
+            services.AddStorage();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
