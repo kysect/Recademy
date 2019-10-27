@@ -5,7 +5,7 @@
 @inject IUserService UserService
 <div class="main row">
     <div class="col-md-2">
-        <img src="@base64str" width="90px" height="90px"/>
+        <img src="@base64str" width="90px" height="90px" />
     </div>
     <div class="col-md-2">
         <span class="row">@_currentUser.UserName</span>
@@ -13,18 +13,40 @@
     <div class="col-md-auto">
         @foreach (var t in _currentUser.Achievements)
         {
-            <span class="col">
-                <img src="@star" width="45px" height="45px" alt="">
-            </span>
+            if (t.Name == "First Request!")
+            {
+                <MatIcon Icon="repeat_one"></MatIcon>
+            }
+
+            if (t.Name == "3 projects")
+            {
+                <MatIcon Icon="alarm_on"></MatIcon>
+            }
+
+            if (t.Name == "So experienced")
+            {
+                <MatIcon Icon="extension"></MatIcon>
+            }
+
+            if (t.Name == "You skilled!")
+            {
+                <MatIcon Icon="favorite_border"></MatIcon>
+            }
         }
+
+        @foreach(var el in _currentUser.Skills)
+        {  
+            <p>>@el</p>
+        }
+
     </div>
 </div>
-<hr/>
-<div class ="container row flex-wrap">
-    @foreach(var skill in _currentUser.Skills)
+<hr />
+<div class="container row flex-wrap">
+    @foreach (var skill in _currentUser.Skills)
     {
         <div class="col-md-4">
-                <p>@skill</p>
+            <p>@skill</p>
         </div>
     }
 </div>

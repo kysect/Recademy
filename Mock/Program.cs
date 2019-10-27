@@ -32,6 +32,7 @@ namespace Mock
             List<ReviewRequest> rewRequests = new List<ReviewRequest>();
 
             Random _rnd = new Random();
+            int rndVal;
 
             using (var db = CreateContext())
             {
@@ -52,15 +53,36 @@ namespace Mock
                     var newUser = userGen.GetUser();
                     db.Users.Add(newUser);
                     db.SaveChanges();
+
+                    rndVal = _rnd.Next(0, 4);
+                    for (int k = 0; k < rndVal; ++k)
+                    {
+                        db.UserSkills.Add(new UserSkill() { SkillName = skillGen.GetSkillName(), UserId = newUser.Id});
+                    }
+
+                    db.SaveChanges();
+
                     for (int j = 0; j < ProjectForUserCount; ++j)
-                    { 
+                    {
                         var newProject = projGen.GetProjectInfo(newUser);
 
                         db.ProjectInfos.Add(newProject);
 
                         db.SaveChanges();
 
-                        var rndVal = _rnd.Next(0, 2);
+                        rndVal = _rnd.Next(0, 3);
+
+                        for(int k = 0;k<rndVal;++k)
+                        {
+                            db.ProjectSkills.Add(new ProjectSkill() { ProjectId = newProject.Id, SkillName = skillGen.GetSkillName() });
+                        }
+
+                        db.SaveChanges();
+
+
+                        rndVal = _rnd.Next(0, 2);
+
+
 
                         if (rndVal == 0)
                             continue;
@@ -74,7 +96,7 @@ namespace Mock
                         if (newRequest.State == ProjectState.Requested)
                             continue;
 
-                        var newResponse = rewresGen.GetResponse(newRequest, newUser.Id-1);
+                        var newResponse = rewresGen.GetResponse(newRequest, newUser.Id - 1);
 
 
                         db.ReviewResponses.Add(newResponse);
