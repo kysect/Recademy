@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 using Recademy.Dto;
 using Recademy.Utils;
 using Octokit;
@@ -12,7 +10,7 @@ namespace Recademy.Services
 {
     public class GithubService : IGithubService
     {
-        public List<GhRepositoryDto> GhGetRepositories(GhGetRepositoriesDto argues)
+        public List<GhRepositoryDto> GhGetRepositories(int userId)
         {
             string accessToken = GhUtil.Token;
             string clientId = GhUtil.ClientId;

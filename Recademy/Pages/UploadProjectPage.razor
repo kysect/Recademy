@@ -34,7 +34,7 @@
 
     protected override void OnInitialized()
     {
-        _repositories = GithubService.GhGetRepositories(GhGetRepositoriesDto.GetGto(1));
+        _repositories = GithubService.GhGetRepositories(1);
         _tags = TagService.GetAllTags();
     }
 
