@@ -19,5 +19,15 @@ namespace Recademy.Dto
                 Tags = new List<string> { tag }
             };
         }
+        public static AddProjectDto Of(string projectName, int userId, string url, List<string> tag)
+        {
+            return new AddProjectDto
+            {
+                UserId = userId,
+                ProjectUrl = url,
+                ProjectName = projectName,
+                Tags = tag
+            };
+        }
     }
 }
