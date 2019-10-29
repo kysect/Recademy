@@ -34,6 +34,7 @@ namespace Mock
             Random _rnd = new Random();
             int rndVal;
             HashSet<string> a = new HashSet<string>();
+            HashSet<string> b = new HashSet<string>();
 
             using (var db = CreateContext())
             {
@@ -49,14 +50,18 @@ namespace Mock
 
             using (var db = CreateContext())
             {
-                for (int i = 0; i < UsersGenCount; ++i)
+                for (int i = 0; i < UsersGenCount/2; ++i)
                 {
                     var newUser = userGen.GetUser();
+                    var newUser2 = userGen.GetUser();
                     db.Users.Add(newUser);
+                    db.Users.Add(newUser2);
                     db.SaveChanges();
 
                     rndVal = _rnd.Next(0, 4);
                     a = new HashSet<string>();
+                    b = new HashSet<string>();
+
                     for (int k = 0; k < rndVal; ++k)
                     {
                         string SkillName = skillGen.GetSkillName();
@@ -64,8 +69,13 @@ namespace Mock
                         {
                             db.UserSkills.Add(new UserSkill() { SkillName = SkillName, UserId = newUser.Id });
                         }
-                    
-                    }
+                        SkillName = skillGen.GetSkillName();
+                        if (b.Add(SkillName))
+                        {
+                            db.UserSkills.Add(new UserSkill() { SkillName = SkillName, UserId = newUser2.Id });
+                        }
+
+                    }   
 
                     db.SaveChanges();
 
@@ -97,7 +107,7 @@ namespace Mock
                         if (rndVal == 0)
                             continue;
 
-                        var newRequest = rewGen.GetRequest(newProject, newUser, newUser.Id - 1);
+                        var newRequest = rewGen.GetRequest(newProject, newUser, newUser2.Id);
 
                         db.ReviewRequests.Add(newRequest);
 
@@ -106,8 +116,7 @@ namespace Mock
                         if (newRequest.State == ProjectState.Requested)
                             continue;
 
-                        var newResponse = rewresGen.GetResponse(newRequest, newUser.Id - 1);
-
+                        var newResponse = rewresGen.GetResponse(newRequest, newUser2.Id);
 
                         db.ReviewResponses.Add(newResponse);
 
@@ -117,11 +126,6 @@ namespace Mock
 
 
                 db.SaveChanges();
-
-
-
-
-
             }
         }
 
