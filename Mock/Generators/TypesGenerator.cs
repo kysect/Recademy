@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Recademy.Models;
 using Recademy.Types;
 
@@ -65,6 +67,18 @@ namespace Mock.Generators
                 ProjectId = project.Id,
                 State = _random.Next(0, 2) == 0 ? ProjectState.Requested : ProjectState.Reviewed
             };
+        }
+        public List<Skill> GetTechnologiesList()
+        {
+            return DataLists
+                .Skills
+                .Select(k =>
+                    new Skill
+                    {
+                        Name = k,
+                        Description = "Some description"
+                    }).
+                ToList();
         }
     }
 }
