@@ -61,15 +61,13 @@
 <div class="container project-info">
     <div class="row">
         <div class="col-md-8">
-            <div class="mat-h4">Projects</div>
+            <div class="mat-h6">Projects</div>
         </div>
         <div class="col-md-4">
             <div class="row justify-content-end">
                 <div class="col-2">
                     <div class="row justify-content-end">
-                        <a href="UploadProject">
-                            <MatButton Raised="true" Icon="cloud_upload">Add</MatButton>
-                        </a>
+                            <MatButton Raised="true" Icon="cloud_upload" Link="UploadProject">Add</MatButton>
                     </div>
                 </div>
             </div>
@@ -80,16 +78,16 @@
         {
         <div class="container project-item">
             <div class="row align-items-center">
-                <div class="col-md-2">
-                    <div class="mat-h5">@project.ProjectName</div>
+                <div class="col-md-4">
+                    <div class="">@project.ProjectName</div>
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-8">
                     <div class="row justify-content-end">
                         <div class="col-8">
                             <div class="row justify-content-end align-items-center">
                                 @foreach (string skill in project.ProjectSkills)
                                 {
-                                    <div class="col-2">
+                                    <div class="col-3">
                                         <div class="row">
                                             <MatChip Label="@(skill.Substring(0, skill.Length > 5 ? 5 : skill.Length)  + "...")" LeadingIcon="code"></MatChip>
                                         </div>
@@ -98,10 +96,8 @@
                             </div>
                         </div>
                         <div class="col-2">
-                            <div class="row">
-                                <a href="ProjectInfo/@project.ProjectId">
-                                    <MatButton Outlined="true">Open</MatButton>
-                                </a>
+                            <div class="row justify-content-end">
+                                    <MatButton Outlined="true" Link=@("ProjectInfo/" + project.ProjectId.ToString())>Open</MatButton>
                             </div>
                         </div>
                     </div>
