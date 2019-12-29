@@ -24,7 +24,7 @@ namespace Mock.Generators
         public ReviewResponse GetResponse(ReviewRequest reviewRequest, int reviewerId)
         {
             int randVal = _random.Next();
-            ReviewResponse result = new ReviewResponse
+            return new ReviewResponse
             {
                 ReviewRequest = reviewRequest,
                 Description = $"{Title}{randVal}",
@@ -32,7 +32,6 @@ namespace Mock.Generators
                 ReviewerId = reviewerId,
                 CreationTime = RandomDay()
             };
-            return result;
         }
     }
 }

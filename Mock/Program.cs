@@ -19,7 +19,7 @@ namespace Mock
 
         private static void Main(string[] args)
         {
-            UserGenerator userGen = new UserGenerator();
+            TypesGenerator typesGenerator = new TypesGenerator();
             ProjectInfoesGenerator projGen = new ProjectInfoesGenerator();
             SkillGenerator skillGen = new SkillGenerator();
             ReviewRequestGenerator rewGen = new ReviewRequestGenerator();
@@ -43,7 +43,7 @@ namespace Mock
             {
                 for (int i = 0; i < UsersGenCount; ++i)
                 {
-                    User newUser = userGen.GetUser();
+                    User newUser = typesGenerator.GetUser();
                     db.Users.Add(newUser);
                     db.SaveChanges();
 

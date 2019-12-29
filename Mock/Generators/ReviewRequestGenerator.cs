@@ -20,15 +20,13 @@ namespace Mock.Generators
             if (user.Id == randomId)
                 return null;
 
-            int randVal = _gen.Next(0, 2);
-
             return new ReviewRequest
             {
                 User = user,
                 DateCreate = RandomDay(),
                 ProjectInfo = project,
                 ProjectId = project.Id,
-                State = randVal == 0 ? ProjectState.Requested : ProjectState.Reviewed
+                State = _gen.Next(0, 2) == 0 ? ProjectState.Requested : ProjectState.Reviewed
             };
         }
     }
