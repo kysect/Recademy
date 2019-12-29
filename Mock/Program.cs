@@ -20,10 +20,7 @@ namespace Mock
         private static void Main(string[] args)
         {
             TypesGenerator typesGenerator = new TypesGenerator();
-            ProjectInfoesGenerator projGen = new ProjectInfoesGenerator();
             SkillGenerator skillGen = new SkillGenerator();
-            ReviewRequestGenerator rewGen = new ReviewRequestGenerator();
-            ReviewResponseGenerator rewresGen = new ReviewResponseGenerator();
 
             Random _rnd = new Random();
             int rndVal;
@@ -61,7 +58,7 @@ namespace Mock
 
                     for (int j = 0; j < ProjectForUserCount; ++j)
                     {
-                        ProjectInfo newProject = projGen.GetProjectInfo(newUser);
+                        ProjectInfo newProject = typesGenerator.GetProjectInfo(newUser);
                         db.ProjectInfos.Add(newProject);
                         db.SaveChanges();
 
@@ -80,14 +77,14 @@ namespace Mock
                         if (rndVal == 0)
                             continue;
 
-                        ReviewRequest newRequest = rewGen.GetRequest(newProject, newUser, newUser.Id - 1);
+                        ReviewRequest newRequest = typesGenerator.GetRequest(newProject, newUser, newUser.Id - 1);
                         db.ReviewRequests.Add(newRequest);
                         db.SaveChanges();
 
                         if (newRequest.State == ProjectState.Requested)
                             continue;
 
-                        ReviewResponse newResponse = rewresGen.GetResponse(newRequest, newUser.Id - 1);
+                        ReviewResponse newResponse = typesGenerator.GetResponse(newRequest, newUser.Id - 1);
                         db.ReviewResponses.Add(newResponse);
                         db.SaveChanges();
                     }

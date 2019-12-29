@@ -27,5 +27,12 @@ namespace Mock.Generators
             int randVal = _random.Next(DataLists.Titles.Count);
             return DataLists.Titles[randVal];
         }
+
+        public DateTime RandomDay()
+        {
+            DateTime start = new DateTime(DateTime.Now.Year, 1, 1);
+            int range = (DateTime.Today - start).Days;
+            return start.AddDays(_random.Next(range));
+        }
     }
 }
