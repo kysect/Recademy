@@ -4,13 +4,11 @@ namespace Mock.Generators
 {
     public class UserGenerator
     {
-        private readonly NameGenerator _nameGenerator = new NameGenerator();
+        private readonly PrimitiveGenerator _primitiveGenerator = new PrimitiveGenerator();
 
         public User GetUser()
         {
-            string name = _nameGenerator.GetName();
-
-            int id = Utilities.CurrentUserId;
+            string name = _primitiveGenerator.GetName();
 
             User result = new User
             {

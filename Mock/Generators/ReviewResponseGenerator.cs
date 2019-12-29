@@ -7,7 +7,7 @@ namespace Mock.Generators
     {
         private readonly Random _random = new Random();
 
-        private readonly string _title = "Some Description#";
+        private const string Title = "Some Description#";
 
         private DateTime RandomDay()
         {
@@ -27,7 +27,7 @@ namespace Mock.Generators
             ReviewResponse result = new ReviewResponse
             {
                 ReviewRequest = reviewRequest,
-                Description = $"{_title}{randVal}",
+                Description = $"{Title}{randVal}",
                 ReviewRequestId = reviewRequest.Id,
                 ReviewerId = reviewerId,
                 CreationTime = RandomDay()

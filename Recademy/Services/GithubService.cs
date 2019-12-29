@@ -22,14 +22,14 @@ namespace Recademy.Services
 
             GitHubClient client = new GitHubClient(new ProductHeaderValue("Recademy"));
             client.Credentials = new Credentials(accessToken);
-            var repositories = client.Repository.GetAllForCurrent().Result.Where(k => !k.Private);
+            IEnumerable<Repository> repositories = client.Repository.GetAllForCurrent().Result.Where(k => !k.Private);
             List<GhRepositoryDto> repoList = new List<GhRepositoryDto>();
-            foreach (var repository in repositories)
+            foreach (Repository repository in repositories)
             {
                 string readme;
                 try
                 {
-                    var request = client.Repository.Content.GetReadme(repository.Owner.Login, repository.Name).Result;
+                    Readme request = client.Repository.Content.GetReadme(repository.Owner.Login, repository.Name).Result;
                     readme = request.Content;
                 }
                 catch (AggregateException)
@@ -75,7 +75,7 @@ namespace Recademy.Services
             string readme;
             try
             {
-                var request = client.Repository.Content.GetReadme(splittedUrl[3], splittedUrl[4]).Result;
+                Readme request = client.Repository.Content.GetReadme(splittedUrl[3], splittedUrl[4]).Result;
                 readme = request.Content;
             }
             catch (AggregateException)

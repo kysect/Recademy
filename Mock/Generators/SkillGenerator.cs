@@ -35,11 +35,6 @@ namespace Mock.Generators
             return _skills[randVal];
         }
 
-        public int GetRandomTechnology()
-        {
-            return _random.Next(_skills.Count);
-        }
-
         public List<Skill> GetTechnologiesList()
         {
             return _skills.Select(k => new Skill {Name = k, Description = "Some description"}).ToList();
