@@ -6,12 +6,10 @@ namespace Mock.Generators
 {
     public class ProjectInfoesGenerator
     {
-        private readonly IdGenerator _idGenerator = new IdGenerator();
+        private readonly PrimitiveGenerator _primitiveGenerator = new PrimitiveGenerator();
         private readonly Random _rnd = new Random();
-        private readonly SkillGenerator _skillGenerator = new SkillGenerator();
-        private readonly TitleGenerator _titleGenerator = new TitleGenerator();
 
-        private readonly List<string> links = new List<string>
+        private readonly List<string> _links = new List<string>
         {
             "https://github.com/riiji/VkQueue",
             "https://github.com/riiji/VK-music-bot-for-discord",
@@ -29,14 +27,12 @@ namespace Mock.Generators
         /// <returns></returns>
         public ProjectInfo GetProjectInfo(User user)
         {
-            string title = _titleGenerator.GetTitle();
-
-            int authorId = _idGenerator.GetId();
+            string title = _primitiveGenerator.GetTitle();
 
             return new ProjectInfo
             {
                 Title = title,
-                GithubLink = links[_rnd.Next(links.Count)],
+                GithubLink = _links[_rnd.Next(_links.Count)],
                 AuthorId = user.Id,
                 User = user,
                 Description = "some description"

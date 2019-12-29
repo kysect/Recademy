@@ -27,7 +27,7 @@ namespace Recademy.Services
                 .Include(u => u.ReviewRequests)
                 .FirstOrDefault(s => s.Id == userId);
 
-            var achievements = new AchievementService();
+            AchievementService achievements = new AchievementService();
             List<string> skillNames = userInfo.UserSkills.Select(el => el.SkillName).ToList();
 
             UserInfoDto result = new UserInfoDto()
@@ -96,7 +96,7 @@ namespace Recademy.Services
                     ranking[user.Name] = value;
             }
 
-            var result = ranking
+            Dictionary<string, int> result = ranking
                 .OrderByDescending(x => x.Value)
                 .ToDictionary(r => r.Key, r => r.Value);
 

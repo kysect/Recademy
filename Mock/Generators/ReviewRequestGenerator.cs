@@ -22,7 +22,7 @@ namespace Mock.Generators
 
             int randVal = _gen.Next(0, 2);
 
-            ReviewRequest result = new ReviewRequest
+            return new ReviewRequest
             {
                 User = user,
                 DateCreate = RandomDay(),
@@ -30,8 +30,6 @@ namespace Mock.Generators
                 ProjectId = project.Id,
                 State = randVal == 0 ? ProjectState.Requested : ProjectState.Reviewed
             };
-
-            return result;
         }
     }
 }

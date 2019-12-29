@@ -35,7 +35,7 @@ namespace Recademy.Services
         private bool IsValid(List<string> projectSkills, List<string> tags)
         {
             bool isContain = false;
-            foreach (var skill in projectSkills)
+            foreach (string skill in projectSkills)
             {
                 isContain = isContain || tags.Contains(skill);
             }

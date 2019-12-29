@@ -31,7 +31,7 @@
 <div class="content">
     <div class="row">
         <MatChipSet>
-            @foreach (var skill in projectInfo.ProjectSkills)
+            @foreach (string skill in projectInfo.ProjectSkills)
             {
                 <MatChip Label="@skill" LeadingIcon="code"></MatChip>
             }
