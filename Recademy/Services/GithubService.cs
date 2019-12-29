@@ -51,6 +51,7 @@ namespace Recademy.Services
 
         public async Task CreateIssues(string repoLink, string issueText)
         {
+            repoLink = repoLink.Replace("/repos/", "/");
             string accessToken = GhUtil.Token;
             GitHubClient client = new GitHubClient(new ProductHeaderValue("Recademy"));
             client.Credentials = new Credentials(accessToken);
@@ -58,7 +59,6 @@ namespace Recademy.Services
             string issueName = GhUtil.IssueText + "Test Reviewer";
             NewIssue issue = new NewIssue(issueName);
             issue.Body = issueText;
-
             await client.Issue.Create(splittedUrl[3], splittedUrl[4], issue);
         }
 
