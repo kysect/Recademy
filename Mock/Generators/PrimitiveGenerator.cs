@@ -34,5 +34,11 @@ namespace Mock.Generators
             int range = (DateTime.Today - start).Days;
             return start.AddDays(_random.Next(range));
         }
+
+        public string GetSkillName()
+        {
+            int randVal = _random.Next(0, DataLists.Skills.Count);
+            return DataLists.Skills[randVal];
+        }
     }
 }
