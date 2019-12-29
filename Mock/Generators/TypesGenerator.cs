@@ -2,23 +2,19 @@
 
 namespace Mock.Generators
 {
-    public class UserGenerator
+    public class TypesGenerator
     {
         private readonly PrimitiveGenerator _primitiveGenerator = new PrimitiveGenerator();
 
         public User GetUser()
         {
-            string name = _primitiveGenerator.GetName();
-
-            User result = new User
-            {
-                Name = name,
-                GithubLink = "https://github.com/InRedikaWB"
-            };
-
             Utilities.CurrentUserId++;
 
-            return result;
+            return new User
+            {
+                Name = _primitiveGenerator.GetName(),
+                GithubLink = "https://github.com/InRedikaWB"
+            };
         }
     }
 }
