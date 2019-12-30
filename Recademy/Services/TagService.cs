@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Context;
 using Recademy.Dto;
-using Recademy.Models;
 using Recademy.Services.Abstraction;
 
 namespace Recademy.Services
@@ -38,12 +37,12 @@ namespace Recademy.Services
 
         public TagProfileDto GetTagProfile(string tagName)
         {
-            List<ProjectInfo> projects = _context
+            var projects = _context
                 .ProjectInfos
                 .Include(p => p.Skills)
                 .Where(p => p
-                        .Skills
-                        .Any(s => s.SkillName == tagName))
+                    .Skills
+                    .Any(s => s.SkillName == tagName))
                 .ToList();
 
             return new TagProfileDto

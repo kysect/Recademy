@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Recademy.Dto;
-using Recademy.Utils;
-using Octokit;
-using Recademy.Services.Abstraction;
 using System.Threading.Tasks;
+using Octokit;
+using Recademy.Dto;
+using Recademy.Services.Abstraction;
+using Recademy.Utils;
 
 namespace Recademy.Services
 {
@@ -33,6 +33,27 @@ namespace Recademy.Services
                 .ToList();
         }
 
+        public async Task CreateIssues(string repoLink, string issueText)
+        {
+            repoLink = repoLink.Replace("/repos/", "/");
+            var splittedUrl = repoLink.Split('/');
+            string issueName = GhUtil.IssueText + "Test Reviewer";
+            NewIssue issue = new NewIssue(issueName)
+            {
+                Body = issueText
+            };
+
+            await _client
+                .Issue
+                .Create(splittedUrl[3], splittedUrl[4], issue);
+        }
+
+        public string GetReadme(string repoLink)
+        {
+            var splittedUrl = repoLink.Split('/');
+            return GetReadme(splittedUrl[3], splittedUrl[4]);
+        }
+
         public string GetReadme(Repository repository)
         {
             return GetReadme(repository.Owner.Login, repository.Name);
@@ -53,26 +74,6 @@ namespace Recademy.Services
             {
                 return "No readme";
             }
-        }
-        public async Task CreateIssues(string repoLink, string issueText)
-        {
-            repoLink = repoLink.Replace("/repos/", "/");
-            string[] splittedUrl = repoLink.Split('/');
-            string issueName = GhUtil.IssueText + "Test Reviewer";
-            NewIssue issue = new NewIssue(issueName)
-            {
-                Body = issueText
-            };
-
-            await _client
-                .Issue
-                .Create(splittedUrl[3], splittedUrl[4], issue);
-        }
-
-        public string GetReadme(string repoLink)
-        {
-            string[] splittedUrl = repoLink.Split('/');
-            return GetReadme(splittedUrl[3], splittedUrl[4]);
         }
     }
 }

@@ -11,10 +11,11 @@ namespace Recademy.Services
 {
     public class UserService : IUserService
     {
-        private readonly RecademyContext _context;
         private readonly IAchievementService _achievements;
+        private readonly RecademyContext _context;
 
-        public UserService(RecademyContext context, IAchievementService achievementService, IAchievementService achievements)
+        public UserService(RecademyContext context, IAchievementService achievementService,
+            IAchievementService achievements)
         {
             _context = context;
             _achievements = achievements;
@@ -29,7 +30,7 @@ namespace Recademy.Services
                 .Include(u => u.ReviewRequests)
                 .FirstOrDefault(s => s.Id == userId);
 
-            List<string> skillNames = userInfo
+            var skillNames = userInfo
                 .UserSkills
                 .Select(el => el.SkillName)
                 .ToList();
@@ -48,50 +49,34 @@ namespace Recademy.Services
         }
 
         /// <summary>
-        /// return a user activity, index is month, value is activity number
+        ///     return a user activity, index is month, value is activity number
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
         public List<int> GetActivity(int userId)
         {
-            List<int> result = Enumerable.Repeat(0, 12).ToList();
+            var result = Enumerable.Repeat(0, 12).ToList();
 
-            List<ReviewResponse> reviewList = _context
+            var reviewList = _context
                 .ReviewResponses
                 .Where(x => x.ReviewerId == userId)
                 .Where(r => r.CreationTime.Year == DateTime.Now.Year)
                 .ToList();
 
-            foreach (ReviewResponse el in reviewList)
-            {
-                result[el.CreationTime.Month]++;
-            }
+            foreach (ReviewResponse el in reviewList) result[el.CreationTime.Month]++;
 
             return result;
         }
 
         /// <summary>
-        /// get activity in count
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public int GetActivityInCount(int userId) => 
-            _context
-                .ReviewResponses
-                .Where(x => x.ReviewerId == userId)
-                .Where(r => r.CreationTime.Year == DateTime.Now.Year)
-                .ToList()
-                .Count;
-
-        /// <summary>
-        /// get a score ranking by user's activities
-        /// key is user id, value is activity score
+        ///     get a score ranking by user's activities
+        ///     key is user id, value is activity score
         /// </summary>
         /// <returns></returns>
         public Dictionary<string, int> GetRanking()
         {
-            Dictionary<string, int> ranking = new Dictionary<string, int>();
-            List<User> users = _context
+            var ranking = new Dictionary<string, int>();
+            var users = _context
                 .Users
                 .ToList();
 
@@ -116,8 +101,8 @@ namespace Recademy.Services
                 Title = argues.ProjectName,
                 Skills = argues
                     .Tags
-                    .Select(t => 
-                        new ProjectSkill { SkillName = t })
+                    .Select(t =>
+                        new ProjectSkill {SkillName = t})
                     .ToList()
             };
 
@@ -125,6 +110,21 @@ namespace Recademy.Services
             _context.SaveChanges();
 
             return newProject;
+        }
+
+        /// <summary>
+        ///     get activity in count
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public int GetActivityInCount(int userId)
+        {
+            return _context
+                .ReviewResponses
+                .Where(x => x.ReviewerId == userId)
+                .Where(r => r.CreationTime.Year == DateTime.Now.Year)
+                .ToList()
+                .Count;
         }
     }
 }
