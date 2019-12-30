@@ -19,7 +19,6 @@ namespace Recademy.Services
 
         public List<string> GetUserTags(int userId)
         {
-            
             return _context
                 .Users
                 .Include(s => s.UserSkills)

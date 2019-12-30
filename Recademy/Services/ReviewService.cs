@@ -29,15 +29,7 @@ namespace Recademy.Services
                 .ToList();
         
 
-        private bool IsValid(List<string> projectSkills, List<string> tags)
-        {
-            bool isContain = false;
-            foreach (string skill in projectSkills)
-            {
-                isContain = isContain || tags.Contains(skill);
-            }
-            return isContain;
-        }
+        private bool IsValid(List<string> projectSkills, List<string> tags) => projectSkills.Any(tags.Contains);
 
         public List<ReviewRequest> GetReviewRequestsForUser(int userId)
         {
