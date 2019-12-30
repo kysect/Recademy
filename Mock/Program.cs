@@ -13,7 +13,7 @@ namespace Mock
     {
         private static void Main(string[] args)
         {
-            using var mock = new Mocker();
+            using Mocker mock = new Mocker();
             mock.Mock();    
         }
     }
