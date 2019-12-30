@@ -12,10 +12,12 @@ namespace Recademy.Services
     public class UserService : IUserService
     {
         private readonly RecademyContext _context;
+        private readonly IAchievementService _achievements;
 
-        public UserService(RecademyContext context)
+        public UserService(RecademyContext context, IAchievementService achievementService, IAchievementService achievements)
         {
             _context = context;
+            _achievements = achievements;
         }
 
         public UserInfoDto GetUserInfoDto(int userId)
@@ -27,18 +29,17 @@ namespace Recademy.Services
                 .Include(u => u.ReviewRequests)
                 .FirstOrDefault(s => s.Id == userId);
 
-            AchievementService achievements = new AchievementService();
             List<string> skillNames = userInfo
                 .UserSkills
                 .Select(el => el.SkillName)
                 .ToList();
 
-            return new UserInfoDto()
+            return new UserInfoDto
             {
                 UserName = userInfo.Name,
                 Activities = GetActivity(userId),
                 Skills = skillNames,
-                Achievements = achievements.GetAchievements(userInfo),
+                Achievements = _achievements.GetAchievements(userInfo),
                 ProjectDtos = userInfo
                     .ProjectInfos
                     .Select(ProjectDto.Of)
@@ -74,15 +75,13 @@ namespace Recademy.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public int GetActivityInCount(int userId)
-        {
-            return _context
+        public int GetActivityInCount(int userId) => 
+            _context
                 .ReviewResponses
                 .Where(x => x.ReviewerId == userId)
                 .Where(r => r.CreationTime.Year == DateTime.Now.Year)
                 .ToList()
                 .Count;
-        }
 
         /// <summary>
         /// get a score ranking by user's activities
@@ -110,7 +109,7 @@ namespace Recademy.Services
 
         public ProjectInfo AddProject(AddProjectDto argues)
         {
-            ProjectInfo newProject = new ProjectInfo()
+            ProjectInfo newProject = new ProjectInfo
             {
                 AuthorId = argues.UserId,
                 GithubLink = argues.ProjectUrl,
@@ -124,6 +123,7 @@ namespace Recademy.Services
 
             _context.ProjectInfos.Add(newProject);
             _context.SaveChanges();
+
             return newProject;
         }
     }
