@@ -43,7 +43,7 @@ namespace Recademy.Services
                 Achievements = _achievements.GetAchievements(userInfo),
                 ProjectDtos = userInfo
                     .ProjectInfos
-                    .Select(ProjectDto.Of)
+                    .Select(k => new ProjectDto(k))
                     .ToList()
             };
         }

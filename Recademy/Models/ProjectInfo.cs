@@ -6,11 +6,13 @@ namespace Recademy.Models
 {
     public class ProjectInfo
     {
-        [Key] public int Id { get; set; }
+        [Key] 
+        public int Id { get; set; }
 
         public string Title { get; set; }
 
-        [ForeignKey("User")] public int AuthorId { get; set; }
+        [ForeignKey("User")] 
+        public int AuthorId { get; set; }
 
         public string Description { get; set; }
 
@@ -19,6 +21,5 @@ namespace Recademy.Models
 
         public User User { get; set; }
         public ICollection<ProjectSkill> Skills { get; set; }
-
     }
 }
