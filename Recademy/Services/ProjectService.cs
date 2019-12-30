@@ -11,16 +11,19 @@ namespace Recademy.Services
 {
     public class ProjectService : IProjectService
     {
-        public RecademyContext Context;
+        private readonly RecademyContext _context;
 
         public ProjectService(RecademyContext context)
         {
-            Context = context;
+            _context = context;
         }
 
         public ProjectInfo GetProjectInfo(int projectId)
         {
-            return Context.ProjectInfos.Include(s => s.Skills).FirstOrDefault(k => k.Id == projectId);
+            return _context
+                .ProjectInfos
+                .Include(s => s.Skills)
+                .FirstOrDefault(k => k.Id == projectId);
         }
     }
 }

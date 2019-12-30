@@ -11,16 +11,16 @@ namespace Recademy.Services
 {
     public class UserService : IUserService
     {
-        public RecademyContext Context;
+        private readonly RecademyContext _context;
 
         public UserService(RecademyContext context)
         {
-            Context = context;
+            _context = context;
         }
 
         public UserInfoDto GetUserInfoDto(int userId)
         {
-            User userInfo = Context.Users
+            User userInfo = _context.Users
                 .Include(s => s.ProjectInfos)
                 .ThenInclude(p => p.Skills)
                 .Include(s => s.UserSkills)
@@ -28,18 +28,22 @@ namespace Recademy.Services
                 .FirstOrDefault(s => s.Id == userId);
 
             AchievementService achievements = new AchievementService();
-            List<string> skillNames = userInfo.UserSkills.Select(el => el.SkillName).ToList();
+            List<string> skillNames = userInfo
+                .UserSkills
+                .Select(el => el.SkillName)
+                .ToList();
 
-            UserInfoDto result = new UserInfoDto()
+            return new UserInfoDto()
             {
                 UserName = userInfo.Name,
                 Activities = GetActivity(userId),
                 Skills = skillNames,
                 Achievements = achievements.GetAchievements(userInfo),
-                ProjectDtos = userInfo.ProjectInfos.Select(ProjectDto.Of).ToList()
+                ProjectDtos = userInfo
+                    .ProjectInfos
+                    .Select(ProjectDto.Of)
+                    .ToList()
             };
-
-            return result;
         }
 
         /// <summary>
@@ -51,7 +55,8 @@ namespace Recademy.Services
         {
             List<int> result = Enumerable.Repeat(0, 12).ToList();
 
-            List<ReviewResponse> reviewList = Context.ReviewResponses
+            List<ReviewResponse> reviewList = _context
+                .ReviewResponses
                 .Where(x => x.ReviewerId == userId)
                 .Where(r => r.CreationTime.Year == DateTime.Now.Year)
                 .ToList();
@@ -71,12 +76,12 @@ namespace Recademy.Services
         /// <returns></returns>
         public int GetActivityInCount(int userId)
         {
-            List<ReviewResponse> activities = Context.ReviewResponses
+            return _context
+                .ReviewResponses
                 .Where(x => x.ReviewerId == userId)
                 .Where(r => r.CreationTime.Year == DateTime.Now.Year)
-                .ToList();
-
-            return activities.Count;
+                .ToList()
+                .Count;
         }
 
         /// <summary>
@@ -87,7 +92,9 @@ namespace Recademy.Services
         public Dictionary<string, int> GetRanking()
         {
             Dictionary<string, int> ranking = new Dictionary<string, int>();
-            List<User> users = Context.Users.ToList();
+            List<User> users = _context
+                .Users
+                .ToList();
 
             foreach (User user in users)
             {
@@ -96,11 +103,9 @@ namespace Recademy.Services
                     ranking[user.Name] = value;
             }
 
-            Dictionary<string, int> result = ranking
+            return ranking
                 .OrderByDescending(x => x.Value)
                 .ToDictionary(r => r.Key, r => r.Value);
-
-            return result;
         }
 
         public ProjectInfo AddProject(AddProjectDto argues)
@@ -110,11 +115,15 @@ namespace Recademy.Services
                 AuthorId = argues.UserId,
                 GithubLink = argues.ProjectUrl,
                 Title = argues.ProjectName,
-                Skills = argues.Tags.Select(t => new ProjectSkill { SkillName = t }).ToList()
+                Skills = argues
+                    .Tags
+                    .Select(t => 
+                        new ProjectSkill { SkillName = t })
+                    .ToList()
             };
 
-            Context.ProjectInfos.Add(newProject);
-            Context.SaveChanges();
+            _context.ProjectInfos.Add(newProject);
+            _context.SaveChanges();
             return newProject;
         }
     }
