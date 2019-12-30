@@ -6,11 +6,14 @@ namespace Recademy.Models
 {
     public class ReviewResponse
     {
-        [Key] public int Id { get; set; }
+        [Key]
+        public int Id { get; set; }
 
-        [ForeignKey("ReviewRequest")] public int ReviewRequestId { get; set; }
+        [ForeignKey("ReviewRequest")] 
+        public int ReviewRequestId { get; set; }
 
-        [ForeignKey("User")] public int ReviewerId { get; set; }
+        [ForeignKey("User")] 
+        public int ReviewerId { get; set; }
 
         public string Description { get; set; }
 

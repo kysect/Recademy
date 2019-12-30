@@ -5,6 +5,7 @@
 @using Services
 @inject IProjectService ProjectService
 @inject IReviewService ReviewService
+@inject IGithubService GithubService
 
 <style>
     .id {
@@ -31,7 +32,7 @@
 <div class="content">
     <div class="row">
         <MatChipSet>
-            @foreach (var skill in projectInfo.ProjectSkills)
+            @foreach (string skill in projectInfo.ProjectSkills)
             {
                 <MatChip Label="@skill" LeadingIcon="code"></MatChip>
             }
@@ -68,7 +69,7 @@
 
     protected override void OnInitialized()
     {
-        projectInfo = ProjectDto.Of(ProjectService.GetProjectInfo(ProjectId));
+        projectInfo = new ProjectDto(ProjectService.GetProjectInfo(ProjectId));
     }
 
     protected void Click()

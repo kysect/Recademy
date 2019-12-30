@@ -59,7 +59,7 @@
         else
         {
             GithubService.CreateIssues(project.Link, textArea);
-            ReviewService.SendReviewResponse(SendReviewRequestDto.Of(requestId, textArea));
+            ReviewService.SendReviewResponse(new SendReviewRequestDto(requestId, textArea));
             buttonMessage = "Review sent";
         }
     }

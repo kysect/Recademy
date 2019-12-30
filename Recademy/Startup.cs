@@ -50,7 +50,7 @@ namespace Recademy
             services.AddScoped(
                 s =>
                 {
-                    var navigationManager = s.GetRequiredService<NavigationManager>();
+                    NavigationManager navigationManager = s.GetRequiredService<NavigationManager>();
                     return new HttpClient
                     {
                         BaseAddress = new Uri(navigationManager.BaseUri)
