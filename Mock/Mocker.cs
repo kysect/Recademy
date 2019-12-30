@@ -11,19 +11,29 @@ namespace Mock
 {
     public class Mocker : IDisposable
     {
-        public Mocker()
-        {
-            _db = CreateContext();
-        }
-        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
         private const int UsersGenCount = 15;
         private const int ProjectForUserCount = 4;
+
+        private static readonly string ConnectionString =
+            ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
+
         private static readonly TypesGenerator TypesGenerator = new TypesGenerator();
         private static readonly PrimitiveGenerator PrimitiveGenerator = new PrimitiveGenerator();
         private static readonly Random Random = new Random();
         private static readonly HashSet<string> HashSet = new HashSet<string>();
 
         private readonly RecademyContext _db;
+
+        public Mocker()
+        {
+            _db = CreateContext();
+        }
+
+        public void Dispose()
+        {
+            _db.SaveChanges();
+            _db?.Dispose();
+        }
 
         public void Mock()
         {
@@ -32,8 +42,11 @@ namespace Mock
             GenerateUsers();
         }
 
-        private void RemoveAllUsers() => _db.Skills.RemoveRange(_db.Skills);
-        
+        private void RemoveAllUsers()
+        {
+            _db.Skills.RemoveRange(_db.Skills);
+        }
+
 
         private void AddSkills()
         {
@@ -55,6 +68,7 @@ namespace Mock
                     GenerateProjectsInfo(newUser);
             }
         }
+
         private static RecademyContext CreateContext()
         {
             DbContextOptionsBuilder builder = new DbContextOptionsBuilder().UseSqlServer(ConnectionString);
@@ -92,11 +106,12 @@ namespace Mock
             {
                 string skillName = PrimitiveGenerator.GetSkillName();
                 if (HashSet.Add(skillName))
-                    projectSkills.Add(new ProjectSkill { ProjectId = projectInfo.Id, SkillName = skillName });
+                    projectSkills.Add(new ProjectSkill {ProjectId = projectInfo.Id, SkillName = skillName});
             }
 
             return projectSkills;
         }
+
         private static List<UserSkill> GenerateUserSkills(User user)
         {
             List<UserSkill> userSkills = new List<UserSkill>();
@@ -105,16 +120,10 @@ namespace Mock
             {
                 string skillName = PrimitiveGenerator.GetSkillName();
                 if (HashSet.Add(skillName))
-                    userSkills.Add(new UserSkill { SkillName = skillName, UserId = user.Id });
+                    userSkills.Add(new UserSkill {SkillName = skillName, UserId = user.Id});
             }
 
             return userSkills;
-        }
-
-        public void Dispose()
-        {
-            _db.SaveChanges();
-            _db?.Dispose();
         }
     }
 }
