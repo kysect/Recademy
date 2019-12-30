@@ -19,50 +19,14 @@ namespace Recademy.Services
             _context = context;
         }
 
-        public List<ReviewRequest> GetReviewRequests() =>
-            _context
+        public List<ReviewRequest> GetReviewRequests()
+        {
+            return _context
                 .ReviewRequests
                 .Include(s => s.ProjectInfo)
                 .ThenInclude(p => p.Skills)
                 .Include(s => s.User)
                 .Where(s => s.State == ProjectState.Requested)
-                .ToList();
-        
-
-        private bool IsValid(List<string> projectSkills, List<string> tags) => projectSkills.Any(tags.Contains);
-
-        public List<ReviewRequest> GetReviewRequestsForUser(int userId)
-        {
-            List<string> tags = _context
-                .Users
-                .Find(userId)
-                .UserSkills
-                .Select(s => s.SkillName)
-                .ToList();
-
-            return _context
-                .ReviewRequests
-                .Where(s => s.State == ProjectState.Requested)
-                .Where(s => 
-                    IsValid(s
-                        .ProjectInfo
-                        .Skills
-                        .Select(t=> t.SkillName)
-                        .ToList(), tags))
-                .ToList();
-        }
-
-        public List<ReviewRequest> GetRequestsByFilter(GetRequestsByFilterDto argues)
-        {
-            return _context
-                .ReviewRequests
-                .Where(s => s.State == ProjectState.Requested)
-                .Where(s => 
-                    IsValid(s
-                        .ProjectInfo
-                        .Skills
-                        .Select(t => t.SkillName)
-                        .ToList(), argues.Tags))
                 .ToList();
         }
 
@@ -83,7 +47,7 @@ namespace Recademy.Services
 
         public ReviewResponse SendReviewResponse(SendReviewRequestDto argues)
         {
-            ReviewResponse newReview = new ReviewResponse()
+            ReviewResponse newReview = new ReviewResponse
             {
                 ReviewRequestId = argues.ReviewRequestId,
                 Description = argues.ReviewText
@@ -98,22 +62,63 @@ namespace Recademy.Services
 
         public ReviewProjectDto GetReviewInfo(int requestId)
         {
-           int projectId = _context
-               .ReviewRequests
-               .Find(requestId)
-               .ProjectId;
- 
-           ProjectInfo project = _context
-               .ProjectInfos
-               .Include(s => s.Skills)
-               .FirstOrDefault(s => s.Id == projectId);
+            int projectId = _context
+                .ReviewRequests
+                .Find(requestId)
+                .ProjectId;
 
-           return new ReviewProjectDto
-           {
-               Id = projectId, 
-               Title = project.Title, 
-               Link = project.GithubLink
-           };
+            ProjectInfo project = _context
+                .ProjectInfos
+                .Include(s => s.Skills)
+                .FirstOrDefault(s => s.Id == projectId);
+
+            return new ReviewProjectDto
+            {
+                Id = projectId,
+                Title = project.Title,
+                Link = project.GithubLink
+            };
+        }
+
+
+        private bool IsValid(List<string> projectSkills, List<string> tags)
+        {
+            return projectSkills.Any(tags.Contains);
+        }
+
+        public List<ReviewRequest> GetReviewRequestsForUser(int userId)
+        {
+            var tags = _context
+                .Users
+                .Find(userId)
+                .UserSkills
+                .Select(s => s.SkillName)
+                .ToList();
+
+            return _context
+                .ReviewRequests
+                .Where(s => s.State == ProjectState.Requested)
+                .Where(s =>
+                    IsValid(s
+                        .ProjectInfo
+                        .Skills
+                        .Select(t => t.SkillName)
+                        .ToList(), tags))
+                .ToList();
+        }
+
+        public List<ReviewRequest> GetRequestsByFilter(GetRequestsByFilterDto argues)
+        {
+            return _context
+                .ReviewRequests
+                .Where(s => s.State == ProjectState.Requested)
+                .Where(s =>
+                    IsValid(s
+                        .ProjectInfo
+                        .Skills
+                        .Select(t => t.SkillName)
+                        .ToList(), argues.Tags))
+                .ToList();
         }
     }
 }

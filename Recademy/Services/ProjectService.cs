@@ -1,11 +1,8 @@
-﻿using System;
-using System.Linq;
-using Microsoft.CodeAnalysis;
+﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Context;
-using Recademy.Dto;
+using Recademy.Models;
 using Recademy.Services.Abstraction;
-using ProjectInfo = Recademy.Models.ProjectInfo;
 
 namespace Recademy.Services
 {

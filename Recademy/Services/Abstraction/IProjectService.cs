@@ -4,6 +4,6 @@ namespace Recademy.Services.Abstraction
 {
     public interface IProjectService
     {
-        public ProjectInfo GetProjectInfo(int projectId);
+        ProjectInfo GetProjectInfo(int projectId);
     }
 }
