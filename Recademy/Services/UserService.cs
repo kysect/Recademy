@@ -60,12 +60,25 @@ namespace Recademy.Services
             var reviewList = _context
                 .ReviewResponses
                 .Where(x => x.ReviewerId == userId)
-                .Where(r => r.CreationTime.Year == DateTime.Now.Year)
                 .ToList();
 
             foreach (ReviewResponse el in reviewList) result[el.CreationTime.Month]++;
 
             return result;
+        }
+
+        /// <summary>
+        /// get activity in count
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public int GetActivityInCount(int userId)
+        {
+            List<ReviewResponse> activities = Context.ReviewResponses
+                .Where(x => x.ReviewerId == userId)
+                .ToList();
+
+            return activities.Count;
         }
 
         /// <summary>

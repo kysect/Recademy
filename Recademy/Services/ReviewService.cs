@@ -50,7 +50,8 @@ namespace Recademy.Services
             ReviewResponse newReview = new ReviewResponse
             {
                 ReviewRequestId = argues.ReviewRequestId,
-                Description = argues.ReviewText
+                Description = argues.ReviewText,
+                ReviewerId = 1
             };
 
             _context.ReviewRequests.Find(argues.ReviewRequestId).State = ProjectState.Reviewed;
