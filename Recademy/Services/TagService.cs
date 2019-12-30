@@ -49,7 +49,7 @@ namespace Recademy.Services
             {
                 TagName = tagName,
                 Projects = projects
-                    .Select(ProjectDto.Of)
+                    .Select(k => new ProjectDto(k))
                     .ToList()
             };
         }
