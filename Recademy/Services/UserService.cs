@@ -11,54 +11,58 @@ namespace Recademy.Services
 {
     public class UserService : IUserService
     {
-        public RecademyContext Context;
+        private readonly IAchievementService _achievements;
+        private readonly RecademyContext _context;
 
-        public UserService(RecademyContext context)
+        public UserService(RecademyContext context, IAchievementService achievementService,
+            IAchievementService achievements)
         {
-            Context = context;
+            _context = context;
+            _achievements = achievements;
         }
 
         public UserInfoDto GetUserInfoDto(int userId)
         {
-            User userInfo = Context.Users
+            User userInfo = _context.Users
                 .Include(s => s.ProjectInfos)
                 .ThenInclude(p => p.Skills)
                 .Include(s => s.UserSkills)
                 .Include(u => u.ReviewRequests)
                 .FirstOrDefault(s => s.Id == userId);
 
-            var achievements = new AchievementService();
-            List<string> skillNames = userInfo.UserSkills.Select(el => el.SkillName).ToList();
+            var skillNames = userInfo
+                .UserSkills
+                .Select(el => el.SkillName)
+                .ToList();
 
-            UserInfoDto result = new UserInfoDto()
+            return new UserInfoDto
             {
                 UserName = userInfo.Name,
                 Activities = GetActivity(userId),
                 Skills = skillNames,
-                Achievements = achievements.GetAchievements(userInfo),
-                ProjectDtos = userInfo.ProjectInfos.Select(ProjectDto.Of).ToList()
+                Achievements = _achievements.GetAchievements(userInfo),
+                ProjectDtos = userInfo
+                    .ProjectInfos
+                    .Select(k => new ProjectDto(k))
+                    .ToList()
             };
-
-            return result;
         }
 
         /// <summary>
-        /// return a user activity, index is month, value is activity number
+        ///     return a user activity, index is month, value is activity number
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
         public List<int> GetActivity(int userId)
         {
-            List<int> result = Enumerable.Repeat(0, 12).ToList();
+            var result = Enumerable.Repeat(0, 12).ToList();
 
-            List<ReviewResponse> reviewList = Context.ReviewResponses
+            var reviewList = _context
+                .ReviewResponses
                 .Where(x => x.ReviewerId == userId)
                 .ToList();
 
-            foreach (ReviewResponse el in reviewList)
-            {
-                result[el.CreationTime.Month]++;
-            }
+            foreach (ReviewResponse el in reviewList) result[el.CreationTime.Month]++;
 
             return result;
         }
@@ -78,14 +82,16 @@ namespace Recademy.Services
         }
 
         /// <summary>
-        /// get a score ranking by user's activities
-        /// key is user id, value is activity score
+        ///     get a score ranking by user's activities
+        ///     key is user id, value is activity score
         /// </summary>
         /// <returns></returns>
         public Dictionary<string, int> GetRanking()
         {
-            Dictionary<string, int> ranking = new Dictionary<string, int>();
-            List<User> users = Context.Users.ToList();
+            var ranking = new Dictionary<string, int>();
+            var users = _context
+                .Users
+                .ToList();
 
             foreach (User user in users)
             {
@@ -94,26 +100,44 @@ namespace Recademy.Services
                     ranking[user.Name] = value;
             }
 
-            var result = ranking
+            return ranking
                 .OrderByDescending(x => x.Value)
                 .ToDictionary(r => r.Key, r => r.Value);
-
-            return result;
         }
 
         public ProjectInfo AddProject(AddProjectDto argues)
         {
-            ProjectInfo newProject = new ProjectInfo()
+            ProjectInfo newProject = new ProjectInfo
             {
                 AuthorId = argues.UserId,
                 GithubLink = argues.ProjectUrl,
                 Title = argues.ProjectName,
-                Skills = argues.Tags.Select(t => new ProjectSkill { SkillName = t }).ToList()
+                Skills = argues
+                    .Tags
+                    .Select(t =>
+                        new ProjectSkill {SkillName = t})
+                    .ToList()
             };
 
-            Context.ProjectInfos.Add(newProject);
-            Context.SaveChanges();
+            _context.ProjectInfos.Add(newProject);
+            _context.SaveChanges();
+
             return newProject;
+        }
+
+        /// <summary>
+        ///     get activity in count
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public int GetActivityInCount(int userId)
+        {
+            return _context
+                .ReviewResponses
+                .Where(x => x.ReviewerId == userId)
+                .Where(r => r.CreationTime.Year == DateTime.Now.Year)
+                .ToList()
+                .Count;
         }
     }
 }

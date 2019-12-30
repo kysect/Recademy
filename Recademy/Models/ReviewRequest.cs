@@ -7,9 +7,11 @@ namespace Recademy.Models
 {
     public class ReviewRequest
     {
-        [Key] public int Id { get; set; }
+        [Key] 
+        public int Id { get; set; }
 
-        [ForeignKey("ProjectInfo")] public int ProjectId { get; set; }
+        [ForeignKey("ProjectInfo")] 
+        public int ProjectId { get; set; }
 
         public DateTime DateCreate { get; set; }
 

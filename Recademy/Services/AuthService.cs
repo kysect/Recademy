@@ -1,6 +1,4 @@
-﻿using System;
-using Recademy.Dto;
-using Recademy.Services.Abstraction;
+﻿using Recademy.Services.Abstraction;
 
 namespace Recademy.Services
 {

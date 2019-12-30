@@ -5,7 +5,8 @@ namespace Recademy.Models
 {
     public class Skill
     {
-        [Key] public string Name { get; set; }
+        [Key] 
+        public string Name { get; set; }
 
         public string Description { get; set; }
 
