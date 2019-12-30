@@ -12,25 +12,22 @@ namespace Recademy.Services
 {
     public class ReviewService : IReviewService
     {
-        public RecademyContext Context;
+        private readonly RecademyContext _context;
 
         public ReviewService(RecademyContext context)
         {
-            Context = context;
+            _context = context;
         }
 
-        public List<ReviewRequest> GetReviewRequests()
-        {
-            List<ReviewRequest> reqList = Context
+        public List<ReviewRequest> GetReviewRequests() =>
+            _context
                 .ReviewRequests
                 .Include(s => s.ProjectInfo)
                 .ThenInclude(p => p.Skills)
                 .Include(s => s.User)
                 .Where(s => s.State == ProjectState.Requested)
                 .ToList();
-
-            return reqList;
-        }
+        
 
         private bool IsValid(List<string> projectSkills, List<string> tags)
         {
@@ -44,33 +41,50 @@ namespace Recademy.Services
 
         public List<ReviewRequest> GetReviewRequestsForUser(int userId)
         {
-            List<string> tags = Context.Users.Find(userId).UserSkills.Select(s => s.SkillName).ToList();
-            List<ReviewRequest> reqList = Context.ReviewRequests
-                .Where(s => s.State == ProjectState.Requested)
-                .Where(s => IsValid(s.ProjectInfo.Skills.Select(t=> t.SkillName).ToList(), tags)).ToList();
+            List<string> tags = _context
+                .Users
+                .Find(userId)
+                .UserSkills
+                .Select(s => s.SkillName)
+                .ToList();
 
-            return reqList;
+            return _context
+                .ReviewRequests
+                .Where(s => s.State == ProjectState.Requested)
+                .Where(s => 
+                    IsValid(s
+                        .ProjectInfo
+                        .Skills
+                        .Select(t=> t.SkillName)
+                        .ToList(), tags))
+                .ToList();
         }
 
         public List<ReviewRequest> GetRequestsByFilter(GetRequestsByFilterDto argues)
         {
-            List<ReviewRequest> reqList = Context.ReviewRequests
+            return _context
+                .ReviewRequests
                 .Where(s => s.State == ProjectState.Requested)
-                .Where(s => IsValid(s.ProjectInfo.Skills.Select(t => t.SkillName).ToList(), argues.Tags)).ToList();
-
-            return reqList;
+                .Where(s => 
+                    IsValid(s
+                        .ProjectInfo
+                        .Skills
+                        .Select(t => t.SkillName)
+                        .ToList(), argues.Tags))
+                .ToList();
         }
 
         public ReviewRequest AddReviewRequest(int projectId)
         {
-            ReviewRequest newRequest = new ReviewRequest()
+            ReviewRequest newRequest = new ReviewRequest
             {
                 DateCreate = DateTime.Now,
                 ProjectId = projectId,
                 State = ProjectState.Requested
             };
-            Context.Add(newRequest);
-            Context.SaveChanges();
+
+            _context.Add(newRequest);
+            _context.SaveChanges();
 
             return newRequest;
         }
@@ -82,19 +96,32 @@ namespace Recademy.Services
                 ReviewRequestId = argues.ReviewRequestId,
                 Description = argues.ReviewText
             };
-            Context.ReviewRequests.Find(argues.ReviewRequestId).State = ProjectState.Reviewed;
-            Context.ReviewResponses.Add(newReview);
-            Context.SaveChanges();
+
+            _context.ReviewRequests.Find(argues.ReviewRequestId).State = ProjectState.Reviewed;
+            _context.ReviewResponses.Add(newReview);
+            _context.SaveChanges();
+
             return newReview;
         }
 
         public ReviewProjectDto GetReviewInfo(int requestId)
         {
-           int projectId = Context.ReviewRequests.Find(requestId).ProjectId;
+           int projectId = _context
+               .ReviewRequests
+               .Find(requestId)
+               .ProjectId;
  
-           ProjectInfo project = Context.ProjectInfos.Include(s => s.Skills).FirstOrDefault(s => s.Id == projectId);
+           ProjectInfo project = _context
+               .ProjectInfos
+               .Include(s => s.Skills)
+               .FirstOrDefault(s => s.Id == projectId);
 
-           return new ReviewProjectDto() { Id = projectId, Title = project.Title, Link = project.GithubLink};
+           return new ReviewProjectDto
+           {
+               Id = projectId, 
+               Title = project.Title, 
+               Link = project.GithubLink
+           };
         }
     }
 }

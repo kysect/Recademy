@@ -20,9 +20,17 @@ namespace Recademy.Services
             string clientId = GhUtil.ClientId;
             string clientSecret = GhUtil.ClientSecret;
 
-            GitHubClient client = new GitHubClient(new ProductHeaderValue("Recademy"));
-            client.Credentials = new Credentials(accessToken);
-            IEnumerable<Repository> repositories = client.Repository.GetAllForCurrent().Result.Where(k => !k.Private);
+            GitHubClient client = new GitHubClient(new ProductHeaderValue("Recademy"))
+            {
+                Credentials = new Credentials(accessToken)
+            };
+
+            IEnumerable<Repository> repositories = client
+                .Repository
+                .GetAllForCurrent()
+                .Result
+                .Where(k => !k.Private);
+
             List<GhRepositoryDto> repoList = new List<GhRepositoryDto>();
             foreach (Repository repository in repositories)
             {
@@ -37,7 +45,7 @@ namespace Recademy.Services
                     readme = "No readme";
                 }
 
-                repoList.Add(new GhRepositoryDto()
+                repoList.Add(new GhRepositoryDto
                 {
                     RepositoryName = repository.Name,
                     RepositoryUrl = repository.Url,
@@ -53,13 +61,21 @@ namespace Recademy.Services
         {
             repoLink = repoLink.Replace("/repos/", "/");
             string accessToken = GhUtil.Token;
-            GitHubClient client = new GitHubClient(new ProductHeaderValue("Recademy"));
-            client.Credentials = new Credentials(accessToken);
+            GitHubClient client = new GitHubClient(new ProductHeaderValue("Recademy"))
+            {
+                Credentials = new Credentials(accessToken)
+            };
+
             string[] splittedUrl = repoLink.Split('/');
             string issueName = GhUtil.IssueText + "Test Reviewer";
-            NewIssue issue = new NewIssue(issueName);
-            issue.Body = issueText;
-            await client.Issue.Create(splittedUrl[3], splittedUrl[4], issue);
+            NewIssue issue = new NewIssue(issueName)
+            {
+                Body = issueText
+            };
+
+            await client
+                .Issue
+                .Create(splittedUrl[3], splittedUrl[4], issue);
         }
 
         public static string GetReadme(string repoLink)
@@ -68,8 +84,10 @@ namespace Recademy.Services
             string clientId = GhUtil.ClientId;
             string clientSecret = GhUtil.ClientSecret;
 
-            GitHubClient client = new GitHubClient(new ProductHeaderValue("Recademy"));
-            client.Credentials = new Credentials(accessToken);
+            GitHubClient client = new GitHubClient(new ProductHeaderValue("Recademy"))
+            {
+                Credentials = new Credentials(accessToken)
+            };
 
             string[] splittedUrl = repoLink.Split('/');
             string readme;
