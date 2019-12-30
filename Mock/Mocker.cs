@@ -31,22 +31,17 @@ namespace Mock
 
         public void Dispose()
         {
-            _db.SaveChanges();
+            _db?.SaveChanges();
             _db?.Dispose();
         }
 
         public void Mock()
         {
-            RemoveAllUsers();
-            AddSkills();
-            GenerateUsers();
-        }
-
-        private void RemoveAllUsers()
-        {
             _db.Skills.RemoveRange(_db.Skills);
+            AddSkills();
+            for (int i = 0; i < UsersGenCount; i++)
+                GenerateUsers();
         }
-
 
         private void AddSkills()
         {
@@ -56,17 +51,14 @@ namespace Mock
 
         private void GenerateUsers()
         {
-            for (int i = 0; i < UsersGenCount; i++)
-            {
-                User newUser = TypesGenerator.GetUser();
-                _db.Users.Add(newUser);
+            User newUser = TypesGenerator.GetUser();
+            _db.Users.Add(newUser);
 
-                List<UserSkill> userSkills = GenerateUserSkills(newUser);
-                _db.UserSkills.AddRange(userSkills);
+            List<UserSkill> userSkills = GenerateUserSkills(newUser);
+            _db.UserSkills.AddRange(userSkills);
 
-                for (int j = 0; j < ProjectForUserCount; ++j)
-                    GenerateProjectsInfo(newUser);
-            }
+            for (int j = 0; j < ProjectForUserCount; ++j)
+                GenerateProjectsInfo(newUser);
         }
 
         private static RecademyContext CreateContext()
