@@ -8,5 +8,6 @@ namespace Recademy.Services.Abstraction
     {
         List<GhRepositoryDto> GhGetRepositories(int userId);
         Task CreateIssues(string repoLink, string issueText);
+        string GetReadme(string repoLink);
     }
 }
