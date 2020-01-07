@@ -11,6 +11,7 @@ namespace Recademy.Services
         {
             var achievements = new List<AchievementsDto>();
 
+            //TODO: add IAchievement with add properties and method 'bool Check(User user)'
             if (userInfo.ReviewRequests.Count >= 1)
                 achievements.Add(new AchievementsDto
                 {
