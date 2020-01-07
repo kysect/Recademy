@@ -55,7 +55,7 @@ namespace Mock.Generators
             return new ReviewRequest
             {
                 User = user,
-                DateCreate = (DateTime)creationTime,
+                DateCreate = creationTime.Value,
                 ProjectInfo = project,
                 ProjectId = project.Id,
                 State = projectState

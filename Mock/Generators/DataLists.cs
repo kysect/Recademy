@@ -83,14 +83,14 @@ namespace Mock.Generators
             "https://github.com/InRedikaWB/CodeforcesApiWrapper"
         };
 
-        public static readonly List<string> GitHubLinks = new List<string>
+        public static readonly List<string> GitHubUsernames = new List<string>
         {
-            "https://github.com/riiji",
-            "https://github.com/maksimbark",
-            "https://github.com/s4xack",
-            "https://github.com/hrrrrustic",
-            "https://github.com/InRedikaWB",
-            "https://github.com/maryshipkova"
+            "riiji",
+            "maksimbark",
+            "s4xack",
+            "hrrrrustic",
+            "InRedikaWB",
+            "maryshipkova"
         };
     }
 }
