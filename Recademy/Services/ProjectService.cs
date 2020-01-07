@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Recademy.Context;
 using Recademy.Models;
 using Recademy.Services.Abstraction;
+using Recademy.Types;
 
 namespace Recademy.Services
 {
@@ -17,10 +18,17 @@ namespace Recademy.Services
 
         public ProjectInfo GetProjectInfo(int projectId)
         {
-            return _context
+            var project = _context
                 .ProjectInfos
                 .Include(s => s.Skills)
                 .FirstOrDefault(k => k.Id == projectId);
+
+            if (project == null)
+            {
+                throw new RecademyException("No project with current id!");
+            }
+
+            return project;
         }
     }
 }

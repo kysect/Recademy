@@ -6,6 +6,7 @@ using Recademy.Context;
 using Recademy.Dto;
 using Recademy.Models;
 using Recademy.Services.Abstraction;
+using Recademy.Types;
 
 namespace Recademy.Services
 {
@@ -29,6 +30,11 @@ namespace Recademy.Services
                 .Include(s => s.UserSkills)
                 .Include(u => u.ReviewRequests)
                 .FirstOrDefault(s => s.Id == userId);
+
+            if (userInfo == null)
+            {
+                throw new RecademyException("No user with current id!");
+            }
 
             var skillNames = userInfo
                 .UserSkills

@@ -73,6 +73,11 @@ namespace Recademy.Services
                 .Include(s => s.Skills)
                 .FirstOrDefault(s => s.Id == projectId);
 
+            if (project == null)
+            {
+                throw new RecademyException("No project with current id!");
+            }
+
             return new ReviewProjectDto
             {
                 Id = projectId,
