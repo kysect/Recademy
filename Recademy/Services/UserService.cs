@@ -74,7 +74,7 @@ namespace Recademy.Services
         /// <returns></returns>
         public int GetActivityInCount(int userId)
         {
-            List<ReviewResponse> activities = Context.ReviewResponses
+            List<ReviewResponse> activities = _context.ReviewResponses
                 .Where(x => x.ReviewerId == userId)
                 .ToList();
 
@@ -125,19 +125,5 @@ namespace Recademy.Services
             return newProject;
         }
 
-        /// <summary>
-        ///     get activity in count
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public int GetActivityInCount(int userId)
-        {
-            return _context
-                .ReviewResponses
-                .Where(x => x.ReviewerId == userId)
-                .Where(r => r.CreationTime.Year == DateTime.Now.Year)
-                .ToList()
-                .Count;
-        }
     }
 }
