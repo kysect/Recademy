@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace Mock.Generators
 {
@@ -13,7 +13,7 @@ namespace Mock.Generators
             return randVal;
         }
 
-
+        //TODO: add extensions for List like .GetRandomValue<T>(this List<T> list)
         public string GetName()
         {
             int randVal = _random.Next(0, DataLists.Names.Count);

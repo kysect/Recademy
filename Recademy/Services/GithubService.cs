@@ -61,6 +61,7 @@ namespace Recademy.Services
 
         private string GetReadme(string login, string repositoryName)
         {
+            //TODO: replace try/catch with null-check
             try
             {
                 return _client
@@ -72,6 +73,7 @@ namespace Recademy.Services
             }
             catch (AggregateException)
             {
+                //TODO: Replace with null, ensure that it will work fine
                 return "No readme";
             }
         }
