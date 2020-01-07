@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using Microsoft.AspNetCore.Razor.Language.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Mock.Generators;
+using Mock.Utility;
 using Recademy.Context;
 using Recademy.Models;
 using Recademy.Types;
@@ -18,7 +17,6 @@ namespace Mock
 
         private static readonly TypesGenerator TypesGenerator = new TypesGenerator();
         private static readonly PrimitiveGenerator PrimitiveGenerator = new PrimitiveGenerator();
-        private static readonly HashSet<string> HashSet = new HashSet<string>();
 
         private readonly Random _random = new Random();
         private readonly RecademyContext _db;
@@ -88,7 +86,7 @@ namespace Mock
 
         private void GenerateRequestResponse(ProjectInfo projectInfo, User userRequest, User userResponse)
         {
-            ProjectState state = _random.Next(0, 1) == 0 ? ProjectState.Requested : ProjectState.Reviewed;
+            ProjectState state = _random.Next(0, 2) == 0 ? ProjectState.Requested : ProjectState.Reviewed;
 
             ReviewRequest newRequest = TypesGenerator.GetRequest(projectInfo, userRequest, state);
             _db.ReviewRequests.Add(newRequest);
@@ -104,11 +102,19 @@ namespace Mock
         {
             List<ProjectSkill> projectSkills = new List<ProjectSkill>();
 
+            List<string> list = new ListExt<string>();
+
+            string skillName;
+
             for (int k = 0; k < projectCount; k++)
             {
-                string skillName = PrimitiveGenerator.GetSkillName();
-                if (HashSet.Add(skillName))
-                    projectSkills.Add(new ProjectSkill { ProjectId = projectInfo.Id, SkillName = skillName });
+                skillName = PrimitiveGenerator.GetSkillName();
+                list.Add(skillName);
+            }
+
+            while ((skillName = list.GetRandomUniqueValue()) != default)
+            {
+                projectSkills.Add(new ProjectSkill { ProjectId = projectInfo.Id, SkillName = skillName });
             }
 
             return projectSkills;
@@ -118,13 +124,19 @@ namespace Mock
         {
             List<UserSkill> userSkills = new List<UserSkill>();
 
+            List<string> list = new ListExt<string>();
+
+            string skillName;
+
             for (int k = 0; k < skillsCount; k++)
             {
-                string skillName = PrimitiveGenerator.GetSkillName();
-                if (HashSet.Add(skillName))
-                    userSkills.Add(new UserSkill { SkillName = skillName, UserId = user.Id });
+                skillName = PrimitiveGenerator.GetSkillName();
+                list.Add(skillName);
             }
 
+            while ((skillName = list.GetRandomUniqueValue())!=default)
+                userSkills.Add(new UserSkill {SkillName = skillName, UserId = user.Id});
+            
             return userSkills;
         }
     }
