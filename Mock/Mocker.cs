@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using Microsoft.AspNetCore.Razor.Language.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Mock.Generators;
@@ -12,11 +13,6 @@ namespace Mock
 {
     public class Mocker : IDisposable
     {
-        private const int UsersGenCount = 15;
-        private const int ProjectForUserCount = 4;
-        private const int MaxProjectsForUser = 2;
-        private const int MaxSkillsForUser = 4;
-
         private static readonly string ConnectionString =
             ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
 
@@ -44,7 +40,7 @@ namespace Mock
             AddSkills();
 
             _db.SaveChanges();
-            for (int i = 0; i < UsersGenCount; i++)
+            for (int i = 0; i < Configuration.UsersGenCount; i++)
                 GenerateUsers();
         }
 
@@ -60,11 +56,11 @@ namespace Mock
             _db.Users.Add(newUser);
             _db.SaveChanges();
 
-            List<UserSkill> userSkills = GenerateUserSkills(newUser, _random.Next(0,MaxSkillsForUser));
+            List<UserSkill> userSkills = GenerateUserSkills(newUser, _random.Next(0, Configuration.MaxSkillsForUser));
             _db.UserSkills.AddRange(userSkills);
             _db.SaveChanges();
 
-            for (int j = 0; j < ProjectForUserCount; ++j)
+            for (int j = 0; j < Configuration.ProjectForUserCount; ++j)
                 GenerateProjectsInfo(newUser);
         }
 
@@ -80,11 +76,11 @@ namespace Mock
             _db.ProjectInfos.Add(newProject);
             _db.SaveChanges();
 
-            List<ProjectSkill> projectSkills = GenerateProjectSkills(newProject, _random.Next(0,MaxProjectsForUser));
+            List<ProjectSkill> projectSkills = GenerateProjectSkills(newProject, _random.Next(0, Configuration.MaxProjectsForUser));
             _db.ProjectSkills.AddRange(projectSkills);
             _db.SaveChanges();
 
-            User user2 = TypesGenerator.GetUser(); 
+            User user2 = TypesGenerator.GetUser();
 
             GenerateRequestResponse(newProject, user, user2);
             _db.SaveChanges();
@@ -99,7 +95,7 @@ namespace Mock
 
             if (state == ProjectState.Reviewed)
             {
-                ReviewResponse newResponse = TypesGenerator.GetResponse(newRequest, userResponse.Id );
+                ReviewResponse newResponse = TypesGenerator.GetResponse(newRequest, userResponse.Id);
                 _db.ReviewResponses.Add(newResponse);
             }
         }
@@ -107,7 +103,6 @@ namespace Mock
         private static List<ProjectSkill> GenerateProjectSkills(ProjectInfo projectInfo, int projectCount)
         {
             List<ProjectSkill> projectSkills = new List<ProjectSkill>();
-
 
             for (int k = 0; k < projectCount; k++)
             {

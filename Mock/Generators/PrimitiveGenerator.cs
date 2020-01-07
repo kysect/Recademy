@@ -23,7 +23,7 @@ namespace Mock.Generators
 
         public string GetGithubLink()
         {
-            return DataLists.GitHubLinks.GetRandomValue();
+            return "https://github.com/" + DataLists.GitHubUsernames.GetRandomValue();
         }
 
         public string GetTitle()
