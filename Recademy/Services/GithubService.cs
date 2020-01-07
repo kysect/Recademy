@@ -6,6 +6,7 @@ using Octokit;
 using Recademy.Dto;
 using Recademy.Services.Abstraction;
 using Recademy.Utils;
+using Markdig;
 
 namespace Recademy.Services
 {
@@ -64,12 +65,12 @@ namespace Recademy.Services
             //TODO: replace try/catch with null-check
             try
             {
-                return _client
+                return Markdown.ToHtml(_client
                     .Repository
                     .Content
                     .GetReadme(login, repositoryName)
                     .Result
-                    .Content;
+                    .Content);
             }
             catch (AggregateException)
             {
