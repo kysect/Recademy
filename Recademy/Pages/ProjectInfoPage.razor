@@ -41,7 +41,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-md-10 readme">
-            @((MarkupString)GithubService.GetReadme(projectInfo.ProjectUrl))
+            @(GithubService.GetReadme(projectInfo.ProjectUrl))
         </div>
     </div>
     <div class="row justify-content-center buttons">
