@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Mock.Utility;
 
 namespace Mock.Generators
 {
@@ -13,21 +15,27 @@ namespace Mock.Generators
             return randVal;
         }
 
-        //TODO: add extensions for List like .GetRandomValue<T>(this List<T> list)
         public string GetName()
         {
-            int randVal = _random.Next(0, DataLists.Names.Count);
-            return DataLists.Names[randVal];
+            return DataLists.Names.GetRandomValue();
         }
 
+
+        public string GetGithubLink()
+        {
+            return DataLists.GitHubLinks.GetRandomValue();
+        }
 
         public string GetTitle()
         {
-            int randVal = _random.Next(DataLists.Titles.Count);
-            return DataLists.Titles[randVal];
+            return DataLists.Titles.GetRandomValue();
         }
 
-        public DateTime RandomDay()
+        /// <summary>
+        /// Get a random day between current day and start of year
+        /// </summary>
+        /// <returns></returns>
+        public DateTime GetRandomDay()
         {
             DateTime start = new DateTime(DateTime.Now.Year, 1, 1);
             int range = (DateTime.Today - start).Days;
@@ -36,8 +44,7 @@ namespace Mock.Generators
 
         public string GetSkillName()
         {
-            int randVal = _random.Next(0, DataLists.Skills.Count);
-            return DataLists.Skills[randVal];
+            return DataLists.Skills.GetRandomValue();
         }
     }
 }

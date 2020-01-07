@@ -19,7 +19,7 @@ namespace Mock.Generators
             return new User
             {
                 Name = _primitiveGenerator.GetName(),
-                GithubLink = "https://github.com/InRedikaWB"
+                GithubLink = _primitiveGenerator.GetGithubLink()
             };
         }
 
@@ -34,35 +34,31 @@ namespace Mock.Generators
                 GithubLink = DataLists.Links[_random.Next(DataLists.Links.Count)],
                 AuthorId = user.Id,
                 User = user,
-                Description = "some description"
+                Description = $"some description{_random.Next()}"
             };
 
-        public ReviewResponse GetResponse(ReviewRequest reviewRequest, int reviewerId)
-        {
-            int randVal = _random.Next();
-            return new ReviewResponse
+        public ReviewResponse GetResponse(ReviewRequest reviewRequest, int reviewerId) =>
+            new ReviewResponse
             {
                 ReviewRequest = reviewRequest,
-                Description = $"Some Description#{randVal}",
+                Description = $"Some Description#{_random.Next()}",
                 ReviewRequestId = reviewRequest.Id,
                 ReviewerId = reviewerId,
-                CreationTime = _primitiveGenerator.RandomDay()
+                CreationTime = _primitiveGenerator.GetRandomDay()
             };
-        }
 
-        public ReviewRequest GetRequest(ProjectInfo project, User user, int randomId)
+        public ReviewRequest GetRequest(ProjectInfo project, User user, ProjectState projectState, DateTime? creationTime = null)
         {
-            //TODO: check if it's ok
-            if (user.Id == randomId)
-                return null;
+            if (creationTime == null)
+                creationTime = _primitiveGenerator.GetRandomDay();
 
             return new ReviewRequest
             {
                 User = user,
-                DateCreate = _primitiveGenerator.RandomDay(),
+                DateCreate = (DateTime)creationTime,
                 ProjectInfo = project,
                 ProjectId = project.Id,
-                State = _random.Next(0, 2) == 0 ? ProjectState.Requested : ProjectState.Reviewed
+                State = projectState
             };
         }
 
