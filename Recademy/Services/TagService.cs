@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Recademy.Context;
 using Recademy.Dto;
 using Recademy.Services.Abstraction;
+using Recademy.Types;
 
 namespace Recademy.Services
 {
@@ -18,10 +19,17 @@ namespace Recademy.Services
 
         public List<string> GetUserTags(int userId)
         {
-            return _context
+            var userSkills = _context
                 .Users
                 .Include(s => s.UserSkills)
-                .FirstOrDefault(s => s.Id == userId)
+                .FirstOrDefault(s => s.Id == userId);
+
+            if (userSkills == null)
+            {
+                throw new RecademyException("No user with current id!");
+            }
+
+            return userSkills
                 .UserSkills
                 .Select(s => s.SkillName)
                 .ToList();
