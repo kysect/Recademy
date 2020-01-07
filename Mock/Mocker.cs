@@ -39,6 +39,8 @@ namespace Mock
         {
             _db.Skills.RemoveRange(_db.Skills);
             AddSkills();
+
+            _db.SaveChanges();
             for (int i = 0; i < UsersGenCount; i++)
                 GenerateUsers();
         }
@@ -53,9 +55,11 @@ namespace Mock
         {
             User newUser = TypesGenerator.GetUser();
             _db.Users.Add(newUser);
+            _db.SaveChanges();
 
             List<UserSkill> userSkills = GenerateUserSkills(newUser);
             _db.UserSkills.AddRange(userSkills);
+            _db.SaveChanges();
 
             for (int j = 0; j < ProjectForUserCount; ++j)
                 GenerateProjectsInfo(newUser);
@@ -71,9 +75,11 @@ namespace Mock
         {
             ProjectInfo newProject = TypesGenerator.GetProjectInfo(user);
             _db.ProjectInfos.Add(newProject);
+            _db.SaveChanges();
 
             List<ProjectSkill> projectSkills = GenerateProjectSkills(newProject);
             _db.ProjectSkills.AddRange(projectSkills);
+            _db.SaveChanges();
 
             if (Random.Next(0, 2) != 0)
                 GenerateRequestResponse(newProject, user);
