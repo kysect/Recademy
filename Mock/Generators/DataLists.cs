@@ -82,7 +82,5 @@ namespace Mock.Generators
             "https://github.com/InRedikaWB/is-arch-lect",
             "https://github.com/InRedikaWB/CodeforcesApiWrapper"
         };
-
-
     }
 }

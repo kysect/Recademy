@@ -2,6 +2,6 @@
 {
     public static class Utilities
     {
-        public static int CurrentUserId { get; set; } = 0;
+        public static int CurrentUserId { get; set; }
     }
 }
