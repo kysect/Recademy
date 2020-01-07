@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Recademy.Models;
@@ -24,7 +24,7 @@ namespace Mock.Generators
         }
 
         /// <summary>
-        ///     Get a project info, DONT'T GENERATE IT BEFORE GENERATING USERS
+        ///     Get a project info, DON'T GENERATE IT BEFORE GENERATING USERS
         /// </summary>
         /// <returns></returns>
         public ProjectInfo GetProjectInfo(User user) =>
@@ -37,10 +37,6 @@ namespace Mock.Generators
                 Description = "some description"
             };
 
-        /// <summary>
-        ///     get a random name
-        /// </summary>
-        /// <returns></returns>
         public ReviewResponse GetResponse(ReviewRequest reviewRequest, int reviewerId)
         {
             int randVal = _random.Next();
@@ -68,6 +64,7 @@ namespace Mock.Generators
                 State = _random.Next(0, 2) == 0 ? ProjectState.Requested : ProjectState.Reviewed
             };
         }
+
         public List<Skill> GetTechnologiesList()
         {
             return DataLists

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Recademy.Dto
+﻿namespace Recademy.Dto
 {
     public class ReviewProjectDto
     {
