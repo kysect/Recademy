@@ -8,8 +8,6 @@ namespace Mock.Generators
 {
     public class TypesGenerator
     {
-        private readonly Random _random = new Random();
-
         private readonly PrimitiveGenerator _primitiveGenerator = new PrimitiveGenerator();
 
         public User GetUser()
@@ -31,17 +29,17 @@ namespace Mock.Generators
             new ProjectInfo
             {
                 Title = _primitiveGenerator.GetTitle(),
-                GithubLink = DataLists.Links[_random.Next(DataLists.Links.Count)],
+                GithubLink = DataLists.Links[Utilities.Random.Next(DataLists.Links.Count)],
                 AuthorId = user.Id,
                 User = user,
-                Description = $"some description{_random.Next()}"
+                Description = $"some description{Utilities.Random.Next()}"
             };
 
         public ReviewResponse GetResponse(ReviewRequest reviewRequest, int reviewerId) =>
             new ReviewResponse
             {
                 ReviewRequest = reviewRequest,
-                Description = $"Some Description#{_random.Next()}",
+                Description = $"Some Description#{Utilities.Random.Next()}",
                 ReviewRequestId = reviewRequest.Id,
                 ReviewerId = reviewerId,
                 CreationTime = _primitiveGenerator.GetRandomDay()
