@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Mock.Extensions;
 using Mock.Generators;
 using Recademy.Context;
 using Recademy.Models;
@@ -16,7 +15,6 @@ namespace Mock
             ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
 
         private static readonly TypesGenerator TypesGenerator = new TypesGenerator();
-        private static readonly PrimitiveGenerator PrimitiveGenerator = new PrimitiveGenerator();
 
         private readonly RecademyContext _db;
 
@@ -101,20 +99,20 @@ namespace Mock
         {
             List<ProjectSkill> projectSkills = new List<ProjectSkill>();
 
-            RandomListProvider<string> list = new RandomListProvider<string>();
-
-            string skillName;
+            List<string> skills = DataLists.Skills;
 
             for (int k = 0; k < projectCount; k++)
             {
-                skillName = PrimitiveGenerator.GetSkillName();
-                list.Add(skillName);
-            }
+                if (skills.Count <= 0)
+                    break;
 
-            while (list.TryGetUniqueValue())
-            {
-                skillName = list.GetRandomUniqueValue();
-                projectSkills.Add(new ProjectSkill { ProjectId = projectInfo.Id, SkillName = skillName });
+                int random = Utilities.Random.Next(skills.Count);
+
+                string skillName = skills[random];
+
+                skills.Remove(skillName);
+
+                projectSkills.Add(new ProjectSkill { ProjectId = projectInfo.Id, SkillName = skillName});
             }
 
             return projectSkills;
@@ -124,22 +122,22 @@ namespace Mock
         {
             List<UserSkill> userSkills = new List<UserSkill>();
 
-            RandomListProvider<string> list = new RandomListProvider<string>();
-
-            string skillName;
+            List<string> skills = DataLists.Skills;
 
             for (int k = 0; k < skillsCount; k++)
             {
-                skillName = PrimitiveGenerator.GetSkillName();
-                list.Add(skillName);
+                if (skills.Count <= 0)
+                    break;
+
+                int random = Utilities.Random.Next(skills.Count);
+
+                string skillName = skills[random];
+
+                skills.Remove(skillName);
+
+                userSkills.Add(new UserSkill { SkillName = skillName, UserId = user.Id});
             }
 
-            while (list.TryGetUniqueValue())
-            {
-                skillName = list.GetRandomUniqueValue();
-                userSkills.Add(new UserSkill {SkillName = skillName, UserId = user.Id});
-            }
-            
             return userSkills;
         }
     }
