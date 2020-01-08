@@ -14,7 +14,7 @@ namespace Mock.Generators
             return new User
             {
                 Name = DataLists.Names.GetRandomValue(),
-                GithubLink = DataLists.GitHubUsernames.GetRandomValue(),
+                GithubLink = "https://github.com"+DataLists.GitHubUsernames.GetRandomValue(),
             };
         }
 
