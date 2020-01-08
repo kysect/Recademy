@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Mock.Extensions;
 using Mock.Generators;
-using Mock.Utility;
 using Recademy.Context;
 using Recademy.Models;
 using Recademy.Types;
@@ -18,7 +18,6 @@ namespace Mock
         private static readonly TypesGenerator TypesGenerator = new TypesGenerator();
         private static readonly PrimitiveGenerator PrimitiveGenerator = new PrimitiveGenerator();
 
-        private readonly Random _random = new Random();
         private readonly RecademyContext _db;
 
         public Mocker()
@@ -54,7 +53,7 @@ namespace Mock
             _db.Users.Add(newUser);
             _db.SaveChanges();
 
-            List<UserSkill> userSkills = GenerateUserSkills(newUser, _random.Next(0, Configuration.MaxSkillsForUser));
+            List<UserSkill> userSkills = GenerateUserSkills(newUser, Utilities.Random.Next(0, Configuration.MaxSkillsForUser));
             _db.UserSkills.AddRange(userSkills);
             _db.SaveChanges();
 
@@ -74,7 +73,7 @@ namespace Mock
             _db.ProjectInfos.Add(newProject);
             _db.SaveChanges();
 
-            List<ProjectSkill> projectSkills = GenerateProjectSkills(newProject, _random.Next(0, Configuration.MaxProjectsForUser));
+            List<ProjectSkill> projectSkills = GenerateProjectSkills(newProject, Utilities.Random.Next(0, Configuration.MaxProjectsForUser));
             _db.ProjectSkills.AddRange(projectSkills);
             _db.SaveChanges();
 
@@ -86,7 +85,7 @@ namespace Mock
 
         private void GenerateRequestResponse(ProjectInfo projectInfo, User userRequest, User userResponse)
         {
-            ProjectState state = _random.Next(0, 2) == 0 ? ProjectState.Requested : ProjectState.Reviewed;
+            ProjectState state = Utilities.Random.Next(0, 2) == 0 ? ProjectState.Requested : ProjectState.Reviewed;
 
             ReviewRequest newRequest = TypesGenerator.GetRequest(projectInfo, userRequest, state);
             _db.ReviewRequests.Add(newRequest);
@@ -102,7 +101,7 @@ namespace Mock
         {
             List<ProjectSkill> projectSkills = new List<ProjectSkill>();
 
-            List<string> list = new ListExt<string>();
+            RandomListProvider<string> list = new RandomListProvider<string>();
 
             string skillName;
 
@@ -112,8 +111,9 @@ namespace Mock
                 list.Add(skillName);
             }
 
-            while ((skillName = list.GetRandomUniqueValue()) != default)
+            while (list.TryGetUniqueValue())
             {
+                skillName = list.GetRandomUniqueValue();
                 projectSkills.Add(new ProjectSkill { ProjectId = projectInfo.Id, SkillName = skillName });
             }
 
@@ -124,7 +124,7 @@ namespace Mock
         {
             List<UserSkill> userSkills = new List<UserSkill>();
 
-            List<string> list = new ListExt<string>();
+            RandomListProvider<string> list = new RandomListProvider<string>();
 
             string skillName;
 
@@ -134,8 +134,11 @@ namespace Mock
                 list.Add(skillName);
             }
 
-            while ((skillName = list.GetRandomUniqueValue())!=default)
+            while (list.TryGetUniqueValue())
+            {
+                skillName = list.GetRandomUniqueValue();
                 userSkills.Add(new UserSkill {SkillName = skillName, UserId = user.Id});
+            }
             
             return userSkills;
         }
