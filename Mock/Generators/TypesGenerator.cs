@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mock.Extensions;
 using Recademy.Models;
 using Recademy.Types;
 
@@ -8,16 +9,12 @@ namespace Mock.Generators
 {
     public class TypesGenerator
     {
-        private readonly PrimitiveGenerator _primitiveGenerator = new PrimitiveGenerator();
-
         public User GetUser()
         {
-            Utilities.CurrentUserId++;
-
             return new User
             {
-                Name = _primitiveGenerator.GetName(),
-                GithubLink = _primitiveGenerator.GetGithubLink()
+                Name = DataLists.Names.GetRandomValue(),
+                GithubLink = DataLists.GitHubUsernames.GetRandomValue(),
             };
         }
 
@@ -28,8 +25,8 @@ namespace Mock.Generators
         public ProjectInfo GetProjectInfo(User user) =>
             new ProjectInfo
             {
-                Title = _primitiveGenerator.GetTitle(),
-                GithubLink = DataLists.Links[Utilities.Random.Next(DataLists.Links.Count)],
+                Title = DataLists.Titles.GetRandomValue(),
+                GithubLink = DataLists.ProjectLinks.GetRandomValue(),
                 AuthorId = user.Id,
                 User = user,
                 Description = $"some description{Utilities.Random.Next()}"
@@ -42,13 +39,13 @@ namespace Mock.Generators
                 Description = $"Some Description#{Utilities.Random.Next()}",
                 ReviewRequestId = reviewRequest.Id,
                 ReviewerId = reviewerId,
-                CreationTime = _primitiveGenerator.GetRandomDay()
+                CreationTime = GetRandomDay()
             };
 
         public ReviewRequest GetRequest(ProjectInfo project, User user, ProjectState projectState, DateTime? creationTime = null)
         {
             if (creationTime == null)
-                creationTime = _primitiveGenerator.GetRandomDay();
+                creationTime = GetRandomDay();
 
             return new ReviewRequest
             {
@@ -58,6 +55,17 @@ namespace Mock.Generators
                 ProjectId = project.Id,
                 State = projectState
             };
+        }
+
+        /// <summary>
+        /// Get a random day between current day and start of year
+        /// </summary>
+        /// <returns></returns>
+        public DateTime GetRandomDay()
+        {
+            DateTime start = new DateTime(DateTime.Now.Year, 1, 1);
+            int range = (DateTime.Today - start).Days;
+            return start.AddDays(Utilities.Random.Next(range));
         }
 
         public List<Skill> GetTechnologiesList()
