@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using Mock.Utility;
+using Mock.Extensions;
 
 namespace Mock.Generators
 {
     public class PrimitiveGenerator
     {
-        private readonly Random _random = new Random();
         public int GetId()
         {
             // get a random value in id's range
             // Utilities.CurrentUserId - max value for id
-            int randVal = _random.Next(Utilities.CurrentUserId);
+            int randVal = Utilities.Random.Next(Utilities.CurrentUserId);
             return randVal;
         }
 
@@ -39,7 +37,7 @@ namespace Mock.Generators
         {
             DateTime start = new DateTime(DateTime.Now.Year, 1, 1);
             int range = (DateTime.Today - start).Days;
-            return start.AddDays(_random.Next(range));
+            return start.AddDays(Utilities.Random.Next(range));
         }
 
         public string GetSkillName()
