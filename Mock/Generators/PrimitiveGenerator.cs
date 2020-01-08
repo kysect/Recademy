@@ -5,19 +5,10 @@ namespace Mock.Generators
 {
     public class PrimitiveGenerator
     {
-        public int GetId()
-        {
-            // get a random value in id's range
-            // Utilities.CurrentUserId - max value for id
-            int randVal = Utilities.Random.Next(Utilities.CurrentUserId);
-            return randVal;
-        }
-
         public string GetName()
         {
             return DataLists.Names.GetRandomValue();
         }
-
 
         public string GetGithubLink()
         {
@@ -38,11 +29,6 @@ namespace Mock.Generators
             DateTime start = new DateTime(DateTime.Now.Year, 1, 1);
             int range = (DateTime.Today - start).Days;
             return start.AddDays(Utilities.Random.Next(range));
-        }
-
-        public string GetSkillName()
-        {
-            return DataLists.Skills.GetRandomValue();
         }
     }
 }
