@@ -90,6 +90,7 @@ namespace Mock
 
             if (state == ProjectState.Reviewed)
             {
+                _db.Users.Add(userResponse);
                 ReviewResponse newResponse = TypesGenerator.GetResponse(newRequest, userResponse.Id);
                 _db.ReviewResponses.Add(newResponse);
             }
