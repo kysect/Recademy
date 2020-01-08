@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mock.Extensions;
 using Recademy.Models;
 using Recademy.Types;
 
@@ -8,18 +9,12 @@ namespace Mock.Generators
 {
     public class TypesGenerator
     {
-        private readonly Random _random = new Random();
-
-        private readonly PrimitiveGenerator _primitiveGenerator = new PrimitiveGenerator();
-
         public User GetUser()
         {
-            Utilities.CurrentUserId++;
-
             return new User
             {
-                Name = _primitiveGenerator.GetName(),
-                GithubLink = "https://github.com/InRedikaWB"
+                Name = DataLists.Names.GetRandomValue(),
+                GithubLink = "https://github.com/"+DataLists.GitHubUsernames.GetRandomValue(),
             };
         }
 
@@ -30,40 +25,47 @@ namespace Mock.Generators
         public ProjectInfo GetProjectInfo(User user) =>
             new ProjectInfo
             {
-                Title = _primitiveGenerator.GetTitle(),
-                GithubLink = DataLists.Links[_random.Next(DataLists.Links.Count)],
+                Title = DataLists.Titles.GetRandomValue(),
+                GithubLink = DataLists.ProjectLinks.GetRandomValue(),
                 AuthorId = user.Id,
                 User = user,
-                Description = "some description"
+                Description = $"some description{Utilities.Random.Next()}"
             };
 
-        public ReviewResponse GetResponse(ReviewRequest reviewRequest, int reviewerId)
-        {
-            int randVal = _random.Next();
-            return new ReviewResponse
+        public ReviewResponse GetResponse(ReviewRequest reviewRequest, int reviewerId) =>
+            new ReviewResponse
             {
                 ReviewRequest = reviewRequest,
-                Description = $"Some Description#{randVal}",
+                Description = $"Some Description#{Utilities.Random.Next()}",
                 ReviewRequestId = reviewRequest.Id,
                 ReviewerId = reviewerId,
-                CreationTime = _primitiveGenerator.RandomDay()
+                CreationTime = GetRandomDay()
             };
-        }
 
-        public ReviewRequest GetRequest(ProjectInfo project, User user, int randomId)
+        public ReviewRequest GetRequest(ProjectInfo project, User user, ProjectState projectState, DateTime? creationTime = null)
         {
-            //TODO: check if it's ok
-            if (user.Id == randomId)
-                return null;
+            if (creationTime == null)
+                creationTime = GetRandomDay();
 
             return new ReviewRequest
             {
                 User = user,
-                DateCreate = _primitiveGenerator.RandomDay(),
+                DateCreate = creationTime.Value,
                 ProjectInfo = project,
                 ProjectId = project.Id,
-                State = _random.Next(0, 2) == 0 ? ProjectState.Requested : ProjectState.Reviewed
+                State = projectState
             };
+        }
+
+        /// <summary>
+        /// Get a random day between current day and start of year
+        /// </summary>
+        /// <returns></returns>
+        public DateTime GetRandomDay()
+        {
+            DateTime start = new DateTime(DateTime.Now.Year, 1, 1);
+            int range = (DateTime.Today - start).Days;
+            return start.AddDays(Utilities.Random.Next(range));
         }
 
         public List<Skill> GetTechnologiesList()
