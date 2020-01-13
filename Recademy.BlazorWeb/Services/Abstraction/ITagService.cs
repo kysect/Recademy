@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Recademy.Dto;
+using Recademy.BlazorWeb.Dto;
 
-namespace Recademy.Services.Abstraction
+namespace Recademy.BlazorWeb.Services.Abstraction
 {
     public interface ITagService
     {

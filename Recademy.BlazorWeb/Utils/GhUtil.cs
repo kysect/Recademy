@@ -1,4 +1,4 @@
-﻿namespace Recademy.Utils
+﻿namespace Recademy.BlazorWeb.Utils
 {
     public class GhUtil
     {

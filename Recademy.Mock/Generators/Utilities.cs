@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mock.Generators
+namespace Recademy.Mock.Generators
 {
     public static class Utilities
     {

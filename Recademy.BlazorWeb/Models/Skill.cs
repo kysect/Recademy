@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Recademy.Models
+namespace Recademy.BlazorWeb.Models
 {
     public class Skill
     {

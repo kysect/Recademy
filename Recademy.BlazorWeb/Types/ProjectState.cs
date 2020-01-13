@@ -1,4 +1,4 @@
-﻿namespace Recademy.Types
+﻿namespace Recademy.BlazorWeb.Types
 {
     public enum ProjectState
     {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Recademy.Models;
+using Recademy.BlazorWeb.Models;
 
-namespace Recademy.Dto
+namespace Recademy.BlazorWeb.Dto
 {
     public class ProjectDto
     {

@@ -1,6 +1,6 @@
-﻿using Recademy.Models;
+﻿using Recademy.BlazorWeb.Models;
 
-namespace Recademy.Services.Abstraction
+namespace Recademy.BlazorWeb.Services.Abstraction
 {
     public interface IProjectService
     {

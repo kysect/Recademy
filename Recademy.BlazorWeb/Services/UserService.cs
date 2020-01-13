@@ -1,14 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Recademy.Context;
-using Recademy.Dto;
-using Recademy.Models;
-using Recademy.Services.Abstraction;
-using Recademy.Types;
+using Recademy.BlazorWeb.Context;
+using Recademy.BlazorWeb.Dto;
+using Recademy.BlazorWeb.Models;
+using Recademy.BlazorWeb.Services.Abstraction;
+using Recademy.BlazorWeb.Types;
 
-namespace Recademy.Services
+namespace Recademy.BlazorWeb.Services
 {
     public class UserService : IUserService
     {

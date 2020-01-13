@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Recademy.Dto;
-using Recademy.Models;
+using Recademy.BlazorWeb.Dto;
+using Recademy.BlazorWeb.Models;
 
-namespace Recademy.Services.Abstraction
+namespace Recademy.BlazorWeb.Services.Abstraction
 {
     public interface IReviewService
     {

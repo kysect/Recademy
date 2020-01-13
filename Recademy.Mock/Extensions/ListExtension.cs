@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Mock.Generators;
+using Recademy.Mock.Generators;
 
-namespace Mock.Extensions
+namespace Recademy.Mock.Extensions
 {
     public static class ListExtension
     {

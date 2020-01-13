@@ -1,4 +1,4 @@
-namespace Mock
+namespace Recademy.Mock
 {
     internal class Program
     {

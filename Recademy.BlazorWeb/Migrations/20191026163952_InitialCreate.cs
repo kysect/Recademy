@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Recademy.Migrations
+namespace Recademy.BlazorWeb.Migrations
 {
     public partial class InitialCreate : Migration
     {

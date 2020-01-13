@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Recademy.Models
+namespace Recademy.Library.Models
 {
     public class ProjectSkill
     {

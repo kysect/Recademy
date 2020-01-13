@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Recademy.Types;
+using Recademy.Library.Types;
 
-namespace Recademy.Models
+namespace Recademy.Library.Models
 {
     public class ReviewRequest
     {
