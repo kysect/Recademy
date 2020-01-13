@@ -3,6 +3,7 @@
 @using Recademy.Models
 @using Recademy.Services.Abstraction
 @using Services
+@using Microsoft.AspNetCore.Html
 @inject IProjectService ProjectService
 @inject IReviewService ReviewService
 @inject IGithubService GithubService
@@ -40,7 +41,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-md-10 readme">
-            @GithubService.GetReadme(projectInfo.ProjectUrl);
+            @(GithubService.GetReadme(projectInfo.ProjectUrl))
         </div>
     </div>
     <div class="row justify-content-center buttons">

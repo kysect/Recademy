@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 using Recademy.Dto;
 
 namespace Recademy.Services.Abstraction
@@ -8,6 +9,6 @@ namespace Recademy.Services.Abstraction
     {
         List<GhRepositoryDto> GhGetRepositories(int userId);
         Task CreateIssues(string repoLink, string issueText);
-        string GetReadme(string repoLink);
+        MarkupString GetReadme(string repoLink);
     }
 }
