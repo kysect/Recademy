@@ -6,6 +6,8 @@ using Octokit;
 using Recademy.Dto;
 using Recademy.Services.Abstraction;
 using Recademy.Utils;
+using Markdig;
+using Microsoft.AspNetCore.Components;
 
 namespace Recademy.Services
 {
@@ -48,33 +50,33 @@ namespace Recademy.Services
                 .Create(splittedUrl[3], splittedUrl[4], issue);
         }
 
-        public string GetReadme(string repoLink)
+        public MarkupString GetReadme(string repoLink)
         {
             var splittedUrl = repoLink.Split('/');
             return GetReadme(splittedUrl[3], splittedUrl[4]);
         }
 
-        public string GetReadme(Repository repository)
+        public MarkupString GetReadme(Repository repository)
         {
             return GetReadme(repository.Owner.Login, repository.Name);
         }
 
-        private string GetReadme(string login, string repositoryName)
+        private MarkupString GetReadme(string login, string repositoryName)
         {
             //TODO: replace try/catch with null-check
             try
             {
-                return _client
+                return (MarkupString)Markdown.ToHtml(_client
                     .Repository
                     .Content
                     .GetReadme(login, repositoryName)
                     .Result
-                    .Content;
+                    .Content);
             }
             catch (AggregateException)
             {
                 //TODO: Replace with null, ensure that it will work fine
-                return "No readme";
+                return (MarkupString)"No readme";
             }
         }
     }

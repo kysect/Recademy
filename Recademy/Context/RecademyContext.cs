@@ -47,5 +47,7 @@ namespace Recademy.Context
 
         public DbSet<ProjectSkill> ProjectSkills { get; set; }
 
+        public DbSet<Settings> Settings { get; set; }
+
     }
 }

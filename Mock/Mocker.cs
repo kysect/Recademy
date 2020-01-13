@@ -11,16 +11,10 @@ namespace Mock
 {
     public class Mocker : IDisposable
     {
-        private const int UsersGenCount = 15;
-        private const int ProjectForUserCount = 4;
-
         private static readonly string ConnectionString =
             ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
 
         private static readonly TypesGenerator TypesGenerator = new TypesGenerator();
-        private static readonly PrimitiveGenerator PrimitiveGenerator = new PrimitiveGenerator();
-        private static readonly Random Random = new Random();
-        private static readonly HashSet<string> HashSet = new HashSet<string>();
 
         private readonly RecademyContext _db;
 
@@ -41,7 +35,7 @@ namespace Mock
             AddSkills();
 
             _db.SaveChanges();
-            for (int i = 0; i < UsersGenCount; i++)
+            for (int i = 0; i < Configuration.UsersGenCount; i++)
                 GenerateUsers();
         }
 
@@ -57,11 +51,11 @@ namespace Mock
             _db.Users.Add(newUser);
             _db.SaveChanges();
 
-            List<UserSkill> userSkills = GenerateUserSkills(newUser);
+            List<UserSkill> userSkills = GenerateUserSkills(newUser, Utilities.Random.Next(0, Configuration.MaxSkillsForUser));
             _db.UserSkills.AddRange(userSkills);
             _db.SaveChanges();
 
-            for (int j = 0; j < ProjectForUserCount; ++j)
+            for (int j = 0; j < Configuration.ProjectForUserCount; ++j)
                 GenerateProjectsInfo(newUser);
         }
 
@@ -77,48 +71,72 @@ namespace Mock
             _db.ProjectInfos.Add(newProject);
             _db.SaveChanges();
 
-            List<ProjectSkill> projectSkills = GenerateProjectSkills(newProject);
+            List<ProjectSkill> projectSkills = GenerateProjectSkills(newProject, Utilities.Random.Next(0, Configuration.MaxProjectsForUser));
             _db.ProjectSkills.AddRange(projectSkills);
             _db.SaveChanges();
 
-            if (Random.Next(0, 2) != 0)
-                GenerateRequestResponse(newProject, user);
+            User user2 = TypesGenerator.GetUser();
+
+            GenerateRequestResponse(newProject, user, user2);
+            _db.SaveChanges();
         }
 
-        private void GenerateRequestResponse(ProjectInfo projectInfo, User user)
+        private void GenerateRequestResponse(ProjectInfo projectInfo, User userRequest, User userResponse)
         {
-            ReviewRequest newRequest = TypesGenerator.GetRequest(projectInfo, user, user.Id - 1);
+            ProjectState state = Utilities.Random.Next(0, 2) == 0 ? ProjectState.Requested : ProjectState.Reviewed;
+
+            ReviewRequest newRequest = TypesGenerator.GetRequest(projectInfo, userRequest, state);
             _db.ReviewRequests.Add(newRequest);
 
-            if (newRequest.State != ProjectState.Requested)
+            if (state == ProjectState.Reviewed)
             {
-                ReviewResponse newResponse = TypesGenerator.GetResponse(newRequest, user.Id - 1);
+                _db.Users.Add(userResponse);
+                ReviewResponse newResponse = TypesGenerator.GetResponse(newRequest, userResponse.Id);
                 _db.ReviewResponses.Add(newResponse);
             }
         }
 
-        private static List<ProjectSkill> GenerateProjectSkills(ProjectInfo projectInfo)
+        private static List<ProjectSkill> GenerateProjectSkills(ProjectInfo projectInfo, int projectCount)
         {
             List<ProjectSkill> projectSkills = new List<ProjectSkill>();
-            for (int k = 0; k < Random.Next(0, 3); k++)
+
+            List<string> skills = DataLists.Skills;
+
+            for (int k = 0; k < projectCount; k++)
             {
-                string skillName = PrimitiveGenerator.GetSkillName();
-                if (HashSet.Add(skillName))
-                    projectSkills.Add(new ProjectSkill {ProjectId = projectInfo.Id, SkillName = skillName});
+                if (skills.Count <= 0)
+                    break;
+
+                int random = Utilities.Random.Next(skills.Count);
+
+                string skillName = skills[random];
+
+                skills.Remove(skillName);
+
+                projectSkills.Add(new ProjectSkill { ProjectId = projectInfo.Id, SkillName = skillName});
             }
 
             return projectSkills;
         }
 
-        private static List<UserSkill> GenerateUserSkills(User user)
+        private static List<UserSkill> GenerateUserSkills(User user, int skillsCount)
         {
             List<UserSkill> userSkills = new List<UserSkill>();
-            int rndVal = Random.Next(0, 4);
-            for (int k = 0; k < rndVal; k++)
+
+            List<string> skills = DataLists.Skills;
+
+            for (int k = 0; k < skillsCount; k++)
             {
-                string skillName = PrimitiveGenerator.GetSkillName();
-                if (HashSet.Add(skillName))
-                    userSkills.Add(new UserSkill {SkillName = skillName, UserId = user.Id});
+                if (skills.Count <= 0)
+                    break;
+
+                int random = Utilities.Random.Next(skills.Count);
+
+                string skillName = skills[random];
+
+                skills.Remove(skillName);
+
+                userSkills.Add(new UserSkill { SkillName = skillName, UserId = user.Id});
             }
 
             return userSkills;

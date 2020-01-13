@@ -26,6 +26,7 @@ namespace Mock.Generators
             "ITMO-Physics-2th-sem",
             "GeneticCell"
         };
+
         public static readonly List<string> Names = new List<string>
         {
             "Norah",
@@ -59,6 +60,7 @@ namespace Mock.Generators
             "Poole",
             "Wilkins"
         };
+
         public static readonly List<string> Skills = new List<string>
         {
             "ASP.NET",
@@ -71,7 +73,7 @@ namespace Mock.Generators
             "React"
         };
 
-        public static readonly List<string> Links = new List<string>
+        public static readonly List<string> ProjectLinks = new List<string>
         {
             "https://github.com/riiji/VkQueue",
             "https://github.com/riiji/VK-music-bot-for-discord",
@@ -81,6 +83,16 @@ namespace Mock.Generators
             "https://github.com/InRedikaWB/VkLibrary",
             "https://github.com/InRedikaWB/is-arch-lect",
             "https://github.com/InRedikaWB/CodeforcesApiWrapper"
+        };
+
+        public static readonly List<string> GitHubUsernames = new List<string>
+        {
+            "riiji",
+            "maksimbark",
+            "s4xack",
+            "hrrrrustic",
+            "InRedikaWB",
+            "maryshipkova"
         };
     }
 }
