@@ -1,7 +1,6 @@
-﻿namespace RecademyApi
+﻿namespace Recademy.Api
 {
     public class RecademyContext
     {
-        
     }
 }

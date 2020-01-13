@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Recademy
+namespace Recademy.BlazorWeb
 {
     public class Program
     {

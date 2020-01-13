@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Octokit;
-using Recademy.Dto;
-using Recademy.Services.Abstraction;
-using Recademy.Utils;
 using Markdig;
 using Microsoft.AspNetCore.Components;
+using Octokit;
+using Recademy.BlazorWeb.Dto;
+using Recademy.BlazorWeb.Services.Abstraction;
+using Recademy.BlazorWeb.Utils;
 
-namespace Recademy.Services
+namespace Recademy.BlazorWeb.Services
 {
     public class GithubService : IGithubService
     {

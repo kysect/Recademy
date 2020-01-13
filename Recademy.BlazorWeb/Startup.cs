@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Recademy.Context;
-using Recademy.Services;
-using Recademy.Services.Abstraction;
+using Recademy.BlazorWeb.Context;
+using Recademy.BlazorWeb.Services;
+using Recademy.BlazorWeb.Services.Abstraction;
 
-namespace Recademy
+namespace Recademy.BlazorWeb
 {
     public class Startup
     {

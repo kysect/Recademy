@@ -1,4 +1,4 @@
-﻿namespace Recademy.Dto
+﻿namespace Recademy.Library.Dto
 {
     public class AchievementsDto
     {

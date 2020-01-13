@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Recademy.Types
+namespace Recademy.Library.Types
 {
     public class RecademyException : Exception
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Recademy.Dto
+namespace Recademy.Library.Dto
 {
     public class GetRequestsByFilterDto
     {

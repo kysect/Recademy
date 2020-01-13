@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Recademy.Models;
+using Recademy.Library.Models;
 
-namespace Recademy.Dto
+namespace Recademy.Library.Dto
 {
     public class ProjectDto
     {

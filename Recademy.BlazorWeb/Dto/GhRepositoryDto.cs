@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Recademy.Dto
+namespace Recademy.BlazorWeb.Dto
 {
     public class GhRepositoryDto
     {

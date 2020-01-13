@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Recademy.Dto
+namespace Recademy.BlazorWeb.Dto
 {
     public class GetRequestsByFilterDto
     {

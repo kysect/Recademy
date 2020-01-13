@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mock.Generators
+namespace Recademy.Mock.Generators
 {
     public static class DataLists
     {

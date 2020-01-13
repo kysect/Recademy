@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Recademy.Models;
+using Recademy.BlazorWeb.Models;
 
-namespace Recademy.Context
+namespace Recademy.BlazorWeb.Context
 {
     public class RecademyContext : DbContext
     {

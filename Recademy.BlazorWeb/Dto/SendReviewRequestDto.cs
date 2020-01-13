@@ -1,4 +1,4 @@
-﻿namespace Recademy.Dto
+﻿namespace Recademy.BlazorWeb.Dto
 {
     public class SendReviewRequestDto
     {

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Mock.Generators;
-using Recademy.Context;
-using Recademy.Models;
-using Recademy.Types;
+using Recademy.BlazorWeb.Context;
+using Recademy.BlazorWeb.Models;
+using Recademy.BlazorWeb.Types;
+using Recademy.Mock.Generators;
 
-namespace Mock
+namespace Recademy.Mock
 {
     public class Mocker : IDisposable
     {

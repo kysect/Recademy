@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Recademy.Models
+namespace Recademy.BlazorWeb.Models
 {
     public class UserSkill
     {
