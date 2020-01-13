@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Recademy\Recademy.csproj" />
+    <ProjectReference Include="..\Recademy.BlazorWeb\Recademy.BlazorWeb.csproj" />
   </ItemGroup>
 
 </Project>
