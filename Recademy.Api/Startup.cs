@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Recademy.BlazorWeb.Services;
+using Recademy.BlazorWeb.Services.Abstraction;
 
 namespace Recademy.Api
 {
@@ -33,6 +35,15 @@ namespace Recademy.Api
                 string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 configuration.IncludeXmlComments(xmlPath);
             });
+
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IGameficationService, GameficationService>();
+            services.AddScoped<IGithubService, GithubService>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAchievementService, AchievementService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
