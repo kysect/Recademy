@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 using Markdig;
 using Microsoft.AspNetCore.Components;
 using Octokit;
-using Recademy.BlazorWeb.Dto;
-using Recademy.BlazorWeb.Services.Abstraction;
-using Recademy.BlazorWeb.Utils;
+using Recademy.Api.Services.Abstraction;
+using Recademy.Library.Dto;
 
-namespace Recademy.BlazorWeb.Services
+namespace Recademy.Api.Services
 {
     public class GithubService : IGithubService
     {

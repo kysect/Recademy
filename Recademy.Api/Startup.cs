@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using Recademy.BlazorWeb.Services;
-using Recademy.BlazorWeb.Services.Abstraction;
+using Recademy.Api.Services;
+using Recademy.Api.Services.Abstraction;
 
 namespace Recademy.Api
 {

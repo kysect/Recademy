@@ -1,4 +1,4 @@
-﻿namespace Recademy.BlazorWeb.Services.Abstraction
+﻿namespace Recademy.Api.Services.Abstraction
 {
     public interface IAuthService
     {

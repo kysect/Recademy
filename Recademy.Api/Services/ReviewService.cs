@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Recademy.BlazorWeb.Context;
-using Recademy.BlazorWeb.Dto;
-using Recademy.BlazorWeb.Models;
-using Recademy.BlazorWeb.Services.Abstraction;
-using Recademy.BlazorWeb.Types;
+using Recademy.Api.Services.Abstraction;
+using Recademy.Library.Dto;
+using Recademy.Library.Models;
+using Recademy.Library.Types;
 
-namespace Recademy.BlazorWeb.Services
+namespace Recademy.Api.Services
 {
     public class ReviewService : IReviewService
     {
