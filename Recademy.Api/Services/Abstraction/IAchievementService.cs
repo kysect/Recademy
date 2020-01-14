@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Recademy.BlazorWeb.Dto;
-using Recademy.BlazorWeb.Models;
+using Recademy.Library.Dto;
+using Recademy.Library.Models;
 
-namespace Recademy.BlazorWeb.Services.Abstraction
+namespace Recademy.Api.Services.Abstraction
 {
     public interface IAchievementService
     {

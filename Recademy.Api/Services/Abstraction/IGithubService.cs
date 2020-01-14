@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Recademy.BlazorWeb.Dto;
+using Recademy.Library.Dto;
 
-namespace Recademy.BlazorWeb.Services.Abstraction
+namespace Recademy.Api.Services.Abstraction
 {
     public interface IGithubService
     {

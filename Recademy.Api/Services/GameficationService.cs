@@ -1,6 +1,6 @@
-﻿using Recademy.BlazorWeb.Services.Abstraction;
+﻿using Recademy.Api.Services.Abstraction;
 
-namespace Recademy.BlazorWeb.Services
+namespace Recademy.Api.Services
 {
     public class GameficationService : IGameficationService
     {

@@ -1,43 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Recademy.BlazorWeb.Services.Abstraction;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Recademy.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     public class UserController : Controller
     {
-        // GET: api/<controller>
+        private readonly IUserService _userService;
+        public UserController(IUserService userService)
+        {
+            _userService = userService;
+        }
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Route("{userId}")]
+        public IActionResult GetUserInfo([FromQuery] int userId)
         {
-            return new[] {"value1", "value2"};
-        }
-
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            throw new NotImplementedException();
         }
     }
 }
