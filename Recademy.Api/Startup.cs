@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -35,7 +36,8 @@ namespace Recademy.Api
                 string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 configuration.IncludeXmlComments(xmlPath);
             });
-
+            services.AddDbContext<RecademyContext>(options =>
+                options.UseSqlServer(Configuration["connectionString:RecademyDB"]));
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IGameficationService, GameficationService>();
             services.AddScoped<IGithubService, GithubService>();

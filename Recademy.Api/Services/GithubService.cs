@@ -55,7 +55,7 @@ namespace Recademy.Api.Services
             return GetReadme(splittedUrl[3], splittedUrl[4]);
         }
 
-        public MarkupString GetReadme(Repository repository)
+        private MarkupString GetReadme(Repository repository)
         {
             return GetReadme(repository.Owner.Login, repository.Name);
         }
