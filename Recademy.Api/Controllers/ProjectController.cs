@@ -1,43 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Recademy.Api.Services.Abstraction;
+using Recademy.Library.Models;
+using Recademy.Library.Types;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Recademy.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/projects")]
     public class ProjectController : Controller
     {
-        // GET: api/<controller>
+        private readonly IProjectService _projectService;
+
+        public ProjectController(IProjectService projectService)
+        {
+            _projectService = projectService;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Route("{projectId}")]
+        public IActionResult GetProjectInfo([FromQuery] int projectIid)
         {
-            return new[] {"value1", "value2"};
-        }
+            if (projectIid < 0)
+                return BadRequest("Wrong project Id");
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            try
+            {
+                ProjectInfo projectInfo = _projectService.GetProjectInfo(projectIid);
+                return Ok(projectInfo);
+            }
+            catch (RecademyException)
+            {
+                return BadRequest("Wrong project Id");
+            }
         }
     }
 }
