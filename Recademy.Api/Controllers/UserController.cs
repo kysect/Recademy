@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Recademy.BlazorWeb.Services.Abstraction;
+using Recademy.Api.Services.Abstraction;
+using Recademy.Library.Dto;
+using Recademy.Library.Types;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,7 +21,18 @@ namespace Recademy.Api.Controllers
         [Route("{userId}")]
         public IActionResult GetUserInfo([FromQuery] int userId)
         {
-            throw new NotImplementedException();
+            if (userId < 0)
+                return BadRequest("Wrong user Id");
+
+            try
+            {
+                UserInfoDto userInfo = _userService.GetUserInfoDto(userId);
+                return Ok(userInfo);
+            }
+            catch (RecademyException)
+            {
+                return BadRequest("Wrong user Id");
+            }
         }
     }
 }
