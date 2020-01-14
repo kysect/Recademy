@@ -4,10 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Recademy.BlazorWeb.Context;
 
-namespace Recademy.Migrations
+namespace Recademy.BlazorWeb.Migrations
 {
     [DbContext(typeof(RecademyContext))]
     [Migration("20191026163952_InitialCreate")]
