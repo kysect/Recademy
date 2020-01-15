@@ -42,5 +42,16 @@ namespace Recademy.Api.Controllers
             Dictionary<string, int> ranking = _userService.GetRanking();
             return Ok(ranking);
         }
+
+        [HttpPost]
+        [Route("{userId}")]
+        public IActionResult AddUSerProject([FromQuery] int userId, [FromBody] AddProjectDto dto)
+        {
+            if (dto == null)
+                return BadRequest();
+
+            _userService.AddProject(dto);
+            return Accepted();
+        }
     }
 }
