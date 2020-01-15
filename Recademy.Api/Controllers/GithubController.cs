@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
+using Recademy.Library.Dto;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -44,6 +45,18 @@ namespace Recademy.Api.Controllers
             await _githubService.CreateIssues(projectUrl, issueText);
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Microsoft.AspNetCore.Mvc.Route("{userId}")]
+        public IActionResult GetUserRepositories([FromQuery] int userId)
+        {
+            userId = 1;
+            if (userId < 0)
+                return BadRequest("Wrong user id");
+
+            List<GhRepositoryDto> repositories = _githubService.GhGetRepositories(userId);
+            return Ok(repositories);
         }
     }
 }

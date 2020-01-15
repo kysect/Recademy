@@ -29,5 +29,11 @@ namespace Recademy.Api.Controllers
             return Ok(tagProfile);
         }
 
+        [HttpGet]
+        public IActionResult GetAllExistingTags()
+        {
+            List<string> allTags = _tagService.GetAllTags();
+            return Ok(allTags);
+        }
     }
 }
