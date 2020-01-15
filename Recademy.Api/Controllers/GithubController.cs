@@ -30,5 +30,20 @@ namespace Recademy.Api.Controllers
             MarkupString readme = _githubService.GetReadme(projectUrl);
             return Ok(readme);
         }
+
+        [HttpPost]
+        [Microsoft.AspNetCore.Mvc.Route("{projectUrl}")]
+        public async Task<IActionResult> CreateGithubIssue([FromQuery] string projectUrl, [FromBody] string issueText)
+        {
+            if (string.IsNullOrWhiteSpace(projectUrl))
+                return BadRequest("Wrong project URL");
+
+            if (string.IsNullOrWhiteSpace(issueText))
+                return BadRequest("Wrong issue");
+
+            await _githubService.CreateIssues(projectUrl, issueText);
+
+            return Ok();
+        }
     }
 }
