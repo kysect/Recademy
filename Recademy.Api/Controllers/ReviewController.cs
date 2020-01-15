@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
+using Recademy.Library.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -50,6 +51,13 @@ namespace Recademy.Api.Controllers
 
             _reviewService.SendReviewResponse(new SendReviewRequestDto(requestId, reviewText));
             return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult GetReviewRequestInfo()
+        {
+            List<ReviewRequest> reviewRequests = _reviewService.GetReviewRequests();
+            return Ok(reviewRequests);
         }
     }
 }
