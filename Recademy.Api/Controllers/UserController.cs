@@ -34,5 +34,13 @@ namespace Recademy.Api.Controllers
                 return BadRequest("Wrong user Id");
             }
         }
+
+        [HttpGet]
+        [Route("ranking")]
+        public IActionResult GetUsersRanking()
+        {
+            Dictionary<string, int> ranking = _userService.GetRanking();
+            return Ok(ranking);
+        }
     }
 }
