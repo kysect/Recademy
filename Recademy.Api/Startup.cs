@@ -3,10 +3,12 @@ using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Recademy.Api.Services;
 using Recademy.Api.Services.Abstraction;
@@ -37,8 +39,10 @@ namespace Recademy.Api
                 string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 configuration.IncludeXmlComments(xmlPath);
             });
+
             services.AddDbContext<RecademyContext>(options =>
                 options.UseSqlServer(Configuration["connectionString:RecademyDB"]));
+
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IGameficationService, GameficationService>();
             services.AddScoped<IGithubService, GithubService>();
