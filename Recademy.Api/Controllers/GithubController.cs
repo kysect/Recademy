@@ -59,8 +59,8 @@ namespace Recademy.Api.Controllers
         /// Get user projects from github
         /// </summary>
         [HttpGet]
-        [Microsoft.AspNetCore.Mvc.Route("projects")]
-        public IActionResult GetUserRepositories([FromQuery] int userId)
+        [Microsoft.AspNetCore.Mvc.Route("projects/{userId}")]
+        public IActionResult GetUserRepositories(int userId)
         {
             userId = 1; // Пока нет авторизации
             if (userId < 0)
