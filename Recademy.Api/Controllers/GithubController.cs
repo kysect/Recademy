@@ -11,6 +11,8 @@ using Recademy.Library.Dto;
 
 namespace Recademy.Api.Controllers
 {
+    [Produces("application/json")]
+    [Consumes("application/json")]
     [Microsoft.AspNetCore.Mvc.Route("api/github")]
     public class GithubController : Controller
     {
@@ -21,8 +23,11 @@ namespace Recademy.Api.Controllers
             _githubService = githubService;
         }
 
+        /// <summary>
+        /// Get project readme
+        /// </summary>
         [HttpGet]
-        [Microsoft.AspNetCore.Mvc.Route("{projectUrl}")]
+        [Microsoft.AspNetCore.Mvc.Route("readme")]
         public IActionResult GetProjectReadme([FromQuery] string projectUrl)
         {
             if (string.IsNullOrWhiteSpace(projectUrl))
@@ -32,8 +37,11 @@ namespace Recademy.Api.Controllers
             return Ok(readme);
         }
 
+        /// <summary>
+        /// Create issue to project on github
+        /// </summary>
         [HttpPost]
-        [Microsoft.AspNetCore.Mvc.Route("{projectUrl}")]
+        [Microsoft.AspNetCore.Mvc.Route("issue")]    
         public async Task<IActionResult> CreateGithubIssue([FromQuery] string projectUrl, [FromBody] string issueText)
         {
             if (string.IsNullOrWhiteSpace(projectUrl))
@@ -47,11 +55,14 @@ namespace Recademy.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Get user projects from github
+        /// </summary>
         [HttpGet]
-        [Microsoft.AspNetCore.Mvc.Route("{userId}")]
+        [Microsoft.AspNetCore.Mvc.Route("projects")]
         public IActionResult GetUserRepositories([FromQuery] int userId)
         {
-            userId = 1;
+            userId = 1; // Пока нет авторизации
             if (userId < 0)
                 return BadRequest("Wrong user id");
 
