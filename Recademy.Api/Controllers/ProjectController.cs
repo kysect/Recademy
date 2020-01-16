@@ -9,6 +9,8 @@ using Recademy.Library.Types;
 
 namespace Recademy.Api.Controllers
 {
+    [Produces("application/json")]
+    [Consumes("application/json")]
     [Route("api/projects")]
     public class ProjectController : Controller
     {
@@ -19,9 +21,13 @@ namespace Recademy.Api.Controllers
             _projectService = projectService;
         }
 
+
+        /// <summary>
+        /// Get project info
+        /// </summary>
         [HttpGet]
         [Route("{projectId}")]
-        public IActionResult GetProjectInfo([FromQuery] int projectIid)
+        public IActionResult GetProjectInfo(int projectIid)
         {
             if (projectIid < 0)
                 return BadRequest("Wrong project Id");
