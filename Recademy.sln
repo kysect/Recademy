@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recademy.Library", "Recadem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recademy.Api", "Recademy.Api\Recademy.Api.csproj", "{7F7D1589-741A-4409-9DAA-84D8CD37DDF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recademy.Desktop", "Recademy.Desktop\Recademy.Desktop.csproj", "{A8257264-28FA-492D-9094-B3A53D11B505}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7F7D1589-741A-4409-9DAA-84D8CD37DDF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F7D1589-741A-4409-9DAA-84D8CD37DDF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F7D1589-741A-4409-9DAA-84D8CD37DDF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8257264-28FA-492D-9094-B3A53D11B505}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8257264-28FA-492D-9094-B3A53D11B505}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8257264-28FA-492D-9094-B3A53D11B505}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8257264-28FA-492D-9094-B3A53D11B505}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
