@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
+using Recademy.Library.Dto;
 using Recademy.Library.Models;
 using Recademy.Library.Types;
 
@@ -41,6 +42,20 @@ namespace Recademy.Api.Controllers
             {
                 return BadRequest("Wrong project Id");
             }
+        }
+
+        /// <summary>
+        /// Get projects by tag
+        /// </summary>
+        [HttpGet]
+        public IActionResult GetTagProjects([FromQuery] string tagName)
+        {
+            if (string.IsNullOrWhiteSpace(tagName))
+                return BadRequest("Wrong tag name");
+
+            List<ProjectDto> tagProfile = _projectService.GetProjectsByTag(tagName);
+
+            return Ok(tagProfile);
         }
     }
 }

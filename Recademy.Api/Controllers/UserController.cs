@@ -9,6 +9,8 @@ using Recademy.Library.Types;
 
 namespace Recademy.Api.Controllers
 {
+    [Produces("application/json")]
+    [Consumes("application/json")]
     [Route("api/user")]
     public class UserController : Controller
     {
@@ -17,9 +19,13 @@ namespace Recademy.Api.Controllers
         {
             _userService = userService;
         }
+
+        /// <summary>
+        /// Get user info
+        /// </summary>
         [HttpGet]
         [Route("{userId}")]
-        public IActionResult GetUserInfo([FromQuery] int userId)
+        public IActionResult GetUserInfo(int userId)
         {
             if (userId < 0)
                 return BadRequest("Wrong user Id");
@@ -35,6 +41,9 @@ namespace Recademy.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Get user activity ranking
+        /// </summary>
         [HttpGet]
         [Route("ranking")]
         public IActionResult GetUsersRanking()
@@ -43,9 +52,13 @@ namespace Recademy.Api.Controllers
             return Ok(ranking);
         }
 
+
+        /// <summary>
+        /// Upload project to user
+        /// </summary>
         [HttpPost]
         [Route("{userId}")]
-        public IActionResult AddUSerProject([FromQuery] int userId, [FromBody] AddProjectDto dto)
+        public IActionResult AddUSerProject(int userId, [FromBody] AddProjectDto dto)
         {
             if (dto == null)
                 return BadRequest();
