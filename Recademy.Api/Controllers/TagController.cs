@@ -7,6 +7,8 @@ using Recademy.Library.Dto;
 
 namespace Recademy.Api.Controllers
 {
+    [Produces("application/json")]
+    [Consumes("application/json")]
     [Route("api/tags")]
     public class TagController : Controller
     {
@@ -17,18 +19,9 @@ namespace Recademy.Api.Controllers
             _tagService = tagService;
         }
 
-        [HttpGet]
-        [Route("{tagName}")]
-        public IActionResult GetTagProjects([FromQuery] string tagName)
-        {
-            if (string.IsNullOrWhiteSpace(tagName))
-                return BadRequest("Wrong tag name");
-
-            TagProfileDto tagProfile = _tagService.GetTagProfile(tagName);
-
-            return Ok(tagProfile);
-        }
-
+        /// <summary>
+        /// Get all existing tags
+        /// </summary>
         [HttpGet]
         public IActionResult GetAllExistingTags()
         {

@@ -8,6 +8,8 @@ using Recademy.Library.Models;
 
 namespace Recademy.Api.Controllers
 {
+    [Produces("application/json")]
+    [Consumes("application/json")]
     [Route("api/review")]
     public class ReviewController : Controller
     {
@@ -18,9 +20,12 @@ namespace Recademy.Api.Controllers
             _reviewService = reviewService;
         }
 
+        /// <summary>
+        /// Create review request
+        /// </summary>
         [HttpPost]
         [Route("{projectId}")]
-        public IActionResult CreateReviewRequest([FromQuery] int projectId)
+        public IActionResult CreateReviewRequest(int projectId)
         {
             if (projectId < 0)
                 return BadRequest("Wrong project id");
@@ -29,9 +34,12 @@ namespace Recademy.Api.Controllers
             return Accepted();
         }
 
+        /// <summary>
+        /// Get review request info
+        /// </summary>
         [HttpGet]
         [Route("{requestId}")]
-        public IActionResult GetReviewRequestInfo([FromQuery] int requestId)
+        public IActionResult GetReviewRequestInfo(int requestId)
         {
             if (requestId < 0)
                 return BadRequest("Wrong request id");
@@ -39,9 +47,13 @@ namespace Recademy.Api.Controllers
             ReviewProjectDto reviewInfo = _reviewService.GetReviewInfo(requestId);
             return Ok(reviewInfo);
         }
+
+        /// <summary>
+        /// Create review response info
+        /// </summary>
         [HttpPost]
         [Route("{requestId}")]
-        public IActionResult CreateReviewResponse([FromQuery] int requestId, [FromBody] string reviewText)
+        public IActionResult CreateReviewResponse(int requestId, [FromBody] string reviewText)
         {
             if (requestId < 0)
                 return BadRequest("Wrong request id");
@@ -53,6 +65,9 @@ namespace Recademy.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Get review requests list
+        /// </summary>
         [HttpGet]
         public IActionResult GetReviewRequestInfo()
         {
