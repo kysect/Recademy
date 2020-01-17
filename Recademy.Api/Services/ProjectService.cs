@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Api.Services.Abstraction;
+using Recademy.Library.Dto;
 using Recademy.Library.Models;
 using Recademy.Library.Types;
 
@@ -28,6 +30,21 @@ namespace Recademy.Api.Services
             }
 
             return project;
+        }
+
+        public List<ProjectDto> GetProjectsByTag(string tagName)
+        {
+            var projects = _context
+                .ProjectInfos
+                .Include(p => p.Skills)
+                .Where(p => p
+                    .Skills
+                    .Any(s => s.SkillName == tagName))
+                .ToList();
+
+            return projects
+                .Select(k => new ProjectDto(k))
+                .ToList();
         }
     }
 }

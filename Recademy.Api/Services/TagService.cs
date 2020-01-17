@@ -42,23 +42,6 @@ namespace Recademy.Api.Services
                 .ToList();
         }
 
-        public TagProfileDto GetTagProfile(string tagName)
-        {
-            var projects = _context
-                .ProjectInfos
-                .Include(p => p.Skills)
-                .Where(p => p
-                    .Skills
-                    .Any(s => s.SkillName == tagName))
-                .ToList();
 
-            return new TagProfileDto
-            {
-                TagName = tagName,
-                Projects = projects
-                    .Select(k => new ProjectDto(k))
-                    .ToList()
-            };
-        }
     }
 }

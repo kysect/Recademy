@@ -7,6 +7,5 @@ namespace Recademy.Api.Services.Abstraction
     {
         List<string> GetUserTags(int userId);
         List<string> GetAllTags();
-        TagProfileDto GetTagProfile(string tagName);
     }
 }
