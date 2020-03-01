@@ -46,5 +46,25 @@ namespace Recademy.Api.Services
                 .Select(k => new ProjectDto(k))
                 .ToList();
         }
+
+        public ProjectInfo AddProject(AddProjectDto argues)
+        {
+            ProjectInfo newProject = new ProjectInfo
+            {
+                AuthorId = argues.UserId,
+                GithubLink = argues.ProjectUrl,
+                Title = argues.ProjectName,
+                Skills = argues
+                    .Tags
+                    .Select(t =>
+                        new ProjectSkill { SkillName = t })
+                    .ToList()
+            };
+
+            _context.ProjectInfos.Add(newProject);
+            _context.SaveChanges();
+
+            return newProject;
+        }
     }
 }
