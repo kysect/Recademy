@@ -21,49 +21,42 @@ namespace Recademy.Api.Controllers
         /// <summary>
         /// Get project info
         /// </summary>
-        [HttpGet]
-        [Route("{projectId}")]
-        public ActionResult<ProjectInfoDto> GetProjectInfo(int projectIid)
+        [HttpGet("{projectId}")]
+        public ActionResult<ProjectInfoDto> GetProjectInfo(int? projectIid)
         {
-            if (projectIid < 0)
-                return BadRequest("Wrong project Id");
-
-            try
+            return projectIid switch
             {
-                ProjectInfoDto projectInfo = _projectService.GetProjectInfo(projectIid);
-                return Ok(projectInfo);
-            }
-            catch (RecademyException exception)
-            {
-                return BadRequest(exception);
-            }
+                null => BadRequest(RecademyException.MissedArgument(nameof(projectIid))),
+                _ when projectIid < 0 => BadRequest(RecademyException.InvalidArgument(nameof(projectIid), projectIid)),
+                _ => Ok(_projectService.GetProjectInfo(projectIid.Value))
+            };
         }
 
         /// <summary>
         /// Get projects by tag
         /// </summary>
-        [HttpGet]
-        public ActionResult<List<ProjectInfoDto>> GetTagProjects([FromQuery] string tagName)
+        [HttpGet("tag/{tagName}")]
+        public ActionResult<List<ProjectInfoDto>> GetTagProjects(string tagName)
         {
-            //TODO: add tag validation
-            if (string.IsNullOrWhiteSpace(tagName))
-                return BadRequest("Wrong tag name");
-
-            List<ProjectInfoDto> projectsByTag = _projectService.GetProjectsByTag(tagName);
-            return Ok(projectsByTag);
+            return tagName switch
+            {
+                null => BadRequest(RecademyException.MissedArgument(nameof(tagName))),
+                _ when string.IsNullOrWhiteSpace(tagName) => BadRequest(RecademyException.InvalidArgument(nameof(tagName), tagName)),
+                _ => Ok(_projectService.GetProjectsByTag(tagName))
+            };
         }
 
         /// <summary>
         /// Upload project to user
         /// </summary>
         [HttpPost]
-        public ActionResult<ProjectInfoDto> AddUSerProject([FromBody] AddProjectDto dto)
+        public ActionResult<ProjectInfoDto> AddUSerProject([FromBody] AddProjectDto addProjectDto)
         {
-            if (dto == null)
-                return BadRequest();
-
-            ProjectInfoDto result = _projectService.AddProject(dto);
-            return Accepted(result);
+            return addProjectDto switch
+            {
+                null => BadRequest(RecademyException.MissedArgument(nameof(addProjectDto))),
+                _ => Ok(_projectService.AddProject(addProjectDto))
+            };
         }
     }
 }
