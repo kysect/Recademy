@@ -11,5 +11,6 @@ namespace Recademy.Library.Types
 
         public static RecademyException UserNotFound(int id) => new RecademyException($"User wasn't found, id: {id}");
         public static RecademyException ProjectNotFound(int id) => new RecademyException($"Project wasn't found, id: {id}");
+        public static RecademyException ReviewRequestNotFound(int id) => new RecademyException($"Review request wasn't found, id: {id}");
     }
 }

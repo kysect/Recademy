@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
-using Recademy.Library.Models;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Recademy.Api.Controllers
 {
@@ -24,14 +21,10 @@ namespace Recademy.Api.Controllers
         /// Create review request
         /// </summary>
         [HttpPost]
-        [Route("{projectId}")]
-        public IActionResult CreateReviewRequest(int projectId)
+        public ActionResult<ReviewRequestInfoDto> CreateReviewRequest([FromBody] ReviewRequestAddDto reviewRequestAddDto)
         {
-            if (projectId < 0)
-                return BadRequest("Wrong project id");
-
-            _reviewService.AddReviewRequest(projectId);
-            return Accepted();
+            ReviewRequestInfoDto result = _reviewService.AddReviewRequest(reviewRequestAddDto);
+            return Accepted(result);
         }
 
         /// <summary>
@@ -39,12 +32,12 @@ namespace Recademy.Api.Controllers
         /// </summary>
         [HttpGet]
         [Route("{requestId}")]
-        public IActionResult GetReviewRequestInfo(int requestId)
+        public ActionResult<ReviewRequestInfoDto> GetReviewRequestInfo(int requestId)
         {
             if (requestId < 0)
                 return BadRequest("Wrong request id");
 
-            ReviewProjectDto reviewInfo = _reviewService.GetReviewInfo(requestId);
+            ReviewRequestInfoDto reviewInfo = _reviewService.GetReviewInfo(requestId);
             return Ok(reviewInfo);
         }
 
@@ -53,7 +46,7 @@ namespace Recademy.Api.Controllers
         /// </summary>
         [HttpPost]
         [Route("{requestId}")]
-        public IActionResult CreateReviewResponse(int requestId, [FromBody] string reviewText)
+        public ActionResult<ReviewRequestInfoDto> CreateReviewResponse(int requestId, [FromBody] string reviewText)
         {
             if (requestId < 0)
                 return BadRequest("Wrong request id");
@@ -61,17 +54,17 @@ namespace Recademy.Api.Controllers
             if (string.IsNullOrWhiteSpace(reviewText))
                 return BadRequest("Wrong issue");
 
-            _reviewService.SendReviewResponse(new SendReviewRequestDto(requestId, reviewText));
-            return Ok();
+            ReviewRequestInfoDto result = _reviewService.SendReviewResponse(new SendReviewResponseDto(requestId, reviewText));
+            return Ok(result);
         }
 
         /// <summary>
         /// Get review requests list
         /// </summary>
         [HttpGet]
-        public IActionResult GetReviewRequestInfo()
+        public ActionResult<List<ReviewRequestInfoDto>> GetReviewRequestInfo()
         {
-            List<ReviewRequest> reviewRequests = _reviewService.GetReviewRequests();
+            List<ReviewRequestInfoDto> reviewRequests = _reviewService.GetReviewRequests();
             return Ok(reviewRequests);
         }
     }

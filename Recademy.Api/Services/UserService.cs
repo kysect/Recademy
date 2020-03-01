@@ -31,23 +31,10 @@ namespace Recademy.Api.Services
             if (userInfo == null)
                 throw RecademyException.UserNotFound(userId);
 
-            List<string> skills = userInfo
-                .UserSkills
-                .Select(el => el.SkillName)
-                .ToList();
-
-            List<ProjectInfoDto> projects = userInfo
-                .ProjectInfos
-                .Select(k => new ProjectInfoDto(k))
-                .ToList();
-
-            return new UserInfoDto
+            return new UserInfoDto(userInfo)
             {
-                UserName = userInfo.Name,
                 Activities = GetUserActivityPerMonth(userId),
-                Skills = skills,
                 Achievements = _achievements.GetAchievements(userInfo),
-                ProjectDtos = projects
             };
         }
 
