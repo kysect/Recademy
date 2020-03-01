@@ -57,5 +57,19 @@ namespace Recademy.Api.Controllers
 
             return Ok(tagProfile);
         }
+
+        /// <summary>
+        /// Upload project to user
+        /// </summary>
+        [HttpPost]
+        [Route("{userId}")]
+        public IActionResult AddUSerProject(int userId, [FromBody] AddProjectDto dto)
+        {
+            if (dto == null)
+                return BadRequest();
+
+            _projectService.AddProject(dto);
+            return Accepted();
+        }
     }
 }

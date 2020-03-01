@@ -8,5 +8,7 @@ namespace Recademy.Api.Services.Abstraction
     {
         ProjectInfo GetProjectInfo(int projectId);
         List<ProjectDto> GetProjectsByTag(string tagName);
+        ProjectInfo AddProject(AddProjectDto argues);
+
     }
 }

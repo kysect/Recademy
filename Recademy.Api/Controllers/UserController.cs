@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
 using Recademy.Library.Types;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Recademy.Api.Controllers
 {
@@ -28,16 +25,16 @@ namespace Recademy.Api.Controllers
         public IActionResult GetUserInfo(int userId)
         {
             if (userId < 0)
-                return BadRequest("Wrong user Id");
+                return BadRequest($"Wrong user Id: {userId}");
 
             try
             {
-                UserInfoDto userInfo = _userService.GetUserInfoDto(userId);
+                UserInfoDto userInfo = _userService.GetUserInfo(userId);
                 return Ok(userInfo);
             }
-            catch (RecademyException)
+            catch (RecademyException exception)
             {
-                return BadRequest("Wrong user Id");
+                return BadRequest(exception);
             }
         }
 
@@ -48,23 +45,8 @@ namespace Recademy.Api.Controllers
         [Route("ranking")]
         public IActionResult GetUsersRanking()
         {
-            Dictionary<string, int> ranking = _userService.GetRanking();
+            Dictionary<string, int> ranking = _userService.GetUsersRanking();
             return Ok(ranking);
-        }
-
-
-        /// <summary>
-        /// Upload project to user
-        /// </summary>
-        [HttpPost]
-        [Route("{userId}")]
-        public IActionResult AddUSerProject(int userId, [FromBody] AddProjectDto dto)
-        {
-            if (dto == null)
-                return BadRequest();
-
-            _userService.AddProject(dto);
-            return Accepted();
         }
     }
 }
