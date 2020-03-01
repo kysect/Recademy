@@ -9,16 +9,15 @@ namespace Recademy.Library.Models
     {
         [Key] 
         public int Id { get; set; }
+        public DateTime DateCreate { get; set; }
+        public ProjectState State { get; set; }
 
         [ForeignKey("ProjectInfo")] 
         public int ProjectId { get; set; }
-
-        public DateTime DateCreate { get; set; }
-
-        public ProjectState State { get; set; }
-
         public ProjectInfo ProjectInfo { get; set; }
 
+        [ForeignKey("User")]
+        public int UserId { get; set; }
         public User User { get; set; }
 
         public ReviewResponse ReviewResponse { get; set; }
