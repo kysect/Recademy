@@ -36,9 +36,9 @@ namespace Recademy.Api.Services
                 .Select(el => el.SkillName)
                 .ToList();
 
-            List<ProjectDto> projects = userInfo
+            List<ProjectInfoDto> projects = userInfo
                 .ProjectInfos
-                .Select(k => new ProjectDto(k))
+                .Select(k => new ProjectInfoDto(k))
                 .ToList();
 
             return new UserInfoDto

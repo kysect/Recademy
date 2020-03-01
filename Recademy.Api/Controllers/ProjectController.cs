@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
-using Recademy.Library.Models;
 using Recademy.Library.Types;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Recademy.Api.Controllers
 {
@@ -22,25 +18,24 @@ namespace Recademy.Api.Controllers
             _projectService = projectService;
         }
 
-
         /// <summary>
         /// Get project info
         /// </summary>
         [HttpGet]
         [Route("{projectId}")]
-        public IActionResult GetProjectInfo(int projectIid)
+        public ActionResult<ProjectInfoDto> GetProjectInfo(int projectIid)
         {
             if (projectIid < 0)
                 return BadRequest("Wrong project Id");
 
             try
             {
-                ProjectInfo projectInfo = _projectService.GetProjectInfo(projectIid);
+                ProjectInfoDto projectInfo = _projectService.GetProjectInfo(projectIid);
                 return Ok(projectInfo);
             }
-            catch (RecademyException)
+            catch (RecademyException exception)
             {
-                return BadRequest("Wrong project Id");
+                return BadRequest(exception);
             }
         }
 
@@ -48,28 +43,27 @@ namespace Recademy.Api.Controllers
         /// Get projects by tag
         /// </summary>
         [HttpGet]
-        public IActionResult GetTagProjects([FromQuery] string tagName)
+        public ActionResult<List<ProjectInfoDto>> GetTagProjects([FromQuery] string tagName)
         {
+            //TODO: add tag validation
             if (string.IsNullOrWhiteSpace(tagName))
                 return BadRequest("Wrong tag name");
 
-            List<ProjectDto> tagProfile = _projectService.GetProjectsByTag(tagName);
-
-            return Ok(tagProfile);
+            List<ProjectInfoDto> projectsByTag = _projectService.GetProjectsByTag(tagName);
+            return Ok(projectsByTag);
         }
 
         /// <summary>
         /// Upload project to user
         /// </summary>
         [HttpPost]
-        [Route("{userId}")]
-        public IActionResult AddUSerProject(int userId, [FromBody] AddProjectDto dto)
+        public ActionResult<ProjectInfoDto> AddUSerProject([FromBody] AddProjectDto dto)
         {
             if (dto == null)
                 return BadRequest();
 
-            _projectService.AddProject(dto);
-            return Accepted();
+            ProjectInfoDto result = _projectService.AddProject(dto);
+            return Accepted(result);
         }
     }
 }

@@ -11,10 +11,10 @@ namespace Recademy.Library.Dto
             ProjectName = projectName;
             Tags = new List<string> {tag};
         }
+
         public int UserId { get; set; }
         public string ProjectName { get; set; }
         public string ProjectUrl { get; set; }
         public List<string> Tags { get; set; }
-
     }
 }
