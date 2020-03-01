@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Library.Dto;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Recademy.Api.Controllers
 {
@@ -23,9 +20,19 @@ namespace Recademy.Api.Controllers
         /// Get all existing tags
         /// </summary>
         [HttpGet]
-        public IActionResult GetAllExistingTags()
+        public ActionResult<List<string>> GetAllExistingTags()
         {
             List<string> allTags = _tagService.GetAllTags();
+            return Ok(allTags);
+        }
+
+        /// <summary>
+        /// Get all existing tags
+        /// </summary>
+        [HttpGet("{userId}")]
+        public ActionResult<List<string>> GetUserTags(int userId)
+        {
+            List<string> allTags = _tagService.GetUserTags(userId);
             return Ok(allTags);
         }
     }

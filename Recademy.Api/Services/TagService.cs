@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Library.Dto;
+using Recademy.Library.Models;
 using Recademy.Library.Types;
 
 namespace Recademy.Api.Services
@@ -18,15 +18,13 @@ namespace Recademy.Api.Services
 
         public List<string> GetUserTags(int userId)
         {
-            var userSkills = _context
+            User userSkills = _context
                 .Users
                 .Include(s => s.UserSkills)
                 .FirstOrDefault(s => s.Id == userId);
 
             if (userSkills == null)
-            {
-                throw new RecademyException("No user with current id!");
-            }
+                throw RecademyException.UserNotFound(userId);
 
             return userSkills
                 .UserSkills
@@ -41,7 +39,5 @@ namespace Recademy.Api.Services
                 .Select(s => s.Name)
                 .ToList();
         }
-
-
     }
 }

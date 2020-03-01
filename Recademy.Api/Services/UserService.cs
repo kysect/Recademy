@@ -29,7 +29,7 @@ namespace Recademy.Api.Services
                 .FirstOrDefault(s => s.Id == userId);
 
             if (userInfo == null)
-                throw new RecademyException($"User wasn't found, id: {userId}");
+                throw RecademyException.UserNotFound(userId);
 
             List<string> skills = userInfo
                 .UserSkills
