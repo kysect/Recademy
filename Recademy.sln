@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recademy.Library", "Recadem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recademy.Api", "Recademy.Api\Recademy.Api.csproj", "{7F7D1589-741A-4409-9DAA-84D8CD37DDF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recademy.Desktop", "Recademy.Desktop\Recademy.Desktop.csproj", "{A8257264-28FA-492D-9094-B3A53D11B505}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recademy.Desktop", "Recademy.Desktop\Recademy.Desktop.csproj", "{A8257264-28FA-492D-9094-B3A53D11B505}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recademy.Test", "Recademy.Test\Recademy.Test.csproj", "{7F27A470-6F69-44CC-806F-C212CCC019EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{A8257264-28FA-492D-9094-B3A53D11B505}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8257264-28FA-492D-9094-B3A53D11B505}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8257264-28FA-492D-9094-B3A53D11B505}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F27A470-6F69-44CC-806F-C212CCC019EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F27A470-6F69-44CC-806F-C212CCC019EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F27A470-6F69-44CC-806F-C212CCC019EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F27A470-6F69-44CC-806F-C212CCC019EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
