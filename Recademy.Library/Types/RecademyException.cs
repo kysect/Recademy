@@ -8,5 +8,7 @@ namespace Recademy.Library.Types
         {
 
         }
+
+        public static RecademyException UserNotFound(int id) => new RecademyException($"User wasn't found, id: {id}");
     }
 }
