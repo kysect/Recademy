@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using Octokit;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Recademy.Api.Controllers
 {
     [Produces("application/json")]
     [Consumes("application/json")]
-    [Microsoft.AspNetCore.Mvc.Route("api/github")]
+    [Route("api/github")]
     public class GithubController : Controller
     {
         private readonly IGithubService _githubService;
@@ -26,23 +22,21 @@ namespace Recademy.Api.Controllers
         /// <summary>
         /// Get project readme
         /// </summary>
-        [HttpGet]
-        [Microsoft.AspNetCore.Mvc.Route("readme")]
-        public IActionResult GetProjectReadme([FromQuery] string projectUrl)
+        [HttpGet("readme")]
+        public ActionResult<Microsoft.AspNetCore.Components.MarkupString> GetProjectReadme([FromQuery] string projectUrl)
         {
             if (string.IsNullOrWhiteSpace(projectUrl))
                 return BadRequest("Wrong project URL");
 
-            MarkupString readme = _githubService.GetReadme(projectUrl);
+            Microsoft.AspNetCore.Components.MarkupString readme = _githubService.GetReadme(projectUrl);
             return Ok(readme);
         }
 
         /// <summary>
         /// Create issue to project on github
         /// </summary>
-        [HttpPost]
-        [Microsoft.AspNetCore.Mvc.Route("issue")]    
-        public async Task<IActionResult> CreateGithubIssue([FromQuery] string projectUrl, [FromBody] string issueText)
+        [HttpPost("issue")]
+        public async Task<ActionResult<Issue>> CreateGithubIssue([FromQuery] string projectUrl, [FromBody] string issueText)
         {
             if (string.IsNullOrWhiteSpace(projectUrl))
                 return BadRequest("Wrong project URL");
@@ -50,17 +44,15 @@ namespace Recademy.Api.Controllers
             if (string.IsNullOrWhiteSpace(issueText))
                 return BadRequest("Wrong issue");
 
-            await _githubService.CreateIssues(projectUrl, issueText);
-
-            return Ok();
+            Issue issue = await _githubService.CreateIssues(projectUrl, issueText);
+            return Ok(issue);
         }
 
         /// <summary>
         /// Get user projects from github
         /// </summary>
-        [HttpGet]
-        [Microsoft.AspNetCore.Mvc.Route("projects/{userId}")]
-        public IActionResult GetUserRepositories(int userId)
+        [HttpGet("projects/{userId}")]
+        public ActionResult<List<GhRepositoryDto>> GetUserRepositories(int userId)
         {
             userId = 1; // Пока нет авторизации
             if (userId < 0)
