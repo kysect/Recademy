@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Octokit;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
+using Recademy.Library.Types;
 
 namespace Recademy.Api.Controllers
 {
@@ -25,6 +26,7 @@ namespace Recademy.Api.Controllers
         [HttpGet("readme")]
         public ActionResult<Microsoft.AspNetCore.Components.MarkupString> GetProjectReadme([FromQuery] string projectUrl)
         {
+            //TODO: don't send url via query
             if (string.IsNullOrWhiteSpace(projectUrl))
                 return BadRequest("Wrong project URL");
 
@@ -36,30 +38,34 @@ namespace Recademy.Api.Controllers
         /// Create issue to project on github
         /// </summary>
         [HttpPost("issue")]
-        public async Task<ActionResult<Issue>> CreateGithubIssue([FromQuery] string projectUrl, [FromBody] string issueText)
+        public async Task<ActionResult<Issue>> CreateGithubIssue([FromBody] GitHubIssueCreateDto createDto)
         {
-            if (string.IsNullOrWhiteSpace(projectUrl))
-                return BadRequest("Wrong project URL");
+            return createDto switch
+            {
+                null => BadRequest(RecademyException.MissedArgument(nameof(createDto))),
 
-            if (string.IsNullOrWhiteSpace(issueText))
-                return BadRequest("Wrong issue");
+                {ProjectUrl: null} => BadRequest(
+                    RecademyException.MissedArgument(nameof(GitHubIssueCreateDto.ProjectUrl))),
 
-            Issue issue = await _githubService.CreateIssues(projectUrl, issueText);
-            return Ok(issue);
+                {IssueText: null} => BadRequest(
+                    RecademyException.MissedArgument(nameof(GitHubIssueCreateDto.IssueText))),
+
+                _ => Ok(await _githubService.CreateIssues(createDto.ProjectUrl, createDto.IssueText))
+            };
         }
 
         /// <summary>
         /// Get user projects from github
         /// </summary>
         [HttpGet("projects/{userId}")]
-        public ActionResult<List<GhRepositoryDto>> GetUserRepositories(int userId)
+        public ActionResult<List<GhRepositoryDto>> GetUserRepositories(int? userId)
         {
-            userId = 1; // Пока нет авторизации
-            if (userId < 0)
-                return BadRequest("Wrong user id");
-
-            List<GhRepositoryDto> repositories = _githubService.GhGetRepositories(userId);
-            return Ok(repositories);
+            return userId switch
+            {
+                null => BadRequest(RecademyException.MissedArgument(nameof(userId))),
+                _ when userId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(userId), userId)),
+                _ => Ok(_githubService.GhGetRepositories(userId.Value))
+            };
         }
     }
 }

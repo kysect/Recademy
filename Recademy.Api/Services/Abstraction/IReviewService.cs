@@ -7,7 +7,7 @@ namespace Recademy.Api.Services.Abstraction
     {
         List<ReviewRequestInfoDto> GetReviewRequests();
         ReviewRequestInfoDto AddReviewRequest(ReviewRequestAddDto reviewRequestAddDto);
-        ReviewRequestInfoDto SendReviewResponse(SendReviewResponseDto reviewResponseDto);
+        ReviewRequestInfoDto SendReviewResponse(int requestId, SendReviewResponseDto reviewResponseDto);
         ReviewRequestInfoDto GetReviewInfo(int requestId);
     }
 }

@@ -2,13 +2,12 @@
 {
     public class SendReviewResponseDto
     {
-        public SendReviewResponseDto(int id, string text)
+        public SendReviewResponseDto(string text, int userId)
         {
-            Id = id;
             ReviewText = text;
+            UserId = userId;
         }
 
-        public int Id { get; set; }
         public string ReviewText { get; set; }
         public int UserId { get; set; }
     }

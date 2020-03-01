@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
+using Recademy.Library.Types;
 
 namespace Recademy.Api.Controllers
 {
@@ -23,39 +24,40 @@ namespace Recademy.Api.Controllers
         [HttpPost]
         public ActionResult<ReviewRequestInfoDto> CreateReviewRequest([FromBody] ReviewRequestAddDto reviewRequestAddDto)
         {
-            ReviewRequestInfoDto result = _reviewService.AddReviewRequest(reviewRequestAddDto);
-            return Accepted(result);
+            return reviewRequestAddDto switch
+            {
+                null => BadRequest(RecademyException.MissedArgument(nameof(reviewRequestAddDto))),
+                _ => Ok(_reviewService.AddReviewRequest(reviewRequestAddDto))
+            };
         }
 
         /// <summary>
         /// Get review request info
         /// </summary>
-        [HttpGet]
-        [Route("{requestId}")]
-        public ActionResult<ReviewRequestInfoDto> GetReviewRequestInfo(int requestId)
+        [HttpGet("{requestId}")]
+        public ActionResult<ReviewRequestInfoDto> GetReviewRequestInfo(int? requestId)
         {
-            if (requestId < 0)
-                return BadRequest("Wrong request id");
-
-            ReviewRequestInfoDto reviewInfo = _reviewService.GetReviewInfo(requestId);
-            return Ok(reviewInfo);
+            return requestId switch
+            {
+                null => BadRequest(RecademyException.MissedArgument(nameof(requestId))),
+                _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
+                _ => Ok(_reviewService.GetReviewInfo(requestId.Value))
+            };
         }
 
         /// <summary>
         /// Create review response info
         /// </summary>
-        [HttpPost]
-        [Route("{requestId}")]
-        public ActionResult<ReviewRequestInfoDto> CreateReviewResponse(int requestId, [FromBody] string reviewText)
+        [HttpPost("{requestId}/review")]
+        public ActionResult<ReviewRequestInfoDto> CreateReviewResponse(int? requestId, [FromBody] SendReviewResponseDto sendReviewResponseDto)
         {
-            if (requestId < 0)
-                return BadRequest("Wrong request id");
-
-            if (string.IsNullOrWhiteSpace(reviewText))
-                return BadRequest("Wrong issue");
-
-            ReviewRequestInfoDto result = _reviewService.SendReviewResponse(new SendReviewResponseDto(requestId, reviewText));
-            return Ok(result);
+            return requestId switch
+            {
+                null => BadRequest(RecademyException.MissedArgument(nameof(requestId))),
+                _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
+                _ when sendReviewResponseDto == null => BadRequest(RecademyException.MissedArgument(nameof(sendReviewResponseDto))),
+                _ => Ok(_reviewService.SendReviewResponse(requestId.Value, sendReviewResponseDto))
+            };
         }
 
         /// <summary>
@@ -64,8 +66,7 @@ namespace Recademy.Api.Controllers
         [HttpGet]
         public ActionResult<List<ReviewRequestInfoDto>> GetReviewRequestInfo()
         {
-            List<ReviewRequestInfoDto> reviewRequests = _reviewService.GetReviewRequests();
-            return Ok(reviewRequests);
+            return Ok(_reviewService.GetReviewRequests());
         }
     }
 }

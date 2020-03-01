@@ -46,21 +46,21 @@ namespace Recademy.Api.Services
             return new ReviewRequestInfoDto(newRequest);
         }
 
-        public ReviewRequestInfoDto SendReviewResponse(SendReviewResponseDto reviewResponseDto)
+        public ReviewRequestInfoDto SendReviewResponse(int requestId, SendReviewResponseDto reviewResponseDto)
         {
             ReviewRequest request = _context
                 .ReviewRequests
                 .Include(s => s.ProjectInfo)
                 .ThenInclude(p => p.Skills)
                 .Include(s => s.User)
-                .FirstOrDefault(r => r.Id == reviewResponseDto.Id);
+                .FirstOrDefault(r => r.Id == requestId);
 
             if (request == null)
-                throw RecademyException.ReviewRequestNotFound(reviewResponseDto.Id);
+                throw RecademyException.ReviewRequestNotFound(requestId);
 
             var newReview = new ReviewResponse
             {
-                ReviewRequestId = reviewResponseDto.Id,
+                ReviewRequestId = requestId,
                 Description = reviewResponseDto.ReviewText,
                 ReviewerId = reviewResponseDto.UserId
             };
