@@ -34,7 +34,7 @@ namespace Recademy.Api.Services
                 .ToList();
         }
 
-        public async Task CreateIssues(string repoLink, string issueText)
+        public async Task<Issue> CreateIssues(string repoLink, string issueText)
         {
             repoLink = repoLink.Replace("/repos/", "/");
             var splittedUrl = repoLink.Split('/');
@@ -44,7 +44,7 @@ namespace Recademy.Api.Services
                 Body = issueText
             };
 
-            await _client
+            return await _client
                 .Issue
                 .Create(splittedUrl[3], splittedUrl[4], issue);
         }

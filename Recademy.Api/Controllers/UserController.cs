@@ -20,9 +20,8 @@ namespace Recademy.Api.Controllers
         /// <summary>
         /// Get user info
         /// </summary>
-        [HttpGet]
-        [Route("{userId}")]
-        public IActionResult GetUserInfo(int userId)
+        [HttpGet("{userId}")]
+        public ActionResult<UserInfoDto> GetUserInfo(int userId)
         {
             if (userId < 0)
                 return BadRequest($"Wrong user Id: {userId}");
@@ -41,9 +40,8 @@ namespace Recademy.Api.Controllers
         /// <summary>
         /// Get user activity ranking
         /// </summary>
-        [HttpGet]
-        [Route("ranking")]
-        public IActionResult GetUsersRanking()
+        [HttpGet("ranking")]
+        public ActionResult<Dictionary<string, int>> GetUsersRanking()
         {
             Dictionary<string, int> ranking = _userService.GetUsersRanking();
             return Ok(ranking);

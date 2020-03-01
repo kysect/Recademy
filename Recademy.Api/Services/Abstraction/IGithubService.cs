@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Octokit;
 using Recademy.Library.Dto;
 
 namespace Recademy.Api.Services.Abstraction
@@ -8,7 +9,7 @@ namespace Recademy.Api.Services.Abstraction
     public interface IGithubService
     {
         List<GhRepositoryDto> GhGetRepositories(int userId);
-        Task CreateIssues(string repoLink, string issueText);
+        Task<Issue> CreateIssues(string repoLink, string issueText);
         MarkupString GetReadme(string repoLink);
     }
 }
