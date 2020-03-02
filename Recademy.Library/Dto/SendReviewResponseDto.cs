@@ -1,7 +1,12 @@
-﻿namespace Recademy.Library.Dto
+namespace Recademy.Library.Dto
 {
     public class SendReviewResponseDto
     {
+        public SendReviewResponseDto()
+        {
+            
+        }
+
         public SendReviewResponseDto(string text, int userId)
         {
             ReviewText = text;

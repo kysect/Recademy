@@ -6,6 +6,11 @@ namespace Recademy.Library.Dto
 {
     public class UserInfoDto
     {
+        public UserInfoDto()
+        {
+            
+        }
+
         public UserInfoDto(User userInfo)
         {
             UserName = userInfo.Name;

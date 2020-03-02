@@ -6,6 +6,11 @@ namespace Recademy.Library.Dto
 {
     public class ProjectInfoDto
     {
+        public ProjectInfoDto()
+        {
+            
+        }
+
         public ProjectInfoDto(ProjectInfo projectInfo)
         {
             ProjectId = projectInfo.Id;

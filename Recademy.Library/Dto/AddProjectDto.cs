@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Recademy.Library.Dto
 {
     public class AddProjectDto
     {
+        public AddProjectDto()
+        {
+            
+        }
+
         public AddProjectDto(string projectName, int userId, string url)
         {
             UserId = userId;
