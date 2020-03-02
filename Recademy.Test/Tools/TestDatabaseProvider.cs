@@ -4,9 +4,9 @@ using Recademy.Api;
 
 namespace Recademy.Test.Tools
 {
-    public static class DatabaseProvider
+    public static class TestDatabaseProvider
     {
-        private static RecademyContext GetDatabaseContext()
+        public static RecademyContext GetDatabaseContext()
         {
             var options = new DbContextOptionsBuilder<RecademyContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
