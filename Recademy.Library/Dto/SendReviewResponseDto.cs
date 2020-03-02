@@ -1,3 +1,5 @@
+﻿using System.ComponentModel.DataAnnotations;
+
 namespace Recademy.Library.Dto
 {
     public class SendReviewResponseDto
@@ -13,7 +15,10 @@ namespace Recademy.Library.Dto
             UserId = userId;
         }
 
+        [Required]
         public string ReviewText { get; set; }
+
+        [Required]
         public int UserId { get; set; }
     }
 }

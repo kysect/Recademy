@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Recademy.Library.Dto
 {
@@ -17,8 +18,11 @@ namespace Recademy.Library.Dto
             Tags = new List<string>();
         }
 
+        [Required]
         public int UserId { get; set; }
+        [Required]
         public string ProjectName { get; set; }
+        [Required]
         public string ProjectUrl { get; set; }
         public List<string> Tags { get; set; }
     }

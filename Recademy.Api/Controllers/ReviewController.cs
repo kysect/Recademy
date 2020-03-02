@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
@@ -9,6 +10,7 @@ namespace Recademy.Api.Controllers
     [Produces("application/json")]
     [Consumes("application/json")]
     [Route("api/review")]
+    [ApiController]
     public class ReviewController : Controller
     {
         private readonly IReviewService _reviewService;
@@ -22,26 +24,21 @@ namespace Recademy.Api.Controllers
         /// Create review request
         /// </summary>
         [HttpPost]
-        public ActionResult<ReviewRequestInfoDto> CreateReviewRequest([FromBody] ReviewRequestAddDto reviewRequestAddDto)
+        public ActionResult<ReviewRequestInfoDto> CreateReviewRequest([FromBody][Required] ReviewRequestAddDto reviewRequestAddDto)
         {
-            return reviewRequestAddDto switch
-            {
-                null => BadRequest(RecademyException.MissedArgument(nameof(reviewRequestAddDto))),
-                _ => _reviewService.AddReviewRequest(reviewRequestAddDto)
-            };
+            return _reviewService.AddReviewRequest(reviewRequestAddDto);
         }
 
         /// <summary>
         /// Get review request info
         /// </summary>
         [HttpGet("{requestId}")]
-        public ActionResult<ReviewRequestInfoDto> GetReviewRequestInfo(int? requestId)
+        public ActionResult<ReviewRequestInfoDto> GetReviewRequestInfo([Required]int requestId)
         {
             return requestId switch
             {
-                null => BadRequest(RecademyException.MissedArgument(nameof(requestId))),
                 _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
-                _ => Ok(_reviewService.GetReviewInfo(requestId.Value))
+                _ => Ok(_reviewService.GetReviewInfo(requestId))
             };
         }
 
@@ -49,36 +46,32 @@ namespace Recademy.Api.Controllers
         /// Create review response info
         /// </summary>
         [HttpPost("{requestId}/review")]
-        public ActionResult<ReviewRequestInfoDto> CreateReviewResponse(int? requestId, [FromBody] SendReviewResponseDto sendReviewResponseDto)
+        public ActionResult<ReviewRequestInfoDto> CreateReviewResponse([Required]int requestId, [FromBody][Required] SendReviewResponseDto sendReviewResponseDto)
         {
             return requestId switch
             {
-                null => BadRequest(RecademyException.MissedArgument(nameof(requestId))),
                 _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
-                _ when sendReviewResponseDto == null => BadRequest(RecademyException.MissedArgument(nameof(sendReviewResponseDto))),
-                _ => Ok(_reviewService.SendReviewResponse(requestId.Value, sendReviewResponseDto))
+                _ => Ok(_reviewService.SendReviewResponse(requestId, sendReviewResponseDto))
             };
         }
 
         [HttpPost("{requestId}/complete")]
-        public ActionResult<ReviewRequestInfoDto> CompleteReview(int? requestId)
+        public ActionResult<ReviewRequestInfoDto> CompleteReview([Required]int requestId)
         {
             return requestId switch
             {
-                null => BadRequest(RecademyException.MissedArgument(nameof(requestId))),
                 _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
-                _ => _reviewService.CompleteReview(requestId.Value)
+                _ => _reviewService.CompleteReview(requestId)
             };
         }
 
         [HttpPost("{requestId}/abandon")]
-        public ActionResult<ReviewRequestInfoDto> AbandonReview(int? requestId)
+        public ActionResult<ReviewRequestInfoDto> AbandonReview([Required]int requestId)
         {
             return requestId switch
             {
-                null => BadRequest(RecademyException.MissedArgument(nameof(requestId))),
                 _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
-                _ => _reviewService.AbandonReview(requestId.Value)
+                _ => _reviewService.AbandonReview(requestId)
             };
         }
 
@@ -88,7 +81,7 @@ namespace Recademy.Api.Controllers
         [HttpGet]
         public ActionResult<List<ReviewRequestInfoDto>> GetReviewRequestInfo()
         {
-            return Ok(_reviewService.GetReviewRequests());
+            return _reviewService.GetReviewRequests();
         }
     }
 }
