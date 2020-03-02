@@ -23,7 +23,7 @@ namespace Recademy.Library.Dto
         public ProjectInfoDto ProjectInfo { get; set; }
         public UserInfoDto User { get; set; }
 
-        //TODO: check
+        //TODO: Need to rework coz of multi reviewers
         //public ReviewResponse ReviewResponse { get; set; }
     }
 }

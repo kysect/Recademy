@@ -14,7 +14,7 @@ namespace Recademy.Test.Tools
             var databaseContext = new RecademyContext(options);
             databaseContext.Database.EnsureCreated();
 
-            //TODO: use mocker
+            //TODO: Move all generation logic to mocker. Split for tow method - with empty db and with generated data
 
             return databaseContext;
         }

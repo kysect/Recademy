@@ -42,11 +42,10 @@ namespace Recademy.Mock
                 GenerateUser();
         }
 
-        private List<Skill> AddSkills()
+        private void AddSkills()
         {
             List<Skill> techs = TypesGenerator.GetTechnologiesList();
             _db.Skills.AddRange(techs);
-            return techs;
         }
 
         public User GenerateUser()
@@ -72,7 +71,7 @@ namespace Recademy.Mock
             return new RecademyContext(builder.Options);
         }
 
-        private ProjectInfo GenerateProjectsInfo(User user)
+        private void GenerateProjectsInfo(User user)
         {
             ProjectInfo newProject = TypesGenerator.GetProjectInfo(user);
             _db.ProjectInfos.Add(newProject);
@@ -84,11 +83,9 @@ namespace Recademy.Mock
 
             User user2 = TypesGenerator.GetUser();
 
-            //TODO: validate
+            //TODO: Check that it is work ok
             GenerateRequestResponse(newProject, user, user2);
             _db.SaveChanges();
-
-            return newProject;
         }
 
         private void GenerateRequestResponse(ProjectInfo projectInfo, User userRequest, User userResponse)

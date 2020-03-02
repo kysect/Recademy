@@ -52,7 +52,9 @@ namespace Recademy.Api.Controllers
         [HttpPost]
         public ActionResult<ProjectInfoDto> AddUserProject([FromBody] AddProjectDto addProjectDto)
         {
-            //TODO: validate tags
+            //TODO: validate tags - it is must exist in database
+            //TODO: validate project url - it is must be project at author github
+
             return addProjectDto switch
             {
                 null => BadRequest(RecademyException.MissedArgument(nameof(addProjectDto))),

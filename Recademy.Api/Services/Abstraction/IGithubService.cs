@@ -9,7 +9,7 @@ namespace Recademy.Api.Services.Abstraction
     public interface IGithubService
     {
         List<GhRepositoryDto> GhGetRepositories(int userId);
-        Task<Issue> CreateIssues(string repoLink, string issueText);
-        MarkupString GetReadme(string repoLink);
+        Task<Issue> CreateIssues(string projectUrl, string issueText);
+        MarkupString GetReadme(string projectUrl);
     }
 }

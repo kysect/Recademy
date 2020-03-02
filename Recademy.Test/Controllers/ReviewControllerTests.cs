@@ -52,7 +52,7 @@ namespace Recademy.Test.Controllers
             ProjectInfoDto createdProject = _projectController.AddUserProject(addProjectDto).Value;
             ReviewRequestAddDto reviewRequestAddDto =
                 InstanceFactory.CreateReviewRequestAddDto(studentAccount.Id, createdProject.ProjectId);
-            ReviewRequestInfoDto review = _reviewController.CreateReviewRequest(reviewRequestAddDto).Value;
+            _reviewController.CreateReviewRequest(reviewRequestAddDto);
             
             Assert.Catch<RecademyException>(() => _reviewController.CreateReviewRequest(reviewRequestAddDto));
         }

@@ -26,7 +26,7 @@ namespace Recademy.Api.Controllers
         [HttpGet("readme")]
         public ActionResult<Microsoft.AspNetCore.Components.MarkupString> GetProjectReadme([FromQuery] string projectUrl)
         {
-            //TODO: don't send url via query
+            //TODO: don't send url via query, send as json in post
             if (string.IsNullOrWhiteSpace(projectUrl))
                 return BadRequest("Wrong project URL");
 

@@ -34,10 +34,10 @@ namespace Recademy.Api.Services
                 .ToList();
         }
 
-        public async Task<Issue> CreateIssues(string repoLink, string issueText)
+        public async Task<Issue> CreateIssues(string projectUrl, string issueText)
         {
-            repoLink = repoLink.Replace("/repos/", "/");
-            var splittedUrl = repoLink.Split('/');
+            projectUrl = projectUrl.Replace("/repos/", "/");
+            var splittedUrl = projectUrl.Split('/');
             string issueName = GhUtil.IssueText + "Test Reviewer";
             NewIssue issue = new NewIssue(issueName)
             {
@@ -49,9 +49,9 @@ namespace Recademy.Api.Services
                 .Create(splittedUrl[3], splittedUrl[4], issue);
         }
 
-        public MarkupString GetReadme(string repoLink)
+        public MarkupString GetReadme(string projectUrl)
         {
-            var splittedUrl = repoLink.Split('/');
+            var splittedUrl = projectUrl.Split('/');
             return GetReadme(splittedUrl[3], splittedUrl[4]);
         }
 
