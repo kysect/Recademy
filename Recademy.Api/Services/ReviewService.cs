@@ -32,12 +32,22 @@ namespace Recademy.Api.Services
 
         public ReviewRequestInfoDto AddReviewRequest(ReviewRequestAddDto reviewRequestAddDto)
         {
+            ReviewRequest previousReview = _context.ReviewRequests
+                .Where(r => r.ProjectId == reviewRequestAddDto.ProjectId)
+                .FirstOrDefault(r => r.State == ProjectState.Requested || r.State == ProjectState.Reviewed);
+
+            if (previousReview != null)
+                throw new RecademyException($"Review for this project already exist. Close it before adding new. Review id: {previousReview.Id}");
+
+            //TODO: check if project belong to review author
+
             var newRequest = new ReviewRequest
             {
+                DateCreate = DateTime.UtcNow,
+                State = ProjectState.Requested,
+                Description = reviewRequestAddDto.Description,
                 ProjectId = reviewRequestAddDto.ProjectId,
                 UserId = reviewRequestAddDto.UserId,
-                DateCreate = DateTime.UtcNow,
-                State = ProjectState.Requested
             };
 
             _context.Add(newRequest);

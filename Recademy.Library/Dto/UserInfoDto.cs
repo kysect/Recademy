@@ -11,7 +11,7 @@ namespace Recademy.Library.Dto
             UserName = userInfo.Name;
             Skills = userInfo
                 .UserSkills
-                .Select(el => el.SkillName)
+                ?.Select(el => el.SkillName)
                 .ToList();
 
             ProjectDtos = userInfo

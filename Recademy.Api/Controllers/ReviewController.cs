@@ -27,7 +27,7 @@ namespace Recademy.Api.Controllers
             return reviewRequestAddDto switch
             {
                 null => BadRequest(RecademyException.MissedArgument(nameof(reviewRequestAddDto))),
-                _ => Ok(_reviewService.AddReviewRequest(reviewRequestAddDto))
+                _ => _reviewService.AddReviewRequest(reviewRequestAddDto)
             };
         }
 
