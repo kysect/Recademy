@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
@@ -21,13 +22,14 @@ namespace Recademy.Api.Controllers
         /// Get user info
         /// </summary>
         [HttpGet("{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<UserInfoDto> GetUserInfo(int? userId)
         {
             return userId switch
             {
                 null => BadRequest(RecademyException.MissedArgument(nameof(userId))),
                 _ when userId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(userId), userId)),
-                _ => Ok(_userService.GetUserInfo(userId.Value))
+                _ => _userService.GetUserInfo(userId.Value)
             };
         }
 
