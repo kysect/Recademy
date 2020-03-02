@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
@@ -9,6 +10,7 @@ namespace Recademy.Api.Controllers
     [Produces("application/json")]
     [Consumes("application/json")]
     [Route("api/projects")]
+    [ApiController]
     public class ProjectController : Controller
     {
         private readonly IProjectService _projectService;
@@ -22,13 +24,12 @@ namespace Recademy.Api.Controllers
         /// Get project info
         /// </summary>
         [HttpGet("{projectId}")]
-        public ActionResult<ProjectInfoDto> GetProjectInfo(int? projectIid)
+        public ActionResult<ProjectInfoDto> GetProjectInfo([Required]int projectIid)
         {
             return projectIid switch
             {
-                null => BadRequest(RecademyException.MissedArgument(nameof(projectIid))),
                 _ when projectIid < 0 => BadRequest(RecademyException.InvalidArgument(nameof(projectIid), projectIid)),
-                _ => Ok(_projectService.GetProjectInfo(projectIid.Value))
+                _ => Ok(_projectService.GetProjectInfo(projectIid))
             };
         }
 
@@ -36,30 +37,20 @@ namespace Recademy.Api.Controllers
         /// Get projects by tag
         /// </summary>
         [HttpGet("tag/{tagName}")]
-        public ActionResult<List<ProjectInfoDto>> GetTagProjects(string tagName)
+        public ActionResult<List<ProjectInfoDto>> GetTagProjects([Required]string tagName)
         {
-            return tagName switch
-            {
-                null => BadRequest(RecademyException.MissedArgument(nameof(tagName))),
-                _ when string.IsNullOrWhiteSpace(tagName) => BadRequest(RecademyException.InvalidArgument(nameof(tagName), tagName)),
-                _ => Ok(_projectService.GetProjectsByTag(tagName))
-            };
+            return _projectService.GetProjectsByTag(tagName);
         }
 
         /// <summary>
         /// Upload project to user
         /// </summary>
         [HttpPost]
-        public ActionResult<ProjectInfoDto> AddUserProject([FromBody] AddProjectDto addProjectDto)
+        public ActionResult<ProjectInfoDto> AddUserProject([FromBody][Required] AddProjectDto addProjectDto)
         {
             //TODO: validate tags - it is must exist in database
             //TODO: validate project url - it is must be project at author github
-
-            return addProjectDto switch
-            {
-                null => BadRequest(RecademyException.MissedArgument(nameof(addProjectDto))),
-                _ => _projectService.AddProject(addProjectDto)
-            };
+            return _projectService.AddProject(addProjectDto);
         }
     }
 }
