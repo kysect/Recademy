@@ -50,12 +50,13 @@ namespace Recademy.Api.Controllers
         /// Upload project to user
         /// </summary>
         [HttpPost]
-        public ActionResult<ProjectInfoDto> AddUSerProject([FromBody] AddProjectDto addProjectDto)
+        public ActionResult<ProjectInfoDto> AddUserProject([FromBody] AddProjectDto addProjectDto)
         {
+            //TODO: validate tags
             return addProjectDto switch
             {
                 null => BadRequest(RecademyException.MissedArgument(nameof(addProjectDto))),
-                _ => Ok(_projectService.AddProject(addProjectDto))
+                _ => _projectService.AddProject(addProjectDto)
             };
         }
     }
