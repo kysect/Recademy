@@ -6,6 +6,11 @@ namespace Recademy.Library.Dto
 {
     public class ReviewRequestInfoDto
     {
+        public ReviewRequestInfoDto()
+        {
+            
+        }
+
         public ReviewRequestInfoDto(ReviewRequest request)
         {
             Id = request.Id;
