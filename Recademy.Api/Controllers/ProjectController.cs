@@ -21,10 +21,10 @@ namespace Recademy.Api.Controllers
         }
 
         /// <summary>
-        /// Get project info
+        ///     Get project info
         /// </summary>
         [HttpGet("{projectId}")]
-        public ActionResult<ProjectInfoDto> GetProjectInfo([Required]int projectIid)
+        public ActionResult<ProjectInfoDto> GetProjectInfo([Required] int projectIid)
         {
             return projectIid switch
             {
@@ -34,19 +34,19 @@ namespace Recademy.Api.Controllers
         }
 
         /// <summary>
-        /// Get projects by tag
+        ///     Get projects by tag
         /// </summary>
         [HttpGet("tag/{tagName}")]
-        public ActionResult<List<ProjectInfoDto>> GetTagProjects([Required]string tagName)
+        public ActionResult<List<ProjectInfoDto>> GetTagProjects([Required] string tagName)
         {
             return _projectService.GetProjectsByTag(tagName);
         }
 
         /// <summary>
-        /// Upload project to user
+        ///     Upload project to user
         /// </summary>
         [HttpPost]
-        public ActionResult<ProjectInfoDto> AddUserProject([FromBody][Required] AddProjectDto addProjectDto)
+        public ActionResult<ProjectInfoDto> AddUserProject([FromBody] [Required] AddProjectDto addProjectDto)
         {
             //TODO: validate tags - it is must exist in database
             //TODO: validate project url - it is must be project at author github

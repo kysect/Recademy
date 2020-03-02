@@ -127,7 +127,7 @@ namespace Recademy.Api.Services
 
         public List<ReviewRequest> GetReviewRequestsForUser(int userId)
         {
-            var tags = _context
+            List<string> tags = _context
                 .Users
                 .Find(userId)
                 .UserSkills
@@ -146,7 +146,7 @@ namespace Recademy.Api.Services
                 .ToList();
         }
 
-        public List<ReviewRequest> GetRequestsByFilter(GetRequestsByFilterDto argues)
+        public List<ReviewRequest> GetRequestsByFilter(RequestsByFilterDto argues)
         {
             return _context
                 .ReviewRequests
