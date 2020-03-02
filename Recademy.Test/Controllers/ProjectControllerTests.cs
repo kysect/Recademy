@@ -41,5 +41,21 @@ namespace Recademy.Test.Controllers
             ProjectInfoDto project = createdUser.ProjectDtos.Find(p => p.ProjectId == createdProject.ProjectId);
             Assert.NotNull(project);
         }
+
+        [Test]
+        public void AddProjectWithTags_ProjectHasTags()
+        {
+            User generatedUser = _mocker.GenerateUser();
+            AddProjectDto addProjectDto = InstanceFactory.CreateAddProjectDtoWithTags(generatedUser.Id);
+
+            ProjectInfoDto createdProject = _projectController.AddUserProject(addProjectDto).Value;
+            UserInfoDto createdUser = _userController.GetUserInfo(generatedUser.Id).Value;
+
+            Assert.NotNull(createdUser);
+            Assert.NotNull(createdProject);
+
+            ProjectInfoDto project = createdUser.ProjectDtos.Find(p => p.ProjectId == createdProject.ProjectId);
+            Assert.True(project.ProjectSkills.Count > 0);
+        }
     }
 }
