@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Recademy.Api.Services;
 using Recademy.Api.Services.Abstraction;
@@ -21,8 +22,8 @@ namespace Recademy.Api
         }
 
         public IConfiguration Configuration { get; }
+        private string _logFilePath;
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -31,7 +32,7 @@ namespace Recademy.Api
                 configuration.SwaggerDoc("Recademy", new OpenApiInfo
                 {
                     Title = "Recademy API",
-                    Version = "0.0.1"
+                    Version = "0.2.0"
                 });
                 string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -40,6 +41,8 @@ namespace Recademy.Api
 
             services.AddDbContext<RecademyContext>(options =>
                 options.UseSqlServer(Configuration["connectionString:RecademyDB"]));
+
+            _logFilePath = Configuration["LogFilePath"];
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IGameficationService, GameficationService>();
@@ -51,9 +54,10 @@ namespace Recademy.Api
             services.AddScoped<IAchievementService, AchievementService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile(_logFilePath);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
