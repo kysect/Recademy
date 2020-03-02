@@ -6,8 +6,11 @@ namespace Recademy.Api.Services.Abstraction
     public interface IReviewService
     {
         List<ReviewRequestInfoDto> GetReviewRequests();
+        ReviewRequestInfoDto GetReviewInfo(int requestId);
+
         ReviewRequestInfoDto AddReviewRequest(ReviewRequestAddDto reviewRequestAddDto);
         ReviewRequestInfoDto SendReviewResponse(int requestId, SendReviewResponseDto reviewResponseDto);
-        ReviewRequestInfoDto GetReviewInfo(int requestId);
+        ReviewRequestInfoDto CompleteReview(int requestId);
+        ReviewRequestInfoDto AbandonReview(int requestId);
     }
 }

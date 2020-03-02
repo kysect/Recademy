@@ -47,15 +47,43 @@ namespace Recademy.Test.Controllers
         public void AddTwoSameProjectReview_ShouldFailWithException()
         {
             User studentAccount = _mocker.GenerateUser();
-            User mentorAccount = _mocker.GenerateUser();
             AddProjectDto addProjectDto = InstanceFactory.CreateAddProjectDto(studentAccount.Id);
 
             ProjectInfoDto createdProject = _projectController.AddUserProject(addProjectDto).Value;
             ReviewRequestAddDto reviewRequestAddDto =
-                InstanceFactory.CreateReviewRequestAddDto(mentorAccount.Id, createdProject.ProjectId);
+                InstanceFactory.CreateReviewRequestAddDto(studentAccount.Id, createdProject.ProjectId);
             ReviewRequestInfoDto review = _reviewController.CreateReviewRequest(reviewRequestAddDto).Value;
             
             Assert.Catch<RecademyException>(() => _reviewController.CreateReviewRequest(reviewRequestAddDto));
+        }
+
+        [Test]
+        public void CompleteReview_Ok()
+        {
+            User studentAccount = _mocker.GenerateUser();
+            AddProjectDto addProjectDto = InstanceFactory.CreateAddProjectDto(studentAccount.Id);
+
+            ProjectInfoDto createdProject = _projectController.AddUserProject(addProjectDto).Value;
+            ReviewRequestAddDto reviewRequestAddDto = InstanceFactory.CreateReviewRequestAddDto(studentAccount.Id, createdProject.ProjectId);
+            ReviewRequestInfoDto requestInfoDto = _reviewController.CreateReviewRequest(reviewRequestAddDto).Value;
+            ReviewRequestInfoDto result = _reviewController.CompleteReview(requestInfoDto.Id).Value;
+
+            Assert.AreEqual(ProjectState.Completed, result.State);
+        }
+
+        [Test]
+        public void AbandonReview_Ok()
+        {
+            User studentAccount = _mocker.GenerateUser();
+            AddProjectDto addProjectDto = InstanceFactory.CreateAddProjectDto(studentAccount.Id);
+
+            ProjectInfoDto createdProject = _projectController.AddUserProject(addProjectDto).Value;
+            ReviewRequestAddDto reviewRequestAddDto =
+                InstanceFactory.CreateReviewRequestAddDto(studentAccount.Id, createdProject.ProjectId);
+            ReviewRequestInfoDto requestInfoDto = _reviewController.CreateReviewRequest(reviewRequestAddDto).Value;
+            ReviewRequestInfoDto result = _reviewController.AbandonReview(requestInfoDto.Id).Value;
+
+            Assert.AreEqual(ProjectState.Abandoned, result.State);
         }
     }
 }

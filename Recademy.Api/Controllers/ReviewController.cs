@@ -60,6 +60,28 @@ namespace Recademy.Api.Controllers
             };
         }
 
+        [HttpPost("{requestId}/complete")]
+        public ActionResult<ReviewRequestInfoDto> CompleteReview(int? requestId)
+        {
+            return requestId switch
+            {
+                null => BadRequest(RecademyException.MissedArgument(nameof(requestId))),
+                _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
+                _ => _reviewService.CompleteReview(requestId.Value)
+            };
+        }
+
+        [HttpPost("{requestId}/abandon")]
+        public ActionResult<ReviewRequestInfoDto> AbandonReview(int? requestId)
+        {
+            return requestId switch
+            {
+                null => BadRequest(RecademyException.MissedArgument(nameof(requestId))),
+                _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
+                _ => _reviewService.AbandonReview(requestId.Value)
+            };
+        }
+
         /// <summary>
         /// Get review requests list
         /// </summary>
