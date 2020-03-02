@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
-using Recademy.Library.Models;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Recademy.Library.Types;
 
 namespace Recademy.Api.Controllers
 {
     [Produces("application/json")]
     [Consumes("application/json")]
     [Route("api/review")]
+    [ApiController]
     public class ReviewController : Controller
     {
         private readonly IReviewService _reviewService;
@@ -21,58 +21,69 @@ namespace Recademy.Api.Controllers
         }
 
         /// <summary>
-        /// Create review request
+        ///     Create review request
         /// </summary>
         [HttpPost]
-        [Route("{projectId}")]
-        public IActionResult CreateReviewRequest(int projectId)
+        public ActionResult<ReviewRequestInfoDto> CreateReviewRequest(
+            [FromBody] [Required] ReviewRequestAddDto reviewRequestAddDto)
         {
-            if (projectId < 0)
-                return BadRequest("Wrong project id");
-
-            _reviewService.AddReviewRequest(projectId);
-            return Accepted();
+            return _reviewService.AddReviewRequest(reviewRequestAddDto);
         }
 
         /// <summary>
-        /// Get review request info
+        ///     Get review request info
+        /// </summary>
+        [HttpGet("{requestId}")]
+        public ActionResult<ReviewRequestInfoDto> GetReviewRequestInfo([Required] int requestId)
+        {
+            return requestId switch
+            {
+                _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
+                _ => Ok(_reviewService.GetReviewInfo(requestId))
+            };
+        }
+
+        /// <summary>
+        ///     Create review response info
+        /// </summary>
+        [HttpPost("{requestId}/review")]
+        public ActionResult<ReviewRequestInfoDto> CreateReviewResponse([Required] int requestId,
+            [FromBody] [Required] SendReviewResponseDto sendReviewResponseDto)
+        {
+            return requestId switch
+            {
+                _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
+                _ => Ok(_reviewService.SendReviewResponse(requestId, sendReviewResponseDto))
+            };
+        }
+
+        [HttpPost("{requestId}/complete")]
+        public ActionResult<ReviewRequestInfoDto> CompleteReview([Required] int requestId)
+        {
+            return requestId switch
+            {
+                _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
+                _ => _reviewService.CompleteReview(requestId)
+            };
+        }
+
+        [HttpPost("{requestId}/abandon")]
+        public ActionResult<ReviewRequestInfoDto> AbandonReview([Required] int requestId)
+        {
+            return requestId switch
+            {
+                _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
+                _ => _reviewService.AbandonReview(requestId)
+            };
+        }
+
+        /// <summary>
+        ///     Get review requests list
         /// </summary>
         [HttpGet]
-        [Route("{requestId}")]
-        public IActionResult GetReviewRequestInfo(int requestId)
+        public ActionResult<List<ReviewRequestInfoDto>> GetReviewRequestInfo()
         {
-            if (requestId < 0)
-                return BadRequest("Wrong request id");
-
-            ReviewProjectDto reviewInfo = _reviewService.GetReviewInfo(requestId);
-            return Ok(reviewInfo);
-        }
-
-        /// <summary>
-        /// Create review response info
-        /// </summary>
-        [HttpPost]
-        [Route("{requestId}")]
-        public IActionResult CreateReviewResponse(int requestId, [FromBody] string reviewText)
-        {
-            if (requestId < 0)
-                return BadRequest("Wrong request id");
-
-            if (string.IsNullOrWhiteSpace(reviewText))
-                return BadRequest("Wrong issue");
-
-            _reviewService.SendReviewResponse(new SendReviewRequestDto(requestId, reviewText));
-            return Ok();
-        }
-
-        /// <summary>
-        /// Get review requests list
-        /// </summary>
-        [HttpGet]
-        public IActionResult GetReviewRequestInfo()
-        {
-            List<ReviewRequest> reviewRequests = _reviewService.GetReviewRequests();
-            return Ok(reviewRequests);
+            return _reviewService.GetReviewRequests();
         }
     }
 }

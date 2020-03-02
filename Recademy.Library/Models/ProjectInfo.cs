@@ -13,13 +13,12 @@ namespace Recademy.Library.Models
 
         [ForeignKey("User")] 
         public int AuthorId { get; set; }
+        public User User { get; set; }
 
         public string Description { get; set; }
 
         public string GithubLink { get; set; }
 
-
-        public User User { get; set; }
         public ICollection<ProjectSkill> Skills { get; set; }
     }
 }

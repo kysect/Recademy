@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Library.Dto;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Recademy.Library.Types;
 
 namespace Recademy.Api.Controllers
 {
     [Produces("application/json")]
     [Consumes("application/json")]
     [Route("api/tags")]
+    [ApiController]
     public class TagController : Controller
     {
         private readonly ITagService _tagService;
@@ -20,13 +20,25 @@ namespace Recademy.Api.Controllers
         }
 
         /// <summary>
-        /// Get all existing tags
+        ///     Get all existing tags
         /// </summary>
         [HttpGet]
-        public IActionResult GetAllExistingTags()
+        public ActionResult<List<string>> GetAllExistingTags()
         {
-            List<string> allTags = _tagService.GetAllTags();
-            return Ok(allTags);
+            return _tagService.GetAllTags();
+        }
+
+        /// <summary>
+        ///     Get all existing tags
+        /// </summary>
+        [HttpGet("{userId}")]
+        public ActionResult<List<string>> GetUserTags([Required] int userId)
+        {
+            return userId switch
+            {
+                _ when userId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(userId), userId)),
+                _ => Ok(_tagService.GetUserTags(userId))
+            };
         }
     }
 }

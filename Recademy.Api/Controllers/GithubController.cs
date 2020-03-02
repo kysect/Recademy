@@ -1,19 +1,19 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using Octokit;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Recademy.Library.Types;
 
 namespace Recademy.Api.Controllers
 {
     [Produces("application/json")]
     [Consumes("application/json")]
     [Microsoft.AspNetCore.Mvc.Route("api/github")]
+    [ApiController]
     public class GithubController : Controller
     {
         private readonly IGithubService _githubService;
@@ -24,50 +24,36 @@ namespace Recademy.Api.Controllers
         }
 
         /// <summary>
-        /// Get project readme
+        ///     Get project readme
         /// </summary>
-        [HttpGet]
-        [Microsoft.AspNetCore.Mvc.Route("readme")]
-        public IActionResult GetProjectReadme([FromQuery] string projectUrl)
+        [HttpGet("readme")]
+        public ActionResult<MarkupString> GetProjectReadme([FromQuery] [Required] string projectUrl)
         {
-            if (string.IsNullOrWhiteSpace(projectUrl))
-                return BadRequest("Wrong project URL");
-
+            //TODO: don't send url via query, send as json in post
             MarkupString readme = _githubService.GetReadme(projectUrl);
             return Ok(readme);
         }
 
         /// <summary>
-        /// Create issue to project on github
+        ///     Create issue to project on github
         /// </summary>
-        [HttpPost]
-        [Microsoft.AspNetCore.Mvc.Route("issue")]    
-        public async Task<IActionResult> CreateGithubIssue([FromQuery] string projectUrl, [FromBody] string issueText)
+        [HttpPost("issue")]
+        public async Task<ActionResult<Issue>> CreateGithubIssue([FromBody] GitHubIssueCreateDto createDto)
         {
-            if (string.IsNullOrWhiteSpace(projectUrl))
-                return BadRequest("Wrong project URL");
-
-            if (string.IsNullOrWhiteSpace(issueText))
-                return BadRequest("Wrong issue");
-
-            await _githubService.CreateIssues(projectUrl, issueText);
-
-            return Ok();
+            return await _githubService.CreateIssues(createDto.ProjectUrl, createDto.IssueText).ConfigureAwait(false);
         }
 
         /// <summary>
-        /// Get user projects from github
+        ///     Get user projects from github
         /// </summary>
-        [HttpGet]
-        [Microsoft.AspNetCore.Mvc.Route("projects/{userId}")]
-        public IActionResult GetUserRepositories(int userId)
+        [HttpGet("projects/{userId}")]
+        public ActionResult<List<GhRepositoryDto>> GetUserRepositories([Required] int userId)
         {
-            userId = 1; // Пока нет авторизации
-            if (userId < 0)
-                return BadRequest("Wrong user id");
-
-            List<GhRepositoryDto> repositories = _githubService.GhGetRepositories(userId);
-            return Ok(repositories);
+            return userId switch
+            {
+                _ when userId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(userId), userId)),
+                _ => Ok(_githubService.GhGetRepositories(userId))
+            };
         }
     }
 }
