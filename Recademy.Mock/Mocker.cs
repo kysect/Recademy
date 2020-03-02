@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Recademy.BlazorWeb.Context;
-using Recademy.BlazorWeb.Models;
-using Recademy.BlazorWeb.Types;
+using Recademy.Api;
+using Recademy.Library.Models;
+using Recademy.Library.Types;
 using Recademy.Mock.Generators;
 
 namespace Recademy.Mock
