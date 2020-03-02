@@ -4,12 +4,12 @@ namespace Recademy.Library.Dto
 {
     public class AddProjectDto
     {
-        public AddProjectDto(string projectName, int userId, string url, string tag)
+        public AddProjectDto(string projectName, int userId, string url)
         {
             UserId = userId;
             ProjectUrl = url;
             ProjectName = projectName;
-            Tags = new List<string> {tag};
+            Tags = new List<string>();
         }
 
         public int UserId { get; set; }
