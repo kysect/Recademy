@@ -20,7 +20,7 @@ namespace Recademy.Api.Controllers
         }
 
         /// <summary>
-        /// Get all existing tags
+        ///     Get all existing tags
         /// </summary>
         [HttpGet]
         public ActionResult<List<string>> GetAllExistingTags()
@@ -29,10 +29,10 @@ namespace Recademy.Api.Controllers
         }
 
         /// <summary>
-        /// Get all existing tags
+        ///     Get all existing tags
         /// </summary>
         [HttpGet("{userId}")]
-        public ActionResult<List<string>> GetUserTags([Required]int userId)
+        public ActionResult<List<string>> GetUserTags([Required] int userId)
         {
             return userId switch
             {

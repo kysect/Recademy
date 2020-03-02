@@ -21,19 +21,20 @@ namespace Recademy.Api.Controllers
         }
 
         /// <summary>
-        /// Create review request
+        ///     Create review request
         /// </summary>
         [HttpPost]
-        public ActionResult<ReviewRequestInfoDto> CreateReviewRequest([FromBody][Required] ReviewRequestAddDto reviewRequestAddDto)
+        public ActionResult<ReviewRequestInfoDto> CreateReviewRequest(
+            [FromBody] [Required] ReviewRequestAddDto reviewRequestAddDto)
         {
             return _reviewService.AddReviewRequest(reviewRequestAddDto);
         }
 
         /// <summary>
-        /// Get review request info
+        ///     Get review request info
         /// </summary>
         [HttpGet("{requestId}")]
-        public ActionResult<ReviewRequestInfoDto> GetReviewRequestInfo([Required]int requestId)
+        public ActionResult<ReviewRequestInfoDto> GetReviewRequestInfo([Required] int requestId)
         {
             return requestId switch
             {
@@ -43,10 +44,11 @@ namespace Recademy.Api.Controllers
         }
 
         /// <summary>
-        /// Create review response info
+        ///     Create review response info
         /// </summary>
         [HttpPost("{requestId}/review")]
-        public ActionResult<ReviewRequestInfoDto> CreateReviewResponse([Required]int requestId, [FromBody][Required] SendReviewResponseDto sendReviewResponseDto)
+        public ActionResult<ReviewRequestInfoDto> CreateReviewResponse([Required] int requestId,
+            [FromBody] [Required] SendReviewResponseDto sendReviewResponseDto)
         {
             return requestId switch
             {
@@ -56,7 +58,7 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpPost("{requestId}/complete")]
-        public ActionResult<ReviewRequestInfoDto> CompleteReview([Required]int requestId)
+        public ActionResult<ReviewRequestInfoDto> CompleteReview([Required] int requestId)
         {
             return requestId switch
             {
@@ -66,7 +68,7 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpPost("{requestId}/abandon")]
-        public ActionResult<ReviewRequestInfoDto> AbandonReview([Required]int requestId)
+        public ActionResult<ReviewRequestInfoDto> AbandonReview([Required] int requestId)
         {
             return requestId switch
             {
@@ -76,7 +78,7 @@ namespace Recademy.Api.Controllers
         }
 
         /// <summary>
-        /// Get review requests list
+        ///     Get review requests list
         /// </summary>
         [HttpGet]
         public ActionResult<List<ReviewRequestInfoDto>> GetReviewRequestInfo()

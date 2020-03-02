@@ -15,17 +15,18 @@ namespace Recademy.Api.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+
         public UserController(IUserService userService)
         {
             _userService = userService;
         }
 
         /// <summary>
-        /// Get user info
+        ///     Get user info
         /// </summary>
         [HttpGet("{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<UserInfoDto> GetUserInfo([Required]int userId)
+        public ActionResult<UserInfoDto> GetUserInfo([Required] int userId)
         {
             return userId switch
             {
@@ -35,7 +36,7 @@ namespace Recademy.Api.Controllers
         }
 
         /// <summary>
-        /// Get user activity ranking
+        ///     Get user activity ranking
         /// </summary>
         [HttpGet("ranking")]
         public ActionResult<Dictionary<string, int>> GetUsersRanking()
