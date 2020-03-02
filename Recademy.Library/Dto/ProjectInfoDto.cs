@@ -14,7 +14,7 @@ namespace Recademy.Library.Dto
             ProjectUrl = projectInfo.GithubLink;
             ProjectSkills = projectInfo
                 .Skills
-                .Select(s => s.SkillName)
+                ?.Select(s => s.SkillName)
                 .ToList();
         }
 

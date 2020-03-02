@@ -30,6 +30,16 @@ namespace Recademy.Mock.Generators
             };
         }
 
+        public static ReviewRequestAddDto CreateReviewRequestAddDto(int userId, int projectId)
+        {
+            return new ReviewRequestAddDto()
+            {
+                UserId = userId,
+                ProjectId = projectId,
+                Description = GenerateString()
+            };
+        }
+
         public static List<T> CreateRange<T>(int count, Func<T> creator)
         {
             return Enumerable

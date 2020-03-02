@@ -11,6 +11,7 @@ namespace Recademy.Library.Models
         public int Id { get; set; }
         public DateTime DateCreate { get; set; }
         public ProjectState State { get; set; }
+        public string Description { get; set; }
 
         [ForeignKey("ProjectInfo")] 
         public int ProjectId { get; set; }
