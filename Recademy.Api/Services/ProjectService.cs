@@ -17,34 +17,48 @@ namespace Recademy.Api.Services
             _context = context;
         }
 
-        public ProjectInfo GetProjectInfo(int projectId)
+        public ProjectInfoDto GetProjectInfo(int projectId)
         {
-            var project = _context
+            ProjectInfo project = _context
                 .ProjectInfos
                 .Include(s => s.Skills)
                 .FirstOrDefault(k => k.Id == projectId);
 
             if (project == null)
-            {
-                throw new RecademyException("No project with current id!");
-            }
+                throw RecademyException.ProjectNotFound(projectId);
 
-            return project;
+            return new ProjectInfoDto(project);
         }
 
-        public List<ProjectDto> GetProjectsByTag(string tagName)
+        public List<ProjectInfoDto> GetProjectsByTag(string tagName)
         {
-            var projects = _context
+            return _context
                 .ProjectInfos
                 .Include(p => p.Skills)
                 .Where(p => p
                     .Skills
                     .Any(s => s.SkillName == tagName))
+                .Select(k => new ProjectInfoDto(k))
                 .ToList();
+        }
 
-            return projects
-                .Select(k => new ProjectDto(k))
-                .ToList();
+        public ProjectInfoDto AddProject(AddProjectDto argues)
+        {
+            var newProject = new ProjectInfo
+            {
+                AuthorId = argues.UserId,
+                GithubLink = argues.ProjectUrl,
+                Title = argues.ProjectName,
+                Skills = argues
+                    .Tags
+                    .Select(t => new ProjectSkill {SkillName = t})
+                    .ToList()
+            };
+
+            _context.ProjectInfos.Add(newProject);
+            _context.SaveChanges();
+
+            return new ProjectInfoDto(newProject);
         }
     }
 }

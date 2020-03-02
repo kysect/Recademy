@@ -4,9 +4,14 @@ using Recademy.Library.Models;
 
 namespace Recademy.Library.Dto
 {
-    public class ProjectDto
+    public class ProjectInfoDto
     {
-        public ProjectDto(ProjectInfo projectInfo)
+        public ProjectInfoDto()
+        {
+            
+        }
+
+        public ProjectInfoDto(ProjectInfo projectInfo)
         {
             ProjectId = projectInfo.Id;
             UserId = projectInfo.AuthorId;
@@ -14,9 +19,10 @@ namespace Recademy.Library.Dto
             ProjectUrl = projectInfo.GithubLink;
             ProjectSkills = projectInfo
                 .Skills
-                .Select(s => s.SkillName)
+                ?.Select(s => s.SkillName)
                 .ToList();
         }
+
         public int UserId { get; set; }
         public int ProjectId { get; set; }
         public string ProjectName { get; set; }

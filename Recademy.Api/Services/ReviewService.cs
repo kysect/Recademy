@@ -18,7 +18,7 @@ namespace Recademy.Api.Services
             _context = context;
         }
 
-        public List<ReviewRequest> GetReviewRequests()
+        public List<ReviewRequestInfoDto> GetReviewRequests()
         {
             return _context
                 .ReviewRequests
@@ -26,66 +26,100 @@ namespace Recademy.Api.Services
                 .ThenInclude(p => p.Skills)
                 .Include(s => s.User)
                 .Where(s => s.State == ProjectState.Requested)
+                .Select(m => new ReviewRequestInfoDto(m))
                 .ToList();
         }
 
-        public ReviewRequest AddReviewRequest(int projectId)
+        public ReviewRequestInfoDto AddReviewRequest(ReviewRequestAddDto reviewRequestAddDto)
         {
-            ReviewRequest newRequest = new ReviewRequest
+            CheckForNotFinishedReview(reviewRequestAddDto.ProjectId);
+
+            //TODO: check if project belong to review author
+
+            var newRequest = new ReviewRequest
             {
-                DateCreate = DateTime.Now,
-                ProjectId = projectId,
-                State = ProjectState.Requested
+                DateCreate = DateTime.UtcNow,
+                State = ProjectState.Requested,
+                Description = reviewRequestAddDto.Description,
+                ProjectId = reviewRequestAddDto.ProjectId,
+                UserId = reviewRequestAddDto.UserId,
             };
 
             _context.Add(newRequest);
             _context.SaveChanges();
 
-            return newRequest;
+            return new ReviewRequestInfoDto(newRequest);
         }
 
-        public ReviewResponse SendReviewResponse(SendReviewRequestDto argues)
+        public ReviewRequestInfoDto SendReviewResponse(int requestId, SendReviewResponseDto reviewResponseDto)
         {
-            ReviewResponse newReview = new ReviewResponse
+            ReviewRequest request = _context
+                .ReviewRequests
+                .Include(s => s.ProjectInfo)
+                .ThenInclude(p => p.Skills)
+                .Include(s => s.User)
+                .FirstOrDefault(r => r.Id == requestId);
+
+            if (request == null)
+                throw RecademyException.ReviewRequestNotFound(requestId);
+
+            var newReview = new ReviewResponse
             {
-                ReviewRequestId = argues.ReviewRequestId,
-                Description = argues.ReviewText,
-                ReviewerId = 1
+                ReviewRequestId = requestId,
+                Description = reviewResponseDto.ReviewText,
+                ReviewerId = reviewResponseDto.UserId
             };
 
-            _context.ReviewRequests.Find(argues.ReviewRequestId).State = ProjectState.Reviewed;
+            request.State = ProjectState.Reviewed;
             _context.ReviewResponses.Add(newReview);
             _context.SaveChanges();
 
-            return newReview;
+            return new ReviewRequestInfoDto(request);
         }
 
-        public ReviewProjectDto GetReviewInfo(int requestId)
+        public ReviewRequestInfoDto CompleteReview(int requestId)
         {
-            int projectId = _context
-                .ReviewRequests
-                .Find(requestId)
-                .ProjectId;
+            ReviewRequest request = _context.ReviewRequests.Find(requestId) ?? throw RecademyException.ReviewRequestNotFound(requestId);
+            
+            request.State = ProjectState.Completed;
+            _context.SaveChanges();
 
-            ProjectInfo project = _context
-                .ProjectInfos
-                .Include(s => s.Skills)
-                .FirstOrDefault(s => s.Id == projectId);
-
-            if (project == null)
-            {
-                throw new RecademyException("No project with current id!");
-            }
-
-            return new ReviewProjectDto
-            {
-                Id = projectId,
-                Title = project.Title,
-                Link = project.GithubLink
-            };
+            return new ReviewRequestInfoDto(request);
         }
 
+        public ReviewRequestInfoDto AbandonReview(int requestId)
+        {
+            ReviewRequest request = _context.ReviewRequests.Find(requestId) ?? throw RecademyException.ReviewRequestNotFound(requestId);
+            request.State = ProjectState.Abandoned;
+            _context.SaveChanges();
 
+            return new ReviewRequestInfoDto(request);
+        }
+
+        public ReviewRequestInfoDto GetReviewInfo(int requestId)
+        {
+            ReviewRequest request = _context
+                .ReviewRequests
+                .Include(s => s.ProjectInfo)
+                .ThenInclude(p => p.Skills)
+                .Include(s => s.User)
+                .FirstOrDefault(r => r.Id == requestId);
+
+            return new ReviewRequestInfoDto(request);
+        }
+
+        private void CheckForNotFinishedReview(int projectId)
+        {
+            ReviewRequest previousReview = _context.ReviewRequests
+                .Where(r => r.ProjectId == projectId)
+                .FirstOrDefault(r => r.State == ProjectState.Requested || r.State == ProjectState.Reviewed);
+
+            if (previousReview != null)
+                throw new RecademyException(
+                    $"Review for this project already exist. Close it before adding new. Review id: {previousReview.Id}");
+        }
+
+        //TODO: check this methods
         private bool IsValid(List<string> projectSkills, List<string> tags)
         {
             return projectSkills.Any(tags.Contains);
@@ -93,7 +127,7 @@ namespace Recademy.Api.Services
 
         public List<ReviewRequest> GetReviewRequestsForUser(int userId)
         {
-            var tags = _context
+            List<string> tags = _context
                 .Users
                 .Find(userId)
                 .UserSkills
@@ -112,7 +146,7 @@ namespace Recademy.Api.Services
                 .ToList();
         }
 
-        public List<ReviewRequest> GetRequestsByFilter(GetRequestsByFilterDto argues)
+        public List<ReviewRequest> GetRequestsByFilter(RequestsByFilterDto argues)
         {
             return _context
                 .ReviewRequests

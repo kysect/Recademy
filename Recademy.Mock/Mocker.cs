@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Recademy.BlazorWeb.Context;
-using Recademy.BlazorWeb.Models;
-using Recademy.BlazorWeb.Types;
+using Recademy.Api;
+using Recademy.Library.Models;
+using Recademy.Library.Types;
+using Recademy.Mock.Extensions;
 using Recademy.Mock.Generators;
 
 namespace Recademy.Mock
 {
     public class Mocker : IDisposable
     {
-        private static readonly string ConnectionString =
-            ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
-
         private static readonly TypesGenerator TypesGenerator = new TypesGenerator();
 
         private readonly RecademyContext _db;
@@ -21,6 +19,11 @@ namespace Recademy.Mock
         public Mocker()
         {
             _db = CreateContext();
+        }
+
+        public Mocker(RecademyContext context)
+        {
+            _db = context ?? CreateContext();
         }
 
         public void Dispose()
@@ -36,7 +39,7 @@ namespace Recademy.Mock
 
             _db.SaveChanges();
             for (int i = 0; i < Configuration.UsersGenCount; i++)
-                GenerateUsers();
+                GenerateUser();
         }
 
         private void AddSkills()
@@ -45,7 +48,7 @@ namespace Recademy.Mock
             _db.Skills.AddRange(techs);
         }
 
-        private void GenerateUsers()
+        public User GenerateUser()
         {
             User newUser = TypesGenerator.GetUser();
             _db.Users.Add(newUser);
@@ -57,11 +60,14 @@ namespace Recademy.Mock
 
             for (int j = 0; j < Configuration.ProjectForUserCount; ++j)
                 GenerateProjectsInfo(newUser);
+
+            return newUser;
         }
 
         private static RecademyContext CreateContext()
         {
-            DbContextOptionsBuilder builder = new DbContextOptionsBuilder().UseSqlServer(ConnectionString);
+            string connectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
+            DbContextOptionsBuilder builder = new DbContextOptionsBuilder().UseSqlServer(connectionString);
             return new RecademyContext(builder.Options);
         }
 
@@ -77,6 +83,7 @@ namespace Recademy.Mock
 
             User user2 = TypesGenerator.GetUser();
 
+            //TODO: Check that it is work ok
             GenerateRequestResponse(newProject, user, user2);
             _db.SaveChanges();
         }
@@ -99,7 +106,6 @@ namespace Recademy.Mock
         private static List<ProjectSkill> GenerateProjectSkills(ProjectInfo projectInfo, int projectCount)
         {
             List<ProjectSkill> projectSkills = new List<ProjectSkill>();
-
             List<string> skills = DataLists.Skills;
 
             for (int k = 0; k < projectCount; k++)
@@ -107,10 +113,7 @@ namespace Recademy.Mock
                 if (skills.Count <= 0)
                     break;
 
-                int random = Utilities.Random.Next(skills.Count);
-
-                string skillName = skills[random];
-
+                string skillName = skills.GetRandomValue();
                 skills.Remove(skillName);
 
                 projectSkills.Add(new ProjectSkill { ProjectId = projectInfo.Id, SkillName = skillName});
@@ -122,7 +125,6 @@ namespace Recademy.Mock
         private static List<UserSkill> GenerateUserSkills(User user, int skillsCount)
         {
             List<UserSkill> userSkills = new List<UserSkill>();
-
             List<string> skills = DataLists.Skills;
 
             for (int k = 0; k < skillsCount; k++)
@@ -130,10 +132,7 @@ namespace Recademy.Mock
                 if (skills.Count <= 0)
                     break;
 
-                int random = Utilities.Random.Next(skills.Count);
-
-                string skillName = skills[random];
-
+                string skillName = skills.GetRandomValue();
                 skills.Remove(skillName);
 
                 userSkills.Add(new UserSkill { SkillName = skillName, UserId = user.Id});

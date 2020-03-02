@@ -2,7 +2,9 @@
 {
     public enum ProjectState
     {
-        Requested,
-        Reviewed,
+        Requested = 1,
+        Reviewed = 2,
+        Completed = 3,
+        Abandoned = 4
     }
 }

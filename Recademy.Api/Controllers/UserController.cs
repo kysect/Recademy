@@ -1,70 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
 using Recademy.Library.Types;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Recademy.Api.Controllers
 {
     [Produces("application/json")]
     [Consumes("application/json")]
     [Route("api/user")]
+    [ApiController]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+
         public UserController(IUserService userService)
         {
             _userService = userService;
         }
 
         /// <summary>
-        /// Get user info
+        ///     Get user info
         /// </summary>
-        [HttpGet]
-        [Route("{userId}")]
-        public IActionResult GetUserInfo(int userId)
+        [HttpGet("{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<UserInfoDto> GetUserInfo([Required] int userId)
         {
-            if (userId < 0)
-                return BadRequest("Wrong user Id");
-
-            try
+            return userId switch
             {
-                UserInfoDto userInfo = _userService.GetUserInfoDto(userId);
-                return Ok(userInfo);
-            }
-            catch (RecademyException)
-            {
-                return BadRequest("Wrong user Id");
-            }
+                _ when userId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(userId), userId)),
+                _ => _userService.GetUserInfo(userId)
+            };
         }
 
         /// <summary>
-        /// Get user activity ranking
+        ///     Get user activity ranking
         /// </summary>
-        [HttpGet]
-        [Route("ranking")]
-        public IActionResult GetUsersRanking()
+        [HttpGet("ranking")]
+        public ActionResult<Dictionary<string, int>> GetUsersRanking()
         {
-            Dictionary<string, int> ranking = _userService.GetRanking();
-            return Ok(ranking);
-        }
-
-
-        /// <summary>
-        /// Upload project to user
-        /// </summary>
-        [HttpPost]
-        [Route("{userId}")]
-        public IActionResult AddUSerProject(int userId, [FromBody] AddProjectDto dto)
-        {
-            if (dto == null)
-                return BadRequest();
-
-            _userService.AddProject(dto);
-            return Accepted();
+            return _userService.GetUsersRanking();
         }
     }
 }

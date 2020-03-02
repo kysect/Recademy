@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
-using Recademy.Library.Models;
 using Recademy.Library.Types;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Recademy.Api.Controllers
 {
     [Produces("application/json")]
     [Consumes("application/json")]
     [Route("api/projects")]
+    [ApiController]
     public class ProjectController : Controller
     {
         private readonly IProjectService _projectService;
@@ -22,40 +20,37 @@ namespace Recademy.Api.Controllers
             _projectService = projectService;
         }
 
-
         /// <summary>
-        /// Get project info
+        ///     Get project info
         /// </summary>
-        [HttpGet]
-        [Route("{projectId}")]
-        public IActionResult GetProjectInfo(int projectIid)
+        [HttpGet("{projectId}")]
+        public ActionResult<ProjectInfoDto> GetProjectInfo([Required] int projectIid)
         {
-            if (projectIid < 0)
-                return BadRequest("Wrong project Id");
-
-            try
+            return projectIid switch
             {
-                ProjectInfo projectInfo = _projectService.GetProjectInfo(projectIid);
-                return Ok(projectInfo);
-            }
-            catch (RecademyException)
-            {
-                return BadRequest("Wrong project Id");
-            }
+                _ when projectIid < 0 => BadRequest(RecademyException.InvalidArgument(nameof(projectIid), projectIid)),
+                _ => Ok(_projectService.GetProjectInfo(projectIid))
+            };
         }
 
         /// <summary>
-        /// Get projects by tag
+        ///     Get projects by tag
         /// </summary>
-        [HttpGet]
-        public IActionResult GetTagProjects([FromQuery] string tagName)
+        [HttpGet("tag/{tagName}")]
+        public ActionResult<List<ProjectInfoDto>> GetTagProjects([Required] string tagName)
         {
-            if (string.IsNullOrWhiteSpace(tagName))
-                return BadRequest("Wrong tag name");
+            return _projectService.GetProjectsByTag(tagName);
+        }
 
-            List<ProjectDto> tagProfile = _projectService.GetProjectsByTag(tagName);
-
-            return Ok(tagProfile);
+        /// <summary>
+        ///     Upload project to user
+        /// </summary>
+        [HttpPost]
+        public ActionResult<ProjectInfoDto> AddUserProject([FromBody] [Required] AddProjectDto addProjectDto)
+        {
+            //TODO: validate tags - it is must exist in database
+            //TODO: validate project url - it is must be project at author github
+            return _projectService.AddProject(addProjectDto);
         }
     }
 }

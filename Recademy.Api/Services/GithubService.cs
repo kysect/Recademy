@@ -12,6 +12,7 @@ namespace Recademy.Api.Services
 {
     public class GithubService : IGithubService
     {
+        //TODO: mock this
         private readonly GitHubClient _client = new GitHubClient(new ProductHeaderValue("Recademy"))
         {
             Credentials = new Credentials(GhUtil.Token)
@@ -34,24 +35,25 @@ namespace Recademy.Api.Services
                 .ToList();
         }
 
-        public async Task CreateIssues(string repoLink, string issueText)
+        public async Task<Issue> CreateIssues(string projectUrl, string issueText)
         {
-            repoLink = repoLink.Replace("/repos/", "/");
-            var splittedUrl = repoLink.Split('/');
+            projectUrl = projectUrl.Replace("/repos/", "/", StringComparison.InvariantCultureIgnoreCase);
+            string[] splittedUrl = projectUrl.Split('/');
             string issueName = GhUtil.IssueText + "Test Reviewer";
             NewIssue issue = new NewIssue(issueName)
             {
                 Body = issueText
             };
 
-            await _client
+            return await _client
                 .Issue
-                .Create(splittedUrl[3], splittedUrl[4], issue);
+                .Create(splittedUrl[3], splittedUrl[4], issue)
+                .ConfigureAwait(false);
         }
 
-        public MarkupString GetReadme(string repoLink)
+        public MarkupString GetReadme(string projectUrl)
         {
-            var splittedUrl = repoLink.Split('/');
+            string[] splittedUrl = projectUrl.Split('/');
             return GetReadme(splittedUrl[3], splittedUrl[4]);
         }
 
