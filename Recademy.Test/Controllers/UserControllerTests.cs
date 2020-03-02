@@ -27,7 +27,7 @@ namespace Recademy.Test.Controllers
         }
 
         [Test]
-        public void MockDatabase_AtLeastOneUserExist()
+        public void GetUserInfoAfterCreating_NotNull()
         {
             User generatedUser = _mocker.GenerateUser();
 
