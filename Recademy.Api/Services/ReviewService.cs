@@ -32,12 +32,7 @@ namespace Recademy.Api.Services
 
         public ReviewRequestInfoDto AddReviewRequest(ReviewRequestAddDto reviewRequestAddDto)
         {
-            ReviewRequest previousReview = _context.ReviewRequests
-                .Where(r => r.ProjectId == reviewRequestAddDto.ProjectId)
-                .FirstOrDefault(r => r.State == ProjectState.Requested || r.State == ProjectState.Reviewed);
-
-            if (previousReview != null)
-                throw new RecademyException($"Review for this project already exist. Close it before adding new. Review id: {previousReview.Id}");
+            CheckForNotFinishedReview(reviewRequestAddDto.ProjectId);
 
             //TODO: check if project belong to review author
 
@@ -82,6 +77,25 @@ namespace Recademy.Api.Services
             return new ReviewRequestInfoDto(request);
         }
 
+        public ReviewRequestInfoDto CompleteReview(int requestId)
+        {
+            ReviewRequest request = _context.ReviewRequests.Find(requestId) ?? throw RecademyException.ReviewRequestNotFound(requestId);
+            
+            request.State = ProjectState.Completed;
+            _context.SaveChanges();
+
+            return new ReviewRequestInfoDto(request);
+        }
+
+        public ReviewRequestInfoDto AbandonReview(int requestId)
+        {
+            ReviewRequest request = _context.ReviewRequests.Find(requestId) ?? throw RecademyException.ReviewRequestNotFound(requestId);
+            request.State = ProjectState.Abandoned;
+            _context.SaveChanges();
+
+            return new ReviewRequestInfoDto(request);
+        }
+
         public ReviewRequestInfoDto GetReviewInfo(int requestId)
         {
             ReviewRequest request = _context
@@ -92,6 +106,17 @@ namespace Recademy.Api.Services
                 .FirstOrDefault(r => r.Id == requestId);
 
             return new ReviewRequestInfoDto(request);
+        }
+
+        private void CheckForNotFinishedReview(int projectId)
+        {
+            ReviewRequest previousReview = _context.ReviewRequests
+                .Where(r => r.ProjectId == projectId)
+                .FirstOrDefault(r => r.State == ProjectState.Requested || r.State == ProjectState.Reviewed);
+
+            if (previousReview != null)
+                throw new RecademyException(
+                    $"Review for this project already exist. Close it before adding new. Review id: {previousReview.Id}");
         }
 
         //TODO: check this methods
