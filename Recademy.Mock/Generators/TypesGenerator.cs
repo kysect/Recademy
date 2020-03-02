@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Recademy.BlazorWeb.Models;
-using Recademy.BlazorWeb.Types;
+using Recademy.Library.Models;
+using Recademy.Library.Types;
 using Recademy.Mock.Extensions;
 
 namespace Recademy.Mock.Generators

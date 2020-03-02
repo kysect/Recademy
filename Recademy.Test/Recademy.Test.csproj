@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Recademy.Api\Recademy.Api.csproj" />
+    <ProjectReference Include="..\Recademy.Mock\Recademy.Mock.csproj" />
   </ItemGroup>
 
 </Project>
