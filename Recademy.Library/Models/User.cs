@@ -13,5 +13,6 @@ namespace Recademy.Library.Models
         public ICollection<UserSkill> UserSkills { get; set; }
         public ICollection<ProjectInfo> ProjectInfos { get; set; }
         public ICollection<ReviewRequest> ReviewRequests { get; set; }
+        public ICollection<ReviewResponse> ReviewResponses { get; set; }
     }
 }

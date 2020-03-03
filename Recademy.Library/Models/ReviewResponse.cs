@@ -20,5 +20,6 @@ namespace Recademy.Library.Models
 
         [ForeignKey("User")] 
         public int ReviewerId { get; set; }
+        public User Reviewer { get; set; }
     }
 }
