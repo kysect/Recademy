@@ -8,6 +8,7 @@ namespace Recademy.Api.Services.Abstraction
     public interface IUserService
     {
         UserInfoDto GetUserInfo(int userId);
+        List<ProjectInfoDto> ReadUserProjects(int userId);
         Dictionary<string, int> GetUsersRanking();
     }
 }
