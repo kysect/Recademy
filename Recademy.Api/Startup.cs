@@ -45,7 +45,7 @@ namespace Recademy.Api
             _logFilePath = Configuration["LogFilePath"];
 
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IGameficationService, GameficationService>();
+            services.AddScoped<IGamificationService, GamificationService>();
             services.AddScoped<IGithubService, GithubService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IReviewService, ReviewService>();

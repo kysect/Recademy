@@ -26,6 +26,7 @@ namespace Recademy.Api
 
             modelBuilder.Entity<ProjectSkill>()
                 .HasKey(ps => new { ps.SkillName, ps.ProjectId });
+
             modelBuilder.Entity<ProjectSkill>()
                 .HasOne(ps => ps.ProjectInfo)
                 .WithMany(p => p.Skills)
@@ -35,6 +36,9 @@ namespace Recademy.Api
                 .HasOne(ps => ps.Skill)
                 .WithMany(s => s.ProjectSkills)
                 .HasForeignKey(s => s.SkillName);
+
+            modelBuilder.Entity<ReviewResponseUpvote>()
+                .HasKey(ru => new { ReviewId = ru.ReviewResponseId, ru.UserId });
         }
 
         public DbSet<User> Users { get; set; }
@@ -44,8 +48,9 @@ namespace Recademy.Api
         public DbSet<ProjectInfo> ProjectInfos { get; set; }
 
         public DbSet<UserSkill> UserSkills { get; set; }
-
         public DbSet<ProjectSkill> ProjectSkills { get; set; }
+        public DbSet<ReviewResponseUpvote> ReviewResponseUpvotes { get; set; }
+
 
         public DbSet<Settings> Settings { get; set; }
     }
