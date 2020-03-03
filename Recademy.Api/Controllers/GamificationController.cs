@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 
@@ -23,10 +24,9 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpGet("review/{reviewId}/upvote")]
-        public IActionResult ReadReviewUpvote([FromQuery] [Required] int reviewId)
+        public ActionResult<List<int>> ReadReviewUpvote([FromQuery] [Required] int reviewId)
         {
-            _gamificationService.ReadReviewResponseUpvote(reviewId);
-            return Ok();
+            return _gamificationService.ReadReviewResponseUpvote(reviewId);
         }
 
 

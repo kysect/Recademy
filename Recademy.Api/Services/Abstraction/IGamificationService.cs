@@ -1,9 +1,11 @@
-﻿namespace Recademy.Api.Services.Abstraction
+﻿using System.Collections.Generic;
+
+namespace Recademy.Api.Services.Abstraction
 {
     public interface IGamificationService
     {
         void CreateReviewResponseUpvote(int reviewId, int userId);
-        void ReadReviewResponseUpvote(int reviewId);
+        List<int> ReadReviewResponseUpvote(int reviewId);
         void DeleteReviewResponseUpvote(int reviewId, int userId);
     }
 }
