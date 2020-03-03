@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
 using Recademy.Api;
 using Recademy.Api.Controllers;
 using Recademy.Api.Services;
@@ -27,11 +29,9 @@ namespace Recademy.Test.Controllers
             _testContext
                 .WithNewUser(out UserInfoDto user)
                 .WithNewProjectForUser(user, out ProjectInfoDto projectInfo);
-            UserInfoDto createdUser = _userController.GetUserInfo(user.Id).Value;
-            //TODO: add method for getting user projects
-            ProjectInfoDto project = createdUser.ProjectDtos.Find(p => p.ProjectId == projectInfo.ProjectId);
+            List<ProjectInfoDto> userProjects = _userController.ReadUserProjects(user.Id).Value;
 
-            Assert.NotNull(project);
+            Assert.True(userProjects.Any(p => p.ProjectId == projectInfo.ProjectId));
         }
 
         [Test]

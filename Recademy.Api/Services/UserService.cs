@@ -38,6 +38,19 @@ namespace Recademy.Api.Services
             };
         }
 
+        public List<ProjectInfoDto> ReadUserProjects(int userId)
+        {
+            if (!_context.Users.Any(u => u.Id == userId))
+                throw RecademyException.UserNotFound(userId);
+
+            return _context.ProjectInfos
+                .Include(p => p.Skills)
+                .Include(p => p.ReviewRequests)
+                .Where(p => p.AuthorId == userId)
+                .Select(p => new ProjectInfoDto(p))
+                .ToList();
+        }
+
         /// <summary>
         ///     return a user activity, index is month, value is activity number
         /// </summary>

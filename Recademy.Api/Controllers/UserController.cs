@@ -35,6 +35,13 @@ namespace Recademy.Api.Controllers
             };
         }
 
+        [HttpGet("{userId}/projects")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<List<ProjectInfoDto>> ReadUserProjects([Required] int userId)
+        {
+            return _userService.ReadUserProjects(userId);
+        }
+
         /// <summary>
         ///     Get user activity ranking
         /// </summary>
