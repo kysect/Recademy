@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
-using Recademy.Library.Types;
 
 namespace Recademy.Api.Controllers
 {
@@ -26,13 +25,23 @@ namespace Recademy.Api.Controllers
         /// </summary>
         [HttpGet("{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<UserInfoDto> GetUserInfo([Required] int userId)
+        public ActionResult<UserInfoDto> ReadUserInfo([Required] int userId)
         {
-            return userId switch
-            {
-                _ when userId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(userId), userId)),
-                _ => _userService.GetUserInfo(userId)
-            };
+            return _userService.ReadUserInfo(userId);
+        }
+
+        [HttpGet("findById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<UserInfoDto> FindById([FromQuery][Required] int userId)
+        {
+            return _userService.FindById(userId);
+        }
+
+        [HttpGet("findByUsername")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<UserInfoDto> FindByUsername([FromQuery][Required] string username)
+        {
+            return _userService.FindByUsername(username);
         }
 
         [HttpGet("{userId}/projects")]

@@ -19,7 +19,12 @@ namespace Recademy.Api.Services
             _achievements = achievements;
         }
 
-        public UserInfoDto GetUserInfo(int userId)
+        public UserInfoDto ReadUserInfo(int userId)
+        {
+            return FindById(userId) ?? throw RecademyException.UserNotFound(userId);
+        }
+
+        public UserInfoDto FindById(int userId)
         {
             User userInfo = _context.Users
                 .Include(s => s.ProjectInfos)
@@ -28,12 +33,33 @@ namespace Recademy.Api.Services
                 .Include(u => u.ReviewRequests)
                 .FirstOrDefault(s => s.Id == userId);
 
+            //TODO: add Monads
             if (userInfo == null)
-                throw RecademyException.UserNotFound(userId);
+                return null;
 
             return new UserInfoDto(userInfo)
             {
                 Activities = GetUserActivityPerMonth(userId),
+                Achievements = _achievements.GetAchievements(userInfo),
+            };
+        }
+
+        public UserInfoDto FindByUsername(string username)
+        {
+            User userInfo = _context.Users
+                .Include(s => s.ProjectInfos)
+                .ThenInclude(p => p.Skills)
+                .Include(s => s.UserSkills)
+                .Include(u => u.ReviewRequests)
+                .SingleOrDefault(s => s.GithubLink == username);
+
+            //TODO: add Monads
+            if (userInfo == null)
+                return null;
+
+            return new UserInfoDto(userInfo)
+            {
+                Activities = GetUserActivityPerMonth(userInfo.Id),
                 Achievements = _achievements.GetAchievements(userInfo),
             };
         }
