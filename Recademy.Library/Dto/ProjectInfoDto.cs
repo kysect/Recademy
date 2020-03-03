@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Recademy.Library.Models;
+using Recademy.Library.Tools;
 
 namespace Recademy.Library.Dto
 {
@@ -17,10 +18,7 @@ namespace Recademy.Library.Dto
             UserId = projectInfo.AuthorId;
             ProjectName = projectInfo.Title;
             ProjectUrl = projectInfo.GithubLink;
-            ProjectSkills = projectInfo
-                .Skills
-                ?.Select(s => s.SkillName)
-                .ToList();
+            ProjectSkills = projectInfo.Skills.Maybe(s => s.SkillName);
         }
 
         public int UserId { get; set; }
