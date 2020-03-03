@@ -14,7 +14,8 @@ namespace Recademy.Library.Dto
         public UserInfoDto(User userInfo)
         {
             Id = userInfo.Id;
-            UserName = userInfo.Name;
+            Name = userInfo.Name;
+            GithubUsername = userInfo.GithubLink;
             Skills = userInfo
                 .UserSkills
                 ?.Select(el => el.SkillName)
@@ -27,7 +28,8 @@ namespace Recademy.Library.Dto
         }
 
         public int Id { get; set; }
-        public string UserName { get; set; }
+        public string Name { get; set; }
+        public string GithubUsername { get; set; }
         public List<string> Skills { get; set; }
         public List<int> Activities { get; set; }
         public List<ProjectInfoDto> ProjectDtos { get; set; }

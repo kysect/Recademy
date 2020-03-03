@@ -13,23 +13,23 @@ namespace Recademy.Test.Tools
     public class TestCaseContext
     {
         private readonly Mocker _mocker;
-        private readonly UserController _userController;
-        private readonly ProjectController _projectController;
-        private readonly ReviewController _reviewController;
+        public readonly UserController UserController;
+        public readonly ProjectController ProjectController;
+        public readonly ReviewController ReviewController;
 
         public TestCaseContext()
         {
             RecademyContext context = TestDatabaseProvider.GetDatabaseContext();
             _mocker = new Mocker(context);
-            _userController = new UserController(new UserService(context, new AchievementService()));
-            _projectController = new ProjectController(new ProjectService(context));
-            _reviewController = new ReviewController(new ReviewService(context));
+            UserController = new UserController(new UserService(context, new AchievementService()));
+            ProjectController = new ProjectController(new ProjectService(context));
+            ReviewController = new ReviewController(new ReviewService(context));
         }
 
         public TestCaseContext WithNewUser(out UserInfoDto userInfo)
         {
             User generatedUser = _mocker.GenerateUser();
-            userInfo = _userController.GetUserInfo(generatedUser.Id).Value;
+            userInfo = UserController.ReadUserInfo(generatedUser.Id).Value;
 
             Assert.NotNull(userInfo);
 
@@ -43,7 +43,7 @@ namespace Recademy.Test.Tools
 
         public TestCaseContext WithNewProjectForUser(UserInfoDto user, AddProjectDto addProjectDto, out ProjectInfoDto projectInfo)
         {
-            projectInfo = _projectController.AddUserProject(addProjectDto).Value;
+            projectInfo = ProjectController.AddUserProject(addProjectDto).Value;
 
             Assert.NotNull(projectInfo);
 
@@ -54,7 +54,7 @@ namespace Recademy.Test.Tools
         {
             ReviewRequestAddDto reviewRequestAddDto =
                 InstanceFactory.CreateReviewRequestAddDto(projectInfo.UserId, projectInfo.ProjectId);
-            reviewRequest = _reviewController.CreateReviewRequest(reviewRequestAddDto).Value;
+            reviewRequest = ReviewController.CreateReviewRequest(reviewRequestAddDto).Value;
 
             Assert.NotNull(reviewRequest);
 
@@ -63,7 +63,7 @@ namespace Recademy.Test.Tools
 
         public TestCaseContext CompleteReview(ReviewRequestInfoDto reviewRequest, out ReviewRequestInfoDto result)
         {
-            result = _reviewController.CompleteReview(reviewRequest.Id).Value;
+            result = ReviewController.CompleteReview(reviewRequest.Id).Value;
 
             Assert.AreEqual(ProjectState.Completed, result.State);
 
@@ -72,7 +72,7 @@ namespace Recademy.Test.Tools
 
         public TestCaseContext AbandonReview(ReviewRequestInfoDto reviewRequest, out ReviewRequestInfoDto result)
         {
-            result = _reviewController.AbandonReview(reviewRequest.Id).Value;
+            result = ReviewController.AbandonReview(reviewRequest.Id).Value;
 
             Assert.AreEqual(ProjectState.Abandoned, result.State);
 

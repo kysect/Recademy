@@ -3,11 +3,11 @@ using Recademy.Library.Dto;
 
 namespace Recademy.Api.Services.Abstraction
 {
-    //TODO: add method FindById
-    //TODO: add method FindByUsername
     public interface IUserService
     {
-        UserInfoDto GetUserInfo(int userId);
+        UserInfoDto ReadUserInfo(int userId);
+        UserInfoDto FindById(int userId);
+        UserInfoDto FindByUsername(string username);
         List<ProjectInfoDto> ReadUserProjects(int userId);
         Dictionary<string, int> GetUsersRanking();
     }
