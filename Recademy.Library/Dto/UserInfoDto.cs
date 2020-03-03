@@ -13,6 +13,7 @@ namespace Recademy.Library.Dto
 
         public UserInfoDto(User userInfo)
         {
+            Id = userInfo.Id;
             UserName = userInfo.Name;
             Skills = userInfo
                 .UserSkills
@@ -25,6 +26,7 @@ namespace Recademy.Library.Dto
                 .ToList();
         }
 
+        public int Id { get; set; }
         public string UserName { get; set; }
         public List<string> Skills { get; set; }
         public List<int> Activities { get; set; }
