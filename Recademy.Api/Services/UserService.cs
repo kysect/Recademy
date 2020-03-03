@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
 using Recademy.Library.Models;
+using Recademy.Library.Tools;
 using Recademy.Library.Types;
 
 namespace Recademy.Api.Services
@@ -33,15 +34,11 @@ namespace Recademy.Api.Services
                 .Include(u => u.ReviewRequests)
                 .FirstOrDefault(s => s.Id == userId);
 
-            //TODO: add Monads
-            if (userInfo == null)
-                return null;
-
-            return new UserInfoDto(userInfo)
+            return userInfo.Maybe(u => new UserInfoDto(u)
             {
-                Activities = GetUserActivityPerMonth(userId),
-                Achievements = _achievements.GetAchievements(userInfo),
-            };
+                Activities = GetUserActivityPerMonth(u.Id),
+                Achievements = _achievements.GetAchievements(u),
+            });
         }
 
         public UserInfoDto FindByUsername(string username)
@@ -53,15 +50,11 @@ namespace Recademy.Api.Services
                 .Include(u => u.ReviewRequests)
                 .SingleOrDefault(s => s.GithubLink == username);
 
-            //TODO: add Monads
-            if (userInfo == null)
-                return null;
-
-            return new UserInfoDto(userInfo)
+            return userInfo.Maybe(u => new UserInfoDto(u)
             {
-                Activities = GetUserActivityPerMonth(userInfo.Id),
-                Achievements = _achievements.GetAchievements(userInfo),
-            };
+                Activities = GetUserActivityPerMonth(u.Id),
+                Achievements = _achievements.GetAchievements(u),
+            });
         }
 
         public List<ProjectInfoDto> ReadUserProjects(int userId)
