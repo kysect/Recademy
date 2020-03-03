@@ -70,13 +70,16 @@ namespace Recademy.Api.Migrations
                     b.Property<DateTime>("DateCreate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
                     b.Property<int>("State")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -101,6 +104,9 @@ namespace Recademy.Api.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ReviewConclusion")
+                        .HasColumnType("int");
+
                     b.Property<int>("ReviewRequestId")
                         .HasColumnType("int");
 
@@ -109,10 +115,26 @@ namespace Recademy.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReviewRequestId")
-                        .IsUnique();
+                    b.HasIndex("ReviewRequestId");
+
+                    b.HasIndex("ReviewerId");
 
                     b.ToTable("ReviewResponses");
+                });
+
+            modelBuilder.Entity("Recademy.Library.Models.ReviewResponseUpvote", b =>
+                {
+                    b.Property<int>("ReviewResponseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReviewResponseId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ReviewResponseUpvotes");
                 });
 
             modelBuilder.Entity("Recademy.Library.Models.Settings", b =>
@@ -198,21 +220,44 @@ namespace Recademy.Api.Migrations
             modelBuilder.Entity("Recademy.Library.Models.ReviewRequest", b =>
                 {
                     b.HasOne("Recademy.Library.Models.ProjectInfo", "ProjectInfo")
-                        .WithMany()
+                        .WithMany("ReviewRequests")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Recademy.Library.Models.User", "User")
                         .WithMany("ReviewRequests")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Recademy.Library.Models.ReviewResponse", b =>
                 {
                     b.HasOne("Recademy.Library.Models.ReviewRequest", "ReviewRequest")
-                        .WithOne("ReviewResponse")
-                        .HasForeignKey("Recademy.Library.Models.ReviewResponse", "ReviewRequestId")
+                        .WithMany("ReviewResponse")
+                        .HasForeignKey("ReviewRequestId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Recademy.Library.Models.User", "Reviewer")
+                        .WithMany("ReviewResponses")
+                        .HasForeignKey("ReviewerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Recademy.Library.Models.ReviewResponseUpvote", b =>
+                {
+                    b.HasOne("Recademy.Library.Models.ReviewResponse", "ReviewResponse")
+                        .WithMany()
+                        .HasForeignKey("ReviewResponseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Recademy.Library.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
