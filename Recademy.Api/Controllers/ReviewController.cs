@@ -43,6 +43,12 @@ namespace Recademy.Api.Controllers
             };
         }
 
+        [HttpPost("search")]
+        public ActionResult<List<ReviewRequestInfoDto>> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto)
+        {
+            return _reviewService.ReadReviewRequestBySearchContext(searchContextDto);
+        }
+
         /// <summary>
         ///     Create review response info
         /// </summary>
