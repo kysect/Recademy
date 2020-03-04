@@ -81,6 +81,9 @@ namespace Recademy.Api.Services
         {
             ReviewRequest request = _context.ReviewRequests.Find(requestId) ?? throw RecademyException.ReviewRequestNotFound(requestId);
             
+            if (request.State == ProjectState.Requested)
+                throw new RecademyException($"Completing review failed. Review request was not reviewed. Review request id: {request}");
+
             request.State = ProjectState.Completed;
             _context.SaveChanges();
 
