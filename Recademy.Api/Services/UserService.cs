@@ -70,6 +70,26 @@ namespace Recademy.Api.Services
                 .ToList();
         }
 
+        public UserInfoDto UpdateUserMentorRole(int adminId, int userId, UserType userType)
+        {
+            UserInfoDto admin = ReadUserInfo(adminId);
+            UserInfoDto user = ReadUserInfo(userId);
+
+            if (admin.UserType != UserType.Admin)
+                throw RecademyException.NotEnoughPermission(adminId, admin.UserType, UserType.Admin);
+
+            if (user.UserType == UserType.Admin)
+                throw new RecademyException($"Cannot change role, user with id {userId} has admin role");
+
+            if (userType == UserType.Admin)
+                throw new RecademyException($"Cannot set admin role. Action is not supported");
+
+            user.UserType = userType;
+            _context.SaveChanges();
+
+            return user;
+        }
+
         /// <summary>
         ///     return a user activity, index is month, value is activity number
         /// </summary>
