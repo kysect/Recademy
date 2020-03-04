@@ -25,8 +25,43 @@ namespace Recademy.Api.Services
                 .Include(s => s.ProjectInfo)
                 .ThenInclude(p => p.Skills)
                 .Include(s => s.User)
-                .Where(s => s.State == ProjectState.Requested)
+                .Where(s => s.State == ProjectState.Requested || s.State == ProjectState.Requested)
                 .Select(m => new ReviewRequestInfoDto(m))
+                .ToList();
+        }
+
+        public List<ReviewRequestInfoDto> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto)
+        {
+            User user = _context.Users
+                .Include(u => u.UserSkills)
+                .FirstOrDefault(u => u.Id == searchContextDto.UserId);
+
+            if (user == null)
+                throw RecademyException.UserNotFound(searchContextDto.UserId);
+
+            List<String> userSkills = user.UserSkills
+                .Select(s => s.SkillName)
+                .ToList();
+
+            IQueryable<ReviewRequest> query = _context
+                .ReviewRequests
+                .Include(s => s.ProjectInfo)
+                .ThenInclude(p => p.Skills)
+                .Include(s => s.User)
+                .Where(s => s.State == ProjectState.Requested || s.State == ProjectState.Reviewed)
+                .Where(r => r.ProjectInfo.Skills.All(s => userSkills.Contains(s.SkillName)));
+
+            if (searchContextDto?.AuthorId != null)
+                query = query.Where(r => r.UserId == searchContextDto.AuthorId.Value);
+
+            if (searchContextDto?.ProjectName != null)
+                query = query.Where(r => r.ProjectInfo.Title.Contains(searchContextDto.ProjectName));
+
+            if (searchContextDto?.Tags != null)
+                query = query.Where(r => r.ProjectInfo.Skills.Any(s => searchContextDto.Tags.Contains(s.SkillName)));
+
+            return query
+                .Select(r => new ReviewRequestInfoDto(r))
                 .ToList();
         }
 
@@ -120,47 +155,6 @@ namespace Recademy.Api.Services
             if (previousReview != null)
                 throw new RecademyException(
                     $"Review for this project already exist. Close it before adding new. Review id: {previousReview.Id}");
-        }
-
-        //TODO: check this methods
-        private bool IsValid(List<string> projectSkills, List<string> tags)
-        {
-            return projectSkills.Any(tags.Contains);
-        }
-
-        public List<ReviewRequest> GetReviewRequestsForUser(int userId)
-        {
-            List<string> tags = _context
-                .Users
-                .Find(userId)
-                .UserSkills
-                .Select(s => s.SkillName)
-                .ToList();
-
-            return _context
-                .ReviewRequests
-                .Where(s => s.State == ProjectState.Requested)
-                .Where(s =>
-                    IsValid(s
-                        .ProjectInfo
-                        .Skills
-                        .Select(t => t.SkillName)
-                        .ToList(), tags))
-                .ToList();
-        }
-
-        public List<ReviewRequest> GetRequestsByFilter(RequestsByFilterDto argues)
-        {
-            return _context
-                .ReviewRequests
-                .Where(s => s.State == ProjectState.Requested)
-                .Where(s =>
-                    IsValid(s
-                        .ProjectInfo
-                        .Skills
-                        .Select(t => t.SkillName)
-                        .ToList(), argues.Tags))
-                .ToList();
         }
     }
 }
