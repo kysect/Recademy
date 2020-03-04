@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
+using Recademy.Library.Types;
 
 namespace Recademy.Api.Controllers
 {
@@ -49,6 +50,20 @@ namespace Recademy.Api.Controllers
         public ActionResult<List<ProjectInfoDto>> ReadUserProjects([Required] int userId)
         {
             return _userService.ReadUserProjects(userId);
+        }
+
+        [HttpGet("setMentor")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<UserInfoDto> UpdateSetMentorRole([FromQuery][Required] int adminId, [FromQuery][Required] int userId)
+        {
+            return _userService.UpdateUserMentorRole(adminId, userId, UserType.Mentor);
+        }
+
+        [HttpGet("removeMentor")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<UserInfoDto> UpdateRemoveMentorRole([FromQuery][Required] int adminId, [FromQuery][Required] int userId)
+        {
+            return _userService.UpdateUserMentorRole(adminId, userId, UserType.CommonUser);
         }
 
         /// <summary>
