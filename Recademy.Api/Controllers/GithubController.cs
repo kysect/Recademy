@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Octokit;
@@ -23,31 +22,22 @@ namespace Recademy.Api.Controllers
             _githubService = githubService;
         }
 
-        /// <summary>
-        ///     Get project readme
-        /// </summary>
+        [HttpPost("issue")]
+        public ActionResult<Issue> CreateGithubIssue([FromBody] GitHubIssueCreateDto createDto)
+        {
+            return _githubService.CreateIssues(createDto.ProjectUrl, createDto.IssueText);
+        }
+
         [HttpGet("readme")]
-        public ActionResult<MarkupString> GetProjectReadme([FromQuery] [Required] string projectUrl)
+        public ActionResult<MarkupString> ReadProjectReadme([FromQuery] [Required] string projectUrl)
         {
             //TODO: don't send url via query, send as json in post
             MarkupString readme = _githubService.GetReadme(projectUrl);
             return Ok(readme);
         }
 
-        /// <summary>
-        ///     Create issue to project on github
-        /// </summary>
-        [HttpPost("issue")]
-        public async Task<ActionResult<Issue>> CreateGithubIssue([FromBody] GitHubIssueCreateDto createDto)
-        {
-            return await _githubService.CreateIssues(createDto.ProjectUrl, createDto.IssueText).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        ///     Get user projects from github
-        /// </summary>
         [HttpGet("projects/{userId}")]
-        public ActionResult<List<GhRepositoryDto>> GetUserRepositories([Required] int userId)
+        public ActionResult<List<GhRepositoryDto>> ReadRepositoriesByUserId([Required] int userId)
         {
             return userId switch
             {

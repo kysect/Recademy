@@ -11,7 +11,6 @@ namespace Recademy.Library.Models
         public int Id { get; set; }
         public string Description { get; set; }
         public DateTime CreationTime { get; set; }
-        //TODO: implement
         public ReviewConclusion ReviewConclusion { get; set; }
 
         [ForeignKey("ReviewRequest")] 
@@ -20,5 +19,6 @@ namespace Recademy.Library.Models
 
         [ForeignKey("User")] 
         public int ReviewerId { get; set; }
+        public User Reviewer { get; set; }
     }
 }

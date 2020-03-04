@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Recademy.Api.Services;
 using Recademy.Api.Services.Abstraction;
+using Recademy.Api.Tools;
 
 namespace Recademy.Api
 {
@@ -44,8 +45,9 @@ namespace Recademy.Api
 
             _logFilePath = Configuration["LogFilePath"];
 
+            services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IGameficationService, GameficationService>();
+            services.AddScoped<IGamificationService, GamificationService>();
             services.AddScoped<IGithubService, GithubService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IReviewService, ReviewService>();

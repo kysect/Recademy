@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Recademy.Library.Dto;
+using Recademy.Library.Types;
 
 namespace Recademy.Mock.Generators
 {
@@ -37,6 +38,17 @@ namespace Recademy.Mock.Generators
                 UserId = userId,
                 ProjectId = projectId,
                 Description = GenerateString()
+            };
+        }
+
+        public static ReviewResponseCreateDto CreateReviewResponseCreateDto(int userId, int reviewRequestId)
+        {
+            return new ReviewResponseCreateDto()
+            {
+                UserId = userId,
+                ReviewConclusion = ReviewConclusion.LooksGood,
+                ReviewRequestId = reviewRequestId,
+                ReviewText = GenerateString()
             };
         }
 

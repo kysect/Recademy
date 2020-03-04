@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Recademy.Api.Migrations
 {
-    public partial class CopyFromBlazor : Migration
+    public partial class DevMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -120,10 +120,11 @@ namespace Recademy.Api.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProjectId = table.Column<int>(nullable: false),
                     DateCreate = table.Column<DateTime>(nullable: false),
                     State = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: true)
+                    Description = table.Column<string>(nullable: true),
+                    ProjectId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -132,14 +133,12 @@ namespace Recademy.Api.Migrations
                         name: "FK_ReviewRequests_ProjectInfos_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "ProjectInfos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ReviewRequests_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -148,10 +147,11 @@ namespace Recademy.Api.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ReviewRequestId = table.Column<int>(nullable: false),
-                    ReviewerId = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    CreationTime = table.Column<DateTime>(nullable: false)
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    ReviewConclusion = table.Column<int>(nullable: false),
+                    ReviewRequestId = table.Column<int>(nullable: false),
+                    ReviewerId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -160,6 +160,34 @@ namespace Recademy.Api.Migrations
                         name: "FK_ReviewResponses_ReviewRequests_ReviewRequestId",
                         column: x => x.ReviewRequestId,
                         principalTable: "ReviewRequests",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ReviewResponses_Users_ReviewerId",
+                        column: x => x.ReviewerId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReviewResponseUpvotes",
+                columns: table => new
+                {
+                    ReviewResponseId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReviewResponseUpvotes", x => new { x.ReviewResponseId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_ReviewResponseUpvotes_ReviewResponses_ReviewResponseId",
+                        column: x => x.ReviewResponseId,
+                        principalTable: "ReviewResponses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ReviewResponseUpvotes_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -187,8 +215,17 @@ namespace Recademy.Api.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ReviewResponses_ReviewRequestId",
                 table: "ReviewResponses",
-                column: "ReviewRequestId",
-                unique: true);
+                column: "ReviewRequestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReviewResponses_ReviewerId",
+                table: "ReviewResponses",
+                column: "ReviewerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReviewResponseUpvotes_UserId",
+                table: "ReviewResponseUpvotes",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserSkills_SkillName",
@@ -202,7 +239,7 @@ namespace Recademy.Api.Migrations
                 name: "ProjectSkills");
 
             migrationBuilder.DropTable(
-                name: "ReviewResponses");
+                name: "ReviewResponseUpvotes");
 
             migrationBuilder.DropTable(
                 name: "Settings");
@@ -211,10 +248,13 @@ namespace Recademy.Api.Migrations
                 name: "UserSkills");
 
             migrationBuilder.DropTable(
-                name: "ReviewRequests");
+                name: "ReviewResponses");
 
             migrationBuilder.DropTable(
                 name: "Skills");
+
+            migrationBuilder.DropTable(
+                name: "ReviewRequests");
 
             migrationBuilder.DropTable(
                 name: "ProjectInfos");

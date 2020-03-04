@@ -1,29 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Markdig;
 using Microsoft.AspNetCore.Components;
 using Octokit;
 using Recademy.Api.Services.Abstraction;
+using Recademy.Api.Tools;
 using Recademy.Library.Dto;
 
 namespace Recademy.Api.Services
 {
     public class GithubService : IGithubService
     {
-        //TODO: mock this
-        private readonly GitHubClient _client = new GitHubClient(new ProductHeaderValue("Recademy"))
+        private readonly IGithubApiAccessor _githubApiAccessor;
+
+        public GithubService(IGithubApiAccessor githubApiAccessor)
         {
-            Credentials = new Credentials(GhUtil.Token)
-        };
+            _githubApiAccessor = githubApiAccessor;
+        }
 
         public List<GhRepositoryDto> GhGetRepositories(int userId)
         {
-            return _client
-                .Repository
-                .GetAllForCurrent()
-                .Result
+            IReadOnlyList<Repository> repositories = _githubApiAccessor.ReadAllUserRepositories(String.Empty);
+
+            return repositories
                 .Where(k => !k.Private)
                 .Select(k => new GhRepositoryDto
                 {
@@ -35,7 +35,7 @@ namespace Recademy.Api.Services
                 .ToList();
         }
 
-        public async Task<Issue> CreateIssues(string projectUrl, string issueText)
+        public Issue CreateIssues(string projectUrl, string issueText)
         {
             projectUrl = projectUrl.Replace("/repos/", "/", StringComparison.InvariantCultureIgnoreCase);
             string[] splittedUrl = projectUrl.Split('/');
@@ -45,10 +45,7 @@ namespace Recademy.Api.Services
                 Body = issueText
             };
 
-            return await _client
-                .Issue
-                .Create(splittedUrl[3], splittedUrl[4], issue)
-                .ConfigureAwait(false);
+            return _githubApiAccessor.CreateIssue(splittedUrl[3], splittedUrl[4], issue);
         }
 
         public MarkupString GetReadme(string projectUrl)
@@ -67,12 +64,10 @@ namespace Recademy.Api.Services
             //TODO: replace try/catch with null-check
             try
             {
-                return (MarkupString)Markdown.ToHtml(_client
-                    .Repository
-                    .Content
-                    .GetReadme(login, repositoryName)
-                    .Result
-                    .Content);
+                return (MarkupString) Markdown.ToHtml(
+                    _githubApiAccessor
+                        .ReadRepositoryReadme(login, repositoryName)
+                        .Content);
             }
             catch (AggregateException)
             {

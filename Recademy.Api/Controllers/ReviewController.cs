@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
-using Recademy.Library.Types;
 
 namespace Recademy.Api.Controllers
 {
@@ -20,70 +19,40 @@ namespace Recademy.Api.Controllers
             _reviewService = reviewService;
         }
 
-        /// <summary>
-        ///     Create review request
-        /// </summary>
         [HttpPost]
-        public ActionResult<ReviewRequestInfoDto> CreateReviewRequest(
-            [FromBody] [Required] ReviewRequestAddDto reviewRequestAddDto)
+        public ActionResult<ReviewRequestInfoDto> CreateReviewRequest([FromBody] [Required] ReviewRequestAddDto reviewRequestAddDto)
         {
             return _reviewService.AddReviewRequest(reviewRequestAddDto);
         }
 
-        /// <summary>
-        ///     Get review request info
-        /// </summary>
-        [HttpGet("{requestId}")]
-        public ActionResult<ReviewRequestInfoDto> GetReviewRequestInfo([Required] int requestId)
+        [HttpGet]
+        public ActionResult<List<ReviewRequestInfoDto>> ReadAllRequest()
         {
-            return requestId switch
-            {
-                _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
-                _ => Ok(_reviewService.GetReviewInfo(requestId))
-            };
+            return _reviewService.GetReviewRequests();
         }
 
-        /// <summary>
-        ///     Create review response info
-        /// </summary>
-        [HttpPost("{requestId}/review")]
-        public ActionResult<ReviewRequestInfoDto> CreateReviewResponse([Required] int requestId,
-            [FromBody] [Required] SendReviewResponseDto sendReviewResponseDto)
+        [HttpGet("{requestId}")]
+        public ActionResult<ReviewRequestInfoDto> ReadRequestById([Required] int requestId)
         {
-            return requestId switch
-            {
-                _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
-                _ => Ok(_reviewService.SendReviewResponse(requestId, sendReviewResponseDto))
-            };
+            return _reviewService.GetReviewInfo(requestId);
+        }
+
+        [HttpPost("search")]
+        public ActionResult<List<ReviewRequestInfoDto>> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto)
+        {
+            return _reviewService.ReadReviewRequestBySearchContext(searchContextDto);
         }
 
         [HttpPost("{requestId}/complete")]
         public ActionResult<ReviewRequestInfoDto> CompleteReview([Required] int requestId)
         {
-            return requestId switch
-            {
-                _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
-                _ => _reviewService.CompleteReview(requestId)
-            };
+            return _reviewService.CompleteReview(requestId);
         }
 
         [HttpPost("{requestId}/abandon")]
         public ActionResult<ReviewRequestInfoDto> AbandonReview([Required] int requestId)
         {
-            return requestId switch
-            {
-                _ when requestId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(requestId), requestId)),
-                _ => _reviewService.AbandonReview(requestId)
-            };
-        }
-
-        /// <summary>
-        ///     Get review requests list
-        /// </summary>
-        [HttpGet]
-        public ActionResult<List<ReviewRequestInfoDto>> GetReviewRequestInfo()
-        {
-            return _reviewService.GetReviewRequests();
+            return _reviewService.AbandonReview(requestId);
         }
     }
 }

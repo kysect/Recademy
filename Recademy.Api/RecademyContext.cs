@@ -26,6 +26,7 @@ namespace Recademy.Api
 
             modelBuilder.Entity<ProjectSkill>()
                 .HasKey(ps => new { ps.SkillName, ps.ProjectId });
+
             modelBuilder.Entity<ProjectSkill>()
                 .HasOne(ps => ps.ProjectInfo)
                 .WithMany(p => p.Skills)
@@ -35,6 +36,38 @@ namespace Recademy.Api
                 .HasOne(ps => ps.Skill)
                 .WithMany(s => s.ProjectSkills)
                 .HasForeignKey(s => s.SkillName);
+
+            modelBuilder.Entity<ReviewResponseUpvote>()
+                .HasKey(ru => new { ReviewId = ru.ReviewResponseId, ru.UserId });
+
+            DisableCascadeDelete(modelBuilder);
+        }
+
+        private void DisableCascadeDelete(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ReviewRequest>()
+                .HasOne(rr => rr.User)
+                .WithMany(u => u.ReviewRequests)
+                .HasForeignKey(rr => rr.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReviewRequest>()
+                .HasOne(rr => rr.ProjectInfo)
+                .WithMany(p => p.ReviewRequests)
+                .HasForeignKey(rr => rr.ProjectId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReviewResponse>()
+                .HasOne(rr => rr.ReviewRequest)
+                .WithMany(rr => rr.ReviewResponse)
+                .HasForeignKey(rr => rr.ReviewRequestId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReviewResponse>()
+                .HasOne(rr => rr.Reviewer)
+                .WithMany(u => u.ReviewResponses)
+                .HasForeignKey(rr => rr.ReviewerId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
 
         public DbSet<User> Users { get; set; }
@@ -44,8 +77,9 @@ namespace Recademy.Api
         public DbSet<ProjectInfo> ProjectInfos { get; set; }
 
         public DbSet<UserSkill> UserSkills { get; set; }
-
         public DbSet<ProjectSkill> ProjectSkills { get; set; }
+        public DbSet<ReviewResponseUpvote> ReviewResponseUpvotes { get; set; }
+
 
         public DbSet<Settings> Settings { get; set; }
     }
