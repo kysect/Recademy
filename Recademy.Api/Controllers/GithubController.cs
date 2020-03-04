@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Octokit;
@@ -38,9 +37,9 @@ namespace Recademy.Api.Controllers
         ///     Create issue to project on github
         /// </summary>
         [HttpPost("issue")]
-        public async Task<ActionResult<Issue>> CreateGithubIssue([FromBody] GitHubIssueCreateDto createDto)
+        public ActionResult<Issue> CreateGithubIssue([FromBody] GitHubIssueCreateDto createDto)
         {
-            return await _githubService.CreateIssues(createDto.ProjectUrl, createDto.IssueText).ConfigureAwait(false);
+            return _githubService.CreateIssues(createDto.ProjectUrl, createDto.IssueText);
         }
 
         /// <summary>
