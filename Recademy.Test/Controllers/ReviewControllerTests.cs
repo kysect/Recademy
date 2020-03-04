@@ -51,8 +51,9 @@ namespace Recademy.Test.Controllers
             _testContext
                 .WithNewUser(out UserInfoDto user)
                 .WithNewProjectForUser(user, out ProjectInfoDto projectInfo)
-                .WithReviewRequest(projectInfo, out ReviewRequestInfoDto reviewRequest)
-                .CompleteReview(reviewRequest, out _);
+                .WithReviewRequest(projectInfo, out ReviewRequestInfoDto reviewRequest);
+
+            Assert.Catch<RecademyException>(() => _testContext.ReviewController.CompleteReview(reviewRequest.Id));
         }
 
         [Test]
