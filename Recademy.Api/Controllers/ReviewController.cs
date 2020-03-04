@@ -25,12 +25,6 @@ namespace Recademy.Api.Controllers
             return _reviewService.AddReviewRequest(reviewRequestAddDto);
         }
 
-        [HttpPost("{requestId}/review")]
-        public ActionResult<ReviewRequestInfoDto> CreateReviewResponse([Required] int requestId, [FromBody] [Required] SendReviewResponseDto sendReviewResponseDto)
-        {
-            return _reviewService.SendReviewResponse(requestId, sendReviewResponseDto);
-        }
-
         [HttpGet]
         public ActionResult<List<ReviewRequestInfoDto>> ReadAllRequest()
         {
