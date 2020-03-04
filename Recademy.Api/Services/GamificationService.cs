@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Models;
 using Recademy.Library.Types;
@@ -45,19 +46,30 @@ namespace Recademy.Api.Services
 
         public Dictionary<string, int> GetUsersRanking()
         {
-            int ActivityInCount(int userId)
-            {
-                return _context
-                    .ReviewResponses
-                    .Count(r => r.ReviewerId == userId);
-            }
-
             return _context
                 .Users
                 .ToList()
-                .Select(u => (u.Name, Points: ActivityInCount(u.Id)))
+                .Select(u => (u.Name, Points: ReadUserKarmaPointCount(u.Id)))
                 .OrderByDescending(t => t.Points)
                 .ToDictionary(t => t.Name, t => t.Points);
+        }
+
+        public int ReadUserKarmaPointCount(int userId)
+        {
+            int upvotes = _context
+                .ReviewResponseUpvotes
+                .Include(u => u.ReviewResponse)
+                .Count(u => u.ReviewResponse.ReviewerId == userId);
+
+            int projectCount = _context
+                .ProjectInfos
+                .Count(p => p.AuthorId == userId);
+
+            int reviewReponsesCount = _context
+                .ReviewResponses
+                .Count(r => r.ReviewerId == userId);
+
+            return 5 * reviewReponsesCount + 3 * projectCount + upvotes;
         }
     }
 }

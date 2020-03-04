@@ -42,5 +42,11 @@ namespace Recademy.Api.Controllers
         {
             return _gamificationService.GetUsersRanking();
         }
+
+        [HttpGet("karma")]
+        public ActionResult<int> ReadUserKarmaPointCount([Required] int userId)
+        {
+            return _gamificationService.ReadUserKarmaPointCount(userId);
+        }
     }
 }
