@@ -48,7 +48,7 @@ namespace Recademy.Api.Services
                 .Include(s => s.ProjectInfo)
                 .ThenInclude(p => p.Skills)
                 .Include(s => s.User)
-                .Where(s => s.State == ProjectState.Requested || s.State == ProjectState.Reviewed)
+                .Where(s => s.State == ProjectState.Requested || s.State == ProjectState.Reviewed && !searchContextDto.WithoutReviewed)
                 .Where(r => r.ProjectInfo.Skills.All(s => userSkills.Contains(s.SkillName)));
 
             if (searchContextDto?.AuthorId != null)
