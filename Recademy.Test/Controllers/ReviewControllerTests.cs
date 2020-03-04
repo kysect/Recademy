@@ -65,5 +65,18 @@ namespace Recademy.Test.Controllers
                 .WithReviewRequest(projectInfo, out ReviewRequestInfoDto reviewRequest)
                 .AbandonReview(reviewRequest, out _);
         }
+
+        [Test]
+        public void AddProjectReviewResponse_StateChanged()
+        {
+            _testContext
+                .WithNewUser(out UserInfoDto user)
+                .WithNewUser(out UserInfoDto otherUser)
+                .WithNewProjectForUser(user, out ProjectInfoDto projectInfo)
+                .WithReviewRequest(projectInfo, out ReviewRequestInfoDto request)
+                .WithReviewResponse(request, otherUser.Id, out ReviewResponseInfoDto reviewResponseInfo);
+
+            Assert.AreEqual(ProjectState.Reviewed, reviewResponseInfo.ReviewRequest.State);
+        }
     }
 }
