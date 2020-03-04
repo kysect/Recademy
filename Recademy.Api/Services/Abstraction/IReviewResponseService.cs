@@ -4,6 +4,6 @@ namespace Recademy.Api.Services.Abstraction
 {
     public interface IReviewResponseService
     {
-        ReviewRequestInfoDto SendReviewResponse(SendReviewResponseDto reviewResponseDto);
+        ReviewResponseInfoDto SendReviewResponse(ReviewResponseCreateDto reviewResponseCreateDto);
     }
 }

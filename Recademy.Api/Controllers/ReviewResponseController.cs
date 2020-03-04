@@ -20,9 +20,9 @@ namespace Recademy.Api.Controllers
 
 
         [HttpPost]
-        public ActionResult<ReviewRequestInfoDto> CreateReviewResponse([FromBody] [Required] SendReviewResponseDto sendReviewResponseDto)
+        public ActionResult<ReviewResponseInfoDto> CreateReviewResponse([FromBody] [Required] ReviewResponseCreateDto reviewResponseCreateDto)
         {
-            return _reviewResponseService.SendReviewResponse(sendReviewResponseDto);
+            return _reviewResponseService.SendReviewResponse(reviewResponseCreateDto);
         }
     }
 }

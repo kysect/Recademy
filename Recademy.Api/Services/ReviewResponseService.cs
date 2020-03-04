@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
@@ -16,32 +17,36 @@ namespace Recademy.Api.Services
             _context = context;
         }
 
-        public ReviewRequestInfoDto SendReviewResponse(SendReviewResponseDto reviewResponseDto)
+        public ReviewResponseInfoDto SendReviewResponse(ReviewResponseCreateDto reviewResponseCreateDto)
         {
             ReviewRequest request = _context
                 .ReviewRequests
                 .Include(s => s.ProjectInfo)
                 .ThenInclude(p => p.Skills)
                 .Include(s => s.User)
-                .FirstOrDefault(r => r.Id == reviewResponseDto.ReviewRequestId);
+                .FirstOrDefault(r => r.Id == reviewResponseCreateDto.ReviewRequestId);
 
             if (request == null)
-                throw RecademyException.ReviewRequestNotFound(reviewResponseDto.ReviewRequestId);
+                throw RecademyException.ReviewRequestNotFound(reviewResponseCreateDto.ReviewRequestId);
+
+            if (request.State == ProjectState.Completed || request.State == ProjectState.Abandoned)
+                throw new RecademyException("Failed to send review. It is already closed.");
 
             var newReview = new ReviewResponse
             {
-                ReviewRequestId = reviewResponseDto.ReviewRequestId,
-                Description = reviewResponseDto.ReviewText,
-                ReviewerId = reviewResponseDto.UserId
+                ReviewRequestId = reviewResponseCreateDto.ReviewRequestId,
+                Description = reviewResponseCreateDto.ReviewText,
+                ReviewerId = reviewResponseCreateDto.UserId,
+                CreationTime = DateTime.UtcNow,
+                ReviewConclusion = reviewResponseCreateDto.ReviewConclusion
             };
 
-            //TODO: check state
             request.State = ProjectState.Reviewed;
             _context.ReviewResponses.Add(newReview);
             _context.SaveChanges();
 
-            //TODO: replace with review response
-            return new ReviewRequestInfoDto(request);
+            newReview.ReviewRequest = request;
+            return new ReviewResponseInfoDto(newReview);
         }
     }
 }
