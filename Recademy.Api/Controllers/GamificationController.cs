@@ -36,5 +36,11 @@ namespace Recademy.Api.Controllers
             _gamificationService.DeleteReviewResponseUpvote(reviewId, userId);
             return Ok();
         }
+
+        [HttpGet("ranking")]
+        public ActionResult<Dictionary<string, int>> GetUsersRanking()
+        {
+            return _gamificationService.GetUsersRanking();
+        }
     }
 }

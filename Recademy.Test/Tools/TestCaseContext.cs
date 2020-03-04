@@ -47,7 +47,7 @@ namespace Recademy.Test.Tools
 
         public TestCaseContext WithNewProjectForUser(UserInfoDto user, AddProjectDto addProjectDto, out ProjectInfoDto projectInfo)
         {
-            projectInfo = ProjectController.AddUserProject(addProjectDto).Value;
+            projectInfo = ProjectController.CreateProject(addProjectDto).Value;
 
             Assert.NotNull(projectInfo);
 
