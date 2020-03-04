@@ -16,6 +16,7 @@ namespace Recademy.Test.Tools
         public readonly UserController UserController;
         public readonly ProjectController ProjectController;
         public readonly ReviewController ReviewController;
+        public readonly ReviewResponseController ReviewResponseController;
 
         public TestCaseContext()
         {
@@ -24,6 +25,7 @@ namespace Recademy.Test.Tools
             UserController = new UserController(new UserService(context, new AchievementService()));
             ProjectController = new ProjectController(new ProjectService(context));
             ReviewController = new ReviewController(new ReviewService(context));
+            ReviewResponseController = new ReviewResponseController(new ReviewResponseService(context));
         }
 
         public TestCaseContext WithNewUser(out UserInfoDto userInfo) => WithNewUser(out userInfo, UserType.CommonUser);
@@ -79,6 +81,16 @@ namespace Recademy.Test.Tools
             result = ReviewController.AbandonReview(reviewRequest.Id).Value;
 
             Assert.AreEqual(ProjectState.Abandoned, result.State);
+
+            return this;
+        }
+
+        public TestCaseContext WithReviewResponse(ReviewRequestInfoDto reviewRequest, int userId, out ReviewResponseInfoDto reviewResponse)
+        {
+            ReviewResponseCreateDto createDto = InstanceFactory.CreateReviewResponseCreateDto(userId, reviewRequest.Id);
+            reviewResponse = ReviewResponseController.CreateReviewResponse(createDto).Value;
+
+            Assert.NotNull(reviewResponse);
 
             return this;
         }
