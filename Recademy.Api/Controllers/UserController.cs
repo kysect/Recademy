@@ -26,22 +26,44 @@ namespace Recademy.Api.Controllers
         /// </summary>
         [HttpGet("{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<UserInfoDto> GetUserInfo([Required] int userId)
+        public ActionResult<UserInfoDto> ReadUserInfo([Required] int userId)
         {
-            return userId switch
-            {
-                _ when userId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(userId), userId)),
-                _ => _userService.GetUserInfo(userId)
-            };
+            return _userService.ReadUserInfo(userId);
         }
 
-        /// <summary>
-        ///     Get user activity ranking
-        /// </summary>
-        [HttpGet("ranking")]
-        public ActionResult<Dictionary<string, int>> GetUsersRanking()
+        [HttpGet("findById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<UserInfoDto> ReadById([FromQuery][Required] int userId)
         {
-            return _userService.GetUsersRanking();
+            return _userService.FindById(userId);
+        }
+
+        [HttpGet("findByUsername")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<UserInfoDto> ReadByUsername([FromQuery][Required] string username)
+        {
+            return _userService.FindByUsername(username);
+        }
+
+        [HttpGet("{userId}/projects")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<List<ProjectInfoDto>> ReadUserProjects([Required] int userId)
+        {
+            return _userService.ReadUserProjects(userId);
+        }
+
+        [HttpGet("setMentor")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<UserInfoDto> UpdateSetMentorRole([FromQuery][Required] int adminId, [FromQuery][Required] int userId)
+        {
+            return _userService.UpdateUserMentorRole(adminId, userId, UserType.Mentor);
+        }
+
+        [HttpGet("removeMentor")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<UserInfoDto> UpdateRemoveMentorRole([FromQuery][Required] int adminId, [FromQuery][Required] int userId)
+        {
+            return _userService.UpdateUserMentorRole(adminId, userId, UserType.CommonUser);
         }
     }
 }

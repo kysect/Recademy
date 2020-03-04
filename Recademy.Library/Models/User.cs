@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Recademy.Library.Types;
 
 namespace Recademy.Library.Models
 {
@@ -8,10 +9,13 @@ namespace Recademy.Library.Models
         [Key] 
         public int Id { get; set; }
         public string Name { get; set; }
+        //TODO: rename to usernam
         public string GithubLink { get; set; }
+        public UserType UserType { get; set; }
 
         public ICollection<UserSkill> UserSkills { get; set; }
         public ICollection<ProjectInfo> ProjectInfos { get; set; }
         public ICollection<ReviewRequest> ReviewRequests { get; set; }
+        public ICollection<ReviewResponse> ReviewResponses { get; set; }
     }
 }

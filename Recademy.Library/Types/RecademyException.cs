@@ -19,5 +19,8 @@ namespace Recademy.Library.Types
         public static RecademyException InvalidArgument<T>(string argumentName, T value) =>
             new RecademyException($"Get invalid argument: {argumentName} with value: {value?.ToString()}");
 
+        public static RecademyException NotEnoughPermission(int userId, UserType actualType, UserType expectedType) => 
+            new RecademyException($"User with id [{userId}] do not have enough permission. Actual: {actualType}, expected: {expectedType}");
+
     }
 }

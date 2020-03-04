@@ -1,5 +1,6 @@
 ﻿using System;
 using Recademy.Library.Models;
+using Recademy.Library.Tools;
 using Recademy.Library.Types;
 
 namespace Recademy.Library.Dto
@@ -17,8 +18,8 @@ namespace Recademy.Library.Dto
             ProjectId = request.ProjectId;
             DateCreate = request.DateCreate;
             State = request.State;
-            ProjectInfo = request.ProjectInfo != null ? new ProjectInfoDto(request.ProjectInfo) : null;
-            User = request.User != null ? new UserInfoDto(request.User) : null;
+            ProjectInfo = request.ProjectInfo.Maybe(p => new ProjectInfoDto(p));
+            User = request.User.Maybe(u => new UserInfoDto(u));
         }
 
         public int Id { get; set; }

@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 using Recademy.Library.Dto;
+using Recademy.Library.Types;
 
 namespace Recademy.Api.Services.Abstraction
 {
-    //TODO: add method FindById
-    //TODO: add method FindByUsername
     public interface IUserService
     {
-        UserInfoDto GetUserInfo(int userId);
-        Dictionary<string, int> GetUsersRanking();
+        UserInfoDto ReadUserInfo(int userId);
+        UserInfoDto FindById(int userId);
+        UserInfoDto FindByUsername(string username);
+        List<ProjectInfoDto> ReadUserProjects(int userId);
+
+        UserInfoDto UpdateUserMentorRole(int adminId, int userId, UserType userType);
     }
 }

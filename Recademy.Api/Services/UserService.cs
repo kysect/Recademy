@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
 using Recademy.Library.Models;
+using Recademy.Library.Tools;
 using Recademy.Library.Types;
 
 namespace Recademy.Api.Services
@@ -19,7 +20,12 @@ namespace Recademy.Api.Services
             _achievements = achievements;
         }
 
-        public UserInfoDto GetUserInfo(int userId)
+        public UserInfoDto ReadUserInfo(int userId)
+        {
+            return FindById(userId) ?? throw RecademyException.UserNotFound(userId);
+        }
+
+        public UserInfoDto FindById(int userId)
         {
             User userInfo = _context.Users
                 .Include(s => s.ProjectInfos)
@@ -28,14 +34,60 @@ namespace Recademy.Api.Services
                 .Include(u => u.ReviewRequests)
                 .FirstOrDefault(s => s.Id == userId);
 
-            if (userInfo == null)
+            return userInfo.Maybe(u => new UserInfoDto(u)
+            {
+                Activities = GetUserActivityPerMonth(u.Id),
+                Achievements = _achievements.GetAchievements(u),
+            });
+        }
+
+        public UserInfoDto FindByUsername(string username)
+        {
+            User userInfo = _context.Users
+                .Include(s => s.ProjectInfos)
+                .ThenInclude(p => p.Skills)
+                .Include(s => s.UserSkills)
+                .Include(u => u.ReviewRequests)
+                .SingleOrDefault(s => s.GithubLink == username);
+
+            return userInfo.Maybe(u => new UserInfoDto(u)
+            {
+                Activities = GetUserActivityPerMonth(u.Id),
+                Achievements = _achievements.GetAchievements(u),
+            });
+        }
+
+        public List<ProjectInfoDto> ReadUserProjects(int userId)
+        {
+            if (!_context.Users.Any(u => u.Id == userId))
                 throw RecademyException.UserNotFound(userId);
 
-            return new UserInfoDto(userInfo)
-            {
-                Activities = GetUserActivityPerMonth(userId),
-                Achievements = _achievements.GetAchievements(userInfo),
-            };
+            return _context.ProjectInfos
+                .Include(p => p.Skills)
+                .Include(p => p.ReviewRequests)
+                .Where(p => p.AuthorId == userId)
+                .Select(p => new ProjectInfoDto(p))
+                .ToList();
+        }
+
+        public UserInfoDto UpdateUserMentorRole(int adminId, int userId, UserType userType)
+        {
+            UserInfoDto admin = ReadUserInfo(adminId);
+            UserInfoDto user = ReadUserInfo(userId);
+
+            if (admin.UserType != UserType.Admin)
+                throw RecademyException.NotEnoughPermission(adminId, admin.UserType, UserType.Admin);
+
+            if (user.UserType == UserType.Admin)
+                throw new RecademyException($"Cannot change role, user with id {userId} has admin role");
+
+            if (userType == UserType.Admin)
+                throw new RecademyException($"Cannot set admin role. Action is not supported");
+
+            user.UserType = userType;
+            _context.SaveChanges();
+
+            return user;
         }
 
         /// <summary>
@@ -56,28 +108,6 @@ namespace Recademy.Api.Services
                 result[el.CreationTime.Month]++;
 
             return result;
-        }
-
-        /// <summary>
-        ///     get a score ranking by user's activities
-        ///     key is user id, value is activity score
-        /// </summary>
-        /// <returns></returns>
-        public Dictionary<string, int> GetUsersRanking()
-        {
-            int ActivityInCount(int userId)
-            {
-                return _context
-                    .ReviewResponses
-                    .Count(r => r.ReviewerId == userId);
-            }
-
-            return _context
-                .Users
-                .ToList()
-                .Select(u => (u.Name, Points: ActivityInCount(u.Id)))
-                .OrderByDescending(t => t.Points)
-                .ToDictionary(t => t.Name, t => t.Points);
         }
     }
 }

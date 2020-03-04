@@ -20,5 +20,6 @@ namespace Recademy.Library.Models
         public string GithubLink { get; set; }
 
         public ICollection<ProjectSkill> Skills { get; set; }
+        public ICollection<ReviewRequest> ReviewRequests { get; set; }
     }
 }

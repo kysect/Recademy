@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
-using Recademy.Library.Types;
 
 namespace Recademy.Api.Controllers
 {
@@ -20,37 +19,27 @@ namespace Recademy.Api.Controllers
             _projectService = projectService;
         }
 
-        /// <summary>
-        ///     Get project info
-        /// </summary>
-        [HttpGet("{projectId}")]
-        public ActionResult<ProjectInfoDto> GetProjectInfo([Required] int projectIid)
+        [HttpPost]
+        public ActionResult<ProjectInfoDto> CreateProject([FromBody] [Required] AddProjectDto addProjectDto)
         {
-            return projectIid switch
-            {
-                _ when projectIid < 0 => BadRequest(RecademyException.InvalidArgument(nameof(projectIid), projectIid)),
-                _ => Ok(_projectService.GetProjectInfo(projectIid))
-            };
+            //TODO: validate tags - it is must exist in database
+            //TODO: validate project url - it is must be project at author github
+            return _projectService.AddProject(addProjectDto);
+        }
+
+        [HttpGet("{projectId}")]
+        public ActionResult<ProjectInfoDto> ReadById([Required] int projectIid)
+        {
+            return _projectService.GetProjectInfo(projectIid);
         }
 
         /// <summary>
         ///     Get projects by tag
         /// </summary>
         [HttpGet("tag/{tagName}")]
-        public ActionResult<List<ProjectInfoDto>> GetTagProjects([Required] string tagName)
+        public ActionResult<List<ProjectInfoDto>> ReadByTag([Required] string tagName)
         {
             return _projectService.GetProjectsByTag(tagName);
-        }
-
-        /// <summary>
-        ///     Upload project to user
-        /// </summary>
-        [HttpPost]
-        public ActionResult<ProjectInfoDto> AddUserProject([FromBody] [Required] AddProjectDto addProjectDto)
-        {
-            //TODO: validate tags - it is must exist in database
-            //TODO: validate project url - it is must be project at author github
-            return _projectService.AddProject(addProjectDto);
         }
     }
 }
