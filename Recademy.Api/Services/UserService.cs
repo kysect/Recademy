@@ -109,27 +109,5 @@ namespace Recademy.Api.Services
 
             return result;
         }
-
-        /// <summary>
-        ///     get a score ranking by user's activities
-        ///     key is user id, value is activity score
-        /// </summary>
-        /// <returns></returns>
-        public Dictionary<string, int> GetUsersRanking()
-        {
-            int ActivityInCount(int userId)
-            {
-                return _context
-                    .ReviewResponses
-                    .Count(r => r.ReviewerId == userId);
-            }
-
-            return _context
-                .Users
-                .ToList()
-                .Select(u => (u.Name, Points: ActivityInCount(u.Id)))
-                .OrderByDescending(t => t.Points)
-                .ToDictionary(t => t.Name, t => t.Points);
-        }
     }
 }

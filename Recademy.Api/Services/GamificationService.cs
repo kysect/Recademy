@@ -42,5 +42,22 @@ namespace Recademy.Api.Services
             _context.ReviewResponseUpvotes.Remove(new ReviewResponseUpvote { ReviewResponseId = reviewId, UserId = userId });
             _context.SaveChanges();
         }
+
+        public Dictionary<string, int> GetUsersRanking()
+        {
+            int ActivityInCount(int userId)
+            {
+                return _context
+                    .ReviewResponses
+                    .Count(r => r.ReviewerId == userId);
+            }
+
+            return _context
+                .Users
+                .ToList()
+                .Select(u => (u.Name, Points: ActivityInCount(u.Id)))
+                .OrderByDescending(t => t.Points)
+                .ToDictionary(t => t.Name, t => t.Points);
+        }
     }
 }

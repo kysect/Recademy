@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Library.Types;
 
 namespace Recademy.Api.Controllers
 {
@@ -19,26 +18,16 @@ namespace Recademy.Api.Controllers
             _tagService = tagService;
         }
 
-        /// <summary>
-        ///     Get all existing tags
-        /// </summary>
         [HttpGet]
-        public ActionResult<List<string>> GetAllExistingTags()
+        public ActionResult<List<string>> ReadAll()
         {
             return _tagService.GetAllTags();
         }
 
-        /// <summary>
-        ///     Get all existing tags
-        /// </summary>
-        [HttpGet("{userId}")]
-        public ActionResult<List<string>> GetUserTags([Required] int userId)
+        [HttpGet("user/{userId}")]
+        public ActionResult<List<string>> ReadByUserId([Required] int userId)
         {
-            return userId switch
-            {
-                _ when userId < 0 => BadRequest(RecademyException.InvalidArgument(nameof(userId), userId)),
-                _ => Ok(_tagService.GetUserTags(userId))
-            };
+            return _tagService.GetUserTags(userId);
         }
     }
 }

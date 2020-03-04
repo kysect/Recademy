@@ -12,7 +12,5 @@ namespace Recademy.Api.Services.Abstraction
         List<ProjectInfoDto> ReadUserProjects(int userId);
 
         UserInfoDto UpdateUserMentorRole(int adminId, int userId, UserType userType);
-
-        Dictionary<string, int> GetUsersRanking();
     }
 }

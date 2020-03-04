@@ -33,14 +33,14 @@ namespace Recademy.Api.Controllers
 
         [HttpGet("findById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<UserInfoDto> FindById([FromQuery][Required] int userId)
+        public ActionResult<UserInfoDto> ReadById([FromQuery][Required] int userId)
         {
             return _userService.FindById(userId);
         }
 
         [HttpGet("findByUsername")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<UserInfoDto> FindByUsername([FromQuery][Required] string username)
+        public ActionResult<UserInfoDto> ReadByUsername([FromQuery][Required] string username)
         {
             return _userService.FindByUsername(username);
         }
@@ -64,15 +64,6 @@ namespace Recademy.Api.Controllers
         public ActionResult<UserInfoDto> UpdateRemoveMentorRole([FromQuery][Required] int adminId, [FromQuery][Required] int userId)
         {
             return _userService.UpdateUserMentorRole(adminId, userId, UserType.CommonUser);
-        }
-
-        /// <summary>
-        ///     Get user activity ranking
-        /// </summary>
-        [HttpGet("ranking")]
-        public ActionResult<Dictionary<string, int>> GetUsersRanking()
-        {
-            return _userService.GetUsersRanking();
         }
     }
 }

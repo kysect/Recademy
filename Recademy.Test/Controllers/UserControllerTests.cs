@@ -18,7 +18,7 @@ namespace Recademy.Test.Controllers
         [Test]
         public void FindUserWithWrongId_ReturnNull()
         {
-            UserInfoDto user = _testContext.UserController.FindById(1 << 10).Value;
+            UserInfoDto user = _testContext.UserController.ReadById(1 << 10).Value;
 
             Assert.Null(user);
         }
@@ -27,7 +27,7 @@ namespace Recademy.Test.Controllers
         public void FindUserByUsername_Ok()
         {
             _testContext.WithNewUser(out UserInfoDto user);
-            UserInfoDto foundedUser = _testContext.UserController.FindByUsername(user.GithubUsername).Value;
+            UserInfoDto foundedUser = _testContext.UserController.ReadByUsername(user.GithubUsername).Value;
 
             Assert.NotNull(foundedUser);
         }
