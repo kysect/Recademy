@@ -26,9 +26,13 @@ namespace Recademy.Test.Tools
             ReviewController = new ReviewController(new ReviewService(context));
         }
 
-        public TestCaseContext WithNewUser(out UserInfoDto userInfo)
+        public TestCaseContext WithNewUser(out UserInfoDto userInfo) => WithNewUser(out userInfo, UserType.CommonUser);
+        public TestCaseContext WithNewMentorUser(out UserInfoDto userInfo) => WithNewUser(out userInfo, UserType.Mentor);
+        public TestCaseContext WithNewAdminUser(out UserInfoDto userInfo) => WithNewUser(out userInfo, UserType.Admin);
+
+        public TestCaseContext WithNewUser(out UserInfoDto userInfo, UserType userType)
         {
-            User generatedUser = _mocker.GenerateUser();
+            User generatedUser = _mocker.GenerateUser(userType);
             userInfo = UserController.ReadUserInfo(generatedUser.Id).Value;
 
             Assert.NotNull(userInfo);

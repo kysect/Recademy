@@ -48,9 +48,13 @@ namespace Recademy.Mock
             _db.Skills.AddRange(techs);
         }
 
-        public User GenerateUser()
+        public User GenerateUser() => GenerateUser(UserType.CommonUser);
+        public User GenerateMentorUser() => GenerateUser(UserType.Mentor);
+        public User GenerateAdminUser() => GenerateUser(UserType.Admin);
+
+        public User GenerateUser(UserType userType)
         {
-            User newUser = TypesGenerator.GetUser();
+            User newUser = TypesGenerator.GetUser(userType);
             _db.Users.Add(newUser);
             _db.SaveChanges();
 
@@ -81,7 +85,8 @@ namespace Recademy.Mock
             _db.ProjectSkills.AddRange(projectSkills);
             _db.SaveChanges();
 
-            User user2 = TypesGenerator.GetUser();
+            //TODO: move to parameter
+            User user2 = TypesGenerator.GetUser(UserType.CommonUser);
 
             //TODO: Check that it is work ok
             GenerateRequestResponse(newProject, user, user2);

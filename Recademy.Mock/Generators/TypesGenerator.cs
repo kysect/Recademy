@@ -9,12 +9,13 @@ namespace Recademy.Mock.Generators
 {
     public class TypesGenerator
     {
-        public User GetUser()
+        public User GetUser(UserType userType)
         {
             return new User
             {
                 Name = DataLists.Names.GetRandomValue(),
-                GithubLink = "https://github.com/"+DataLists.GitHubUsernames.GetRandomValue(),
+                GithubLink = DataLists.GitHubUsernames.GetRandomValue(),
+                UserType = userType
             };
         }
 
