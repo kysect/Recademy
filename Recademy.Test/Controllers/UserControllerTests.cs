@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Recademy.Library.Dto;
+using Recademy.Library.Types;
 using Recademy.Test.Tools;
 
 namespace Recademy.Test.Controllers
@@ -29,6 +30,29 @@ namespace Recademy.Test.Controllers
             UserInfoDto foundedUser = _testContext.UserController.FindByUsername(user.GithubUsername).Value;
 
             Assert.NotNull(foundedUser);
+        }
+
+        [Test]
+        public void SetMentorType_NewTypeIsMentor()
+        {
+            _testContext
+                .WithNewUser(out UserInfoDto user)
+                .WithNewAdminUser(out UserInfoDto admin);
+
+            UserInfoDto foundedUser = _testContext.UserController.UpdateSetMentorRole(admin.Id, user.Id).Value;
+
+            Assert.AreEqual(UserType.Mentor, foundedUser.UserType);
+        }
+
+        [Test]
+        public void NotAdminSetRole_FailWithPermissionException()
+        {
+            _testContext
+                .WithNewUser(out UserInfoDto user)
+                .WithNewUser(out UserInfoDto notAdmin);
+
+            Assert.Catch<RecademyException>(() =>
+                _testContext.UserController.UpdateSetMentorRole(notAdmin.Id, user.Id));
         }
     }
 }
