@@ -20,5 +20,7 @@ namespace Recademy.Library.Dto
 
         [Required]
         public int UserId { get; set; }
+
+        public int ReviewRequestId { get; set; }
     }
 }

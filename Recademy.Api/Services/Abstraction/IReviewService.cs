@@ -10,7 +10,6 @@ namespace Recademy.Api.Services.Abstraction
         List<ReviewRequestInfoDto> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto);
 
         ReviewRequestInfoDto AddReviewRequest(ReviewRequestAddDto reviewRequestAddDto);
-        ReviewRequestInfoDto SendReviewResponse(int requestId, SendReviewResponseDto reviewResponseDto);
         ReviewRequestInfoDto CompleteReview(int requestId);
         ReviewRequestInfoDto AbandonReview(int requestId);
     }
