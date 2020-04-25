@@ -1,6 +1,0 @@
-﻿namespace Recademy.BlazorWeb.Services.Abstraction
-{
-    public interface IGameficationService
-    {
-    }
-}
