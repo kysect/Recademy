@@ -13,36 +13,28 @@ namespace Recademy.Api.Services
 
             //TODO: add IAchievement with add properties and method 'bool Check(User user)'
             if (userInfo.ReviewRequests.Count >= 1)
-                achievements.Add(new AchievementsDto
-                {
-                    Name = "First time",
-                    Description = "You did your first request, and we gave u some goods :)",
-                    Icon = "repeat_one"
-                });
+                achievements.Add(new AchievementsDto(
+                    "First time",
+                    "You did your first request, and we gave u some goods :)",
+                    "repeat_one"));
 
             if (userInfo.ProjectInfos.Count >= 3)
-                achievements.Add(new AchievementsDto
-                {
-                    Name = "3 projects",
-                    Description = "You have at least 3 projects!",
-                    Icon = "alarm_on"
-                });
+                achievements.Add(new AchievementsDto(
+                    "3 projects",
+                    "You have at least 3 projects!",
+                    "alarm_on"));
 
             if (userInfo.UserSkills.Count >= 1)
-                achievements.Add(new AchievementsDto
-                {
-                    Name = "U skilled",
-                    Description = "You have skilled at least in 1 technology, u so good!",
-                    Icon = "favorite_border"
-                });
+                achievements.Add(new AchievementsDto(
+                    "U skilled",
+                    "You have skilled at least in 1 technology, u so good!",
+                    "favorite_border"));
 
             if (userInfo.UserSkills.Count >= 3)
-                achievements.Add(new AchievementsDto
-                {
-                    Name = "so smart",
-                    Description = "You have skilled at least in 3 technologies, good job",
-                    Icon = "extension"
-                });
+                achievements.Add(new AchievementsDto(
+                    "so smart",
+                    "You have skilled at least in 3 technologies, good job",
+                    "extension"));
 
             return achievements;
         }

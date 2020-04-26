@@ -1,9 +1,19 @@
-﻿namespace Recademy.Library.Dto
+﻿using Newtonsoft.Json;
+
+namespace Recademy.Library.Dto
 {
     public class AchievementsDto
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Icon { get; set; }
+        [JsonConstructor]
+        public AchievementsDto(string name, string description, string icon)
+        {
+            Name = name;
+            Description = description;
+            Icon = icon;
+        }
+
+        public string Name { get; }
+        public string Description { get; }
+        public string Icon { get; }
     }
 }
