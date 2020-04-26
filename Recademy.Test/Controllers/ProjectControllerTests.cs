@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Recademy.Api;
-using Recademy.Api.Controllers;
-using Recademy.Api.Services;
 using Recademy.Library.Dto;
 using Recademy.Mock.Generators;
 using Recademy.Test.Tools;
@@ -12,15 +9,11 @@ namespace Recademy.Test.Controllers
 {
     public class ProjectControllerTests
     {
-        private RecademyContext _context;
-        private UserController _userController;
         private readonly TestCaseContext _testContext = new TestCaseContext();
 
         [SetUp]
         public void Setup()
         {
-            _context = TestDatabaseProvider.GetDatabaseContext();
-            _userController = new UserController(new UserService(_context, new AchievementService()));
         }
 
         [Test]
@@ -29,7 +22,7 @@ namespace Recademy.Test.Controllers
             _testContext
                 .WithNewUser(out UserInfoDto user)
                 .WithNewProjectForUser(user, out ProjectInfoDto projectInfo);
-            List<ProjectInfoDto> userProjects = _userController.ReadUserProjects(user.Id).Value;
+            List<ProjectInfoDto> userProjects = _testContext.UserController.ReadUserProjects(user.Id).Value;
 
             Assert.True(userProjects.Any(p => p.ProjectId == projectInfo.ProjectId));
         }
@@ -40,9 +33,10 @@ namespace Recademy.Test.Controllers
             _testContext
                 .WithNewUser(out UserInfoDto user)
                 .WithNewProjectForUser(user, InstanceFactory.CreateAddProjectDtoWithTags(user.Id), out ProjectInfoDto projectInfo);
-            ProjectInfoDto project = user.ProjectDtos.Find(p => p.ProjectId == projectInfo.ProjectId);
 
-            Assert.True(project.ProjectSkills.Count > 0);
+            UserInfoDto updatedUser = _testContext.UserController.ReadById(user.Id).Value;
+
+            Assert.True(user.ProjectDtos.Any(p => p.ProjectSkills.Any()));
         }
     }
 }
