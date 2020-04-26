@@ -1,7 +1,4 @@
 ﻿using NUnit.Framework;
-using Recademy.Api;
-using Recademy.Api.Controllers;
-using Recademy.Api.Services;
 using Recademy.Library.Dto;
 using Recademy.Library.Types;
 using Recademy.Mock.Generators;
@@ -11,15 +8,11 @@ namespace Recademy.Test.Controllers
 {
     public class ReviewControllerTests
     {
-        private RecademyContext _context;
-        private ReviewController _reviewController;
         private readonly TestCaseContext _testContext = new TestCaseContext();
 
         [SetUp]
         public void Setup()
         {
-            _context = TestDatabaseProvider.GetDatabaseContext();
-            _reviewController = new ReviewController(new ReviewService(_context));
         }
 
         [Test]
@@ -42,7 +35,7 @@ namespace Recademy.Test.Controllers
             ReviewRequestAddDto reviewRequestAddDto =
                 InstanceFactory.CreateReviewRequestAddDto(user.Id, projectInfo.ProjectId);
             
-            Assert.Catch<RecademyException>(() => _reviewController.CreateReviewRequest(reviewRequestAddDto));
+            Assert.Catch<RecademyException>(() => _testContext.ReviewController.CreateReviewRequest(reviewRequestAddDto));
         }
 
         [Test]
