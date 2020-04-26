@@ -8,11 +8,12 @@ namespace Recademy.Test.Controllers
 {
     public class ReviewControllerTests
     {
-        private readonly TestCaseContext _testContext = new TestCaseContext();
+        private TestCaseContext _testContext;
 
         [SetUp]
-        public void Setup()
+        public void InitPerTest()
         {
+            _testContext = new TestCaseContext();
         }
 
         [Test]
