@@ -15,5 +15,10 @@ namespace Recademy.Library.Tools
         {
             return value?.Select(just).ToList();
         }
+
+        public static TResult To<TValue, TResult>(this TValue value, Func<TValue, TResult> just)
+        {
+            return just(value);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Recademy.Api;
 using Recademy.Api.Controllers;
+using Recademy.Api.Repositories.Implementations;
 using Recademy.Api.Services;
 using Recademy.Library.Dto;
 using Recademy.Library.Models;
@@ -22,7 +23,10 @@ namespace Recademy.Test.Tools
         {
             RecademyContext context = TestDatabaseProvider.GetDatabaseContext();
             _mocker = new Mocker(context);
-            UserController = new UserController(new UserService(context, new AchievementService()));
+
+            var userRepository = new UserRepository(context);
+
+            UserController = new UserController(new UserService(context, new AchievementService(context), userRepository));
             ProjectController = new ProjectController(new ProjectService(context));
             ReviewController = new ReviewController(new ReviewService(context));
             ReviewResponseController = new ReviewResponseController(new ReviewResponseService(context));
