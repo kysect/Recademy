@@ -7,7 +7,13 @@ namespace Recademy.Test.Controllers
 {
     public class UserControllerTests
     {
-        private readonly TestCaseContext _testContext = new TestCaseContext();
+        private TestCaseContext _testContext;
+
+        [SetUp]
+        public void InitPerTest()
+        {
+            _testContext = new TestCaseContext();
+        }
 
         [Test]
         public void GetUserInfoAfterCreating_NotNull()
