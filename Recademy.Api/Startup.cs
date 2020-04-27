@@ -51,6 +51,7 @@ namespace Recademy.Api
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IGamificationService, GamificationService>();
