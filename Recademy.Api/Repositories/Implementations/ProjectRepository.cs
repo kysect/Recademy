@@ -45,5 +45,14 @@ namespace Recademy.Api.Repositories.Implementations
                     .Any(s => s.SkillName == tag))
                 .ToList();
         }
+
+        public List<ProjectInfo> FindByUser(User user)
+        {
+            return _context.ProjectInfos
+                .Include(p => p.Skills)
+                .Include(p => p.ReviewRequests)
+                .Where(p => p.AuthorId == user.Id)
+                .ToList();
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace Recademy.Api.Repositories
         ProjectInfo Find(int id);
         List<ProjectInfo> FindWithTag(string tag);
         ProjectInfo Get(int id);
+        List<ProjectInfo> FindByUser(User user);
     }
 }

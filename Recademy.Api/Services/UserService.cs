@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using Recademy.Api.Repositories;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
@@ -13,14 +11,14 @@ namespace Recademy.Api.Services
     public class UserService : IUserService
     {
         private readonly IAchievementService _achievements;
-        private readonly RecademyContext _context;
         private readonly IUserRepository _userRepository;
+        private readonly IProjectRepository _projectRepository;
 
-        public UserService(RecademyContext context, IAchievementService achievements, IUserRepository userRepository)
+        public UserService(IAchievementService achievements, IUserRepository userRepository, IProjectRepository projectRepository)
         {
-            _context = context;
             _achievements = achievements;
             _userRepository = userRepository;
+            _projectRepository = projectRepository;
         }
 
         public UserInfoDto ReadUserInfo(int userId)
@@ -46,16 +44,11 @@ namespace Recademy.Api.Services
 
         public List<ProjectInfoDto> ReadUserProjects(int userId)
         {
-            if (_userRepository.Find(userId) is null)
-                throw RecademyException.UserNotFound(userId);
+            User user = _userRepository.Get(userId);
 
-            //TODO: move to ProjectInfoRepository
-            return _context.ProjectInfos
-                .Include(p => p.Skills)
-                .Include(p => p.ReviewRequests)
-                .Where(p => p.AuthorId == userId)
-                .Select(p => new ProjectInfoDto(p))
-                .ToList();
+            return _projectRepository
+                .FindByUser(user)
+                .To(p => new ProjectInfoDto(p));
         }
 
         public UserInfoDto UpdateUserMentorRole(int adminId, int userId, UserType userType)
