@@ -25,9 +25,10 @@ namespace Recademy.Test.Tools
             _mocker = new Mocker(context);
 
             var userRepository = new UserRepository(context);
+            var projectRepository = new ProjectRepository(context);
 
             UserController = new UserController(new UserService(context, new AchievementService(context), userRepository));
-            ProjectController = new ProjectController(new ProjectService(context));
+            ProjectController = new ProjectController(new ProjectService(projectRepository));
             ReviewController = new ReviewController(new ReviewService(context));
             ReviewResponseController = new ReviewResponseController(new ReviewResponseService(context));
         }
