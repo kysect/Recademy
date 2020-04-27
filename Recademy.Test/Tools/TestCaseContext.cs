@@ -27,7 +27,7 @@ namespace Recademy.Test.Tools
             var userRepository = new UserRepository(context);
             var projectRepository = new ProjectRepository(context);
 
-            UserController = new UserController(new UserService(context, new AchievementService(context), userRepository));
+            UserController = new UserController(new UserService(new AchievementService(context), userRepository, projectRepository));
             ProjectController = new ProjectController(new ProjectService(projectRepository));
             ReviewController = new ReviewController(new ReviewService(context));
             ReviewResponseController = new ReviewResponseController(new ReviewResponseService(context));
