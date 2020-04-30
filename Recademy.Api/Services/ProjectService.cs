@@ -1,45 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
+using Recademy.Api.Repositories;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
 using Recademy.Library.Models;
-using Recademy.Library.Types;
+using Recademy.Library.Tools;
 
 namespace Recademy.Api.Services
 {
     public class ProjectService : IProjectService
     {
-        private readonly RecademyContext _context;
+        private readonly IProjectRepository _projectRepository;
 
-        public ProjectService(RecademyContext context)
+        public ProjectService(IProjectRepository projectRepository)
         {
-            _context = context;
+            _projectRepository = projectRepository;
         }
 
         public ProjectInfoDto GetProjectInfo(int projectId)
         {
-            ProjectInfo project = _context
-                .ProjectInfos
-                .Include(s => s.Skills)
-                .FirstOrDefault(k => k.Id == projectId);
-
-            if (project == null)
-                throw RecademyException.ProjectNotFound(projectId);
-
-            return new ProjectInfoDto(project);
+            return _projectRepository
+                .Get(projectId)
+                .To(p => new ProjectInfoDto(p));
         }
 
         public List<ProjectInfoDto> GetProjectsByTag(string tagName)
         {
-            return _context
-                .ProjectInfos
-                .Include(p => p.Skills)
-                .Where(p => p
-                    .Skills
-                    .Any(s => s.SkillName == tagName))
-                .Select(k => new ProjectInfoDto(k))
-                .ToList();
+            return _projectRepository
+                .FindWithTag(tagName)
+                .To(p => new ProjectInfoDto(p));
         }
 
         public ProjectInfoDto AddProject(AddProjectDto argues)
@@ -55,10 +44,9 @@ namespace Recademy.Api.Services
                     .ToList()
             };
 
-            _context.ProjectInfos.Add(newProject);
-            _context.SaveChanges();
-
-            return new ProjectInfoDto(newProject);
+            return _projectRepository
+                .Create(newProject)
+                .To(p => new ProjectInfoDto(p));
         }
     }
 }
