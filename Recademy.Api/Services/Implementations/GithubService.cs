@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Markdig;
 using Microsoft.AspNetCore.Components;
 using Octokit;
 using Recademy.Api.Services.Abstraction;
@@ -21,59 +20,35 @@ namespace Recademy.Api.Services.Implementations
 
         public List<GhRepositoryDto> GhGetRepositories(int userId)
         {
+            //TODO: get token by userId
             IReadOnlyList<Repository> repositories = _githubApiAccessor.ReadAllUserRepositories(String.Empty);
 
             return repositories
-                .Where(k => !k.Private)
-                .Select(k => new GhRepositoryDto
+                .Where(repository => !repository.Private)
+                .Select(repository => new GhRepositoryDto
                 {
-                    RepositoryName = k.Name,
-                    RepositoryUrl = k.Url,
-                    Readme = GetReadme(k),
-                    Language = k.Language
+                    RepositoryName = repository.Name,
+                    RepositoryUrl = repository.Url,
+                    Readme = _githubApiAccessor.GetReadme(repository.Owner.Login, repository.Name),
+                    Language = repository.Language
                 })
                 .ToList();
         }
 
-        public Issue CreateIssues(string projectUrl, string issueText)
+        public Issue CreateIssues(GitHubIssueCreateDto issueCreateDto)
         {
-            projectUrl = projectUrl.Replace("/repos/", "/", StringComparison.InvariantCultureIgnoreCase);
-            string[] splittedUrl = projectUrl.Split('/');
-            string issueName = GhUtil.IssueText + "Test Reviewer";
-            NewIssue issue = new NewIssue(issueName)
+            string issueTitle = $"{GhUtil.IssueText} {issueCreateDto.IssueTitle}";
+            var issue = new NewIssue(issueTitle)
             {
-                Body = issueText
+                Body = issueCreateDto.IssueText
             };
 
-            return _githubApiAccessor.CreateIssue(splittedUrl[3], splittedUrl[4], issue);
+            return _githubApiAccessor.CreateIssue(issueCreateDto.OwnerLogin, issueCreateDto.RepositoryName, issue);
         }
 
-        public MarkupString GetReadme(string projectUrl)
+        public MarkupString GetReadme(string ownerLogin, string repositoryName)
         {
-            string[] splittedUrl = projectUrl.Split('/');
-            return GetReadme(splittedUrl[3], splittedUrl[4]);
-        }
-
-        private MarkupString GetReadme(Repository repository)
-        {
-            return GetReadme(repository.Owner.Login, repository.Name);
-        }
-
-        private MarkupString GetReadme(string login, string repositoryName)
-        {
-            //TODO: replace try/catch with null-check
-            try
-            {
-                return (MarkupString) Markdown.ToHtml(
-                    _githubApiAccessor
-                        .ReadRepositoryReadme(login, repositoryName)
-                        .Content);
-            }
-            catch (AggregateException)
-            {
-                //TODO: Replace with null, ensure that it will work fine
-                return (MarkupString)"No readme";
-            }
+            return _githubApiAccessor.GetReadme(ownerLogin, repositoryName);
         }
     }
 }
