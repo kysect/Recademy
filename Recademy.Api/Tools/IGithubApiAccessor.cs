@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Markdig;
+using Microsoft.AspNetCore.Components;
 using Octokit;
 
 namespace Recademy.Api.Tools
@@ -11,6 +13,7 @@ namespace Recademy.Api.Tools
 
         IReadOnlyList<Repository> ReadAllUserRepositories(string token);
         Readme ReadRepositoryReadme(string owner, string repositoryName);
+        MarkupString GetReadme(string login, string repositoryName);
     }
 
     public class GithubApiAccessor : IGithubApiAccessor
@@ -43,6 +46,21 @@ namespace Recademy.Api.Tools
                 .Content
                 .GetReadme(owner, repositoryName)
                 .Result;
+        }
+
+        public MarkupString GetReadme(string login, string repositoryName)
+        {
+            //TODO: replace try/catch with null-check
+            try
+            {
+                string readme = ReadRepositoryReadme(login, repositoryName).Content;
+                return (MarkupString)Markdown.ToHtml(readme);
+            }
+            catch (AggregateException)
+            {
+                //TODO: Replace with null, ensure that it will work fine
+                return (MarkupString)"No readme";
+            }
         }
     }
 }

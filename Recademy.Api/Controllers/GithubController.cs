@@ -23,16 +23,15 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpPost("issue")]
-        public ActionResult<Issue> CreateGithubIssue([FromBody] GitHubIssueCreateDto createDto)
+        public ActionResult<Issue> CreateGithubIssue([FromBody] GitHubIssueCreateDto issueCreateDto)
         {
-            return _githubService.CreateIssues(createDto.ProjectUrl, createDto.IssueText);
+            return _githubService.CreateIssues(issueCreateDto);
         }
 
         [HttpGet("readme")]
-        public ActionResult<MarkupString> ReadProjectReadme([FromQuery] [Required] string projectUrl)
+        public ActionResult<MarkupString> ReadProjectReadme([FromQuery] [Required] string ownerLogin, [FromQuery][Required] string repositoryName)
         {
-            //TODO: don't send url via query, send as json in post
-            MarkupString readme = _githubService.GetReadme(projectUrl);
+            MarkupString readme = _githubService.GetReadme(ownerLogin, repositoryName);
             return Ok(readme);
         }
 
