@@ -6,7 +6,7 @@ using Recademy.Library.Dto;
 using Recademy.Library.Models;
 using Recademy.Library.Tools;
 
-namespace Recademy.Api.Services
+namespace Recademy.Api.Services.Implementations
 {
     public class ProjectService : IProjectService
     {

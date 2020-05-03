@@ -3,6 +3,7 @@ using Recademy.Api;
 using Recademy.Api.Controllers;
 using Recademy.Api.Repositories.Implementations;
 using Recademy.Api.Services;
+using Recademy.Api.Services.Implementations;
 using Recademy.Library.Dto;
 using Recademy.Library.Models;
 using Recademy.Library.Types;

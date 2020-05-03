@@ -8,7 +8,7 @@ using Recademy.Api.Services.Abstraction;
 using Recademy.Api.Tools;
 using Recademy.Library.Dto;
 
-namespace Recademy.Api.Services
+namespace Recademy.Api.Services.Implementations
 {
     public class GithubService : IGithubService
     {

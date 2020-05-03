@@ -4,7 +4,7 @@ using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
 using Recademy.Library.Models;
 
-namespace Recademy.Api.Services
+namespace Recademy.Api.Services.Implementations
 {
     public class AchievementService : IAchievementService
     {
