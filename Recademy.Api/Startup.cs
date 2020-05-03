@@ -13,6 +13,7 @@ using Recademy.Api.Repositories;
 using Recademy.Api.Repositories.Implementations;
 using Recademy.Api.Services;
 using Recademy.Api.Services.Abstraction;
+using Recademy.Api.Services.Implementations;
 using Recademy.Api.Tools;
 
 namespace Recademy.Api

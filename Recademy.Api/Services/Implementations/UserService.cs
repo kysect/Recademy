@@ -6,7 +6,7 @@ using Recademy.Library.Models;
 using Recademy.Library.Tools;
 using Recademy.Library.Types;
 
-namespace Recademy.Api.Services
+namespace Recademy.Api.Services.Implementations
 {
     public class UserService : IUserService
     {
