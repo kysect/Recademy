@@ -12,7 +12,6 @@ namespace Recademy.Api.Tools
         Issue CreateIssue(string owner, string repositoryName, NewIssue issueInfo);
 
         IReadOnlyList<Repository> ReadAllUserRepositories(string token);
-        Readme ReadRepositoryReadme(string owner, string repositoryName);
         MarkupString GetReadme(string login, string repositoryName);
     }
 
@@ -39,21 +38,17 @@ namespace Recademy.Api.Tools
                 .Result;
         }
 
-        public Readme ReadRepositoryReadme(String owner, String repositoryName)
-        {
-            return _client
-                .Repository
-                .Content
-                .GetReadme(owner, repositoryName)
-                .Result;
-        }
-
         public MarkupString GetReadme(string login, string repositoryName)
         {
             //TODO: replace try/catch with null-check
             try
             {
-                string readme = ReadRepositoryReadme(login, repositoryName).Content;
+                string readme = _client
+                    .Repository
+                    .Content
+                    .GetReadme(login, repositoryName)
+                    .Result.Content;
+
                 return (MarkupString)Markdown.ToHtml(readme);
             }
             catch (AggregateException)
