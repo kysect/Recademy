@@ -9,7 +9,7 @@ namespace Recademy.Library.Models
         [Key] 
         public int Id { get; set; }
         public string Name { get; set; }
-        //TODO: rename to usernam
+        //TODO: rename to GithubLogin
         public string GithubLink { get; set; }
         public UserType UserType { get; set; }
 

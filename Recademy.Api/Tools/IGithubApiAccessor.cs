@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Markdig;
 using Microsoft.AspNetCore.Components;
 using Octokit;
+using Recademy.Library.Dto;
 
 namespace Recademy.Api.Tools
 {
@@ -13,6 +14,7 @@ namespace Recademy.Api.Tools
 
         IReadOnlyList<Repository> ReadAllUserRepositories(string token);
         MarkupString GetReadme(string login, string repositoryName);
+        GithubProfileDto GetUserProfile(string login);
     }
 
     public class GithubApiAccessor : IGithubApiAccessor
@@ -56,6 +58,21 @@ namespace Recademy.Api.Tools
                 //TODO: Replace with null, ensure that it will work fine
                 return (MarkupString)"No readme";
             }
+        }
+
+        public GithubProfileDto GetUserProfile(string login)
+        {
+            User result = _client.User.Get(login).Result;
+
+            return new GithubProfileDto
+            {
+                GithubUserId = result.Id,
+                AvatarUrl = result.AvatarUrl,
+                Name = result.Name,
+                Bio = result.Bio,
+                Company = result.Company,
+                Login = result.Login
+            };
         }
     }
 }
