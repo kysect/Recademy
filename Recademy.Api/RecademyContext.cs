@@ -1,16 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Recademy.Library.Models;
+using Recademy.Library.Types;
 
 namespace Recademy.Api
 {
     public class RecademyContext : DbContext
     {
+
         public RecademyContext(DbContextOptions options) : base(options)
         {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
+            modelBuilder
+                .Entity<ReviewResponse>()
+                .Property(reviewResponse => reviewResponse.ReviewConclusion)
+                .HasConversion(new EnumToStringConverter<ReviewConclusion>());
+
+            modelBuilder
+                .Entity<User>()
+                .Property(user => user.UserType)
+                .HasConversion(new EnumToStringConverter<UserType>());
+
             modelBuilder.Entity<UserSkill>()
                 .HasKey(bc => new { bc.UserId, bc.SkillName });
 
@@ -75,12 +90,9 @@ namespace Recademy.Api
         public DbSet<ReviewResponse> ReviewResponses { get; set; }
         public DbSet<ReviewRequest> ReviewRequests { get; set; }
         public DbSet<ProjectInfo> ProjectInfos { get; set; }
-
         public DbSet<UserSkill> UserSkills { get; set; }
         public DbSet<ProjectSkill> ProjectSkills { get; set; }
         public DbSet<ReviewResponseUpvote> ReviewResponseUpvotes { get; set; }
-
-
         public DbSet<Settings> Settings { get; set; }
     }
 }
