@@ -10,14 +10,14 @@ using Recademy.Api;
 namespace Recademy.Api.Migrations
 {
     [DbContext(typeof(RecademyContext))]
-    [Migration("20200303193553_DevMigration")]
+    [Migration("20201031181745_DevMigration")]
     partial class DevMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.0")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -174,6 +174,9 @@ namespace Recademy.Api.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
