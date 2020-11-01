@@ -15,6 +15,8 @@ namespace Recademy.Api.Tools
         IReadOnlyList<Repository> ReadAllUserRepositories(string token);
         MarkupString GetReadme(string login, string repositoryName);
         GithubProfileDto GetUserProfile(string login);
+        public Uri GetGithubOauthRedirectPage();
+        public OauthToken GetOauthToken(string code);
     }
 
     public class GithubApiAccessor : IGithubApiAccessor
@@ -30,6 +32,18 @@ namespace Recademy.Api.Tools
                 .Issue
                 .Create(owner, repositoryName, issueInfo)
                 .Result;
+        }
+
+        public Uri GetGithubOauthRedirectPage()
+        {
+            var request = new OauthLoginRequest(GhUtil.AppClientId);
+            return _client.Oauth.GetGitHubLoginUrl(request);
+        }
+
+        public OauthToken GetOauthToken(string code)
+        {
+            var oauthTokenRequest = new OauthTokenRequest(GhUtil.AppClientId, GhUtil.AppSecret, code);
+            return _client.Oauth.CreateAccessToken(oauthTokenRequest).Result;
         }
 
         public IReadOnlyList<Repository> ReadAllUserRepositories(String token)
