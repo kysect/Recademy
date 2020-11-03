@@ -15,12 +15,10 @@ namespace Recademy.Api.Controllers
     [ApiController]
     public class AuthController : Controller
     {
-        private readonly IOauthProviderService _oauthProvider;
         private readonly IRegisterService _registerService;
 
-        public AuthController(IOauthProviderService oauthProvider, IRegisterService registerService)
+        public AuthController(IRegisterService registerService)
         {
-            _oauthProvider = oauthProvider;
             _registerService = registerService;
         }
 
