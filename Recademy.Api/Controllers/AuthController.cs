@@ -22,21 +22,22 @@ namespace Recademy.Api.Controllers
             _registerService = registerService;
         }
 
-        [HttpGet("signIn")]
-        public IActionResult SignIn(string provider)
+        [HttpGet("sign-in")]
+        public IActionResult SignIn()
         {
-            return Challenge(new AuthenticationProperties() { RedirectUri = "/api/auth/register" }, provider);
+            return Challenge(new AuthenticationProperties() { RedirectUri = "/api/auth/register" }, "GitHub");
         }
 
-        [HttpGet("signOut")]
+        [HttpGet("sign-out")]
         public IActionResult SignOut()
         {
             return SignOut(new AuthenticationProperties() { RedirectUri = "/" },
                 CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        [Authorize]
         [HttpGet("register")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Register()
         {
             var user = _registerService.GetUserFromClaims(HttpContext.User);
@@ -45,7 +46,7 @@ namespace Recademy.Api.Controllers
                 return BadRequest();
 
             _registerService.Register(user);
-            return Redirect("/");
+            return Ok();
         }
     }
 }
