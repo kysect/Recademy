@@ -11,7 +11,6 @@ namespace Recademy.Api.Tools
     public interface IGithubApiAccessor
     {
         Issue CreateIssue(string owner, string repositoryName, NewIssue issueInfo);
-
         IReadOnlyList<Repository> ReadAllUserRepositories(string token);
         MarkupString GetReadme(string login, string repositoryName);
         GithubProfileDto GetUserProfile(string login);

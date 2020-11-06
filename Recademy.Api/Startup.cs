@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -42,17 +43,35 @@ namespace Recademy.Api
                 configuration.IncludeXmlComments(xmlPath);
             });
 
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                })
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/api/auth/signIn";
+                    options.LogoutPath = "/api/auth/signOut";
+                })
+                .AddGitHub(options =>
+                {
+                    options.ClientId = GhUtil.AppClientId;
+                    options.ClientSecret = GhUtil.AppSecret;
+                    options.Scope.Add("user:email");
+                    options.Scope.Add("read:user");
+                });
+
+
             services.AddDbContext<RecademyContext>(options =>
                 options.UseSqlServer(Configuration["connectionString:RecademyDB"]));
 
             _logFilePath = Configuration["LogFilePath"];
 
+            services.AddScoped<IOauthProviderService, OauthProviderService>();
+            services.AddScoped<IRegisterService, RegisterService>();
             services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
-
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
-
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IGamificationService, GamificationService>();
             services.AddScoped<IGithubService, GithubService>();
@@ -73,9 +92,8 @@ namespace Recademy.Api
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
