@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Api;
 using Recademy.Library.Models;
@@ -85,25 +86,25 @@ namespace Recademy.Mock
             _db.ProjectSkills.AddRange(projectSkills);
             _db.SaveChanges();
 
-            //TODO: move to parameter
-            User user2 = TypesGenerator.GetUser(UserType.CommonUser);
-
             //TODO: Check that it is work ok
-            GenerateRequestResponse(newProject, user, user2);
+            GenerateRequestResponse(newProject, user);
             _db.SaveChanges();
         }
 
-        private void GenerateRequestResponse(ProjectInfo projectInfo, User userRequest, User userResponse)
+        private void GenerateRequestResponse(ProjectInfo projectInfo, User userRequest)
         {
             ProjectState state = Utilities.Random.Next(0, 2) == 0 ? ProjectState.Requested : ProjectState.Reviewed;
+
+            int[] userIds = _db.Users.Select(s => s.Id).ToArray();
+            int randomUserId = userIds[Utilities.Random.Next(0, userIds.Length)];
+            User randomUser = _db.Users.Find(randomUserId);
 
             ReviewRequest newRequest = TypesGenerator.GetRequest(projectInfo, userRequest, state);
             _db.ReviewRequests.Add(newRequest);
 
             if (state == ProjectState.Reviewed)
             {
-                _db.Users.Add(userResponse);
-                ReviewResponse newResponse = TypesGenerator.GetResponse(newRequest, userResponse.Id);
+                ReviewResponse newResponse = TypesGenerator.GetResponse(newRequest, randomUser.Id);
                 _db.ReviewResponses.Add(newResponse);
             }
         }
@@ -121,7 +122,7 @@ namespace Recademy.Mock
                 string skillName = skills.GetRandomValue();
                 skills.Remove(skillName);
 
-                projectSkills.Add(new ProjectSkill { ProjectId = projectInfo.Id, SkillName = skillName});
+                projectSkills.Add(new ProjectSkill { ProjectId = projectInfo.Id, SkillName = skillName });
             }
 
             return projectSkills;
@@ -140,7 +141,7 @@ namespace Recademy.Mock
                 string skillName = skills.GetRandomValue();
                 skills.Remove(skillName);
 
-                userSkills.Add(new UserSkill { SkillName = skillName, UserId = user.Id});
+                userSkills.Add(new UserSkill { SkillName = skillName, UserId = user.Id });
             }
 
             return userSkills;

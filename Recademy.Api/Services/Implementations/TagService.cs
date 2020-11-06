@@ -5,7 +5,7 @@ using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Models;
 using Recademy.Library.Types;
 
-namespace Recademy.Api.Services
+namespace Recademy.Api.Services.Implementations
 {
     public class TagService : ITagService
     {

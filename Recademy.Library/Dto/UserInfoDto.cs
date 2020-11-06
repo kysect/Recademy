@@ -31,6 +31,8 @@ namespace Recademy.Library.Dto
         public string Name { get; set; }
         public string GithubUsername { get; set; }
         public UserType UserType { get; set; }
+        public GithubProfileDto GithubInfo { get; set; }
+
         public List<string> Skills { get; set; }
         public List<int> Activities { get; set; }
         public List<ProjectInfoDto> ProjectDtos { get; set; }
