@@ -37,7 +37,8 @@ namespace Recademy.Api.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    GithubLink = table.Column<string>(nullable: true)
+                    GithubLink = table.Column<string>(nullable: true),
+                    UserType = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

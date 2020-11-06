@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Recademy.Api;
 using Recademy.Api.Controllers;
 using Recademy.Api.Services;
+using Recademy.Api.Services.Implementations;
 using Recademy.Test.Tools;
 
 namespace Recademy.Test.Controllers

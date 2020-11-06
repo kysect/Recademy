@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Recademy.Api;
 
 namespace Recademy.Api.Migrations
 {
     [DbContext(typeof(RecademyContext))]
-    partial class RecademyContextModelSnapshot : ModelSnapshot
+    [Migration("20201103144539_AddedEmail")]
+    partial class AddedEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

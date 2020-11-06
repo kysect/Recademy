@@ -19,7 +19,7 @@ namespace Recademy.Api.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("create")]
         public ActionResult<ReviewResponseInfoDto> CreateReviewResponse([FromBody] [Required] ReviewResponseCreateDto reviewResponseCreateDto)
         {
             return _reviewResponseService.SendReviewResponse(reviewResponseCreateDto);

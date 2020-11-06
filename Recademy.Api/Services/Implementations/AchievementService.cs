@@ -1,12 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Dto;
 using Recademy.Library.Models;
 
-namespace Recademy.Api.Services
+namespace Recademy.Api.Services.Implementations
 {
     public class AchievementService : IAchievementService
     {
+        private readonly RecademyContext _context;
+
+        public AchievementService(RecademyContext context)
+        {
+            _context = context;
+        }
+
         public List<AchievementsDto> GetAchievements(User userInfo)
         {
             var achievements = new List<AchievementsDto>();
@@ -37,6 +45,26 @@ namespace Recademy.Api.Services
                     "extension"));
 
             return achievements;
+        }
+
+        /// <summary>
+        ///     return a user activity, index is month, value is activity number
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<int> GetUserActivityPerMonth(int userId)
+        {
+            List<ReviewResponse> reviewList = _context
+                .ReviewResponses
+                .Where(x => x.ReviewerId == userId)
+                .ToList();
+
+            List<int> result = Enumerable.Repeat(0, 12).ToList();
+
+            foreach (ReviewResponse el in reviewList)
+                result[el.CreationTime.Month]++;
+
+            return result;
         }
     }
 }
