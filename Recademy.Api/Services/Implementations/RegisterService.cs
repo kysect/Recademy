@@ -33,7 +33,7 @@ namespace Recademy.Api.Services.Implementations
                 return _oauthProvider.GetUserFromGithubClaims(claims);
             }
 
-            return null;
+            throw new InvalidOperationException("Only GitHub provider existed");
         }
 
         public bool IsUserRegistered(User user)
