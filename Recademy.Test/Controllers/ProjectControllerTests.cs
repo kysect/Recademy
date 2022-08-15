@@ -18,6 +18,7 @@ namespace Recademy.Test.Controllers
         }
 
         [Test]
+        [Ignore("This test requires GitHub credentials. Please run manually for local tests.")]
         public void AddProject_UserHasProject()
         {
             _testContext
@@ -29,6 +30,7 @@ namespace Recademy.Test.Controllers
         }
 
         [Test]
+        [Ignore("This test requires GitHub credentials. Please run manually for local tests.")]
         public void AddProjectWithTags_ProjectHasTags()
         {
             _testContext
