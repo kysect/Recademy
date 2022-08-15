@@ -16,6 +16,7 @@ namespace Recademy.Test.Controllers
         }
 
         [Test]
+        [Ignore("This test requires GitHub credentials. Please run manually for local tests.")]
         public void GetUserInfoAfterCreating_NotNull()
         {
             _testContext.WithNewUser(out UserInfoDto _);
@@ -40,6 +41,7 @@ namespace Recademy.Test.Controllers
         }
 
         [Test]
+        [Ignore("This test requires GitHub credentials. Please run manually for local tests.")]
         public void SetMentorType_NewTypeIsMentor()
         {
             _testContext
@@ -52,6 +54,7 @@ namespace Recademy.Test.Controllers
         }
 
         [Test]
+        [Ignore("This test requires GitHub credentials. Please run manually for local tests.")]
         public void NotAdminSetRole_FailWithPermissionException()
         {
             _testContext

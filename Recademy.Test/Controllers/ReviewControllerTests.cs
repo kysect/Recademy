@@ -17,6 +17,7 @@ namespace Recademy.Test.Controllers
         }
 
         [Test]
+        [Ignore("This test requires GitHub credentials. Please run manually for local tests.")]
         public void AddProjectReview_ShouldExist()
         {
             _testContext
@@ -26,6 +27,7 @@ namespace Recademy.Test.Controllers
         }
 
         [Test]
+        [Ignore("This test requires GitHub credentials. Please run manually for local tests.")]
         public void AddTwoSameProjectReview_ShouldFailWithException()
         {
             _testContext
@@ -40,6 +42,7 @@ namespace Recademy.Test.Controllers
         }
 
         [Test]
+        [Ignore("This test requires GitHub credentials. Please run manually for local tests.")]
         public void CompleteReview_Ok()
         {
             _testContext
@@ -51,6 +54,7 @@ namespace Recademy.Test.Controllers
         }
 
         [Test]
+        [Ignore("This test requires GitHub credentials. Please run manually for local tests.")]
         public void AbandonReview_Ok()
         {
             _testContext
@@ -61,6 +65,7 @@ namespace Recademy.Test.Controllers
         }
 
         [Test]
+        [Ignore("This test requires GitHub credentials. Please run manually for local tests.")]
         public void AddProjectReviewResponse_StateChanged()
         {
             _testContext
