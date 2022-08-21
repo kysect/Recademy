@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using Recademy.Api.Services.Abstraction;
@@ -38,7 +38,7 @@ namespace Recademy.Api.Services.Implementations
 
         public bool IsUserRegistered(User user)
         {
-            return _context.Users.Any(u => u.Email == user.Email);
+            return _context.Users.Any(u => u.GithubLink == user.GithubLink);
         }
     }
 }
