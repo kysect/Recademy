@@ -1,9 +1,13 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,7 +47,8 @@ namespace Recademy.Api
                 configuration.IncludeXmlComments(xmlPath);
             });
 
-            services.AddAuthentication(options =>
+            services
+                .AddAuthentication(options =>
                 {
                     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 })
@@ -56,13 +61,26 @@ namespace Recademy.Api
                 {
                     options.ClientId = GhUtil.AppClientId;
                     options.ClientSecret = GhUtil.AppSecret;
-                    options.Scope.Add("user:email");
+
                     options.Scope.Add("read:user");
+                    options.Scope.Add("user:email");
+
+                    options.Events.OnCreatingTicket += context =>
+                    {
+                        if (context.AccessToken is { })
+                        {
+                            context.Identity?.AddClaim(new Claim("access_token", context.AccessToken));
+                        }
+
+                        return Task.CompletedTask;
+                    };
+
+                    options.CorrelationCookie.SameSite = SameSiteMode.Lax;
                 });
 
 
-            services.AddDbContext<RecademyContext>(options =>
-                options.UseSqlServer(Configuration["connectionString:RecademyDB"]));
+            //services.AddDbContext<RecademyContext>(options => options.UseSqlServer(Configuration["connectionString:RecademyDB"]));
+            services.AddDbContext<RecademyContext>(options => options.UseInMemoryDatabase("RecademyDb"));
 
             _logFilePath = Configuration["LogFilePath"];
 

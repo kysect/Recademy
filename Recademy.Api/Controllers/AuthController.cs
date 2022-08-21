@@ -22,17 +22,16 @@ namespace Recademy.Api.Controllers
             _registerService = registerService;
         }
 
-        [HttpGet("sign-in")]
+        [HttpGet("signIn")]
         public IActionResult SignIn()
         {
             return Challenge(new AuthenticationProperties() { RedirectUri = "/api/auth/register" }, "GitHub");
         }
 
-        [HttpGet("sign-out")]
+        [HttpGet("signOut")]
         public IActionResult SignOut()
         {
-            return SignOut(new AuthenticationProperties() { RedirectUri = "/" },
-                CookieAuthenticationDefaults.AuthenticationScheme);
+            return SignOut(new AuthenticationProperties() { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         [HttpGet("register")]

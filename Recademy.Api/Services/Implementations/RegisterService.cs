@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Security.Claims;
 using Recademy.Api.Services.Abstraction;
@@ -28,7 +28,7 @@ namespace Recademy.Api.Services.Implementations
 
         public User GetUserFromClaims(ClaimsPrincipal claims)
         {
-            if (claims.Identity.AuthenticationType == "GitHub")
+            if (claims.Identity?.AuthenticationType == "GitHub")
             {
                 return _oauthProvider.GetUserFromGithubClaims(claims);
             }

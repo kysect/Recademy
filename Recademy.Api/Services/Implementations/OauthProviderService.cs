@@ -13,26 +13,25 @@ namespace Recademy.Api.Services.Implementations
     {
         public User GetUserFromGithubClaims(ClaimsPrincipal claims)
         {
-            if (
-                !claims.HasClaim(c => c.Type == ClaimTypes.Email) ||
-                !claims.HasClaim(c => c.Type == ClaimTypes.Name) || 
-                !claims.Claims.Any(c => c.Type == "urn:github:url"))
-            {
+            if (!IsEnoughUserInfo(claims))
                 return null;
-            }
 
             var githubLink = claims.FindFirstValue("urn:github:url");
             var githubLogin = githubLink.Split('/').LastOrDefault();
 
             var user = new User
             {
-                Name = claims.FindFirst(c => c.Type == ClaimTypes.Name).Value,
-                Email = claims.FindFirst(c => c.Type == ClaimTypes.Email).Value,
+                Name = claims.FindFirst(c => c.Type == ClaimTypes.Name)?.Value,
                 GithubLink = githubLogin,
                 UserType = UserType.CommonUser
             };
 
             return user;
+        }
+
+        private bool IsEnoughUserInfo(ClaimsPrincipal claims)
+        {
+            return claims.HasClaim(c => c.Type == ClaimTypes.Name) && claims.Claims.Any(c => c.Type == "urn:github:url");
         }
     }
 }
