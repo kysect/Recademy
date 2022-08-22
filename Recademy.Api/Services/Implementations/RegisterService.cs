@@ -19,6 +19,8 @@ namespace Recademy.Api.Services.Implementations
 
         public void Register(User user)
         {
+            ArgumentNullException.ThrowIfNull(user);
+
             if (IsUserRegistered(user))
                 return;
 
