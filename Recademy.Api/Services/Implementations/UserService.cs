@@ -83,7 +83,7 @@ namespace Recademy.Api.Services.Implementations
             {
                 Activities = _achievements.GetUserActivityPerMonth(user.Id),
                 Achievements = _achievements.GetAchievements(user),
-                GithubInfo = _githubApiAccessor.GetUserProfile(user.GithubLink)
+                GithubInfo = _githubApiAccessor.GetUserProfile(user.GithubUsername)
             };
         }
     }
