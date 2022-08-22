@@ -36,7 +36,7 @@ namespace Recademy.Api.Controllers
             return SignOut(new AuthenticationProperties() { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        [HttpGet("/github")]
+        [HttpGet("github")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult AuthorizeGithubUser()
