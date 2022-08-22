@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
+using Recademy.Library.Models;
 
 namespace Recademy.Api.Controllers
 {
@@ -22,30 +21,44 @@ namespace Recademy.Api.Controllers
             _registerService = registerService;
         }
 
-        [HttpGet("signIn")]
-        public IActionResult SignIn()
+        [HttpGet("sign-in")]
+        public IActionResult SignInGithubUser()
         {
-            return Challenge(new AuthenticationProperties() { RedirectUri = "/api/auth/register" }, "GitHub");
+            return Challenge(new AuthenticationProperties() { RedirectUri = "/api/auth/github" }, "GitHub");
         }
 
-        [HttpGet("signOut")]
-        public IActionResult SignOut()
+        [HttpGet("sign-out")]
+        public IActionResult SignOutGithubUser()
         {
             return SignOut(new AuthenticationProperties() { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        [HttpGet("register")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpGet("/github")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Register()
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult AuthorizeGithubUser()
         {
-            var user = _registerService.GetUserFromClaims(HttpContext.User);
-            
-            if (user == null)
-                return BadRequest();
+            ClaimsPrincipal userClaims = HttpContext.User;
+            Claim accessToken = userClaims.Claims.FirstOrDefault(claim => claim.Type == "access_token");
 
-            _registerService.Register(user);
-            return Ok();
+            if (accessToken is null)
+                return BadRequest("Failed to get access token for user");
+
+            GhUtil.Token = accessToken.Value;
+
+            try
+            {
+                User user = _registerService.GetUserFromClaims(HttpContext.User);
+
+                _registerService.Register(user);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return BadRequest($"Failed to register Recademy user: {ex.Message}");
+            }
+
+            return Redirect("/");
         }
     }
 }
