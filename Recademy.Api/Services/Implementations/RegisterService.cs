@@ -28,7 +28,7 @@ namespace Recademy.Api.Services.Implementations
 
         public User GetUserFromClaims(ClaimsPrincipal claims)
         {
-            if (claims.Identity.AuthenticationType == "GitHub")
+            if (claims.Identity?.AuthenticationType == "GitHub")
             {
                 return _oauthProvider.GetUserFromGithubClaims(claims);
             }
@@ -38,7 +38,7 @@ namespace Recademy.Api.Services.Implementations
 
         public bool IsUserRegistered(User user)
         {
-            return _context.Users.Any(u => u.Email == user.Email);
+            return _context.Users.Any(u => u.GithubLink == user.GithubLink);
         }
     }
 }
