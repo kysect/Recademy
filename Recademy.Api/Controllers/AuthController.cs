@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Library.Models;
 
@@ -15,10 +16,12 @@ namespace Recademy.Api.Controllers
     public class AuthController : Controller
     {
         private readonly IRegisterService _registerService;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(IRegisterService registerService)
+        public AuthController(IRegisterService registerService, ILogger<AuthController> logger)
         {
             _registerService = registerService;
+            _logger = logger;
         }
 
         [HttpGet("sign-in")]
@@ -54,7 +57,7 @@ namespace Recademy.Api.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.LogError(ex, "Failed to register Recademy user");
                 return BadRequest($"Failed to register Recademy user: {ex.Message}");
             }
 

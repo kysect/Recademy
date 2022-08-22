@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +18,7 @@ using Recademy.Api.Repositories.Implementations;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Api.Services.Implementations;
 using Recademy.Api.Tools;
+using Serilog;
 
 namespace Recademy.Api
 {
@@ -30,7 +30,6 @@ namespace Recademy.Api
         }
 
         public IConfiguration Configuration { get; }
-        private string _logFilePath;
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -82,8 +81,6 @@ namespace Recademy.Api
             //services.AddDbContext<RecademyContext>(options => options.UseSqlServer(Configuration["connectionString:RecademyDB"]));
             services.AddDbContext<RecademyContext>(options => options.UseInMemoryDatabase("RecademyDb"));
 
-            _logFilePath = Configuration["LogFilePath"];
-
             services.AddScoped<IOauthProviderService, OauthProviderService>();
             services.AddScoped<IRegisterService, RegisterService>();
             services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
@@ -102,7 +99,9 @@ namespace Recademy.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddFile(_logFilePath);
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File("Recademy.log")
+                .CreateLogger();
 
             if (env.IsDevelopment())
             {
