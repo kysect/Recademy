@@ -24,12 +24,12 @@ namespace Recademy.Api
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -53,13 +53,13 @@ namespace Recademy.Api
                 })
                 .AddCookie(options =>
                 {
-                    options.LoginPath = "/api/auth/signIn";
-                    options.LogoutPath = "/api/auth/signOut";
+                    options.LoginPath = "/api/auth/sign-in";
+                    options.LogoutPath = "/api/auth/sign-out";
                 })
                 .AddGitHub(options =>
                 {
-                    options.ClientId = GhUtil.AppClientId;
-                    options.ClientSecret = GhUtil.AppSecret;
+                    options.ClientId = _configuration["OAuth:GitHub:ClientId"];
+                    options.ClientSecret = _configuration["OAuth:GitHub:ClientSecret"];
 
                     options.Scope.Add("read:user");
                     options.Scope.Add("user:email");
@@ -78,7 +78,7 @@ namespace Recademy.Api
                 });
 
 
-            //services.AddDbContext<RecademyContext>(options => options.UseSqlServer(Configuration["connectionString:RecademyDB"]));
+            //services.AddDbContext<RecademyContext>(options => options.UseSqlServer(_configuration["connectionString:RecademyDB"]));
             services.AddDbContext<RecademyContext>(options => options.UseInMemoryDatabase("RecademyDb"));
 
             services.AddScoped<IOauthProviderService, OauthProviderService>();
