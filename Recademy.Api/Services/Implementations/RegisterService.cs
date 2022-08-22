@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using Recademy.Api.Services.Abstraction;
@@ -28,12 +28,11 @@ namespace Recademy.Api.Services.Implementations
 
         public User GetUserFromClaims(ClaimsPrincipal claims)
         {
-            if (claims.Identity?.AuthenticationType == "GitHub")
-            {
-                return _oauthProvider.GetUserFromGithubClaims(claims);
-            }
+            if (claims.Identity?.AuthenticationType != "GitHub")
+                throw new Exception("Only GitHub authentication type is supported");
 
-            throw new InvalidOperationException("Only GitHub provider existed");
+            return _oauthProvider.GetUserFromGithubClaims(claims);
+
         }
 
         public bool IsUserRegistered(User user)
