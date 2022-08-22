@@ -36,7 +36,7 @@ namespace Recademy.Api.Repositories.Implementations
                 .ThenInclude(p => p.Skills)
                 .Include(s => s.UserSkills)
                 .Include(u => u.ReviewRequests)
-                .SingleOrDefault(s => s.GithubLink == username);
+                .SingleOrDefault(s => s.GithubUsername == username);
         }
 
         public User UpdateUserRole(User user, UserType userType)

@@ -14,7 +14,7 @@ namespace Recademy.Mock.Generators
             return new User
             {
                 Name = DataLists.Names.GetRandomValue(),
-                GithubLink = DataLists.GitHubUsernames.GetRandomValue(),
+                GithubUsername = DataLists.GitHubUsernames.GetRandomValue(),
                 UserType = userType
             };
         }

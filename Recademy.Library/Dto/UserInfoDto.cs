@@ -17,7 +17,7 @@ namespace Recademy.Library.Dto
         {
             Id = userInfo.Id;
             Name = userInfo.Name;
-            GithubUsername = userInfo.GithubLink;
+            GithubUsername = userInfo.GithubUsername;
             UserType = userInfo.UserType;
             Skills = userInfo.UserSkills.Maybe(el => el.SkillName);
 
