@@ -39,7 +39,7 @@ namespace Recademy.Api.Services.Implementations
 
         public bool IsUserRegistered(User user)
         {
-            return _context.Users.Any(u => u.GithubLink == user.GithubLink);
+            return _context.Users.Any(u => u.GithubUsername == user.GithubUsername);
         }
     }
 }

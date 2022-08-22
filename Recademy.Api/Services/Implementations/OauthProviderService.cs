@@ -22,7 +22,7 @@ namespace Recademy.Api.Services.Implementations
             var user = new User
             {
                 Name = claims.FindFirst(c => c.Type == ClaimTypes.Name)?.Value,
-                GithubLink = githubLogin,
+                GithubUsername = githubLogin,
                 UserType = UserType.CommonUser
             };
 
