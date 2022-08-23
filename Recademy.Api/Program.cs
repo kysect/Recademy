@@ -6,10 +6,10 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Net.Http.Headers;
 using Recademy.Api;
 using Recademy.Api.Repositories;
 using Recademy.Api.Repositories.Implementations;
@@ -17,16 +17,9 @@ using Recademy.Api.Services.Abstraction;
 using Recademy.Api.Services.Implementations;
 using Recademy.Api.Tools;
 using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
+using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", policyConfig =>
-{
-    policyConfig
-        .AllowAnyOrigin()
-        .AllowAnyHeader()
-        .AllowAnyMethod();
-}));
 
 var logger = new LoggerConfiguration()
     .WriteTo.File("RecademyApi.log")
@@ -48,6 +41,14 @@ builder.Services.AddSwaggerGen(options =>
             Title = "Recademy API",
         });
 });
+
+builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", policyConfig =>
+{
+    policyConfig
+        .AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+}));
 
 builder.Services.AddAuthentication(options =>
 {
