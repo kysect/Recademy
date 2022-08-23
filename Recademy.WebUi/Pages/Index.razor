@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using System.Net
+@inject HttpClient Http
 
 <PageTitle>Index</PageTitle>
 
@@ -7,3 +9,13 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+<button class="btn btn-primary" @onclick="SignIn">Sign in</button>
+
+@code {
+    private async void SignIn()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, "api/auth/sign-in");
+        var response = await Http.SendAsync(request);
+    }
+}
