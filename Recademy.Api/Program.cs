@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -18,6 +16,7 @@ using Recademy.Api.Services.Implementations;
 using Recademy.Api.Tools;
 using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 using Microsoft.AspNetCore.Http;
+using Recademy.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -107,6 +106,7 @@ builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAchievementService, AchievementService>();
+builder.Services.AddScoped<IUserAchievementService, UserAchievementService>();
 
 var app = builder.Build();
 
