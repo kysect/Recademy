@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
@@ -27,7 +27,7 @@ namespace Recademy.Api.Controllers
         [HttpGet("sign-in")]
         public IActionResult SignInGithubUser()
         {
-            return Challenge(new AuthenticationProperties() { RedirectUri = "/api/auth/github" }, "GitHub");
+            return Challenge(new AuthenticationProperties() { RedirectUri = "/" }, "GitHub");
         }
 
         [HttpGet("sign-out")]

@@ -63,8 +63,19 @@ builder.Services.AddAuthentication(options =>
     options.ClientId = builder.Configuration["OAuth:GitHub:ClientId"];
     options.ClientSecret = builder.Configuration["OAuth:GitHub:ClientSecret"];
 
+    options.CallbackPath = new PathString("/signin-github");
+    options.AuthorizationEndpoint = "https://github.com/login/oauth/authorize";
+    options.TokenEndpoint = "https://github.com/login/oauth/access_token";
+    options.UserInformationEndpoint = "https://api.github.com/user";
+
     options.Scope.Add("read:user");
     options.Scope.Add("user:email");
+
+    options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+    options.ClaimActions.MapJsonKey(ClaimTypes.Name, "login");
+    options.ClaimActions.MapJsonKey("urn:github:name", "name");
+    options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email", ClaimValueTypes.Email);
+    options.ClaimActions.MapJsonKey("urn:github:url", "url");
 
     options.Events.OnCreatingTicket += context =>
     {
