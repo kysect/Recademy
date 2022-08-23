@@ -7,17 +7,26 @@ using Serilog;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using Recademy.Api;
 using Recademy.Api.Repositories;
 using Recademy.Api.Repositories.Implementations;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Api.Services.Implementations;
 using Recademy.Api.Tools;
+using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", policyConfig =>
+{
+    policyConfig
+        .AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+}));
 
 var logger = new LoggerConfiguration()
     .WriteTo.File("RecademyApi.log")
@@ -114,6 +123,8 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
