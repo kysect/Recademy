@@ -96,9 +96,6 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAchievementService, AchievementService>();
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
-
 var app = builder.Build();
 
 Log.Logger = new LoggerConfiguration()
