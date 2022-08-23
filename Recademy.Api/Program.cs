@@ -6,8 +6,8 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Recademy.Api;
@@ -16,6 +16,8 @@ using Recademy.Api.Repositories.Implementations;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Api.Services.Implementations;
 using Recademy.Api.Tools;
+using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
+using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +42,14 @@ builder.Services.AddSwaggerGen(options =>
         });
 });
 
+builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", policyConfig =>
+{
+    policyConfig
+        .AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+}));
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -54,8 +64,19 @@ builder.Services.AddAuthentication(options =>
     options.ClientId = builder.Configuration["OAuth:GitHub:ClientId"];
     options.ClientSecret = builder.Configuration["OAuth:GitHub:ClientSecret"];
 
+    options.CallbackPath = new PathString("/signin-github");
+    options.AuthorizationEndpoint = "https://github.com/login/oauth/authorize";
+    options.TokenEndpoint = "https://github.com/login/oauth/access_token";
+    options.UserInformationEndpoint = "https://api.github.com/user";
+
     options.Scope.Add("read:user");
     options.Scope.Add("user:email");
+
+    options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+    options.ClaimActions.MapJsonKey(ClaimTypes.Name, "login");
+    options.ClaimActions.MapJsonKey("urn:github:name", "name");
+    options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email", ClaimValueTypes.Email);
+    options.ClaimActions.MapJsonKey("urn:github:url", "url");
 
     options.Events.OnCreatingTicket += context =>
     {
@@ -87,9 +108,6 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAchievementService, AchievementService>();
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
-
 var app = builder.Build();
 
 Log.Logger = new LoggerConfiguration()
@@ -114,6 +132,8 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();

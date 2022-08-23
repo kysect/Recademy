@@ -19,10 +19,10 @@ namespace Recademy.Core.Dto
             Name = userInfo.Name;
             GithubUsername = userInfo.GithubUsername;
             UserType = userInfo.UserType;
-            Skills = userInfo.UserSkills.Maybe(el => el.SkillName);
+            Skills = userInfo.UserSkills?.Maybe(el => el.SkillName);
 
             ProjectDtos = userInfo
-                .ProjectInfos
+                .ProjectInfos?
                 .Select(k => new ProjectInfoDto(k))
                 .ToList();
         }
