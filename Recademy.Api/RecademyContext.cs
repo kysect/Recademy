@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Recademy.Library.Models;
+using Recademy.Core.Models;
 
 namespace Recademy.Api
 {

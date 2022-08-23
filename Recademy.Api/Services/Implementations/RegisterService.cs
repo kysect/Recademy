@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Library.Models;
+using Recademy.Core.Models;
 
 namespace Recademy.Api.Services.Implementations
 {

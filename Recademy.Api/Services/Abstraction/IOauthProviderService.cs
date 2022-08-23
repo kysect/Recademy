@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Recademy.Library.Models;
+using Recademy.Core.Models;
 
 namespace Recademy.Api.Services.Abstraction
 {

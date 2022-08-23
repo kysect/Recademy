@@ -4,8 +4,8 @@ using System.Configuration;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Api;
-using Recademy.Library.Models;
-using Recademy.Library.Types;
+using Recademy.Core.Models;
+using Recademy.Core.Types;
 using Recademy.Mock.Extensions;
 using Recademy.Mock.Generators;
 

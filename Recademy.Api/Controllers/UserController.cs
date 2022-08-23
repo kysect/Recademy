@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Library.Dto;
-using Recademy.Library.Types;
+using Recademy.Core.Dto;
+using Recademy.Core.Types;
 
 namespace Recademy.Api.Controllers
 {

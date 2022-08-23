@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Library.Dto;
-using Recademy.Library.Models;
+using Recademy.Core.Dto;
+using Recademy.Core.Models;
 
 namespace Recademy.Api.Services.Implementations
 {

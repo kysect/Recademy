@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Recademy.Library.Dto;
-using Recademy.Library.Types;
+using Recademy.Core.Dto;
+using Recademy.Core.Types;
 
 namespace Recademy.Mock.Generators
 {

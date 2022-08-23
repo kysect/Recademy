@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Recademy.Library.Models;
-using Recademy.Library.Types;
+using Recademy.Core.Models;
+using Recademy.Core.Types;
 using Recademy.Mock.Extensions;
 
 namespace Recademy.Mock.Generators

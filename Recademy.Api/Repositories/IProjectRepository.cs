@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Recademy.Library.Models;
+using Recademy.Core.Models;
 
 namespace Recademy.Api.Repositories
 {

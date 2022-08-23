@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Library.Models;
+using Recademy.Core.Models;
 
 namespace Recademy.Api.Controllers
 {

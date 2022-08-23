@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Recademy.Api;
-using Recademy.Library.Models;
+using Recademy.Core.Models;
 using Recademy.Mock;
 using Recademy.Test.Tools;
 

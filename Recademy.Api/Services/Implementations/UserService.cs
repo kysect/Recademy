@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using Recademy.Api.Repositories;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Api.Tools;
-using Recademy.Library.Dto;
-using Recademy.Library.Models;
-using Recademy.Library.Tools;
-using Recademy.Library.Types;
+using Recademy.Core.Dto;
+using Recademy.Core.Models;
+using Recademy.Core.Tools;
+using Recademy.Core.Types;
 
 namespace Recademy.Api.Services.Implementations
 {

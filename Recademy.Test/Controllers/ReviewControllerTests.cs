@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using Recademy.Library.Dto;
-using Recademy.Library.Types;
+using Recademy.Core.Dto;
+using Recademy.Core.Types;
 using Recademy.Mock.Generators;
 using Recademy.Test.Tools;
 

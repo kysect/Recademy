@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Recademy.Library.Dto;
-using Recademy.Library.Models;
+using Recademy.Core.Dto;
+using Recademy.Core.Models;
 
 namespace Recademy.Api.Services.Abstraction
 {

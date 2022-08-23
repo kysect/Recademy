@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Recademy.Library.Dto;
+using Recademy.Core.Dto;
 using Recademy.Mock.Generators;
 using Recademy.Test.Tools;
 

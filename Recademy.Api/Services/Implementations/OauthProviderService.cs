@@ -1,11 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.IIS.Core;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Library.Models;
-using Recademy.Library.Types;
+using Recademy.Core.Models;
+using Recademy.Core.Types;
 
 namespace Recademy.Api.Services.Implementations
 {

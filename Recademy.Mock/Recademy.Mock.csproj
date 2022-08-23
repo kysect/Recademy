@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Recademy.Core\Recademy.Core.csproj" />
     <ProjectReference Include="..\Recademy.Api\Recademy.Api.csproj" />
   </ItemGroup>
 

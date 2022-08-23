@@ -1,5 +1,5 @@
-﻿using Recademy.Library.Models;
-using Recademy.Library.Types;
+﻿using Recademy.Core.Models;
+using Recademy.Core.Types;
 
 namespace Recademy.Api.Repositories
 {

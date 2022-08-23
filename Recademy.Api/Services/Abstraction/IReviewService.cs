@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Recademy.Library.Dto;
+using Recademy.Core.Dto;
 
 namespace Recademy.Api.Services.Abstraction
 {
