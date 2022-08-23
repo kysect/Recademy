@@ -1,6 +1,7 @@
 ﻿@page "/"
-@using System.Net
+@using Recademy.Core.Dto
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
 
 <PageTitle>Index</PageTitle>
 
@@ -12,10 +13,20 @@ Welcome to your new app.
 
 <button class="btn btn-primary" @onclick="SignIn">Sign in</button>
 
+@_user?.GithubUsername
+
 @code {
+    private UserInfoDto? _user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _user = await Http.GetFromJsonAsync<UserInfoDto>("api/auth/user/current");
+    }
+
     private async void SignIn()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, "api/auth/sign-in");
-        var response = await Http.SendAsync(request);
+        NavigationManager.NavigateTo("api/auth/sign-in", forceLoad: true);
+
+        _user = await Http.GetFromJsonAsync<UserInfoDto>("api/auth/github");
     }
 }

@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+
 using Recademy.Api.Services.Abstraction;
-using Recademy.Core.Models;
+using Recademy.Core.Dto;
+using User = Recademy.Core.Models.User;
 
 namespace Recademy.Api.Controllers
 {
@@ -39,7 +41,7 @@ namespace Recademy.Api.Controllers
         [HttpGet("github")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult AuthorizeGithubUser()
+        public ActionResult<UserInfoDto> AuthorizeGithubUser()
         {
             ClaimsPrincipal userClaims = HttpContext.User;
             Claim accessToken = userClaims.Claims.FirstOrDefault(claim => claim.Type == "access_token");
@@ -54,14 +56,38 @@ namespace Recademy.Api.Controllers
                 User user = _registerService.GetUserFromClaims(HttpContext.User);
 
                 _registerService.Register(user);
+
+                UserInfoDto dto = new UserInfoDto(user);
+
+                _logger.LogInformation($"User {dto?.GithubUsername} was successfully authenticated via GitHub");
+
+                return Ok(dto);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to register Recademy user");
                 return BadRequest($"Failed to register Recademy user: {ex.Message}");
             }
+        }
 
-            return Redirect("/");
+        [HttpGet("user/current")]
+        public ActionResult<UserInfoDto> GetCurrentUser()
+        {
+            try
+            {
+                User user = _registerService.GetUserFromClaims(HttpContext.User);
+
+                UserInfoDto dto = new UserInfoDto(user);
+
+                _logger.LogInformation($"Current user is {dto?.GithubUsername}");
+
+                return Ok(dto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to get current user");
+                return BadRequest($"Failed to get current user: {ex.Message}");
+            }
         }
     }
 }
