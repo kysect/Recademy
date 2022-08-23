@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using Recademy.Core.Dto
+@inject ILogger<Counter> Logger
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
@@ -11,22 +12,48 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-<button class="btn btn-primary" @onclick="SignIn">Sign in</button>
-
-@_user?.GithubUsername
+@if (_user is null)
+{
+    <button class="btn btn-primary" @onclick="SignIn">Sign in</button>
+}
+else
+{
+    <button class="btn btn-primary" @onclick="SignOut">Sign out</button>
+    @_user.GithubUsername
+}
 
 @code {
     private UserInfoDto? _user;
 
     protected override async Task OnInitializedAsync()
     {
-        _user = await Http.GetFromJsonAsync<UserInfoDto>("api/auth/user/current");
+        try
+        {
+            _user = await Http.GetFromJsonAsync<UserInfoDto>("api/auth/user/current");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, $"An error occurred while initializing page");
+        }
     }
 
     private async void SignIn()
     {
         NavigationManager.NavigateTo("api/auth/sign-in", forceLoad: true);
 
-        _user = await Http.GetFromJsonAsync<UserInfoDto>("api/auth/github");
+        try
+        {
+            _user = await Http.GetFromJsonAsync<UserInfoDto>("api/auth/github");
+
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, $"An error occurred while signing in user");
+        }
+    }
+
+    private void SignOut()
+    {
+        NavigationManager.NavigateTo("api/auth/sign-out", forceLoad: true);
     }
 }

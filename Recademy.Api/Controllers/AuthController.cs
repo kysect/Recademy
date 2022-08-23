@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
@@ -86,7 +86,7 @@ namespace Recademy.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to get current user");
-                return BadRequest($"Failed to get current user: {ex.Message}");
+                return Ok($"Failed to get current user: {ex.Message}");
             }
         }
     }
