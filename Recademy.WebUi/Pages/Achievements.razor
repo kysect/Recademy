@@ -1,0 +1,66 @@
+﻿@page "/achievements"
+@using Recademy.Core.Dto
+@inject HttpClient Http
+
+<h1>Достижения</h1>
+
+@if (_userAchievements.Count > 0)
+{
+    <div>
+        <ul>
+            @foreach (UserAchievementDto achievement in _userAchievements)
+            {
+                <li>@achievement.Title</li>
+            }
+        </ul>
+    </div>
+}
+
+<button class="btn btn-primary" @onclick="FillAllAchievements">Все достижения</button>
+@if (_allUserAchievements.Count > 0 && _allAchievementsShow)
+{
+    <div>
+        <ul>
+            @foreach (UserAchievementDto achievement in _allUserAchievements)
+            {
+                <li>@achievement.Title (@achievement.Description) - @achievement.Points kysочков</li>
+            }
+        </ul>
+    </div>
+}
+
+@code {
+    private IReadOnlyCollection<UserAchievementDto> _allUserAchievements = new List<UserAchievementDto>();
+    private IReadOnlyCollection<UserAchievementDto> _userAchievements = new List<UserAchievementDto>();
+    private bool _allAchievementsShow;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (MainLayout.User is null)
+            return;
+
+        var response = await Http.GetFromJsonAsync<IReadOnlyCollection<UserAchievementDto>>($"api/achievements/users/{MainLayout.User.Id}");
+
+        if (response is not null)
+        {
+            _userAchievements = response;
+        }
+    }
+
+    private async Task FillAllAchievements()
+    {
+        if (_allAchievementsShow)
+        {
+            _allAchievementsShow = false;
+            return;
+        }
+
+        var response = await Http.GetFromJsonAsync<IReadOnlyCollection<UserAchievementDto>>("api/achievements/users/list");
+
+        if (response is not null)
+        {
+            _allUserAchievements = response;
+            _allAchievementsShow = true;
+        }
+    }
+}
