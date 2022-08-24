@@ -40,6 +40,9 @@ namespace Recademy.Api
             modelBuilder.Entity<ReviewResponseUpvote>()
                 .HasKey(ru => new { ReviewId = ru.ReviewResponseId, ru.UserId });
 
+            modelBuilder.Entity<UserAchievementInfo>()
+                .HasKey(ua => new { ua.UserId, ua.AchievementId });
+
             DisableCascadeDelete(modelBuilder);
         }
 
@@ -79,6 +82,7 @@ namespace Recademy.Api
         public DbSet<UserSkill> UserSkills { get; set; }
         public DbSet<ProjectSkill> ProjectSkills { get; set; }
         public DbSet<ReviewResponseUpvote> ReviewResponseUpvotes { get; set; }
+        public DbSet<UserAchievementInfo> UserAchievementInfos { get; set; }
 
 
         public DbSet<Settings> Settings { get; set; }
