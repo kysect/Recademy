@@ -1,4 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using Recademy.Core.Dto
+@inherits LayoutComponentBase
+@inject ILogger<MainLayout> Logger
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
 
 <div class="page">
     <div class="sidebar">
@@ -6,8 +10,20 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        <div class="flex-row top-row px-4">
+            @if (User is null)
+            {
+                <div>
+                    <button class="btn btn-primary" @onclick="SignIn">Sign in</button>
+                </div>
+            }
+            else
+            {
+                <div>
+                    @User.GithubUsername
+                    <button class="btn btn-primary" @onclick="SignOut">Sign out</button>
+                </div>
+            }
         </div>
 
         <article class="content px-4">
@@ -15,3 +31,39 @@
         </article>
     </main>
 </div>
+
+
+@code {
+    public static UserInfoDto? User { get; private set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            User = await Http.GetFromJsonAsync<UserInfoDto>("api/auth/user/current");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, $"An error occurred while initializing page");
+        }
+    }
+
+    private async void SignIn()
+    {
+        NavigationManager.NavigateTo("api/auth/sign-in", forceLoad: true);
+
+        try
+        {
+            User = await Http.GetFromJsonAsync<UserInfoDto>("api/auth/github");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, $"An error occurred while signing in user");
+        }
+    }
+
+    private void SignOut()
+    {
+        NavigationManager.NavigateTo("api/auth/sign-out", forceLoad: true);
+    }
+}
