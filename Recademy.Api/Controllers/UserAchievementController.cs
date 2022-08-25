@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,14 @@ namespace Recademy.Api.Controllers
                 .ToList();
 
             return Ok(achievements);
+        }
+
+        [HttpGet("users/{userId}/points")]
+        public ActionResult<int> GetUserAchievementPoints(int userId)
+        {
+            Int32 userAchievementPoints = _userAchievementService.GetUserAchievementPoints(userId);
+
+            return Ok(userAchievementPoints);
         }
 
         [HttpPost("users/{userId}/{achievementId}")]

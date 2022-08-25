@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Recademy.Core.Types;
 
 namespace Recademy.Core.Models
@@ -15,5 +16,6 @@ namespace Recademy.Core.Models
         public ICollection<ProjectInfo> ProjectInfos { get; set; }
         public ICollection<ReviewRequest> ReviewRequests { get; set; }
         public ICollection<ReviewResponse> ReviewResponses { get; set; }
+        public ICollection<UserAchievementInfo> UserAchievements { get; set; }
     }
 }

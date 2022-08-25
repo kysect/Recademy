@@ -4,6 +4,7 @@ using Recademy.Api.Controllers;
 using Recademy.Api.Repositories.Implementations;
 using Recademy.Api.Services.Implementations;
 using Recademy.Api.Tools;
+using Recademy.Core;
 using Recademy.Core.Dto;
 using Recademy.Core.Models;
 using Recademy.Core.Types;
@@ -28,9 +29,10 @@ namespace Recademy.Test.Tools
             var userRepository = new UserRepository(context);
             var projectRepository = new ProjectRepository(context);
             var reviewRepository = new ReviewRepository(context);
+            var userAchievementService = new UserAchievementService(context);
 
             //TODO: add test implementation for github api accessor
-            UserController = new UserController(new UserService(new AchievementService(context), userRepository, projectRepository, new GithubApiAccessor()));
+            UserController = new UserController(new UserService(new AchievementService(context), userRepository, projectRepository, new GithubApiAccessor(), userAchievementService));
             ProjectController = new ProjectController(new ProjectService(projectRepository));
             ReviewController = new ReviewController(new ReviewService(userRepository, projectRepository, reviewRepository));
             ReviewResponseController = new ReviewResponseController(new ReviewResponseService(context));

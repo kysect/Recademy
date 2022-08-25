@@ -46,6 +46,11 @@ public sealed class UserAchievementService : IUserAchievementService
         throw new NotImplementedException();
     }
 
+    public Int32 GetUserAchievementPoints(int userId)
+    {
+        return GetUserAchievements(userId).Sum(achievement => achievement.Points);
+    }
+
     public async Task AddUserAchievement(Int32 userId, Int32 achievementId)
     {
         _context.UserAchievementInfos.Add(new UserAchievementInfo() {AchievementId = achievementId, UserId = userId});

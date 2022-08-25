@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Recademy.Api.Repositories;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Api.Tools;
@@ -15,17 +16,20 @@ namespace Recademy.Api.Services.Implementations
         private readonly IUserRepository _userRepository;
         private readonly IProjectRepository _projectRepository;
         private readonly IGithubApiAccessor _githubApiAccessor;
+        private readonly IUserAchievementService _userAchievementService;
 
         public UserService(
             IAchievementService achievements,
             IUserRepository userRepository,
             IProjectRepository projectRepository,
-            IGithubApiAccessor githubApiAccessor)
+            IGithubApiAccessor githubApiAccessor,
+            IUserAchievementService userAchievementService)
         {
             _achievements = achievements;
             _userRepository = userRepository;
             _projectRepository = projectRepository;
             _githubApiAccessor = githubApiAccessor;
+            _userAchievementService = userAchievementService;
         }
 
         public UserInfoDto ReadUserInfo(int userId)
@@ -83,7 +87,11 @@ namespace Recademy.Api.Services.Implementations
             {
                 Activities = _achievements.GetUserActivityPerMonth(user.Id),
                 Achievements = _achievements.GetAchievements(user),
-                GithubInfo = _githubApiAccessor.GetUserProfile(user.GithubUsername)
+                GithubInfo = _githubApiAccessor.GetUserProfile(user.GithubUsername),
+                UserAchievements = _userAchievementService
+                    .GetUserAchievements(user.Id)
+                    .Select(achievement => new UserAchievementDto(achievement.Id, achievement.Title, achievement.Description, achievement.Points))
+                    .ToList()
             };
         }
     }
