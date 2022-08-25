@@ -4,13 +4,20 @@
 
 <h1>Достижения</h1>
 
+@if (MainLayout.User is not null)
+{
+    <div>
+        <p>Kysочков у @MainLayout.User.GithubUsername: @_userPointsCount</p>
+    </div>
+}
+
 @if (_userAchievements.Count > 0)
 {
     <div>
         <ul>
             @foreach (UserAchievementDto achievement in _userAchievements)
             {
-                <li>@achievement.Title</li>
+                <li>@achievement.Title (@achievement.Points kys)</li>
             }
         </ul>
     </div>
@@ -32,6 +39,7 @@
 @code {
     private IReadOnlyCollection<UserAchievementDto> _allUserAchievements = new List<UserAchievementDto>();
     private IReadOnlyCollection<UserAchievementDto> _userAchievements = new List<UserAchievementDto>();
+    private int _userPointsCount;
     private bool _allAchievementsShow;
 
     protected override async Task OnInitializedAsync()
@@ -39,12 +47,16 @@
         if (MainLayout.User is null)
             return;
 
-        var response = await Http.GetFromJsonAsync<IReadOnlyCollection<UserAchievementDto>>($"api/achievements/users/{MainLayout.User.Id}");
+        var userAchievements = await Http.GetFromJsonAsync<IReadOnlyCollection<UserAchievementDto>>($"api/achievements/users/{MainLayout.User.Id}");
 
-        if (response is not null)
+        if (userAchievements is not null)
         {
-            _userAchievements = response;
+            _userAchievements = userAchievements;
         }
+
+        var userPoints = await Http.GetFromJsonAsync<int>($"api/achievements/users/{MainLayout.User.Id}/points");
+
+        _userPointsCount = userPoints;
     }
 
     private async Task FillAllAchievements()
