@@ -37,5 +37,6 @@ namespace Recademy.Core.Dto
         public List<int> Activities { get; set; }
         public List<ProjectInfoDto> ProjectDtos { get; set; }
         public List<AchievementsDto> Achievements { get; set; }
+        public IReadOnlyCollection<UserAchievementDto> UserAchievements { get; set; }
     }
 }

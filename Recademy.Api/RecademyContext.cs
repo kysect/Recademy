@@ -43,6 +43,11 @@ namespace Recademy.Api
             modelBuilder.Entity<UserAchievementInfo>()
                 .HasKey(ua => new { ua.UserId, ua.AchievementId });
 
+            modelBuilder.Entity<UserAchievementInfo>()
+                .HasOne(ua => ua.User)
+                .WithMany(ua => ua.UserAchievements)
+                .HasForeignKey(ua => ua.UserId);
+
             DisableCascadeDelete(modelBuilder);
         }
 
