@@ -7,6 +7,9 @@ public static class AchievementMappingExtensions
 {
     public static UserAchievementDto ToDto(this UserAchievementInfo achievement)
     {
+        if (achievement is null)
+            return null;
+
         return new UserAchievementDto
         {
             Id = achievement.AchievementId,
@@ -16,6 +19,9 @@ public static class AchievementMappingExtensions
 
     public static UserAchievementInfo FromDto(this UserAchievementDto achievement, int recademyUserId)
     {
+        if (achievement is null)
+            return null;
+
         return new UserAchievementInfo
         {
             UserId = recademyUserId,

@@ -9,6 +9,9 @@ public static class ProjectMappingExtensions
 {
     public static ProjectInfoDto ToDto(this ProjectInfo project)
     {
+        if (project is null)
+            return null;
+
         return new ProjectInfoDto
         {
             ProjectId = project.Id,
@@ -21,6 +24,9 @@ public static class ProjectMappingExtensions
 
     public static ProjectInfo FromDto(this ProjectInfoDto project)
     {
+        if (project is null)
+            return null;
+
         return new ProjectInfo
         {
             Id = project.ProjectId,

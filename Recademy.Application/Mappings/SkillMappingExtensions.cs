@@ -8,6 +8,9 @@ public static class SkillMappingExtensions
 {
     public static SkillDto ToDto(this Skill skill)
     {
+        if (skill is null)
+            return null;
+
         return new SkillDto
         {
             Name = skill.Name,
@@ -23,6 +26,9 @@ public static class SkillMappingExtensions
 
     public static Skill FromDto(this SkillDto skill)
     {
+        if (skill is null)
+            return null;
+
         return new Skill
         {
             Name = skill.Name,
@@ -38,6 +44,9 @@ public static class SkillMappingExtensions
 
     public static UserSkillDto ToDto(this UserSkill userSkill)
     {
+        if (userSkill is null)
+            return null;
+
         return new UserSkillDto
         {
             User = userSkill.User.ToDto(),
@@ -47,6 +56,9 @@ public static class SkillMappingExtensions
 
     public static UserSkill FromDto(this UserSkillDto userSkill)
     {
+        if (userSkill is null)
+            return null;
+
         return new UserSkill
         {
             UserId = userSkill.User.UserId,
@@ -57,6 +69,9 @@ public static class SkillMappingExtensions
 
     public static ProjectSkillDto ToDto(this ProjectSkill projectSkill)
     {
+        if (projectSkill is null)
+            return null;
+
         return new ProjectSkillDto
         {
             Project = projectSkill.ProjectInfo.ToDto(),
@@ -65,6 +80,9 @@ public static class SkillMappingExtensions
     }
     public static ProjectSkill FromDto(this ProjectSkillDto projectSkill)
     {
+        if (projectSkill is null)
+            return null;
+
         return new ProjectSkill
         {
             ProjectId = projectSkill.Project.ProjectId,

@@ -11,6 +11,9 @@ public static class ReviewMappingExtensions
 {
     public static ReviewRequestInfoDto ToDto(this ReviewRequest reviewRequest)
     {
+        if (reviewRequest is null)
+            return null;
+
         return new ReviewRequestInfoDto
         {
             Id = reviewRequest.Id,
@@ -24,6 +27,9 @@ public static class ReviewMappingExtensions
 
     public static ReviewRequest FromDto(this ReviewRequestInfoDto reviewRequest)
     {
+        if (reviewRequest is null)
+            return null;
+
         return new ReviewRequest
         {
             Id = reviewRequest.Id,
@@ -37,6 +43,9 @@ public static class ReviewMappingExtensions
 
     public static ReviewResponseInfoDto ToDto(this ReviewResponse reviewResponse)
     {
+        if (reviewResponse is null)
+            return null;
+
         return new ReviewResponseInfoDto
         {
             Id = reviewResponse.Id,
@@ -48,20 +57,11 @@ public static class ReviewMappingExtensions
         };
     }
 
-    public static ReviewResponse FromDto(this ReviewResponseCreateDto reviewResponse)
-    {
-        return new ReviewResponse
-        {
-            ReviewRequestId = reviewResponse.ReviewRequestId,
-            Description = reviewResponse.ReviewText,
-            ReviewerId = reviewResponse.UserId,
-            CreationTime = DateTime.UtcNow,
-            ReviewConclusion = reviewResponse.ReviewConclusion.FromDto()
-        };
-    }
-
     public static ReviewResponse FromDto(this ReviewResponseInfoDto reviewResponse)
     {
+        if (reviewResponse is null)
+            return null;
+
         return new ReviewResponse
         {
             Id = reviewResponse.Id,
@@ -70,6 +70,21 @@ public static class ReviewMappingExtensions
             ReviewConclusion = reviewResponse.ReviewConclusion.FromDto(),
             ReviewRequest = reviewResponse.ReviewRequest.Maybe(request => request.FromDto()),
             ReviewerId = reviewResponse.ReviewerId,
+        };
+    }
+
+    public static ReviewResponse FromDto(this ReviewResponseCreateDto reviewResponse)
+    {
+        if (reviewResponse is null)
+            return null;
+
+        return new ReviewResponse
+        {
+            ReviewRequestId = reviewResponse.ReviewRequestId,
+            Description = reviewResponse.ReviewText,
+            ReviewerId = reviewResponse.UserId,
+            CreationTime = DateTime.UtcNow,
+            ReviewConclusion = reviewResponse.ReviewConclusion.FromDto()
         };
     }
 
