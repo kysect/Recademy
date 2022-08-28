@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Recademy.Api;
 using Recademy.Core.Models;
 using Recademy.Core.Types;
+using Recademy.DataAccess;
 using Recademy.Mock.Extensions;
 using Recademy.Mock.Generators;
 

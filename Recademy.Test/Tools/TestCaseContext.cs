@@ -1,12 +1,13 @@
 ﻿using NUnit.Framework;
 using Recademy.Api;
 using Recademy.Api.Controllers;
-using Recademy.Api.Repositories.Implementations;
-using Recademy.Api.Services.Implementations;
-using Recademy.Api.Tools;
+using Recademy.Application.Services.Implementations;
+using Recademy.Application.Tools;
 using Recademy.Core;
 using Recademy.Core.Models;
 using Recademy.Core.Types;
+using Recademy.DataAccess;
+using Recademy.DataAccess.Repositories.Implementations;
 using Recademy.Mock;
 using Recademy.Mock.Generators;
 using Recademy.Shared.Dtos.Reviews;

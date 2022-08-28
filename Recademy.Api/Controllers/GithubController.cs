@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Octokit;
-using Recademy.Api.Services.Abstraction;
+using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Types;
 using Recademy.Shared.Dtos.Github;
 

@@ -3,6 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using Recademy.Api;
 using Recademy.Core.Models;
+using Recademy.DataAccess;
 using Recademy.Mock;
 using Recademy.Test.Tools;
 

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Recademy.Api.Services.Abstraction;
+using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Types;
 using Recademy.Shared.Dtos.Projects;
 using Recademy.Shared.Dtos.Users;

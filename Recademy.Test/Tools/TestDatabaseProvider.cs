@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Api;
+using Recademy.DataAccess;
 
 namespace Recademy.Test.Tools
 {

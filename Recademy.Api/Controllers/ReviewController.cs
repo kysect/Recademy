@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
-using Recademy.Api.Services.Abstraction;
+using Recademy.Application.Services.Abstractions;
 using Recademy.Shared.Dtos.Reviews;
 
 namespace Recademy.Api.Controllers

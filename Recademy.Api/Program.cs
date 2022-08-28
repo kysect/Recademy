@@ -9,14 +9,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Recademy.Api;
-using Recademy.Api.Repositories;
-using Recademy.Api.Repositories.Implementations;
-using Recademy.Api.Services.Abstraction;
-using Recademy.Api.Services.Implementations;
-using Recademy.Api.Tools;
 using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 using Microsoft.AspNetCore.Http;
+using Recademy.Application.Services.Abstractions;
+using Recademy.Application.Services.Implementations;
+using Recademy.Application.Tools;
 using Recademy.Core;
+using Recademy.DataAccess;
+using Recademy.DataAccess.Repositories;
+using Recademy.DataAccess.Repositories.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 

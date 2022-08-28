@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Recademy.Api.Services.Abstraction;
+using Recademy.Application.Services.Abstractions;
+using Recademy.Shared;
 using Recademy.Shared.Dtos.Users;
 using User = Recademy.Core.Models.User;
 
