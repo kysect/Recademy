@@ -26,6 +26,8 @@ namespace Recademy.Application.Services.Implementations
                 return;
 
             _context.Users.Add(user);
+            _context.RecademyUsers.Add(new RecademyUser {UserId = user.Id});
+
             _context.SaveChanges();
         }
 

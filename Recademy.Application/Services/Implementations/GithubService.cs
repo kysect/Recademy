@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Components;
 using Octokit;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Application.Tools;
-using Recademy.Shared;
-using Recademy.Shared.Dtos.Github;
+using Recademy.Dto;
+using Recademy.Dto.Github;
 
 namespace Recademy.Application.Services.Implementations
 {

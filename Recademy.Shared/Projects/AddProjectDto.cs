@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Recademy.Shared.Dtos.Projects
+namespace Recademy.Dto.Projects
 {
     public class AddProjectDto
     {

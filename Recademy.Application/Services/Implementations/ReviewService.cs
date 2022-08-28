@@ -10,7 +10,7 @@ using Recademy.Core.Models.Reviews;
 using Recademy.Core.Tools;
 using Recademy.Core.Types;
 using Recademy.DataAccess.Repositories.Abstractions;
-using Recademy.Shared.Dtos.Reviews;
+using Recademy.Dto.Reviews;
 
 namespace Recademy.Application.Services.Implementations
 {

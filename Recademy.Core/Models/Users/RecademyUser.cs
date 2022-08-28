@@ -3,12 +3,14 @@ using Recademy.Core.Models.Projects;
 using Recademy.Core.Models.Reviews;
 using Recademy.Core.Models.Skills;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Recademy.Core.Models.Users;
 
 public class RecademyUser
 {
+    [Key]
     [ForeignKey("User")]
     public int UserId { get; set; }
     public User User { get; set; }

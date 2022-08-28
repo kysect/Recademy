@@ -7,16 +7,12 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Recademy.Core\Recademy.Core.csproj" />
 		<ProjectReference Include="..\Recademy.DataAccess\Recademy.DataAccess.csproj" />
-		<ProjectReference Include="..\Recademy.Shared\Recademy.Shared.csproj" />
+		<ProjectReference Include="..\Recademy.Shared\Recademy.Dto.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Octokit" Version="0.48.0" />
 		<PackageReference Include="Markdig" Version="0.22.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Mappings\" />
 	</ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace Recademy.Shared.Dtos.Reviews
+﻿namespace Recademy.Dto.Reviews
 {
     public class ReviewProjectDto
     {

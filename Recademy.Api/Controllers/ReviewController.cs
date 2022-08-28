@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Application.Services.Abstractions;
-using Recademy.Shared.Dtos.Reviews;
+using Recademy.Dto.Reviews;
 
 namespace Recademy.Api.Controllers
 {

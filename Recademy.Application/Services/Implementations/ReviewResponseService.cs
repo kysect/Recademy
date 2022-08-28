@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
-using Recademy.Core.Models;
 using Recademy.Core.Models.Reviews;
 using Recademy.Core.Types;
 using Recademy.DataAccess;
-using Recademy.Shared.Dtos.Reviews;
+using Recademy.Dto.Reviews;
 
 namespace Recademy.Application.Services.Implementations
 {
@@ -35,20 +33,15 @@ namespace Recademy.Application.Services.Implementations
             if (request.State == ProjectState.Completed || request.State == ProjectState.Abandoned)
                 throw new RecademyException("Failed to send review. It is already closed.");
 
-            var newReview = new ReviewResponse
-            {
-                ReviewRequestId = reviewResponseCreateDto.ReviewRequestId,
-                Description = reviewResponseCreateDto.ReviewText,
-                ReviewerId = reviewResponseCreateDto.UserId,
-                CreationTime = DateTime.UtcNow,
-                ReviewConclusion = reviewResponseCreateDto.ReviewConclusion
-            };
+            var newReview = reviewResponseCreateDto.FromDto();
 
             request.State = ProjectState.Reviewed;
+
             _context.ReviewResponses.Add(newReview);
             _context.SaveChanges();
 
             newReview.ReviewRequest = request;
+
             return newReview.ToDto();
         }
     }

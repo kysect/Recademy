@@ -1,4 +1,4 @@
-﻿namespace Recademy.Shared
+﻿namespace Recademy.Dto
 {
     public static class GhUtil
     {

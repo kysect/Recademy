@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Types;
-using Recademy.Shared.Dtos.Projects;
-using Recademy.Shared.Dtos.Users;
+using Recademy.Dto.Projects;
+using Recademy.Dto.Users;
 
 namespace Recademy.Api.Controllers
 {
@@ -43,7 +43,7 @@ namespace Recademy.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<RecademyUserDto> ReadByUsername([FromQuery][Required] string username)
         {
-            return _userService.FindByUsername(username);
+            return _userService.FindRecademyUser(username);
         }
 
         [HttpGet("{userId}/projects")]

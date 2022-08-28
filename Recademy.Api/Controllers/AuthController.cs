@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
-using Recademy.Shared;
-using Recademy.Shared.Dtos.Users;
+using Recademy.Dto;
+using Recademy.Dto.Users;
 using User = Recademy.Core.Models.Users.User;
 
 namespace Recademy.Api.Controllers
@@ -59,7 +60,7 @@ namespace Recademy.Api.Controllers
 
                 _registerService.Register(user);
 
-                UserInfoDto dto = new UserInfoDto(user);
+                UserInfoDto dto = user.ToDto();
 
                 _logger.LogInformation($"User {dto?.GithubUsername} was successfully authenticated via GitHub");
 
@@ -73,7 +74,7 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpGet("user/current")]
-        public ActionResult<RecademyUserDto> GetCurrentUser()
+        public ActionResult<UserInfoDto> GetCurrentUser()
         {
             try
             {
@@ -82,7 +83,10 @@ namespace Recademy.Api.Controllers
                     .Split('/')
                     .LastOrDefault();
 
-                RecademyUserDto dto = _userService.FindByUsername(username);
+                UserInfoDto dto = _userService.FindUser(username);
+
+                if (dto is null)
+                    return Unauthorized(username);
 
                 _logger.LogInformation($"Current user is {dto?.GithubUsername}");
 
@@ -91,7 +95,7 @@ namespace Recademy.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to get current user");
-                return Ok($"Failed to get current user: {ex.Message}");
+                return Unauthorized($"Failed to get current user: {ex.Message}");
             }
         }
     }

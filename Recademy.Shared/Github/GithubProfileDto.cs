@@ -1,4 +1,4 @@
-﻿namespace Recademy.Shared.Dtos.Github
+﻿namespace Recademy.Dto.Github
 {
     public class GithubProfileDto
     {

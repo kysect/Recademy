@@ -1,7 +1,7 @@
 ﻿using System;
-using Recademy.Core.Types;
+using Recademy.Dto.Enums;
 
-namespace Recademy.Shared.Dtos.Reviews
+namespace Recademy.Dto.Reviews
 {
     public class ReviewResponseInfoDto
     {
@@ -14,7 +14,7 @@ namespace Recademy.Shared.Dtos.Reviews
             int id, 
             string description, 
             DateTime creationTime, 
-            ReviewConclusion reviewConclusion, 
+            ReviewConclusionDto reviewConclusion, 
             ReviewRequestInfoDto reviewRequest, 
             int reviewerId)
         {
@@ -29,7 +29,7 @@ namespace Recademy.Shared.Dtos.Reviews
         public int Id { get; init; }
         public string Description { get; init; }
         public DateTime CreationTime { get; init; }
-        public ReviewConclusion ReviewConclusion { get; init; }
+        public ReviewConclusionDto ReviewConclusion { get; init; }
 
         public ReviewRequestInfoDto ReviewRequest { get; init; }
         public int ReviewerId { get; init; }

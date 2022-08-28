@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recademy.WebUi", "Recademy.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recademy.Api", "Recademy.Api\Recademy.Api.csproj", "{1E65DCA8-A6D0-4492-81F9-95BCE7D45896}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recademy.Shared", "Recademy.Shared\Recademy.Shared.csproj", "{2B404466-BFD7-4DA7-9105-B575A8A710C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recademy.Dto", "Recademy.Shared\Recademy.Dto.csproj", "{2B404466-BFD7-4DA7-9105-B575A8A710C4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recademy.Application", "Recademy.Application\Recademy.Application.csproj", "{94A9778F-F473-4DF0-B3CB-F0D0358BA639}"
 EndProject

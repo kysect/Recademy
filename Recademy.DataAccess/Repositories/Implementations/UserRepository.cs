@@ -30,7 +30,7 @@ namespace Recademy.DataAccess.Repositories.Implementations
             return Find(id) ?? throw RecademyException.UserNotFound(id);
         }
 
-        public RecademyUser FindByUsername(string username)
+        public RecademyUser FindRecademyUser(string username)
         {
             return _context.RecademyUsers
                 .Include(s => s.ProjectInfos)
@@ -38,6 +38,11 @@ namespace Recademy.DataAccess.Repositories.Implementations
                 .Include(s => s.UserSkills)
                 .Include(u => u.ReviewRequests)
                 .SingleOrDefault(s => s.User.GithubUsername == username);
+        }
+
+        public User? FindUser(string username)
+        {
+            return _context.Users.SingleOrDefault(user => user.GithubUsername == username);
         }
 
         public User UpdateUserRole(User user, UserType userType)

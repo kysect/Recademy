@@ -5,8 +5,8 @@ using Recademy.Core.Models.Users;
 using Recademy.Core.Tools;
 using Recademy.Core.Types;
 using Recademy.DataAccess.Repositories.Abstractions;
-using Recademy.Shared.Dtos.Projects;
-using Recademy.Shared.Dtos.Users;
+using Recademy.Dto.Projects;
+using Recademy.Dto.Users;
 
 namespace Recademy.Application.Services.Implementations
 {
@@ -37,10 +37,17 @@ namespace Recademy.Application.Services.Implementations
                 .ToDto();
         }
 
-        public RecademyUserDto FindByUsername(string username)
+        public RecademyUserDto FindRecademyUser(string username)
         {
             return _userRepository
-                .FindByUsername(username)
+                .FindRecademyUser(username)
+                .ToDto();
+        }
+
+        public UserInfoDto FindUser(string username)
+        {
+            return _userRepository
+                .FindUser(username)
                 .ToDto();
         }
 

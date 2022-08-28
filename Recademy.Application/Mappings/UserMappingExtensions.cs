@@ -1,5 +1,9 @@
-﻿using Recademy.Core.Models.Users;
-using Recademy.Shared.Dtos.Users;
+﻿using System;
+using System.Linq;
+using Recademy.Core.Models.Users;
+using Recademy.Core.Types;
+using Recademy.Dto.Enums;
+using Recademy.Dto.Users;
 
 namespace Recademy.Application.Mappings;
 
@@ -7,28 +11,85 @@ public static class UserMappingExtensions
 {
     public static UserInfoDto ToDto(this User user)
     {
-        return new UserInfoDto()
+        if (user is null)
+            return null;
+
+        return new UserInfoDto
         {
             Id = user.Id,
             Name = user.Name,
             GithubUsername = user.GithubUsername,
-            UserType = user.UserType,
+            UserType = user.UserType.ToDto(),
+        };
+    }
+
+    public static User FromDto(this UserInfoDto user)
+    {
+        if (user is null)
+            return null;
+
+        return new User
+        {
+            Id = user.Id,
+            Name = user.Name,
+            GithubUsername = user.GithubUsername,
+            UserType = user.UserType.FromDto(),
         };
     }
 
     public static RecademyUserDto ToDto(this RecademyUser recademyUser)
     {
-        return new RecademyUserDto()
+        if (recademyUser is null)
+            return null;
+
+        return new RecademyUserDto
         {
             UserId = recademyUser.User.Id,
-            Name = recademyUser.User.Name,
-            GithubUsername = recademyUser.User.GithubUsername,
-            UserType = recademyUser.User.UserType,
-            UserSkills = recademyUser.UserSkills,
-            ProjectInfos = recademyUser.ProjectInfos,
-            ReviewRequests = recademyUser.ReviewRequests,
-            ReviewResponses = recademyUser.ReviewResponses,
-            UserAchievements = recademyUser.UserAchievements,
+            User = recademyUser.User.ToDto(),
+            UserSkills = recademyUser.UserSkills.Select(skill => skill.ToDto()).ToList(),
+            ProjectInfos = recademyUser.ProjectInfos.Select(project => project.ToDto()).ToList(),
+            ReviewRequests = recademyUser.ReviewRequests.Select(request => request.ToDto()).ToList(),
+            ReviewResponses = recademyUser.ReviewResponses.Select(response => response.ToDto()).ToList(),
+            UserAchievements = recademyUser.UserAchievements.Select(achievement => achievement.ToDto()).ToList(),
+        };
+    }
+
+    public static RecademyUser FromDto(this RecademyUserDto recademyUser)
+    {
+        if (recademyUser is null)
+            return null;
+
+        return new RecademyUser
+        {
+            UserId = recademyUser.UserId,
+            User = recademyUser.User.FromDto(),
+            UserSkills = recademyUser.UserSkills.Select(skill => skill.FromDto()).ToList(),
+            ProjectInfos = recademyUser.ProjectInfos.Select(project => project.FromDto()).ToList(),
+            ReviewRequests = recademyUser.ReviewRequests.Select(request => request.FromDto()).ToList(),
+            ReviewResponses = recademyUser.ReviewResponses.Select(response => response.FromDto()).ToList(),
+            UserAchievements = recademyUser.UserAchievements.Select(achievement => achievement.FromDto(recademyUser.UserId)).ToList(),
+        };
+    }
+
+    private static UserTypeDto ToDto(this UserType userType)
+    {
+        return userType switch
+        {
+            UserType.CommonUser => UserTypeDto.CommonUser,
+            UserType.Mentor => UserTypeDto.Mentor,
+            UserType.Admin => UserTypeDto.Admin,
+            _ => throw new ArgumentOutOfRangeException(nameof(userType), userType, null)
+        };
+    }
+
+    private static UserType FromDto(this UserTypeDto userType)
+    {
+        return userType switch
+        {
+            UserTypeDto.CommonUser => UserType.CommonUser,
+            UserTypeDto.Mentor => UserType.Mentor,
+            UserTypeDto.Admin => UserType.Admin,
+            _ => throw new ArgumentOutOfRangeException(nameof(userType), userType, null)
         };
     }
 }

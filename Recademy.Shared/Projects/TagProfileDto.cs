@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Recademy.Shared.Dtos.Projects
+namespace Recademy.Dto.Projects
 {
     public class TagProfileDto
     {

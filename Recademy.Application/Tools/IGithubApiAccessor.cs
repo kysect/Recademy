@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Markdig;
 using Microsoft.AspNetCore.Components;
 using Octokit;
-using Recademy.Shared;
-using Recademy.Shared.Dtos.Github;
+using Recademy.Dto;
+using Recademy.Dto.Github;
 using ProductHeaderValue = Octokit.ProductHeaderValue;
 using User = Octokit.User;
 

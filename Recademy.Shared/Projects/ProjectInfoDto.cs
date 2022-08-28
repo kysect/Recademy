@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Recademy.Dto.Skills;
 
-namespace Recademy.Shared.Dtos.Projects
+namespace Recademy.Dto.Projects
 {
     public class ProjectInfoDto
     {
@@ -8,7 +9,7 @@ namespace Recademy.Shared.Dtos.Projects
         {
         }
         
-        public ProjectInfoDto(int userId, int projectId, string projectName, string projectUrl, List<string> projectSkills)
+        public ProjectInfoDto(int userId, int projectId, string projectName, string projectUrl, List<ProjectSkillDto> projectSkills)
         {
             UserId = userId;
             ProjectId = projectId;
@@ -21,6 +22,6 @@ namespace Recademy.Shared.Dtos.Projects
         public int ProjectId { get; init; }
         public string ProjectName { get; init; }
         public string ProjectUrl { get; init; }
-        public List<string> ProjectSkills { get; init; }
+        public List<ProjectSkillDto> ProjectSkills { get; init; }
     }
 }

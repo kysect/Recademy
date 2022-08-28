@@ -1,11 +1,9 @@
 ﻿using System;
-using Recademy.Core.Models.Reviews;
-using Recademy.Core.Tools;
-using Recademy.Core.Types;
-using Recademy.Shared.Dtos.Projects;
-using Recademy.Shared.Dtos.Users;
+using Recademy.Dto.Enums;
+using Recademy.Dto.Projects;
+using Recademy.Dto.Users;
 
-namespace Recademy.Shared.Dtos.Reviews
+namespace Recademy.Dto.Reviews
 {
     public class ReviewRequestInfoDto
     {
@@ -13,7 +11,7 @@ namespace Recademy.Shared.Dtos.Reviews
         {
         }
 
-        public ReviewRequestInfoDto(int id, int projectId, DateTime dateCreate, ProjectState state, ProjectInfoDto projectInfo, RecademyUserDto user)
+        public ReviewRequestInfoDto(int id, int projectId, DateTime dateCreate, ProjectStateDto state, ProjectInfoDto projectInfo, RecademyUserDto user)
         {
             Id = id;
             ProjectId = projectId;
@@ -26,7 +24,7 @@ namespace Recademy.Shared.Dtos.Reviews
         public int Id { get; init; }
         public int ProjectId { get; init; }
         public DateTime DateCreate { get; init; }
-        public ProjectState State { get; init; }
+        public ProjectStateDto State { get; init; }
         public ProjectInfoDto ProjectInfo { get; init; }
         public RecademyUserDto User { get; init; }
 
