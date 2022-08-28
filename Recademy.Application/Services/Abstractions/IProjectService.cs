@@ -8,6 +8,6 @@ namespace Recademy.Application.Services.Abstractions
     {
         ProjectInfoDto GetProjectInfo(int projectId);
         IReadOnlyCollection<ProjectInfoDto> GetProjectsByTag(string tagName);
-        ProjectInfoDto AddProject(AddProjectDto argues);
+        ProjectInfoDto AddProject(AddProjectDto arguments);
     }
 }
