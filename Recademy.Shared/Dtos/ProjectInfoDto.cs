@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using Recademy.Core.Models;
+﻿using Recademy.Core.Models;
 using Recademy.Core.Tools;
 
-namespace Recademy.Core.Dto
+namespace Recademy.Shared.Dtos
 {
     public class ProjectInfoDto
     {

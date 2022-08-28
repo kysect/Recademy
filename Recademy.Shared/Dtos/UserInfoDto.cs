@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Recademy.Core.Models;
+﻿using Recademy.Core.Models;
 using Recademy.Core.Tools;
 using Recademy.Core.Types;
 
-namespace Recademy.Core.Dto
+namespace Recademy.Shared.Dtos
 {
     public class UserInfoDto
     {

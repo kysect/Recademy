@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 using Octokit;
-using Recademy.Core.Dto;
+using Recademy.Shared.Dtos;
 
 namespace Recademy.Api.Services.Abstraction
 {

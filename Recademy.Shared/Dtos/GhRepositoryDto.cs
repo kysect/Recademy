@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Recademy.Core.Dto
+namespace Recademy.Shared.Dtos
 {
     public class GhRepositoryDto
     {

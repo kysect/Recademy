@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Octokit;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Core.Dto;
+using Recademy.Shared.Dtos;
 using Recademy.Core.Types;
 
 namespace Recademy.Api.Controllers

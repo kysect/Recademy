@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Recademy.Core.Dto
+namespace Recademy.Shared.Dtos
 {
     public class AddProjectDto
     {

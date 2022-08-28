@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Recademy.Core\Recademy.Core.csproj" />
+    <ProjectReference Include="..\Recademy.Shared\Recademy.Shared.csproj" />
   </ItemGroup>
 
 </Project>

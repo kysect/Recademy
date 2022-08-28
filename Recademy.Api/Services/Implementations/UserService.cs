@@ -3,7 +3,7 @@ using System.Linq;
 using Recademy.Api.Repositories;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Api.Tools;
-using Recademy.Core.Dto;
+using Recademy.Shared.Dtos;
 using Recademy.Core.Models;
 using Recademy.Core.Tools;
 using Recademy.Core.Types;

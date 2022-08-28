@@ -5,7 +5,7 @@ using Recademy.Api.Repositories.Implementations;
 using Recademy.Api.Services.Implementations;
 using Recademy.Api.Tools;
 using Recademy.Core;
-using Recademy.Core.Dto;
+using Recademy.Shared.Dtos;
 using Recademy.Core.Models;
 using Recademy.Core.Types;
 using Recademy.Mock;

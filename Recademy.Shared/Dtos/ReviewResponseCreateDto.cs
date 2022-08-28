@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Recademy.Core.Types;
 
-namespace Recademy.Core.Dto
+namespace Recademy.Shared.Dtos
 {
     public class ReviewResponseCreateDto
     {

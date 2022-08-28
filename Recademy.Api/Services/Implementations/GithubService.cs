@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 using Octokit;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Api.Tools;
-using Recademy.Core.Dto;
+using Recademy.Shared.Dtos;
 
 namespace Recademy.Api.Services.Implementations
 {

@@ -1,4 +1,4 @@
-﻿using Recademy.Core.Dto;
+﻿using Recademy.Shared.Dtos;
 
 namespace Recademy.Api.Services.Abstraction
 {
