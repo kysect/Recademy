@@ -1,5 +1,6 @@
-﻿using System.Security.Claims;
-using Recademy.Core.Models.Users;
+﻿using Recademy.Core.Models.Users;
+
+using System.Security.Claims;
 
 namespace Recademy.Application.Services.Abstractions
 {

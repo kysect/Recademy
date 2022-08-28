@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Octokit.Internal;
-
 using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Projects;
@@ -11,6 +6,10 @@ using Recademy.Core.Tools;
 using Recademy.Core.Types;
 using Recademy.DataAccess.Repositories.Abstractions;
 using Recademy.Dto.Reviews;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Recademy.Application.Services.Implementations
 {
@@ -81,7 +80,7 @@ namespace Recademy.Application.Services.Implementations
         public ReviewRequestInfoDto CompleteReview(int requestId)
         {
             ReviewRequest reviewRequest = _reviewRepository.Get(requestId);
-            
+
             if (reviewRequest.State == ProjectState.Requested)
                 throw new RecademyException($"Completing review failed. Review request was not reviewed. Review request id: {reviewRequest.Id}");
 
@@ -93,7 +92,7 @@ namespace Recademy.Application.Services.Implementations
         public ReviewRequestInfoDto AbandonReview(int requestId)
         {
             ReviewRequest reviewRequest = _reviewRepository.Get(requestId);
-            
+
             //TODO: check state
             return _reviewRepository
                 .UpdateState(reviewRequest, ProjectState.Abandoned)

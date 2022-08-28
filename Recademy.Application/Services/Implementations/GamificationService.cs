@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+
 using Recademy.Application.Services.Abstractions;
-using Recademy.Core.Models;
 using Recademy.Core.Models.Reviews;
 using Recademy.Core.Types;
 using Recademy.DataAccess;
+
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Recademy.Application.Services.Implementations
 {
@@ -27,7 +28,7 @@ namespace Recademy.Application.Services.Implementations
             if (review.ReviewerId == userId)
                 throw new RecademyException("Try to upvote self review response");
 
-            _context.ReviewResponseUpvotes.Add(new ReviewResponseUpvote {ReviewResponseId = reviewId, UserId = userId});
+            _context.ReviewResponseUpvotes.Add(new ReviewResponseUpvote { ReviewResponseId = reviewId, UserId = userId });
             _context.SaveChanges();
         }
 

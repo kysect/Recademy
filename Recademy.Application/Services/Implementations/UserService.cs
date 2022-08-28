@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Users;
@@ -7,6 +6,8 @@ using Recademy.Core.Types;
 using Recademy.DataAccess.Repositories.Abstractions;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Users;
+
+using System.Collections.Generic;
 
 namespace Recademy.Application.Services.Implementations
 {

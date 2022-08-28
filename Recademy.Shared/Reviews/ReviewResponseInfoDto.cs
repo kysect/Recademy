@@ -1,5 +1,6 @@
-﻿using System;
-using Recademy.Dto.Enums;
+﻿using Recademy.Dto.Enums;
+
+using System;
 
 namespace Recademy.Dto.Reviews
 {
@@ -11,11 +12,11 @@ namespace Recademy.Dto.Reviews
         }
 
         public ReviewResponseInfoDto(
-            int id, 
-            string description, 
-            DateTime creationTime, 
-            ReviewConclusionDto reviewConclusion, 
-            ReviewRequestInfoDto reviewRequest, 
+            int id,
+            string description,
+            DateTime creationTime,
+            ReviewConclusionDto reviewConclusion,
+            ReviewRequestInfoDto reviewRequest,
             int reviewerId)
         {
             Id = id;

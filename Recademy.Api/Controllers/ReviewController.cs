@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+
 using Recademy.Application.Services.Abstractions;
 using Recademy.Dto.Reviews;
+
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Recademy.Api.Controllers
 {
@@ -20,7 +22,7 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ReviewRequestInfoDto> CreateReviewRequest([FromBody] [Required] ReviewRequestAddDto reviewRequestAddDto)
+        public ActionResult<ReviewRequestInfoDto> CreateReviewRequest([FromBody][Required] ReviewRequestAddDto reviewRequestAddDto)
         {
             return _reviewService.AddReviewRequest(reviewRequestAddDto);
         }

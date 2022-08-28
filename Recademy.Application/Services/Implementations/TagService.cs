@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Users;
 using Recademy.Core.Types;
 using Recademy.DataAccess;
+
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Recademy.Application.Services.Implementations
 {

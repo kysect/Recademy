@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+
 using Octokit;
+
 using Recademy.Application.Services.Abstractions;
 using Recademy.Application.Tools;
 using Recademy.Dto;
 using Recademy.Dto.Github;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Recademy.Application.Services.Implementations
 {

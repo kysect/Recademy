@@ -1,7 +1,8 @@
-﻿using System;
-using Recademy.Dto.Enums;
+﻿using Recademy.Dto.Enums;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Users;
+
+using System;
 
 namespace Recademy.Dto.Reviews
 {

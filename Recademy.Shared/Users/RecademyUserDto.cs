@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Recademy.Dto.Achievements;
-using Recademy.Dto.Enums;
+﻿using Recademy.Dto.Achievements;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Reviews;
 using Recademy.Dto.Skills;
+
+using System.Collections.Generic;
 
 namespace Recademy.Dto.Users;
 

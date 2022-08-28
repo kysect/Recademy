@@ -1,9 +1,10 @@
-using System;
-using System.Linq;
-using System.Security.Claims;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Users;
 using Recademy.DataAccess;
+
+using System;
+using System.Linq;
+using System.Security.Claims;
 
 namespace Recademy.Application.Services.Implementations
 {
@@ -26,7 +27,7 @@ namespace Recademy.Application.Services.Implementations
                 return;
 
             _context.Users.Add(user);
-            _context.RecademyUsers.Add(new RecademyUser {UserId = user.Id});
+            _context.RecademyUsers.Add(new RecademyUser { UserId = user.Id });
 
             _context.SaveChanges();
         }

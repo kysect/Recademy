@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+
 using Octokit;
+
 using Recademy.Dto.Github;
+
+using System.Collections.Generic;
 
 namespace Recademy.Application.Services.Abstractions
 {

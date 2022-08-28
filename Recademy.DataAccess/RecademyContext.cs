@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using Recademy.Core.Models;
 using Recademy.Core.Models.Achievements;
 using Recademy.Core.Models.Projects;

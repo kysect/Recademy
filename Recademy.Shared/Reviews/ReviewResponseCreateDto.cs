@@ -1,5 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Recademy.Dto.Enums;
+﻿using Recademy.Dto.Enums;
+
+using System.ComponentModel.DataAnnotations;
 
 namespace Recademy.Dto.Reviews
 {
@@ -8,7 +9,7 @@ namespace Recademy.Dto.Reviews
         public ReviewResponseCreateDto()
         {
         }
-        
+
         [Required]
         public string ReviewText { get; init; }
         [Required]

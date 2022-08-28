@@ -1,6 +1,7 @@
-﻿using System.Linq;
-using Recademy.Core.Models.Skills;
+﻿using Recademy.Core.Models.Skills;
 using Recademy.Dto.Skills;
+
+using System.Linq;
 
 namespace Recademy.Application.Mappings;
 

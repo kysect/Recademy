@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using Recademy.Core.Models.Projects;
-using Recademy.Core.Tools;
+﻿using Recademy.Core.Models.Projects;
 using Recademy.Dto.Projects;
+
+using System.Linq;
 
 namespace Recademy.Application.Mappings;
 

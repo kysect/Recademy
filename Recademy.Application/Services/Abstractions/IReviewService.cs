@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Recademy.Dto.Reviews;
+﻿using Recademy.Dto.Reviews;
+
+using System.Collections.Generic;
 
 namespace Recademy.Application.Services.Abstractions
 {

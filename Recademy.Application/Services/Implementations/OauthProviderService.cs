@@ -1,8 +1,9 @@
-﻿using System.Linq;
-using System.Security.Claims;
-using Recademy.Application.Services.Abstractions;
+﻿using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Users;
 using Recademy.Core.Types;
+
+using System.Linq;
+using System.Security.Claims;
 
 namespace Recademy.Application.Services.Implementations
 {

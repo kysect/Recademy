@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using Recademy.Core.Models.Projects;
+﻿using Recademy.Core.Models.Projects;
 using Recademy.Core.Models.Reviews;
 using Recademy.Core.Types;
+
+using System.Collections.Generic;
 
 namespace Recademy.DataAccess.Repositories.Abstractions
 {

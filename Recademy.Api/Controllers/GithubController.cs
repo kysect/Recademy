@@ -1,11 +1,14 @@
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+
 using Octokit;
+
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Types;
 using Recademy.Dto.Github;
+
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Recademy.Api.Controllers
 {
@@ -29,7 +32,7 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpGet("readme")]
-        public ActionResult<MarkupString> ReadProjectReadme([FromQuery] [Required] string ownerLogin, [FromQuery][Required] string repositoryName)
+        public ActionResult<MarkupString> ReadProjectReadme([FromQuery][Required] string ownerLogin, [FromQuery][Required] string repositoryName)
         {
             MarkupString readme = _githubService.GetReadme(ownerLogin, repositoryName);
             return Ok(readme);

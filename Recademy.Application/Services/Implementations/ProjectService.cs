@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Recademy.Application.Mappings;
+﻿using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Projects;
 using Recademy.Core.Models.Skills;
 using Recademy.Core.Tools;
 using Recademy.DataAccess.Repositories.Abstractions;
 using Recademy.Dto.Projects;
+
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Recademy.Application.Services.Implementations
 {
@@ -42,7 +43,7 @@ namespace Recademy.Application.Services.Implementations
                 Title = argues.ProjectName,
                 Skills = argues
                     .Tags
-                    .Select(t => new ProjectSkill {SkillName = t})
+                    .Select(t => new ProjectSkill { SkillName = t })
                     .ToList()
             };
 

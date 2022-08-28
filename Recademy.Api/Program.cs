@@ -1,21 +1,25 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using Serilog;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
-using Microsoft.AspNetCore.Http;
+using Microsoft.OpenApi.Models;
+
 using Recademy.Application.Services.Abstractions;
 using Recademy.Application.Services.Implementations;
 using Recademy.Application.Tools;
 using Recademy.DataAccess;
-using Recademy.DataAccess.Repositories.Implementations;
 using Recademy.DataAccess.Repositories.Abstractions;
+using Recademy.DataAccess.Repositories.Implementations;
+
+using Serilog;
+
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
 var builder = WebApplication.CreateBuilder(args);
 

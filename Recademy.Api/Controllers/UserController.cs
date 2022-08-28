@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Types;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Users;
+
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Recademy.Api.Controllers
 {

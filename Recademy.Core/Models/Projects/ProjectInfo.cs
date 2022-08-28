@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Recademy.Core.Models.Reviews;
+﻿using Recademy.Core.Models.Reviews;
 using Recademy.Core.Models.Skills;
 using Recademy.Core.Models.Users;
+
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Recademy.Core.Models.Projects
 {

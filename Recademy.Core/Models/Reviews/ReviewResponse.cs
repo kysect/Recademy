@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Recademy.Core.Models.Users;
+using Recademy.Core.Types;
+
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Recademy.Core.Models.Users;
-using Recademy.Core.Types;
 
 namespace Recademy.Core.Models.Reviews
 {

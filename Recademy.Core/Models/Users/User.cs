@@ -1,5 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Recademy.Core.Types;
+﻿using Recademy.Core.Types;
+
+using System.ComponentModel.DataAnnotations;
 
 namespace Recademy.Core.Models.Users
 {

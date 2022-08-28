@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Recademy.Application.Services.Abstractions;
+using Recademy.Core.Models.Achievements;
+using Recademy.DataAccess;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Recademy.Application.Services.Abstractions;
-using Recademy.Core.Models;
-using Recademy.Core.Models.Achievements;
-using Recademy.DataAccess;
 
 namespace Recademy.Application.Services.Implementations;
 
@@ -53,7 +53,7 @@ public sealed class UserAchievementService : IUserAchievementService
 
     public async Task AddUserAchievement(Int32 userId, Int32 achievementId)
     {
-        _context.UserAchievementInfos.Add(new UserAchievementInfo() {AchievementId = achievementId, UserId = userId});
+        _context.UserAchievementInfos.Add(new UserAchievementInfo() { AchievementId = achievementId, UserId = userId });
         await _context.SaveChangesAsync();
     }
 }

@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Markdig;
+﻿using Markdig;
+
 using Microsoft.AspNetCore.Components;
+
 using Octokit;
+
 using Recademy.Dto;
 using Recademy.Dto.Github;
+
+using System;
+using System.Collections.Generic;
+
 using ProductHeaderValue = Octokit.ProductHeaderValue;
 using User = Octokit.User;
 

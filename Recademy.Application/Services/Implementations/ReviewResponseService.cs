@@ -1,11 +1,13 @@
-﻿using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+
 using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Reviews;
 using Recademy.Core.Types;
 using Recademy.DataAccess;
 using Recademy.Dto.Reviews;
+
+using System.Linq;
 
 namespace Recademy.Application.Services.Implementations
 {

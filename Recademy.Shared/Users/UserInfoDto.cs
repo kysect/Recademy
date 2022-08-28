@@ -10,10 +10,10 @@ namespace Recademy.Dto.Users
         }
 
         public UserInfoDto(
-            int id, 
+            int id,
             string name,
-            string githubUsername, 
-            UserTypeDto userType, 
+            string githubUsername,
+            UserTypeDto userType,
             GithubProfileDto githubInfo)
         {
             Id = id;

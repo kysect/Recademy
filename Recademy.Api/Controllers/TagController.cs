@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+
 using Recademy.Application.Services.Abstractions;
+
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Recademy.Api.Controllers
 {

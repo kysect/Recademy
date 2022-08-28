@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Recademy.Dto.Skills;
+﻿using Recademy.Dto.Skills;
+
+using System.Collections.Generic;
 
 namespace Recademy.Dto.Projects
 {
@@ -8,7 +9,7 @@ namespace Recademy.Dto.Projects
         public ProjectInfoDto()
         {
         }
-        
+
         public ProjectInfoDto(int userId, int projectId, string projectName, string projectUrl, List<ProjectSkillDto> projectSkills)
         {
             UserId = userId;

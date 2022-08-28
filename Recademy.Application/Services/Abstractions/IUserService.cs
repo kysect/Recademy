@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using Recademy.Core.Types;
+﻿using Recademy.Core.Types;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Users;
+
+using System.Collections.Generic;
 
 namespace Recademy.Application.Services.Abstractions
 {

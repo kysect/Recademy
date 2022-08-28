@@ -1,5 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Recademy.Core.Models.Users;
+﻿using Recademy.Core.Models.Users;
+
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Recademy.Core.Models.Skills
 {

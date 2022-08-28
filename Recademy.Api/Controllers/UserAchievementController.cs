@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
+using Recademy.Application.Services.Abstractions;
+using Recademy.Dto.Achievements;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Recademy.Application.Services.Abstractions;
-using Recademy.Dto.Achievements;
 
 namespace Recademy.Api.Controllers
 {
@@ -29,9 +31,9 @@ namespace Recademy.Api.Controllers
                 .GetAllAchievements()
                 .Select(achievement => new UserAchievementDto
                 {
-                    Id = achievement.Id, 
+                    Id = achievement.Id,
                     Title = achievement.Title,
-                    Description = achievement.Description, 
+                    Description = achievement.Description,
                     Points = achievement.Points
                 })
                 .ToList();

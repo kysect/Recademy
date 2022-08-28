@@ -1,9 +1,10 @@
-﻿using System;
-using System.Linq;
-using Recademy.Core.Models.Users;
+﻿using Recademy.Core.Models.Users;
 using Recademy.Core.Types;
 using Recademy.Dto.Enums;
 using Recademy.Dto.Users;
+
+using System;
+using System.Linq;
 
 namespace Recademy.Application.Mappings;
 

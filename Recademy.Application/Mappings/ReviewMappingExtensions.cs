@@ -1,9 +1,10 @@
-﻿using System;
-using Recademy.Core.Models.Reviews;
+﻿using Recademy.Core.Models.Reviews;
 using Recademy.Core.Tools;
 using Recademy.Core.Types;
 using Recademy.Dto.Enums;
 using Recademy.Dto.Reviews;
+
+using System;
 
 namespace Recademy.Application.Mappings;
 
