@@ -39,9 +39,9 @@ namespace Recademy.Api.Controllers
         ///     Get projects by tag
         /// </summary>
         [HttpGet("tag/{tagName}")]
-        public ActionResult<List<ProjectInfoDto>> ReadByTag([Required] string tagName)
+        public ActionResult<IReadOnlyCollection<ProjectInfoDto>> ReadByTag([Required] string tagName)
         {
-            return _projectService.GetProjectsByTag(tagName);
+            return Ok(_projectService.GetProjectsByTag(tagName));
         }
     }
 }

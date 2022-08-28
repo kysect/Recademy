@@ -22,7 +22,7 @@ namespace Recademy.Application.Services.Implementations
             _githubApiAccessor = githubApiAccessor;
         }
 
-        public List<GithubRepositoryDto> GhGetRepositories(int userId)
+        public IReadOnlyCollection<GithubRepositoryDto> GhGetRepositories(int userId)
         {
             //TODO: get token by userId
             IReadOnlyList<Repository> repositories = _githubApiAccessor.ReadAllUserRepositories(String.Empty);

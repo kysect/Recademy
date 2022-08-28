@@ -28,9 +28,9 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<ReviewRequestInfoDto>> ReadAllRequest()
+        public ActionResult<IReadOnlyCollection<ReviewRequestInfoDto>> ReadAllRequest()
         {
-            return _reviewService.GetReviewRequests();
+            return Ok(_reviewService.GetReviewRequests());
         }
 
         [HttpGet("{requestId}")]
@@ -40,9 +40,9 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpPost("search")]
-        public ActionResult<List<ReviewRequestInfoDto>> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto)
+        public ActionResult<IReadOnlyCollection<ReviewRequestInfoDto>> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto)
         {
-            return _reviewService.ReadReviewRequestBySearchContext(searchContextDto);
+            return Ok(_reviewService.ReadReviewRequestBySearchContext(searchContextDto));
         }
 
         [HttpPost("{requestId}/complete")]

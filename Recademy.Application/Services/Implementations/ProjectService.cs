@@ -27,7 +27,7 @@ namespace Recademy.Application.Services.Implementations
                 .To(project => project.ToDto());
         }
 
-        public List<ProjectInfoDto> GetProjectsByTag(string tagName)
+        public IReadOnlyCollection<ProjectInfoDto> GetProjectsByTag(string tagName)
         {
             return _projectRepository
                 .FindWithTag(tagName)

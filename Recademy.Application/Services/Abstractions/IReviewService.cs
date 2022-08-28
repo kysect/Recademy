@@ -6,9 +6,9 @@ namespace Recademy.Application.Services.Abstractions
 {
     public interface IReviewService
     {
-        List<ReviewRequestInfoDto> GetReviewRequests();
+        IReadOnlyCollection<ReviewRequestInfoDto> GetReviewRequests();
         ReviewRequestInfoDto GetReviewInfo(int requestId);
-        List<ReviewRequestInfoDto> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto);
+        IReadOnlyCollection<ReviewRequestInfoDto> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto);
 
         ReviewRequestInfoDto AddReviewRequest(ReviewRequestAddDto reviewRequestAddDto);
         ReviewRequestInfoDto CompleteReview(int requestId);

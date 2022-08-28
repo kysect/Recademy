@@ -26,9 +26,9 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpGet("review/{reviewId}/upvote")]
-        public ActionResult<List<int>> ReadReviewUpvote([FromQuery][Required] int reviewId)
+        public ActionResult<IReadOnlyCollection<int>> ReadReviewUpvote([FromQuery][Required] int reviewId)
         {
-            return _gamificationService.ReadReviewResponseUpvote(reviewId);
+            return Ok(_gamificationService.ReadReviewResponseUpvote(reviewId));
         }
 
 

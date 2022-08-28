@@ -52,7 +52,7 @@ namespace Recademy.Application.Services.Implementations
                 .ToDto();
         }
 
-        public List<ProjectInfoDto> ReadUserProjects(int userId)
+        public IReadOnlyCollection<ProjectInfoDto> ReadUserProjects(int userId)
         {
             RecademyUser user = _userRepository.Get(userId);
 

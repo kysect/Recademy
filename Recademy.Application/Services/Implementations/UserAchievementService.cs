@@ -41,12 +41,7 @@ public sealed class UserAchievementService : IUserAchievementService
             .ToList();
     }
 
-    public IReadOnlyCollection<IUserAchievement> GetUserAchievements(String username)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Int32 GetUserAchievementPoints(int userId)
+    public int GetUserAchievementPoints(int userId)
     {
         return GetUserAchievements(userId).Sum(achievement => achievement.Points);
     }

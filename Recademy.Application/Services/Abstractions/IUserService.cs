@@ -12,7 +12,7 @@ namespace Recademy.Application.Services.Abstractions
         RecademyUserDto FindById(int userId);
         RecademyUserDto FindRecademyUser(string username);
         UserInfoDto FindUser(string username);
-        List<ProjectInfoDto> ReadUserProjects(int userId);
+        IReadOnlyCollection<ProjectInfoDto> ReadUserProjects(int userId);
 
         UserInfoDto UpdateUserMentorRole(int adminId, int userId, UserType userType);
     }

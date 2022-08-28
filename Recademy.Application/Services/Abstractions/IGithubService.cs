@@ -10,7 +10,7 @@ namespace Recademy.Application.Services.Abstractions
 {
     public interface IGithubService
     {
-        List<GithubRepositoryDto> GhGetRepositories(int userId);
+        IReadOnlyCollection<GithubRepositoryDto> GhGetRepositories(int userId);
         Issue CreateIssues(GitHubIssueCreateDto issueCreateDto);
         MarkupString GetReadme(string ownerLogin, string repositoryName);
     }

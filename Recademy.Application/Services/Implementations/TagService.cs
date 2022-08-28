@@ -19,7 +19,7 @@ namespace Recademy.Application.Services.Implementations
             _context = context;
         }
 
-        public List<string> GetUserTags(int userId)
+        public IReadOnlyCollection<string> GetUserTags(int userId)
         {
             RecademyUser userSkills = _context
                 .RecademyUsers
@@ -35,7 +35,7 @@ namespace Recademy.Application.Services.Implementations
                 .ToList();
         }
 
-        public List<string> GetAllTags()
+        public IReadOnlyCollection<string> GetAllTags()
         {
             return _context
                 .Skills

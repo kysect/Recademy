@@ -21,15 +21,15 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<string>> ReadAll()
+        public ActionResult<IReadOnlyCollection<string>> ReadAll()
         {
-            return _tagService.GetAllTags();
+            return Ok(_tagService.GetAllTags());
         }
 
         [HttpGet("user/{userId}")]
-        public ActionResult<List<string>> ReadByUserId([Required] int userId)
+        public ActionResult<IReadOnlyCollection<string>> ReadByUserId([Required] int userId)
         {
-            return _tagService.GetUserTags(userId);
+            return Ok(_tagService.GetUserTags(userId));
         }
     }
 }

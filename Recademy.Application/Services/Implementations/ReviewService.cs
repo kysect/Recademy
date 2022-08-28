@@ -26,14 +26,14 @@ namespace Recademy.Application.Services.Implementations
             _projectRepository = projectRepository;
         }
 
-        public List<ReviewRequestInfoDto> GetReviewRequests()
+        public IReadOnlyCollection<ReviewRequestInfoDto> GetReviewRequests()
         {
             return _reviewRepository
                 .FindActive()
                 .To(request => request.ToDto());
         }
 
-        public List<ReviewRequestInfoDto> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto)
+        public IReadOnlyCollection<ReviewRequestInfoDto> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto)
         {
             List<string> currentUserSkills = _userRepository
                 .Get(searchContextDto.UserId)

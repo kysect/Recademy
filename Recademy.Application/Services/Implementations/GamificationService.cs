@@ -12,7 +12,7 @@ namespace Recademy.Application.Services.Implementations
 {
     public class GamificationService : IGamificationService
     {
-        private RecademyContext _context;
+        private readonly RecademyContext _context;
 
         public GamificationService(RecademyContext context)
         {
@@ -32,7 +32,7 @@ namespace Recademy.Application.Services.Implementations
             _context.SaveChanges();
         }
 
-        public List<int> ReadReviewResponseUpvote(int reviewId)
+        public IReadOnlyCollection<int> ReadReviewResponseUpvote(int reviewId)
         {
             return _context
                 .ReviewResponseUpvotes
