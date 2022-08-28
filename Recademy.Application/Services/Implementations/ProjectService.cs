@@ -6,6 +6,7 @@ using Recademy.Core.Tools;
 using Recademy.DataAccess.Repositories.Abstractions;
 using Recademy.Dto.Projects;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,14 +35,16 @@ namespace Recademy.Application.Services.Implementations
                 .To(project => project.ToDto());
         }
 
-        public ProjectInfoDto AddProject(AddProjectDto argues)
+        public ProjectInfoDto AddProject(AddProjectDto arguments)
         {
+            ArgumentNullException.ThrowIfNull(arguments);
+
             var newProject = new ProjectInfo
             {
-                AuthorId = argues.UserId,
-                GithubLink = argues.ProjectUrl,
-                Title = argues.ProjectName,
-                Skills = argues
+                AuthorId = arguments.UserId,
+                GithubLink = arguments.ProjectUrl,
+                Title = arguments.ProjectName,
+                Skills = arguments
                     .Tags
                     .Select(t => new ProjectSkill { SkillName = t })
                     .ToList()

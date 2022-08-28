@@ -2,6 +2,7 @@
 using Recademy.Core.Models.Users;
 using Recademy.Core.Types;
 
+using System;
 using System.Linq;
 using System.Security.Claims;
 
@@ -11,6 +12,8 @@ namespace Recademy.Application.Services.Implementations
     {
         public User GetUserFromGithubClaims(ClaimsPrincipal claims)
         {
+            ArgumentNullException.ThrowIfNull(claims);
+
             if (!IsEnoughUserInfo(claims))
                 return null;
 

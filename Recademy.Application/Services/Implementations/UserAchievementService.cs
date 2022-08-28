@@ -2,7 +2,6 @@
 using Recademy.Core.Models.Achievements;
 using Recademy.DataAccess;
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ namespace Recademy.Application.Services.Implementations;
 
 public sealed class UserAchievementService : IUserAchievementService
 {
-    private readonly IReadOnlyCollection<IUserAchievement> _achievements = new List<IUserAchievement>()
+    private readonly IReadOnlyCollection<IUserAchievement> _achievements = new List<IUserAchievement>
     {
         new FirstTimeUserAchievement(),
         new NeatUserAchievement(),
@@ -29,7 +28,7 @@ public sealed class UserAchievementService : IUserAchievementService
         return _achievements;
     }
 
-    public IReadOnlyCollection<IUserAchievement> GetUserAchievements(Int32 userId)
+    public IReadOnlyCollection<IUserAchievement> GetUserAchievements(int userId)
     {
         HashSet<int> userAchievements = _context.UserAchievementInfos
             .Where(achievement => achievement.UserId == userId)
@@ -46,9 +45,9 @@ public sealed class UserAchievementService : IUserAchievementService
         return GetUserAchievements(userId).Sum(achievement => achievement.Points);
     }
 
-    public async Task AddUserAchievement(Int32 userId, Int32 achievementId)
+    public async Task AddUserAchievement(int userId, int achievementId)
     {
-        _context.UserAchievementInfos.Add(new UserAchievementInfo() { AchievementId = achievementId, UserId = userId });
+        _context.UserAchievementInfos.Add(new UserAchievementInfo { AchievementId = achievementId, UserId = userId });
         await _context.SaveChangesAsync();
     }
 }

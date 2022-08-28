@@ -34,6 +34,8 @@ namespace Recademy.Application.Services.Implementations
 
         public User GetUserFromClaims(ClaimsPrincipal claims)
         {
+            ArgumentNullException.ThrowIfNull(claims);
+
             if (claims.Identity?.AuthenticationType != "GitHub")
                 throw new Exception("Only GitHub authentication type is supported");
 
