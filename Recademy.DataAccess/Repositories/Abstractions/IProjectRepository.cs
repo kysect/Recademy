@@ -2,7 +2,7 @@
 using Recademy.Core.Models.Projects;
 using Recademy.Core.Models.Users;
 
-namespace Recademy.DataAccess.Repositories
+namespace Recademy.DataAccess.Repositories.Abstractions
 {
     public interface IProjectRepository
     {

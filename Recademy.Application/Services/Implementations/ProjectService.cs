@@ -2,7 +2,7 @@
 using Recademy.Core.Models.Projects;
 using Recademy.Core.Models.Skills;
 using Recademy.Core.Tools;
-using Recademy.DataAccess.Repositories;
+using Recademy.DataAccess.Repositories.Abstractions;
 using Recademy.Shared.Dtos.Projects;
 
 namespace Recademy.Application.Services.Implementations

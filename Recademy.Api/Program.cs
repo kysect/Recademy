@@ -16,8 +16,8 @@ using Recademy.Application.Services.Implementations;
 using Recademy.Application.Tools;
 using Recademy.Core;
 using Recademy.DataAccess;
-using Recademy.DataAccess.Repositories;
 using Recademy.DataAccess.Repositories.Implementations;
+using Recademy.DataAccess.Repositories.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,7 +1,7 @@
 ﻿using Recademy.Core.Models.Users;
 using Recademy.Core.Types;
 
-namespace Recademy.DataAccess.Repositories
+namespace Recademy.DataAccess.Repositories.Abstractions
 {
     public interface IUserRepository
     {

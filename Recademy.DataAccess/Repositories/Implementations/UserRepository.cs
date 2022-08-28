@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Recademy.Core.Models.Users;
 using Recademy.Core.Types;
+using Recademy.DataAccess.Repositories.Abstractions;
 
 namespace Recademy.DataAccess.Repositories.Implementations
 {

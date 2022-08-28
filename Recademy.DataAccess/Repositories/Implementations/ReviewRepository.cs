@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Recademy.Core.Models.Projects;
 using Recademy.Core.Models.Reviews;
 using Recademy.Core.Types;
+using Recademy.DataAccess.Repositories.Abstractions;
 
 namespace Recademy.DataAccess.Repositories.Implementations
 {

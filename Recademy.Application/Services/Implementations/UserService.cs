@@ -3,7 +3,7 @@ using Recademy.Application.Tools;
 using Recademy.Core.Models.Users;
 using Recademy.Core.Tools;
 using Recademy.Core.Types;
-using Recademy.DataAccess.Repositories;
+using Recademy.DataAccess.Repositories.Abstractions;
 using Recademy.Shared.Dtos.Achievements;
 using Recademy.Shared.Dtos.Projects;
 using Recademy.Shared.Dtos.Users;

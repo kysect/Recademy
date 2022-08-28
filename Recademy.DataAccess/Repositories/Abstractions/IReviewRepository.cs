@@ -3,7 +3,7 @@ using Recademy.Core.Models.Projects;
 using Recademy.Core.Models.Reviews;
 using Recademy.Core.Types;
 
-namespace Recademy.DataAccess.Repositories
+namespace Recademy.DataAccess.Repositories.Abstractions
 {
     public interface IReviewRepository
     {
