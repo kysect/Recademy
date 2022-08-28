@@ -73,7 +73,7 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpGet("user/current")]
-        public ActionResult<UserInfoDto> GetCurrentUser()
+        public ActionResult<RecademyUserDto> GetCurrentUser()
         {
             try
             {
@@ -82,7 +82,7 @@ namespace Recademy.Api.Controllers
                     .Split('/')
                     .LastOrDefault();
 
-                UserInfoDto dto = _userService.FindByUsername(username);
+                RecademyUserDto dto = _userService.FindByUsername(username);
 
                 _logger.LogInformation($"Current user is {dto?.GithubUsername}");
 

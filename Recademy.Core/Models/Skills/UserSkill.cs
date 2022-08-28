@@ -7,7 +7,7 @@ namespace Recademy.Core.Models.Skills
     {
         [ForeignKey("User")]
         public int UserId { get; set; }
-        public User User { get; set; }
+        public RecademyUser User { get; set; }
 
         [ForeignKey("Skill")]
         public string SkillName { get; set; }

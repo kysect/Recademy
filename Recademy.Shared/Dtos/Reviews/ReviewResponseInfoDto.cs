@@ -1,5 +1,4 @@
-﻿using Recademy.Core.Models.Reviews;
-using Recademy.Core.Tools;
+﻿using System;
 using Recademy.Core.Types;
 
 namespace Recademy.Shared.Dtos.Reviews
@@ -11,22 +10,28 @@ namespace Recademy.Shared.Dtos.Reviews
 
         }
 
-        public ReviewResponseInfoDto(ReviewResponse model)
+        public ReviewResponseInfoDto(
+            int id, 
+            string description, 
+            DateTime creationTime, 
+            ReviewConclusion reviewConclusion, 
+            ReviewRequestInfoDto reviewRequest, 
+            int reviewerId)
         {
-            Id = model.Id;
-            Description = model.Description;
-            CreationTime = model.CreationTime;
-            ReviewConclusion = model.ReviewConclusion;
-            ReviewRequest = model.ReviewRequest.Maybe(r => new ReviewRequestInfoDto(r));
-            ReviewerId = model.ReviewerId;
+            Id = id;
+            Description = description;
+            CreationTime = creationTime;
+            ReviewConclusion = reviewConclusion;
+            ReviewRequest = reviewRequest;
+            ReviewerId = reviewerId;
         }
 
-        public int Id { get; set; }
-        public string Description { get; set; }
-        public DateTime CreationTime { get; set; }
-        public ReviewConclusion ReviewConclusion { get; set; }
+        public int Id { get; init; }
+        public string Description { get; init; }
+        public DateTime CreationTime { get; init; }
+        public ReviewConclusion ReviewConclusion { get; init; }
 
-        public ReviewRequestInfoDto ReviewRequest { get; set; }
-        public int ReviewerId { get; set; }
+        public ReviewRequestInfoDto ReviewRequest { get; init; }
+        public int ReviewerId { get; init; }
     }
 }

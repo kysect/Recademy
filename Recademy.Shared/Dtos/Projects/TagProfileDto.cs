@@ -1,4 +1,6 @@
-﻿namespace Recademy.Shared.Dtos.Projects
+﻿using System.Collections.Generic;
+
+namespace Recademy.Shared.Dtos.Projects
 {
     public class TagProfileDto
     {

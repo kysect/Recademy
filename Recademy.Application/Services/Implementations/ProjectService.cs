@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Projects;
 using Recademy.Core.Models.Skills;
@@ -22,14 +23,14 @@ namespace Recademy.Application.Services.Implementations
         {
             return _projectRepository
                 .Get(projectId)
-                .To(p => new ProjectInfoDto(p));
+                .To(project => project.ToDto());
         }
 
         public List<ProjectInfoDto> GetProjectsByTag(string tagName)
         {
             return _projectRepository
                 .FindWithTag(tagName)
-                .To(p => new ProjectInfoDto(p));
+                .To(project => project.ToDto());
         }
 
         public ProjectInfoDto AddProject(AddProjectDto argues)
@@ -47,7 +48,7 @@ namespace Recademy.Application.Services.Implementations
 
             return _projectRepository
                 .Create(newProject)
-                .To(p => new ProjectInfoDto(p));
+                .To(project => project.ToDto());
         }
     }
 }

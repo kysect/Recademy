@@ -1,4 +1,6 @@
-﻿namespace Recademy.Shared.Dtos.Reviews
+﻿using System.Collections.Generic;
+
+namespace Recademy.Shared.Dtos.Reviews
 {
     public class ReviewRequestSearchContextDto
     {

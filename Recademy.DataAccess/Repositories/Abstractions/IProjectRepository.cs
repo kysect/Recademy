@@ -10,6 +10,6 @@ namespace Recademy.DataAccess.Repositories.Abstractions
         ProjectInfo Find(int id);
         List<ProjectInfo> FindWithTag(string tag);
         ProjectInfo Get(int id);
-        List<ProjectInfo> FindByUser(User user);
+        List<ProjectInfo> FindByUser(RecademyUser user);
     }
 }

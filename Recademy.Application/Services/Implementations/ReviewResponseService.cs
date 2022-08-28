@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models;
 using Recademy.Core.Models.Reviews;
@@ -48,7 +49,7 @@ namespace Recademy.Application.Services.Implementations
             _context.SaveChanges();
 
             newReview.ReviewRequest = request;
-            return new ReviewResponseInfoDto(newReview);
+            return newReview.ToDto();
         }
     }
 }

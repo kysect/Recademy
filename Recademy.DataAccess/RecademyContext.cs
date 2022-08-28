@@ -79,6 +79,8 @@ namespace Recademy.DataAccess
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<RecademyUser> RecademyUsers { get; set; }
+
         public DbSet<Skill> Skills { get; set; }
         public DbSet<ReviewResponse> ReviewResponses { get; set; }
         public DbSet<ReviewRequest> ReviewRequests { get; set; }

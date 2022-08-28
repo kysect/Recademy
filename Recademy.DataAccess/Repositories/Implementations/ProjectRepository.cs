@@ -48,12 +48,12 @@ namespace Recademy.DataAccess.Repositories.Implementations
                 .ToList();
         }
 
-        public List<ProjectInfo> FindByUser(User user)
+        public List<ProjectInfo> FindByUser(RecademyUser user)
         {
             return _context.ProjectInfos
                 .Include(p => p.Skills)
                 .Include(p => p.ReviewRequests)
-                .Where(p => p.AuthorId == user.Id)
+                .Where(p => p.AuthorId == user.UserId)
                 .ToList();
         }
     }

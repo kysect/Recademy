@@ -15,29 +15,29 @@ namespace Recademy.DataAccess.Repositories.Implementations
             _context = context;
         }
 
-        public User Find(int id)
+        public RecademyUser Find(int id)
         {
-            return _context.Users
+            return _context.RecademyUsers
                 .Include(s => s.ProjectInfos)
                 .ThenInclude(p => p.Skills)
                 .Include(s => s.UserSkills)
                 .Include(u => u.ReviewRequests)
-                .FirstOrDefault(s => s.Id == id);
+                .FirstOrDefault(s => s.UserId == id);
         }
 
-        public User Get(int id)
+        public RecademyUser Get(int id)
         {
             return Find(id) ?? throw RecademyException.UserNotFound(id);
         }
 
-        public User FindByUsername(string username)
+        public RecademyUser FindByUsername(string username)
         {
-            return _context.Users
+            return _context.RecademyUsers
                 .Include(s => s.ProjectInfos)
                 .ThenInclude(p => p.Skills)
                 .Include(s => s.UserSkills)
                 .Include(u => u.ReviewRequests)
-                .SingleOrDefault(s => s.GithubUsername == username);
+                .SingleOrDefault(s => s.User.GithubUsername == username);
         }
 
         public User UpdateUserRole(User user, UserType userType)

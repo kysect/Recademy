@@ -1,4 +1,5 @@
-﻿using Recademy.Core.Models.Reviews;
+﻿using System;
+using Recademy.Core.Models.Reviews;
 using Recademy.Core.Tools;
 using Recademy.Core.Types;
 using Recademy.Shared.Dtos.Projects;
@@ -10,25 +11,24 @@ namespace Recademy.Shared.Dtos.Reviews
     {
         public ReviewRequestInfoDto()
         {
-
         }
 
-        public ReviewRequestInfoDto(ReviewRequest request)
+        public ReviewRequestInfoDto(int id, int projectId, DateTime dateCreate, ProjectState state, ProjectInfoDto projectInfo, RecademyUserDto user)
         {
-            Id = request.Id;
-            ProjectId = request.ProjectId;
-            DateCreate = request.DateCreate;
-            State = request.State;
-            ProjectInfo = request.ProjectInfo.Maybe(p => new ProjectInfoDto(p));
-            User = request.User.Maybe(u => new UserInfoDto(u));
+            Id = id;
+            ProjectId = projectId;
+            DateCreate = dateCreate;
+            State = state;
+            ProjectInfo = projectInfo;
+            User = user;
         }
 
-        public int Id { get; set; }
-        public int ProjectId { get; set; }
-        public DateTime DateCreate { get; set; }
-        public ProjectState State { get; set; }
-        public ProjectInfoDto ProjectInfo { get; set; }
-        public UserInfoDto User { get; set; }
+        public int Id { get; init; }
+        public int ProjectId { get; init; }
+        public DateTime DateCreate { get; init; }
+        public ProjectState State { get; init; }
+        public ProjectInfoDto ProjectInfo { get; init; }
+        public RecademyUserDto User { get; init; }
 
         //TODO: Need to rework coz of multi reviewers
         //public ReviewResponse ReviewResponse { get; set; }

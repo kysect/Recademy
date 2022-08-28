@@ -16,10 +16,5 @@ namespace Recademy.Core.Models.Users
         public string Name { get; set; }
         public string GithubUsername { get; set; }
         public UserType UserType { get; set; }
-        public ICollection<UserSkill> UserSkills { get; set; }
-        public ICollection<ProjectInfo> ProjectInfos { get; set; }
-        public ICollection<ReviewRequest> ReviewRequests { get; set; }
-        public ICollection<ReviewResponse> ReviewResponses { get; set; }
-        public ICollection<UserAchievementInfo> UserAchievements { get; set; }
     }
 }

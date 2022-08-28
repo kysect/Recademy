@@ -1,5 +1,4 @@
-﻿using Recademy.Core.Models.Projects;
-using Recademy.Core.Tools;
+﻿using System.Collections.Generic;
 
 namespace Recademy.Shared.Dtos.Projects
 {
@@ -7,22 +6,21 @@ namespace Recademy.Shared.Dtos.Projects
     {
         public ProjectInfoDto()
         {
-
         }
-
-        public ProjectInfoDto(ProjectInfo projectInfo)
+        
+        public ProjectInfoDto(int userId, int projectId, string projectName, string projectUrl, List<string> projectSkills)
         {
-            ProjectId = projectInfo.Id;
-            UserId = projectInfo.AuthorId;
-            ProjectName = projectInfo.Title;
-            ProjectUrl = projectInfo.GithubLink;
-            ProjectSkills = projectInfo.Skills.Maybe(s => s.SkillName);
+            UserId = userId;
+            ProjectId = projectId;
+            ProjectName = projectName;
+            ProjectUrl = projectUrl;
+            ProjectSkills = projectSkills;
         }
 
-        public int UserId { get; set; }
-        public int ProjectId { get; set; }
-        public string ProjectName { get; set; }
-        public string ProjectUrl { get; set; }
-        public List<string> ProjectSkills { get; set; }
+        public int UserId { get; init; }
+        public int ProjectId { get; init; }
+        public string ProjectName { get; init; }
+        public string ProjectUrl { get; init; }
+        public List<string> ProjectSkills { get; init; }
     }
 }

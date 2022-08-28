@@ -36,7 +36,7 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpGet("projects/{userId}")]
-        public ActionResult<List<GhRepositoryDto>> ReadRepositoriesByUserId([Required] int userId)
+        public ActionResult<List<GithubRepositoryDto>> ReadRepositoriesByUserId([Required] int userId)
         {
             return userId switch
             {

@@ -19,10 +19,10 @@ namespace Recademy.Application.Services.Implementations
 
         public List<string> GetUserTags(int userId)
         {
-            User userSkills = _context
-                .Users
+            RecademyUser userSkills = _context
+                .RecademyUsers
                 .Include(s => s.UserSkills)
-                .FirstOrDefault(s => s.Id == userId);
+                .FirstOrDefault(s => s.UserId == userId);
 
             if (userSkills == null)
                 throw RecademyException.UserNotFound(userId);

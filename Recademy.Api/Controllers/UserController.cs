@@ -27,21 +27,21 @@ namespace Recademy.Api.Controllers
         /// </summary>
         [HttpGet("{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<UserInfoDto> ReadUserInfo([Required] int userId)
+        public ActionResult<RecademyUserDto> ReadUserInfo([Required] int userId)
         {
             return _userService.ReadUserInfo(userId);
         }
 
         [HttpGet("findById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<UserInfoDto> ReadById([FromQuery][Required] int userId)
+        public ActionResult<RecademyUserDto> ReadById([FromQuery][Required] int userId)
         {
             return _userService.FindById(userId);
         }
 
         [HttpGet("findByUsername")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<UserInfoDto> ReadByUsername([FromQuery][Required] string username)
+        public ActionResult<RecademyUserDto> ReadByUsername([FromQuery][Required] string username)
         {
             return _userService.FindByUsername(username);
         }

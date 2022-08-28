@@ -2,7 +2,7 @@
 
 namespace Recademy.Shared.Dtos.Github
 {
-    public class GhRepositoryDto
+    public class GithubRepositoryDto
     {
         public string RepositoryName { get; set; }
         public string RepositoryUrl { get; set; }

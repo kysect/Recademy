@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Octokit.Internal;
+
+using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Projects;
 using Recademy.Core.Models.Reviews;
@@ -28,7 +31,7 @@ namespace Recademy.Application.Services.Implementations
         {
             return _reviewRepository
                 .FindActive()
-                .To(rr => new ReviewRequestInfoDto(rr));
+                .To(request => request.ToDto());
         }
 
         public List<ReviewRequestInfoDto> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto)
@@ -46,7 +49,7 @@ namespace Recademy.Application.Services.Implementations
                 searchContextDto.ProjectName,
                 searchContextDto.Tags);
 
-            return result.To(rr => new ReviewRequestInfoDto(rr));
+            return result.To(request => request.ToDto());
         }
 
         public ReviewRequestInfoDto AddReviewRequest(ReviewRequestAddDto reviewRequestAddDto)
@@ -71,8 +74,8 @@ namespace Recademy.Application.Services.Implementations
             };
 
             return _reviewRepository
-                .Create(newRequest)
-                .To(rr => new ReviewRequestInfoDto(rr));
+            .Create(newRequest)
+                .To(request => request.ToDto());
         }
 
         public ReviewRequestInfoDto CompleteReview(int requestId)
@@ -84,7 +87,7 @@ namespace Recademy.Application.Services.Implementations
 
             return _reviewRepository
                 .UpdateState(reviewRequest, ProjectState.Completed)
-                .To(rr => new ReviewRequestInfoDto(rr));
+                .To(request => request.ToDto());
         }
 
         public ReviewRequestInfoDto AbandonReview(int requestId)
@@ -94,14 +97,14 @@ namespace Recademy.Application.Services.Implementations
             //TODO: check state
             return _reviewRepository
                 .UpdateState(reviewRequest, ProjectState.Abandoned)
-                .To(rr => new ReviewRequestInfoDto(rr));
+                .To(request => request.ToDto());
         }
 
         public ReviewRequestInfoDto GetReviewInfo(int requestId)
         {
             return _reviewRepository
                 .Get(requestId)
-                .To(rr => new ReviewRequestInfoDto(rr));
+                .To(request => request.ToDto());
         }
     }
 }

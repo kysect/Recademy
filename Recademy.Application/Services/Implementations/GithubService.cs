@@ -19,14 +19,14 @@ namespace Recademy.Application.Services.Implementations
             _githubApiAccessor = githubApiAccessor;
         }
 
-        public List<GhRepositoryDto> GhGetRepositories(int userId)
+        public List<GithubRepositoryDto> GhGetRepositories(int userId)
         {
             //TODO: get token by userId
             IReadOnlyList<Repository> repositories = _githubApiAccessor.ReadAllUserRepositories(String.Empty);
 
             return repositories
                 .Where(repository => !repository.Private)
-                .Select(repository => new GhRepositoryDto
+                .Select(repository => new GithubRepositoryDto
                 {
                     RepositoryName = repository.Name,
                     RepositoryUrl = repository.Url,
