@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Recademy.Core.Models.Projects;
 
-namespace Recademy.Core.Models
+namespace Recademy.Core.Models.Skills
 {
     public class ProjectSkill
     {
-        [ForeignKey("ProjectInfo")] 
+        [ForeignKey("ProjectInfo")]
         public int ProjectId { get; set; }
         public ProjectInfo ProjectInfo { get; set; }
 
-        [ForeignKey("Skill")] 
+        [ForeignKey("Skill")]
         public string SkillName { get; set; }
         public Skill Skill { get; set; }
     }

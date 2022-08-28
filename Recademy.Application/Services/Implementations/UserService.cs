@@ -1,6 +1,6 @@
 using Recademy.Application.Services.Abstractions;
 using Recademy.Application.Tools;
-using Recademy.Core.Models;
+using Recademy.Core.Models.Users;
 using Recademy.Core.Tools;
 using Recademy.Core.Types;
 using Recademy.DataAccess.Repositories;

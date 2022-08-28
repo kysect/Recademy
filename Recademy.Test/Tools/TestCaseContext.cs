@@ -4,7 +4,6 @@ using Recademy.Api.Controllers;
 using Recademy.Application.Services.Implementations;
 using Recademy.Application.Tools;
 using Recademy.Core;
-using Recademy.Core.Models;
 using Recademy.Core.Types;
 using Recademy.DataAccess;
 using Recademy.DataAccess.Repositories.Implementations;
@@ -13,6 +12,7 @@ using Recademy.Mock.Generators;
 using Recademy.Shared.Dtos.Reviews;
 using Recademy.Shared.Dtos.Projects;
 using Recademy.Shared.Dtos.Users;
+using Recademy.Core.Models.Users;
 
 namespace Recademy.Test.Tools
 {

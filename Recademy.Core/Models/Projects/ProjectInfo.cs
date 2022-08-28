@@ -1,17 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Recademy.Core.Models.Reviews;
+using Recademy.Core.Models.Skills;
+using Recademy.Core.Models.Users;
 
-namespace Recademy.Core.Models
+namespace Recademy.Core.Models.Projects
 {
     public class ProjectInfo
     {
-        [Key] 
+        [Key]
         public int Id { get; set; }
 
         public string Title { get; set; }
 
-        [ForeignKey("User")] 
+        [ForeignKey("User")]
         public int AuthorId { get; set; }
         public User User { get; set; }
 

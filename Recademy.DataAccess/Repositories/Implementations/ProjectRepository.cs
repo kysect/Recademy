@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Recademy.Core.Models;
+using Recademy.Core.Models.Projects;
+using Recademy.Core.Models.Users;
 using Recademy.Core.Types;
 
 namespace Recademy.DataAccess.Repositories.Implementations

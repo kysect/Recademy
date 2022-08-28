@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Recademy.Core.Models.Users;
 using Recademy.Core.Types;
 
-namespace Recademy.Core.Models
+namespace Recademy.Core.Models.Reviews
 {
     public class ReviewResponse
     {
@@ -13,11 +14,11 @@ namespace Recademy.Core.Models
         public DateTime CreationTime { get; set; }
         public ReviewConclusion ReviewConclusion { get; set; }
 
-        [ForeignKey("ReviewRequest")] 
+        [ForeignKey("ReviewRequest")]
         public int ReviewRequestId { get; set; }
         public ReviewRequest ReviewRequest { get; set; }
 
-        [ForeignKey("User")] 
+        [ForeignKey("User")]
         public int ReviewerId { get; set; }
         public User Reviewer { get; set; }
     }

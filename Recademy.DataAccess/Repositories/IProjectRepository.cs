@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using Recademy.Core.Models;
+using Recademy.Core.Models.Projects;
+using Recademy.Core.Models.Users;
 
 namespace Recademy.DataAccess.Repositories
 {

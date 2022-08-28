@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Shared;
 using Recademy.Shared.Dtos.Users;
-using User = Recademy.Core.Models.User;
+using User = Recademy.Core.Models.Users.User;
 
 namespace Recademy.Api.Controllers
 {

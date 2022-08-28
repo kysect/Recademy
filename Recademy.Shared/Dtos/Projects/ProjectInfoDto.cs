@@ -1,4 +1,4 @@
-﻿using Recademy.Core.Models;
+﻿using Recademy.Core.Models.Projects;
 using Recademy.Core.Tools;
 
 namespace Recademy.Shared.Dtos.Projects

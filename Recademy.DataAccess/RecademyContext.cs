@@ -1,5 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Recademy.Core.Models;
+using Recademy.Core.Models.Achievements;
+using Recademy.Core.Models.Projects;
+using Recademy.Core.Models.Reviews;
+using Recademy.Core.Models.Skills;
+using Recademy.Core.Models.Users;
 
 namespace Recademy.DataAccess
 {

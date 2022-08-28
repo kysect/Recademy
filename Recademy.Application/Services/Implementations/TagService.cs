@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Recademy.Application.Services.Abstractions;
-using Recademy.Core.Models;
+using Recademy.Core.Models.Users;
 using Recademy.Core.Types;
 using Recademy.DataAccess;
 

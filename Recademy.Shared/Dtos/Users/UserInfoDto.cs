@@ -1,4 +1,4 @@
-﻿using Recademy.Core.Models;
+﻿using Recademy.Core.Models.Users;
 using Recademy.Core.Tools;
 using Recademy.Core.Types;
 using Recademy.Shared.Dtos.Achievements;

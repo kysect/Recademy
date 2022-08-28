@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Recademy.Core.Models.Users;
 
-namespace Recademy.Core.Models;
+namespace Recademy.Core.Models.Achievements;
 
 public class UserAchievementInfo
 {

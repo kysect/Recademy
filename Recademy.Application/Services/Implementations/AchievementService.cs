@@ -1,5 +1,6 @@
 ﻿using Recademy.Application.Services.Abstractions;
-using Recademy.Core.Models;
+using Recademy.Core.Models.Reviews;
+using Recademy.Core.Models.Users;
 using Recademy.DataAccess;
 using Recademy.Shared.Dtos.Achievements;
 

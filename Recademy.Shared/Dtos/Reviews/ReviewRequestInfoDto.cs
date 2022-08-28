@@ -1,4 +1,4 @@
-﻿using Recademy.Core.Models;
+﻿using Recademy.Core.Models.Reviews;
 using Recademy.Core.Tools;
 using Recademy.Core.Types;
 using Recademy.Shared.Dtos.Projects;

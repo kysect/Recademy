@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Recademy.Core.Models
+namespace Recademy.Core.Models.Skills
 {
     public class Skill
     {
-        [Key] 
+        [Key]
         public string Name { get; set; }
         public string Description { get; set; }
 

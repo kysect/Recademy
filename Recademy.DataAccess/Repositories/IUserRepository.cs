@@ -1,4 +1,4 @@
-﻿using Recademy.Core.Models;
+﻿using Recademy.Core.Models.Users;
 using Recademy.Core.Types;
 
 namespace Recademy.DataAccess.Repositories
