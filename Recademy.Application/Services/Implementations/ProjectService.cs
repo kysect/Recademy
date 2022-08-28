@@ -1,5 +1,6 @@
 ﻿using Recademy.Application.Services.Abstractions;
-using Recademy.Core.Models;
+using Recademy.Core.Models.Projects;
+using Recademy.Core.Models.Skills;
 using Recademy.Core.Tools;
 using Recademy.DataAccess.Repositories;
 using Recademy.Shared.Dtos.Projects;
