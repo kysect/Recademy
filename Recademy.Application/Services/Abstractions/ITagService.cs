@@ -1,4 +1,6 @@
-﻿namespace Recademy.Application.Services.Abstractions
+﻿using System.Collections.Generic;
+
+namespace Recademy.Application.Services.Abstractions
 {
     public interface ITagService
     {

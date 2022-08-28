@@ -1,4 +1,5 @@
-﻿using Recademy.Shared.Dtos.Reviews;
+﻿using System.Collections.Generic;
+using Recademy.Shared.Dtos.Reviews;
 
 namespace Recademy.Application.Services.Abstractions
 {

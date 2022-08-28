@@ -1,4 +1,5 @@
-﻿using Recademy.Core.Types;
+﻿using System.Collections.Generic;
+using Recademy.Core.Types;
 using Recademy.Shared.Dtos.Projects;
 using Recademy.Shared.Dtos.Users;
 

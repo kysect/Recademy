@@ -1,4 +1,5 @@
-﻿using Recademy.Shared.Dtos.Projects;
+﻿using System.Collections.Generic;
+using Recademy.Shared.Dtos.Projects;
 
 namespace Recademy.Application.Services.Abstractions
 {

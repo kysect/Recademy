@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models;
 using Recademy.Core.Models.Reviews;
