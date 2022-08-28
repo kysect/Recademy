@@ -10,7 +10,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Recademy.Core\Recademy.Core.csproj" />
+		<ProjectReference Include="..\Recademy.Application\Recademy.Application.csproj" />
+		<ProjectReference Include="..\Recademy.Shared\Recademy.Dto.csproj" />
 		<ProjectReference Include="..\Recademy.WebUi\Recademy.WebUi.csproj" />
 	</ItemGroup>
 

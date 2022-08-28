@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+
+using Recademy.Application.Services.Abstractions;
+using Recademy.Dto.Reviews;
+
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
-using Recademy.Api.Services.Abstraction;
-using Recademy.Core.Dto;
 
 namespace Recademy.Api.Controllers
 {
@@ -20,15 +22,15 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ReviewRequestInfoDto> CreateReviewRequest([FromBody] [Required] ReviewRequestAddDto reviewRequestAddDto)
+        public ActionResult<ReviewRequestInfoDto> CreateReviewRequest([FromBody][Required] ReviewRequestAddDto reviewRequestAddDto)
         {
             return _reviewService.AddReviewRequest(reviewRequestAddDto);
         }
 
         [HttpGet]
-        public ActionResult<List<ReviewRequestInfoDto>> ReadAllRequest()
+        public ActionResult<IReadOnlyCollection<ReviewRequestInfoDto>> ReadAllRequest()
         {
-            return _reviewService.GetReviewRequests();
+            return Ok(_reviewService.GetReviewRequests());
         }
 
         [HttpGet("{requestId}")]
@@ -38,9 +40,9 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpPost("search")]
-        public ActionResult<List<ReviewRequestInfoDto>> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto)
+        public ActionResult<IReadOnlyCollection<ReviewRequestInfoDto>> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto)
         {
-            return _reviewService.ReadReviewRequestBySearchContext(searchContextDto);
+            return Ok(_reviewService.ReadReviewRequestBySearchContext(searchContextDto));
         }
 
         [HttpPost("{requestId}/complete")]

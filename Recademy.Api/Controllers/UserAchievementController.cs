@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
+using Recademy.Application.Services.Abstractions;
+using Recademy.Dto.Achievements;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Recademy.Api.Services.Abstraction;
-using Recademy.Core.Dto;
 
 namespace Recademy.Api.Controllers
 {
@@ -27,7 +29,13 @@ namespace Recademy.Api.Controllers
         {
             IReadOnlyCollection<UserAchievementDto> achievements = _userAchievementService
                 .GetAllAchievements()
-                .Select(achievement => new UserAchievementDto(achievement.Id, achievement.Title, achievement.Description, achievement.Points))
+                .Select(achievement => new UserAchievementDto
+                {
+                    Id = achievement.Id,
+                    Title = achievement.Title,
+                    Description = achievement.Description,
+                    Points = achievement.Points
+                })
                 .ToList();
 
             return Ok(achievements);
@@ -37,7 +45,13 @@ namespace Recademy.Api.Controllers
         public ActionResult<IReadOnlyCollection<UserAchievementDto>> GetUserAchievements(int userId)
         {
             IReadOnlyCollection<UserAchievementDto> achievements = _userAchievementService.GetUserAchievements(userId)
-                .Select(achievement => new UserAchievementDto(achievement.Id, achievement.Title, achievement.Description, achievement.Points))
+                .Select(achievement => new UserAchievementDto
+                {
+                    Id = achievement.Id,
+                    Title = achievement.Title,
+                    Description = achievement.Description,
+                    Points = achievement.Points
+                })
                 .ToList();
 
             return Ok(achievements);

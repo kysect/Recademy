@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+
+using Recademy.Application.Services.Abstractions;
+using Recademy.Dto.Projects;
+
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
-using Recademy.Api.Services.Abstraction;
-using Recademy.Core.Dto;
 
 namespace Recademy.Api.Controllers
 {
@@ -20,7 +22,7 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ProjectInfoDto> CreateProject([FromBody] [Required] AddProjectDto addProjectDto)
+        public ActionResult<ProjectInfoDto> CreateProject([FromBody][Required] AddProjectDto addProjectDto)
         {
             //TODO: validate tags - it is must exist in database
             //TODO: validate project url - it is must be project at author github
@@ -37,9 +39,9 @@ namespace Recademy.Api.Controllers
         ///     Get projects by tag
         /// </summary>
         [HttpGet("tag/{tagName}")]
-        public ActionResult<List<ProjectInfoDto>> ReadByTag([Required] string tagName)
+        public ActionResult<IReadOnlyCollection<ProjectInfoDto>> ReadByTag([Required] string tagName)
         {
-            return _projectService.GetProjectsByTag(tagName);
+            return Ok(_projectService.GetProjectsByTag(tagName));
         }
     }
 }

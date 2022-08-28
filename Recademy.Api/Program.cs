@@ -1,22 +1,25 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using Serilog;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Recademy.Api;
-using Recademy.Api.Repositories;
-using Recademy.Api.Repositories.Implementations;
-using Recademy.Api.Services.Abstraction;
-using Recademy.Api.Services.Implementations;
-using Recademy.Api.Tools;
+using Microsoft.OpenApi.Models;
+
+using Recademy.Application.Services.Abstractions;
+using Recademy.Application.Services.Implementations;
+using Recademy.Application.Tools;
+using Recademy.DataAccess;
+using Recademy.DataAccess.Repositories.Abstractions;
+using Recademy.DataAccess.Repositories.Implementations;
+
+using Serilog;
+
+using System.Security.Claims;
+using System.Threading.Tasks;
+
 using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
-using Microsoft.AspNetCore.Http;
-using Recademy.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -105,7 +108,6 @@ builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IAchievementService, AchievementService>();
 builder.Services.AddScoped<IUserAchievementService, UserAchievementService>();
 
 var app = builder.Build();

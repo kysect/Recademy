@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Recademy.Api.Services.Abstraction;
-using Recademy.Core.Dto;
+
+using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Types;
+using Recademy.Dto.Projects;
+using Recademy.Dto.Users;
+
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Recademy.Api.Controllers
 {
@@ -26,30 +29,30 @@ namespace Recademy.Api.Controllers
         /// </summary>
         [HttpGet("{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<UserInfoDto> ReadUserInfo([Required] int userId)
+        public ActionResult<RecademyUserDto> ReadUserInfo([Required] int userId)
         {
             return _userService.ReadUserInfo(userId);
         }
 
         [HttpGet("findById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<UserInfoDto> ReadById([FromQuery][Required] int userId)
+        public ActionResult<RecademyUserDto> ReadById([FromQuery][Required] int userId)
         {
             return _userService.FindById(userId);
         }
 
         [HttpGet("findByUsername")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<UserInfoDto> ReadByUsername([FromQuery][Required] string username)
+        public ActionResult<RecademyUserDto> ReadByUsername([FromQuery][Required] string username)
         {
-            return _userService.FindByUsername(username);
+            return _userService.FindRecademyUser(username);
         }
 
         [HttpGet("{userId}/projects")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<ProjectInfoDto>> ReadUserProjects([Required] int userId)
+        public ActionResult<IReadOnlyCollection<ProjectInfoDto>> ReadUserProjects([Required] int userId)
         {
-            return _userService.ReadUserProjects(userId);
+            return Ok(_userService.ReadUserProjects(userId));
         }
 
         [HttpGet("setMentor")]
