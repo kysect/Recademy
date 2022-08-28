@@ -2,13 +2,13 @@
 using Recademy.Core.Tools;
 using Recademy.Core.Types;
 
-namespace Recademy.Shared.Dtos
+namespace Recademy.Shared.Dtos.Reviews
 {
     public class ReviewResponseInfoDto
     {
         public ReviewResponseInfoDto()
         {
-            
+
         }
 
         public ReviewResponseInfoDto(ReviewResponse model)

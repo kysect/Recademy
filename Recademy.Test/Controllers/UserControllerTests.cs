@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using Recademy.Shared.Dtos;
 using Recademy.Core.Types;
 using Recademy.Test.Tools;
+using Recademy.Shared.Dtos.Users;
 
 namespace Recademy.Test.Controllers
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Recademy.Shared.Dtos
+namespace Recademy.Shared.Dtos.Reviews
 {
     public class ReviewRequestAddDto
     {

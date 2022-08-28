@@ -1,13 +1,13 @@
 ﻿using Recademy.Core.Models;
 using Recademy.Core.Tools;
 
-namespace Recademy.Shared.Dtos
+namespace Recademy.Shared.Dtos.Projects
 {
     public class ProjectInfoDto
     {
         public ProjectInfoDto()
         {
-            
+
         }
 
         public ProjectInfoDto(ProjectInfo projectInfo)

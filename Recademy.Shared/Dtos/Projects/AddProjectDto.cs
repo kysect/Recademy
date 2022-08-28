@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Recademy.Shared.Dtos
+namespace Recademy.Shared.Dtos.Projects
 {
     public class AddProjectDto
     {
         public AddProjectDto()
         {
-            
+
         }
 
         public AddProjectDto(string projectName, int userId, string url)

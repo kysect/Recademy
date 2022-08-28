@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Recademy.Api.Repositories;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Shared.Dtos;
 using Recademy.Core.Models;
 using Recademy.Core.Tools;
 using Recademy.Core.Types;
+using Recademy.Shared.Dtos.Reviews;
 
 namespace Recademy.Api.Services.Implementations
 {

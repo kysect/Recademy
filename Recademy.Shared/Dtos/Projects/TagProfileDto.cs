@@ -1,4 +1,4 @@
-﻿namespace Recademy.Shared.Dtos
+﻿namespace Recademy.Shared.Dtos.Projects
 {
     public class TagProfileDto
     {

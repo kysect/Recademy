@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using Recademy.Shared.Dtos;
 using Recademy.Core.Types;
+using Recademy.Shared.Dtos.Projects;
+using Recademy.Shared.Dtos.Users;
 
 namespace Recademy.Api.Services.Abstraction
 {

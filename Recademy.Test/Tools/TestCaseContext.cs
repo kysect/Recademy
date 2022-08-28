@@ -5,11 +5,13 @@ using Recademy.Api.Repositories.Implementations;
 using Recademy.Api.Services.Implementations;
 using Recademy.Api.Tools;
 using Recademy.Core;
-using Recademy.Shared.Dtos;
 using Recademy.Core.Models;
 using Recademy.Core.Types;
 using Recademy.Mock;
 using Recademy.Mock.Generators;
+using Recademy.Shared.Dtos.Reviews;
+using Recademy.Shared.Dtos.Projects;
+using Recademy.Shared.Dtos.Users;
 
 namespace Recademy.Test.Tools
 {

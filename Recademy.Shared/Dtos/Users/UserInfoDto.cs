@@ -1,14 +1,17 @@
 ﻿using Recademy.Core.Models;
 using Recademy.Core.Tools;
 using Recademy.Core.Types;
+using Recademy.Shared.Dtos.Achievements;
+using Recademy.Shared.Dtos.Github;
+using Recademy.Shared.Dtos.Projects;
 
-namespace Recademy.Shared.Dtos
+namespace Recademy.Shared.Dtos.Users
 {
     public class UserInfoDto
     {
         public UserInfoDto()
         {
-            
+
         }
 
         public UserInfoDto(User userInfo)

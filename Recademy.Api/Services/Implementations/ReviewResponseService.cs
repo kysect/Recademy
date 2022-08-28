@@ -2,9 +2,9 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Shared.Dtos;
 using Recademy.Core.Models;
 using Recademy.Core.Types;
+using Recademy.Shared.Dtos.Reviews;
 
 namespace Recademy.Api.Services.Implementations
 {

@@ -2,9 +2,9 @@
 using System.Linq;
 using Recademy.Api.Repositories;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Shared.Dtos;
 using Recademy.Core.Models;
 using Recademy.Core.Tools;
+using Recademy.Shared.Dtos.Projects;
 
 namespace Recademy.Api.Services.Implementations
 {

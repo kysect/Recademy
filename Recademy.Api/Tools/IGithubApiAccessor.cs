@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Markdig;
 using Microsoft.AspNetCore.Components;
 using Octokit;
-using Recademy.Shared.Dtos;
+using Recademy.Shared.Dtos.Github;
 
 namespace Recademy.Api.Tools
 {

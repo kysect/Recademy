@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Recademy.Shared.Dtos
+namespace Recademy.Shared.Dtos.Achievements
 {
     public class AchievementsDto
     {

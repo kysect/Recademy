@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Recademy.Core.Types;
 
-namespace Recademy.Shared.Dtos
+namespace Recademy.Shared.Dtos.Reviews
 {
     public class ReviewResponseCreateDto
     {
         public ReviewResponseCreateDto()
         {
-            
+
         }
 
         public ReviewResponseCreateDto(string text, int userId, int reviewRequestId, ReviewConclusion reviewConclusion)

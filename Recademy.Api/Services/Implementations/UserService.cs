@@ -7,6 +7,9 @@ using Recademy.Shared.Dtos;
 using Recademy.Core.Models;
 using Recademy.Core.Tools;
 using Recademy.Core.Types;
+using Recademy.Shared.Dtos.Achievements;
+using Recademy.Shared.Dtos.Projects;
+using Recademy.Shared.Dtos.Users;
 
 namespace Recademy.Api.Services.Implementations
 {

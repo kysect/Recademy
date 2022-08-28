@@ -1,8 +1,10 @@
 ﻿using NUnit.Framework;
-using Recademy.Shared.Dtos;
 using Recademy.Core.Types;
 using Recademy.Mock.Generators;
 using Recademy.Test.Tools;
+using Recademy.Shared.Dtos.Reviews;
+using Recademy.Shared.Dtos.Projects;
+using Recademy.Shared.Dtos.Users;
 
 namespace Recademy.Test.Controllers
 {

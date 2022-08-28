@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Shared.Dtos;
+using Recademy.Shared.Dtos.Achievements;
 
 namespace Recademy.Api.Controllers
 {

@@ -1,4 +1,4 @@
-﻿using Recademy.Shared.Dtos;
+﻿using Recademy.Shared.Dtos.Reviews;
 
 namespace Recademy.Api.Services.Abstraction
 {

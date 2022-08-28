@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Recademy.Api.Services.Abstraction;
-using Recademy.Shared.Dtos;
+using Recademy.Shared.Dtos.Users;
 using User = Recademy.Core.Models.User;
 
 namespace Recademy.Api.Controllers

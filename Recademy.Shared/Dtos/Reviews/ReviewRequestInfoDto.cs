@@ -1,14 +1,16 @@
 ﻿using Recademy.Core.Models;
 using Recademy.Core.Tools;
 using Recademy.Core.Types;
+using Recademy.Shared.Dtos.Projects;
+using Recademy.Shared.Dtos.Users;
 
-namespace Recademy.Shared.Dtos
+namespace Recademy.Shared.Dtos.Reviews
 {
     public class ReviewRequestInfoDto
     {
         public ReviewRequestInfoDto()
         {
-            
+
         }
 
         public ReviewRequestInfoDto(ReviewRequest request)

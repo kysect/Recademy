@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Recademy.Api;
 using Recademy.Api.Services.Abstraction;
 using Recademy.Core.Models;
 using Recademy.Core.Models.Achievements;
 
-namespace Recademy.Core;
+namespace Recademy.Api.Services.Implementations;
 
 public sealed class UserAchievementService : IUserAchievementService
 {
