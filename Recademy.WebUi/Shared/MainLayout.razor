@@ -1,4 +1,5 @@
 ﻿@using Recademy.Dto.Users
+@using Recademy.Dto.Roles
 @inherits LayoutComponentBase
 @inject ILogger<MainLayout> Logger
 @inject HttpClient Http
@@ -19,10 +20,20 @@
             }
             else
             {
-                <div>
-                    @User.GithubUsername
-                    <button class="btn btn-primary" @onclick="SignOut">Sign out</button>
-                </div>
+                @if (!string.IsNullOrEmpty(@UserRole?.Name))
+                {
+                    <div>
+                        [@UserRole.Name] @User.GithubUsername
+                        <button class="btn btn-primary" @onclick="SignOut">Sign out</button>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        @User.GithubUsername
+                        <button class="btn btn-primary" @onclick="SignOut">Sign out</button>
+                    </div>
+                }
             }
         </div>
 
@@ -35,12 +46,16 @@
 
 @code {
     public static UserInfoDto? User { get; private set; }
+    public static UserRoleDto? UserRole { get; private set; }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             User = await Http.GetFromJsonAsync<UserInfoDto>("api/auth/user/current");
+
+            if (User is not null)
+                UserRole = await Http.GetFromJsonAsync<UserRoleDto>($"api/roles/users/{User.Id}");
         }
         catch (Exception ex)
         {
@@ -55,6 +70,9 @@
         try
         {
             User = await Http.GetFromJsonAsync<UserInfoDto>("api/auth/github");
+
+            if (User is not null)
+                UserRole = await Http.GetFromJsonAsync<UserRoleDto>($"api/roles/users/{User.Id}");
         }
         catch (Exception ex)
         {
@@ -65,5 +83,8 @@
     private void SignOut()
     {
         NavigationManager.NavigateTo("api/auth/sign-out", forceLoad: true);
+
+        User = null;
+        UserRole = null;
     }
 }
