@@ -4,6 +4,7 @@ using Recademy.Core.Models;
 using Recademy.Core.Models.Achievements;
 using Recademy.Core.Models.Projects;
 using Recademy.Core.Models.Reviews;
+using Recademy.Core.Models.Roles;
 using Recademy.Core.Models.Skills;
 using Recademy.Core.Models.Users;
 
@@ -49,6 +50,9 @@ namespace Recademy.DataAccess
             modelBuilder.Entity<UserAchievementInfo>()
                 .HasKey(ua => new { ua.UserId, ua.AchievementId });
 
+            modelBuilder.Entity<UserRoleAssociation>()
+                .HasKey(ur => new { ur.UserId, ur.RoleId });
+
             DisableCascadeDelete(modelBuilder);
         }
 
@@ -91,6 +95,7 @@ namespace Recademy.DataAccess
         public DbSet<ProjectSkill> ProjectSkills { get; set; }
         public DbSet<ReviewResponseUpvote> ReviewResponseUpvotes { get; set; }
         public DbSet<UserAchievementInfo> UserAchievementInfos { get; set; }
+        public DbSet<UserRoleAssociation> UserRoleAssociations { get; set; }
 
 
         public DbSet<Settings> Settings { get; set; }
