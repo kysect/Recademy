@@ -6,6 +6,7 @@ using Recademy.Core.Models.Skills;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Recademy.Core.Models.Roles;
 
 namespace Recademy.Core.Models.Users;
 
@@ -15,6 +16,7 @@ public class RecademyUser
     [ForeignKey("User")]
     public int UserId { get; set; }
     public User User { get; set; }
+    public UserRoleAssociation Role { get; set; }
     public ICollection<UserSkill> UserSkills { get; set; }
     public ICollection<ProjectInfo> ProjectInfos { get; set; }
     public ICollection<ReviewRequest> ReviewRequests { get; set; }
