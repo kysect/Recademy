@@ -4,7 +4,6 @@ using Recademy.Application.Services.Abstractions;
 using System.Collections.Generic;
 
 using System.Threading.Tasks;
-using System.Linq;
 using Recademy.Dto.Roles;
 
 namespace Recademy.Api.Controllers
@@ -22,12 +21,10 @@ namespace Recademy.Api.Controllers
             _logger = logger;
         }
 
-        [HttpGet("list")]
+        [HttpGet]
         public ActionResult<IReadOnlyCollection<UserRoleDto>> GetAllRoles()
         {
-            IReadOnlyCollection<UserRoleDto> roles = _userRoleService
-                .GetAllRoles()
-                .ToList();
+            IReadOnlyCollection<UserRoleDto> roles = _userRoleService.GetAllRoles();
 
             return Ok(roles);
         }
