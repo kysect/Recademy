@@ -1,10 +1,13 @@
-﻿using Recademy.Application.Services.Abstractions;
+﻿using System;
+using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Achievements;
 using Recademy.DataAccess;
 
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Recademy.Dto.Achievements;
+using Recademy.Application.Mappings;
 
 namespace Recademy.Application.Services.Implementations;
 
@@ -40,6 +43,14 @@ public sealed class UserAchievementService : IUserAchievementService
             .ToList();
     }
 
+    public IReadOnlyCollection<UserAchievementRequestDto> GetUserAchievementRequests(int userId)
+    {
+        return _context.UserAchievementRequests
+            .Where(request => request.UserId == userId)
+            .Select(request => request.ToDto())
+            .ToList();
+    }
+
     public int GetUserAchievementPoints(int userId)
     {
         return GetUserAchievements(userId).Sum(achievement => achievement.Points);
@@ -48,6 +59,14 @@ public sealed class UserAchievementService : IUserAchievementService
     public async Task AddUserAchievement(int userId, int achievementId)
     {
         _context.UserAchievementInfos.Add(new UserAchievementInfo { AchievementId = achievementId, UserId = userId });
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task AddUserAchievementRequest(UserAchievementRequestDto request)
+    {
+        UserAchievementRequest achievementRequest = request.FromDto();
+
+        await _context.UserAchievementRequests.AddAsync(achievementRequest);
         await _context.SaveChangesAsync();
     }
 }

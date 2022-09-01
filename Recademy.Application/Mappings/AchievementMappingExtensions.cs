@@ -28,4 +28,33 @@ public static class AchievementMappingExtensions
             AchievementId = achievement.Id,
         };
     }
+
+    public static UserAchievementRequestDto ToDto(this UserAchievementRequest achievementRequest)
+    {
+        if (achievementRequest is null)
+            return null;
+
+        return new UserAchievementRequestDto
+        {
+            RequestId = achievementRequest.RequestId,
+            UserId = achievementRequest.UserId,
+            AchievementId = achievementRequest.AchievementId,
+            Reason = achievementRequest.Reason,
+            RequestTime = achievementRequest.RequestTime,
+        };
+    }
+
+    public static UserAchievementRequest FromDto(this UserAchievementRequestDto achievementRequest)
+    {
+        if (achievementRequest is null)
+            return null;
+
+        return new UserAchievementRequest
+        {
+            UserId = achievementRequest.UserId,
+            AchievementId = achievementRequest.AchievementId,
+            Reason = achievementRequest.Reason,
+            RequestTime = achievementRequest.RequestTime,
+        };
+    }
 }

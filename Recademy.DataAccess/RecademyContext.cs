@@ -96,6 +96,7 @@ namespace Recademy.DataAccess
         public DbSet<ReviewResponseUpvote> ReviewResponseUpvotes { get; set; }
         public DbSet<UserAchievementInfo> UserAchievementInfos { get; set; }
         public DbSet<UserRoleAssociation> UserRoleAssociations { get; set; }
+        public DbSet<UserAchievementRequest> UserAchievementRequests { get; set; }
 
 
         public DbSet<Settings> Settings { get; set; }
