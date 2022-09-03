@@ -2,10 +2,9 @@
 
 ## Stack
 
-- .NET Core 3.0/3.1 / .NET Standard
-- ASP.NET Core Web API: https://github.com/dotnet/aspnetcore
-- Blazor (deprecated): https://github.com/dotnet/blazor
-- EF Core: https://github.com/dotnet/efcore
+- ASP.NET Web API: https://github.com/dotnet/aspnetcore
+- Blazor: https://github.com/dotnet/blazor
+- Entity Framework: https://github.com/dotnet/efcore
 - NUnit: https://github.com/nunit/nunit
 - Octokit: https://github.com/octokit/octokit.net
 - Swagger: https://github.com/domaindrivendev/Swashbuckle
