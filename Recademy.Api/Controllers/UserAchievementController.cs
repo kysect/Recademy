@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
 using Recademy.Application.Services.Abstractions;
 using Recademy.Dto.Achievements;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,6 +82,14 @@ namespace Recademy.Api.Controllers
         public async Task<IActionResult> RequestUserAchievement(UserAchievementRequestDto request)
         {
             await _userAchievementService.AddUserAchievementRequest(request);
+
+            return Ok();
+        }
+
+        [HttpPost("users/requests/{requestId}/responses")]
+        public async Task<IActionResult> ResponseUserAchievement(UserAchievementResponseDto response)
+        {
+            await _userAchievementService.AddUserAchievementResponse(response);
 
             return Ok();
         }

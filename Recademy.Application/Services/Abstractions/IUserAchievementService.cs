@@ -1,5 +1,4 @@
 ﻿using Recademy.Core.Models.Achievements;
-
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Recademy.Dto.Achievements;
@@ -12,6 +11,8 @@ public interface IUserAchievementService
     IReadOnlyCollection<IUserAchievement> GetUserAchievements(int userId);
     IReadOnlyCollection<UserAchievementRequestDto> GetUserAchievementRequests(int userId);
     int GetUserAchievementPoints(int userId);
+    Task<UserAchievementResponseDto> GetUserAchievementResponse(int requestId);
     Task AddUserAchievement(int userId, int achievementId);
     Task AddUserAchievementRequest(UserAchievementRequestDto request);
+    Task AddUserAchievementResponse(UserAchievementResponseDto response);
 }
