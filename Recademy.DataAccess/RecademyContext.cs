@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
 using Recademy.Core.Models;
 using Recademy.Core.Models.Achievements;
 using Recademy.Core.Models.Projects;
@@ -97,6 +96,7 @@ namespace Recademy.DataAccess
         public DbSet<UserAchievementInfo> UserAchievementInfos { get; set; }
         public DbSet<UserRoleAssociation> UserRoleAssociations { get; set; }
         public DbSet<UserAchievementRequest> UserAchievementRequests { get; set; }
+        public DbSet<UserAchievementResponse> UserAchievementResponses { get; set; }
 
 
         public DbSet<Settings> Settings { get; set; }
