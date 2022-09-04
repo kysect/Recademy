@@ -96,16 +96,16 @@ public sealed class UserAchievementService : IUserAchievementService
     public async Task AddUserAchievementResponse(UserAchievementResponseDto response)
     {
         UserAchievementResponse achievementResponse = response.FromDto();
-        
+
+        UserAchievementRequest achievementRequest = await _context.UserAchievementRequests
+            .FirstAsync(request => request.RequestId == achievementResponse.RequestId);
+
         await _context.UserAchievementResponses.AddAsync(achievementResponse);
+        _context.UserAchievementRequests.Remove(achievementRequest);
+
         await _context.SaveChangesAsync();
 
         if (achievementResponse.Response is UserAchievementResponseType.Approved)
-        {
-            UserAchievementRequest achievementRequest = await _context.UserAchievementRequests
-                .FirstAsync(request => request.RequestId == achievementResponse.RequestId);
-
             await AddUserAchievement(achievementRequest.UserId, achievementRequest.AchievementId);
-        }
     }
 }
