@@ -1,3 +1,4 @@
+﻿using System;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Achievements;
 using Recademy.DataAccess;
@@ -38,12 +39,31 @@ public sealed class UserAchievementService : IUserAchievementService
             .ToList();
     }
 
+    public async Task<IReadOnlyCollection<UserAchievementRequestDto>> GetUserAchievementRequests()
+    {
+        return await _context.UserAchievementRequests
+            .Include(request => request.User)
+            .ThenInclude(recademyUser => recademyUser.User)
+            .Select(achievement => achievement.ToDto())
+            .ToListAsync();
+    }
+
     public IReadOnlyCollection<UserAchievementRequestDto> GetUserAchievementRequests(int userId)
     {
         return _context.UserAchievementRequests
             .Where(request => request.UserId == userId)
             .Select(request => request.ToDto())
             .ToList();
+    }
+
+    public async Task<UserAchievementRequestDto> GetUserAchievementRequestById(int requestId)
+    {
+        var request = await _context.UserAchievementRequests
+            .Include(request => request.User)
+            .ThenInclude(recademyUser => recademyUser.User)
+            .FirstOrDefaultAsync(request => request.RequestId == requestId);
+
+        return request.ToDto();
     }
 
     public int GetUserAchievementPoints(int userId)
