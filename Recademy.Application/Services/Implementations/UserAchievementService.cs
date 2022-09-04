@@ -1,4 +1,4 @@
-﻿using Recademy.Application.Services.Abstractions;
+using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Achievements;
 using Recademy.DataAccess;
 using System.Collections.Generic;
@@ -7,18 +7,13 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Recademy.Dto.Achievements;
 using Recademy.Application.Mappings;
+using Recademy.Application.Providers;
 using Recademy.Core.Types;
 
 namespace Recademy.Application.Services.Implementations;
 
 public sealed class UserAchievementService : IUserAchievementService
 {
-    private readonly IReadOnlyCollection<IUserAchievement> _achievements = new List<IUserAchievement>
-    {
-        new FirstTimeUserAchievement(),
-        new NeatUserAchievement(),
-    };
-
     private readonly RecademyContext _context;
 
     public UserAchievementService(RecademyContext context)
@@ -28,7 +23,7 @@ public sealed class UserAchievementService : IUserAchievementService
 
     public IReadOnlyCollection<IUserAchievement> GetAllAchievements()
     {
-        return _achievements;
+        return UserAchievementProvider.Achievements;
     }
 
     public IReadOnlyCollection<IUserAchievement> GetUserAchievements(int userId)
@@ -38,7 +33,7 @@ public sealed class UserAchievementService : IUserAchievementService
             .Select(achievement => achievement.AchievementId)
             .ToHashSet();
 
-        return _achievements
+        return UserAchievementProvider.Achievements
             .Where(achievement => userAchievements.Contains(achievement.Id))
             .ToList();
     }
