@@ -1,0 +1,73 @@
+﻿@page "/achievements/request"
+@using Recademy.Dto.Achievements
+@inject HttpClient Http
+@inject IBlazorStrap BlazorStrap
+
+<BSToaster />
+
+<h3>Запрос достижения</h3>
+
+<BSLabel MarginTop="Margins.Small">Достижение</BSLabel>
+<BSInput InputType="InputType.Select" @bind-Value="_achievementId">
+    @if (_achievements is not null)
+    {
+        @foreach (UserAchievementDto achievement in _achievements)
+        {
+            <option value="@achievement.Id">@achievement.Title</option>
+        }
+    }
+</BSInput>
+
+<BSLabel MarginTop="Margins.Small">Причина запроса</BSLabel>
+<BSInput InputType="InputType.Text" placeholder="Указание причины позволит ускорить процесс обработки запроса" @bind-Value="_achievementReason" />
+
+<BSButton Color="BSColor.Primary" @onclick="SendAchievementRequest" MarginTopAndBottom="Margins.Medium">Отправить запрос</BSButton>
+
+
+@code {
+    private IReadOnlyCollection<UserAchievementDto> _achievements;
+    private int _achievementId = 1;
+    private string _achievementReason = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Http.GetFromJsonAsync<IReadOnlyCollection<UserAchievementDto>>("api/achievements/users/list");
+
+        _achievements = response ?? new List<UserAchievementDto>();
+    }
+
+    private async Task SendAchievementRequest()
+    {
+        var request = new UserAchievementRequestDto
+        {
+            UserId = MainLayout.User.Id,
+            AchievementId = _achievementId,
+            Reason = _achievementReason,
+            RequestTime = DateTime.UtcNow,
+        };
+
+        var response = await Http.PostAsJsonAsync($"api/achievements/users/{MainLayout.User.Id}/requests", request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            BlazorStrap.Toaster.Add("Запрос на получение достижения успешно создан", o =>
+            {
+                o.Color = BSColor.Success;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+        }
+        else
+        {
+            BlazorStrap.Toaster.Add("Произошла ошибка при отправке запроса на получение достижения", o =>
+            {
+                o.Color = BSColor.Danger;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+        }
+
+        _achievementId = 1;
+        _achievementReason = default;
+    }
+}

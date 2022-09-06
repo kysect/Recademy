@@ -55,12 +55,28 @@ namespace Recademy.Api.Controllers
             return Ok(achievements);
         }
 
+        [HttpGet("users/requests")]
+        public async Task<ActionResult<IReadOnlyCollection<UserAchievementRequestDto>>> GetUserAchievementRequests()
+        {
+            IReadOnlyCollection<UserAchievementRequestDto> requests = await _userAchievementService.GetUserAchievementRequests();
+
+            return Ok(requests);
+        }
+
         [HttpGet("users/{userId}/requests")]
         public ActionResult<IReadOnlyCollection<UserAchievementRequestDto>> GetUserAchievementRequests(int userId)
         {
             IReadOnlyCollection<UserAchievementRequestDto> requests = _userAchievementService.GetUserAchievementRequests(userId);
 
             return Ok(requests);
+        }
+
+        [HttpGet("users/requests/{requestId}")]
+        public async Task<ActionResult<UserAchievementRequestDto>> GetUserAchievementRequestById(int requestId)
+        {
+            UserAchievementRequestDto request = await _userAchievementService.GetUserAchievementRequestById(requestId);
+
+            return Ok(request);
         }
 
         [HttpGet("users/{userId}/points")]

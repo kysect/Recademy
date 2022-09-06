@@ -1,0 +1,74 @@
+﻿@page "/achievements/requests/{RequestId:int}/response"
+@using Recademy.Dto.Enums
+@using Recademy.Dto.Achievements
+@inject HttpClient Http
+@inject IBlazorStrap BlazorStrap
+
+<h3>Ответить на запрос @_request?.User.GithubUsername на получение достижения @_request?.Achievement.Title</h3>
+
+<BSLabel MarginTop="Margins.Small">Ответ</BSLabel>
+<BSInput InputType="InputType.Select" @bind-Value="_selectedResponseType">
+    @if (_responseTypes is not null)
+    {
+        @foreach (UserAchievementResponseTypeDto responseType in _responseTypes)
+        {
+            <option value="@((int)responseType)">@responseType</option>
+        }
+    }
+</BSInput>
+
+<BSLabel MarginTop="Margins.Small">Комментарий к ответу</BSLabel>
+<BSInput InputType="InputType.Text" @bind-Value="_responseComment" />
+
+<BSButton Color="BSColor.Primary" @onclick="SendAchievementResponse" MarginTopAndBottom="Margins.Medium">Отправить ответ</BSButton>
+
+@code {
+    [Parameter]
+    public int RequestId { get; set; }
+
+    private readonly IReadOnlyCollection<UserAchievementResponseTypeDto> _responseTypes = Enum.GetValues<UserAchievementResponseTypeDto>();
+
+    private UserAchievementRequestDto _request;
+    private UserAchievementResponseTypeDto _selectedResponseType = UserAchievementResponseTypeDto.Approved;
+    private string _responseComment;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _request = await Http.GetFromJsonAsync<UserAchievementRequestDto>($"api/achievements/users/requests/{RequestId}");
+    }
+
+    private async Task SendAchievementResponse()
+    {
+        var achievementResponse = new UserAchievementResponseDto
+        {
+            RequestId = RequestId,
+            Response = _selectedResponseType,
+            Comment = _responseComment,
+            ResponseTime = DateTime.UtcNow,
+        };
+
+        var response = await Http.PostAsJsonAsync($"api/achievements/users/requests/{RequestId}/responses", achievementResponse);
+
+        if (response.IsSuccessStatusCode)
+        {
+            BlazorStrap.Toaster.Add("Ответ на получение достижения успешно отправлен", o =>
+            {
+                o.Color = BSColor.Success;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+        }
+        else
+        {
+            BlazorStrap.Toaster.Add("Произошла ошибка при отправке ответа на получение достижения", o =>
+            {
+                o.Color = BSColor.Danger;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+        }
+
+        _selectedResponseType = UserAchievementResponseTypeDto.Approved;
+        _responseComment = default;
+    }
+}

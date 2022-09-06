@@ -1,4 +1,5 @@
 ﻿using System;
+using Recademy.Application.Providers;
 using Recademy.Core.Models.Achievements;
 using Recademy.Core.Types;
 using Recademy.Dto.Achievements;
@@ -17,6 +18,20 @@ public static class AchievementMappingExtensions
         {
             Id = achievement.AchievementId,
             // TODO: set other parameters
+        };
+    }
+
+    public static UserAchievementDto ToDto(this IUserAchievement achievement)
+    {
+        if (achievement is null)
+            return null;
+
+        return new UserAchievementDto
+        {
+            Id = achievement.Id,
+            Title = achievement.Title,
+            Description = achievement.Description,
+            Points = achievement.Points,
         };
     }
 
@@ -41,7 +56,9 @@ public static class AchievementMappingExtensions
         {
             RequestId = achievementRequest.RequestId,
             UserId = achievementRequest.UserId,
+            User = achievementRequest.User.User.ToDto(),
             AchievementId = achievementRequest.AchievementId,
+            Achievement = UserAchievementProvider.FindAchievementById(achievementRequest.AchievementId).ToDto(),
             Reason = achievementRequest.Reason,
             RequestTime = achievementRequest.RequestTime,
         };
