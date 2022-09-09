@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Recademy.Api.Attributes;
+using Recademy.Dto.Enums;
 
 namespace Recademy.Api.Controllers
 {
@@ -87,6 +89,7 @@ namespace Recademy.Api.Controllers
             return Ok(userAchievementPoints);
         }
 
+        [RoleRequired(UserTypeDto.Admin, UserTypeDto.Mentor)]
         [HttpPost("users/{userId}/{achievementId}")]
         public async Task<IActionResult> AddUserAchievement(int userId, int achievementId)
         {
@@ -102,6 +105,7 @@ namespace Recademy.Api.Controllers
             return Ok();
         }
 
+        [RoleRequired]
         [HttpPost("users/requests/{requestId}/responses")]
         public async Task<IActionResult> ResponseUserAchievement(UserAchievementResponseDto response)
         {

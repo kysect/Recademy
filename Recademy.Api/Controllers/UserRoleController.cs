@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Recademy.Application.Services.Abstractions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Recademy.Api.Attributes;
 using Recademy.Dto.Roles;
 
 namespace Recademy.Api.Controllers
@@ -36,6 +37,7 @@ namespace Recademy.Api.Controllers
             return Ok(role);
         }
 
+        [RoleRequired]
         [HttpPost("users/{userId}/{roleId}")]
         public async Task<IActionResult> ChangeUserRole(int userId, int roleId)
         {
