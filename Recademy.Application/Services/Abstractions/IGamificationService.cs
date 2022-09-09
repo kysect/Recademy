@@ -9,6 +9,6 @@ namespace Recademy.Application.Services.Abstractions
         void DeleteReviewResponseUpvote(int reviewId, int userId);
 
         Dictionary<string, int> GetUsersRanking();
-        int ReadUserKarmaPointCount(int userId);
+        int GetUserKarmaPointCount(int userId);
     }
 }

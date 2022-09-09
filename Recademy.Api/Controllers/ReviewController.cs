@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
 using Recademy.Application.Services.Abstractions;
 using Recademy.Dto.Reviews;
-
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,7 +8,7 @@ namespace Recademy.Api.Controllers
 {
     [Produces("application/json")]
     [Consumes("application/json")]
-    [Route("api/review")]
+    [Route("api/reviews")]
     [ApiController]
     public class ReviewController : Controller
     {
@@ -21,37 +19,37 @@ namespace Recademy.Api.Controllers
             _reviewService = reviewService;
         }
 
-        [HttpPost]
+        [HttpPost("requests")]
         public ActionResult<ReviewRequestInfoDto> CreateReviewRequest([FromBody][Required] ReviewRequestAddDto reviewRequestAddDto)
         {
             return _reviewService.AddReviewRequest(reviewRequestAddDto);
         }
 
-        [HttpGet]
-        public ActionResult<IReadOnlyCollection<ReviewRequestInfoDto>> ReadAllRequest()
+        [HttpGet("requests")]
+        public ActionResult<IReadOnlyCollection<ReviewRequestInfoDto>> GetAllRequest()
         {
             return Ok(_reviewService.GetReviewRequests());
         }
 
-        [HttpGet("{requestId}")]
-        public ActionResult<ReviewRequestInfoDto> ReadRequestById([Required] int requestId)
+        [HttpGet("requests/{requestId}")]
+        public ActionResult<ReviewRequestInfoDto> GetRequestById([Required] int requestId)
         {
             return _reviewService.GetReviewInfo(requestId);
         }
 
-        [HttpPost("search")]
-        public ActionResult<IReadOnlyCollection<ReviewRequestInfoDto>> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto)
+        [HttpGet("requests/search")]
+        public ActionResult<IReadOnlyCollection<ReviewRequestInfoDto>> GetReviewRequestBySearchContext([FromBody] ReviewRequestSearchContextDto searchContext)
         {
-            return Ok(_reviewService.ReadReviewRequestBySearchContext(searchContextDto));
+            return Ok(_reviewService.ReadReviewRequestBySearchContext(searchContext));
         }
 
-        [HttpPost("{requestId}/complete")]
+        [HttpPost("requests/{requestId}/complete")]
         public ActionResult<ReviewRequestInfoDto> CompleteReview([Required] int requestId)
         {
             return _reviewService.CompleteReview(requestId);
         }
 
-        [HttpPost("{requestId}/abandon")]
+        [HttpPost("requests/{requestId}/abandon")]
         public ActionResult<ReviewRequestInfoDto> AbandonReview([Required] int requestId)
         {
             return _reviewService.AbandonReview(requestId);

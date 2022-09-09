@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
 using Recademy.Application.Services.Abstractions;
-
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Recademy.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/gamification")]
     [ApiController]
     public class GamificationController : ControllerBase
     {
@@ -18,22 +16,22 @@ namespace Recademy.Api.Controllers
             _gamificationService = gamificationService;
         }
 
-        [HttpPost("review/{reviewId}/upvote")]
-        public IActionResult CreateReviewUpvote([FromQuery][Required] int reviewId, [FromQuery][Required] int userId)
+        [HttpPost("users/{userId}/reviews/{reviewId}/upvote")]
+        public IActionResult CreateReviewUpvote([Required] int reviewId, [Required] int userId)
         {
             _gamificationService.CreateReviewResponseUpvote(reviewId, userId);
             return Ok();
         }
 
-        [HttpGet("review/{reviewId}/upvote")]
-        public ActionResult<IReadOnlyCollection<int>> ReadReviewUpvote([FromQuery][Required] int reviewId)
+        [HttpGet("reviews/{reviewId}/upvote")]
+        public ActionResult<IReadOnlyCollection<int>> GetReviewUpvote([Required] int reviewId)
         {
             return Ok(_gamificationService.ReadReviewResponseUpvote(reviewId));
         }
 
 
-        [HttpDelete("review/{reviewId}/upvote")]
-        public IActionResult DeleteReviewUpvote([FromQuery][Required] int reviewId, [FromQuery][Required] int userId)
+        [HttpDelete("users/{userId}/reviews/{reviewId}/upvote")]
+        public IActionResult DeleteReviewUpvote([Required] int reviewId, [Required] int userId)
         {
             _gamificationService.DeleteReviewResponseUpvote(reviewId, userId);
             return Ok();
@@ -46,9 +44,9 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpGet("karma")]
-        public ActionResult<int> ReadUserKarmaPointCount([Required] int userId)
+        public ActionResult<int> GetUserKarmaPointCount([Required] int userId)
         {
-            return _gamificationService.ReadUserKarmaPointCount(userId);
+            return _gamificationService.GetUserKarmaPointCount(userId);
         }
     }
 }

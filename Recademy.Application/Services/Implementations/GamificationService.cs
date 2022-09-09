@@ -52,12 +52,12 @@ namespace Recademy.Application.Services.Implementations
             return _context
                 .Users
                 .ToList()
-                .Select(u => (u.Name, Points: ReadUserKarmaPointCount(u.Id)))
+                .Select(u => (u.Name, Points: GetUserKarmaPointCount(u.Id)))
                 .OrderByDescending(t => t.Points)
                 .ToDictionary(t => t.Name, t => t.Points);
         }
 
-        public int ReadUserKarmaPointCount(int userId)
+        public int GetUserKarmaPointCount(int userId)
         {
             int upvotes = _context
                 .ReviewResponseUpvotes
