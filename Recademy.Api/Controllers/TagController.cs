@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
 using Recademy.Application.Services.Abstractions;
-
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -21,13 +19,13 @@ namespace Recademy.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IReadOnlyCollection<string>> ReadAll()
+        public ActionResult<IReadOnlyCollection<string>> GetAll()
         {
             return Ok(_tagService.GetAllTags());
         }
 
-        [HttpGet("user/{userId}")]
-        public ActionResult<IReadOnlyCollection<string>> ReadByUserId([Required] int userId)
+        [HttpGet("users/{userId}")]
+        public ActionResult<IReadOnlyCollection<string>> GetByUserId([Required] int userId)
         {
             return Ok(_tagService.GetUserTags(userId));
         }

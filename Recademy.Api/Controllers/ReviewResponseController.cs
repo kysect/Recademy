@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
 using Recademy.Application.Services.Abstractions;
 using Recademy.Dto.Reviews;
-
 using System.ComponentModel.DataAnnotations;
 
 namespace Recademy.Api.Controllers
 {
     [Produces("application/json")]
     [Consumes("application/json")]
-    [Route("api/review")]
+    [Route("api/reviews/responses")]
     [ApiController]
     public class ReviewResponseController
     {
@@ -21,10 +19,10 @@ namespace Recademy.Api.Controllers
         }
 
 
-        [HttpPost("create")]
-        public ActionResult<ReviewResponseInfoDto> CreateReviewResponse([FromBody][Required] ReviewResponseCreateDto reviewResponseCreateDto)
+        [HttpPost]
+        public ActionResult<ReviewResponseInfoDto> CreateReviewResponse([FromBody][Required] ReviewResponseCreateDto reviewResponseCreate)
         {
-            return _reviewResponseService.SendReviewResponse(reviewResponseCreateDto);
+            return _reviewResponseService.SendReviewResponse(reviewResponseCreate);
         }
     }
 }

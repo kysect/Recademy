@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Types;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Users;
-
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,7 +11,7 @@ namespace Recademy.Api.Controllers
 {
     [Produces("application/json")]
     [Consumes("application/json")]
-    [Route("api/user")]
+    [Route("api/users")]
     [ApiController]
     public class UserController : Controller
     {
@@ -23,48 +21,39 @@ namespace Recademy.Api.Controllers
         {
             _userService = userService;
         }
-
-        /// <summary>
-        ///     Get user info
-        /// </summary>
+        
         [HttpGet("{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<RecademyUserDto> ReadUserInfo([Required] int userId)
+        public ActionResult<RecademyUserDto> GetById([Required] int userId)
         {
             return _userService.ReadUserInfo(userId);
         }
 
-        [HttpGet("findById")]
+        [HttpGet("{username}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<RecademyUserDto> ReadById([FromQuery][Required] int userId)
-        {
-            return _userService.FindById(userId);
-        }
-
-        [HttpGet("findByUsername")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<RecademyUserDto> ReadByUsername([FromQuery][Required] string username)
+        public ActionResult<RecademyUserDto> GetByUsername([Required] string username)
         {
             return _userService.FindRecademyUser(username);
         }
 
         [HttpGet("{userId}/projects")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IReadOnlyCollection<ProjectInfoDto>> ReadUserProjects([Required] int userId)
+        public ActionResult<IReadOnlyCollection<ProjectInfoDto>> GetUserProjects([Required] int userId)
         {
             return Ok(_userService.ReadUserProjects(userId));
         }
-
-        [HttpGet("setMentor")]
+        
+        // TODO: refactor not to pass admin id
+        [HttpPost("{adminId}/users/{userId}/role/mentor")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<UserInfoDto> UpdateSetMentorRole([FromQuery][Required] int adminId, [FromQuery][Required] int userId)
+        public ActionResult<UserInfoDto> SetMentorRole([Required] int adminId, [Required] int userId)
         {
             return _userService.UpdateUserMentorRole(adminId, userId, UserType.Mentor);
         }
 
-        [HttpGet("removeMentor")]
+        [HttpDelete("{adminId}/users/{userId}/role/mentor")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<UserInfoDto> UpdateRemoveMentorRole([FromQuery][Required] int adminId, [FromQuery][Required] int userId)
+        public ActionResult<UserInfoDto> RemoveMentorRole([Required] int adminId, [Required] int userId)
         {
             return _userService.UpdateUserMentorRole(adminId, userId, UserType.CommonUser);
         }

@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Recademy.Application.Services.Abstractions;
 using System.Collections.Generic;
-
 using System.Threading.Tasks;
 using Recademy.Dto.Roles;
 
