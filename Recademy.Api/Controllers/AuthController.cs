@@ -8,9 +8,11 @@ using Recademy.Application.Services.Abstractions;
 using Recademy.Dto;
 using Recademy.Dto.Users;
 using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-
+using Microsoft.IdentityModel.Tokens;
 using User = Recademy.Core.Models.Users.User;
 
 namespace Recademy.Api.Controllers
@@ -65,6 +67,10 @@ namespace Recademy.Api.Controllers
 
                 _logger.LogInformation($"User {dto?.GithubUsername} was successfully authenticated via GitHub");
 
+                string token = GenerateToken(dto);
+
+                HttpContext.Response.Cookies.Append("JwtToken", token);
+
                 return Ok(dto);
             }
             catch (Exception ex)
@@ -79,7 +85,7 @@ namespace Recademy.Api.Controllers
         {
             try
             {
-                String username = HttpContext.User
+                string username = HttpContext.User
                     .FindFirstValue("urn:github:url")
                     .Split('/')
                     .LastOrDefault();
@@ -91,6 +97,10 @@ namespace Recademy.Api.Controllers
 
                 _logger.LogInformation($"Current user is {dto?.GithubUsername}");
 
+                string token = GenerateToken(dto);
+
+                HttpContext.Response.Cookies.Append("JwtToken", token);
+
                 return Ok(dto);
             }
             catch (Exception ex)
@@ -98,6 +108,21 @@ namespace Recademy.Api.Controllers
                 _logger.LogError(ex, "Failed to get current user");
                 return Unauthorized($"Failed to get current user: {ex.Message}");
             }
+        }
+
+        private string GenerateToken(UserInfoDto userInfo)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Claims = new Dictionary<string, object>()
+            };
+
+            tokenDescriptor.Claims.Add("UserType", userInfo.UserType);
+
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
         }
     }
 }
