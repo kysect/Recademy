@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+	  <AnalysisLevel>latest</AnalysisLevel>
+	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
 	<ItemGroup>

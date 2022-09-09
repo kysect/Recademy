@@ -3,6 +3,9 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<UserSecretsId>15c76420-ac89-40bd-8cdc-e60d9d6494e6</UserSecretsId>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
