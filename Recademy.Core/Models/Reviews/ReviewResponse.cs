@@ -17,9 +17,9 @@ public class ReviewResponse
 
     [ForeignKey("ReviewRequest")]
     public int ReviewRequestId { get; set; }
-    public ReviewRequest ReviewRequest { get; set; }
+    public virtual ReviewRequest ReviewRequest { get; set; }
 
     [ForeignKey("User")]
     public int ReviewerId { get; set; }
-    public RecademyUser Reviewer { get; set; }
+    public virtual RecademyUser Reviewer { get; set; }
 }

@@ -31,7 +31,9 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddRecademyAuthentication(builder.Configuration);
 
-builder.Services.AddDbContext<RecademyContext>(options => options.UseInMemoryDatabase("RecademyDb"));
+builder.Services.AddDbContext<RecademyContext>(options => options
+    .UseInMemoryDatabase("RecademyDb")
+    .UseLazyLoadingProxies());
 
 builder.Services.AddRecademyRepositories();
 builder.Services.AddRecademyServices();

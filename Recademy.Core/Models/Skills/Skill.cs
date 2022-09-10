@@ -8,7 +8,6 @@ public class Skill
     [Key]
     public string Name { get; init; }
     public string Description { get; init; }
-
-    public ICollection<UserSkill> UserSkills { get; init; }
-    public ICollection<ProjectSkill> ProjectSkills { get; init; }
+    public virtual ICollection<UserSkill> UserSkills { get; init; }
+    public virtual ICollection<ProjectSkill> ProjectSkills { get; init; }
 }

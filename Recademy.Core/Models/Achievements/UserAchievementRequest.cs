@@ -11,7 +11,7 @@ public class UserAchievementRequest
     public int RequestId { get; set; }
     [ForeignKey("RecademyUser")]
     public int UserId { get; set; }
-    public RecademyUser User { get; set; }
+    public virtual RecademyUser User { get; set; }
     public int AchievementId { get; set; }
     public string Reason { get; set; }
     public DateTime RequestTime { get; set; }

@@ -10,8 +10,9 @@ public class UserAchievementResponse
     [Key]
     public int ResponseId { get; set; }
     public int RequestId { get; set; }
+
     [ForeignKey("UserAchievementRequest")]
-    public UserAchievementRequest Request { get; set; }
+    public virtual UserAchievementRequest Request { get; set; }
     public UserAchievementResponseType Response { get; set; }
     public string Comment { get; set; }
     public DateTime ResponseTime { get; set; }
