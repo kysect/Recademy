@@ -24,7 +24,7 @@ public class UserSeedingGenerator : IEntitySeedingGenerator
             var user = new User
             {
                 Id = ++faker.IndexVariable,
-                GithubUsername = faker.Name.JobArea(),
+                GithubUsername = faker.Internet.UserName(),
                 Name = faker.Name.FullName(),
                 UserType = UserType.CommonUser
             };
