@@ -15,13 +15,13 @@ public class ReviewRequest
     public DateTime DateCreate { get; init; }
     public ProjectState State { get; set; }
     public string Description { get; init; }
-    public ICollection<ReviewResponse> ReviewResponse { get; init; }
+    public virtual ICollection<ReviewResponse> ReviewResponse { get; init; }
 
     [ForeignKey("ProjectInfo")]
     public int ProjectId { get; init; }
-    public ProjectInfo ProjectInfo { get; init; }
+    public virtual ProjectInfo ProjectInfo { get; init; }
 
     [ForeignKey("User")]
     public int UserId { get; init; }
-    public RecademyUser User { get; init; }
+    public virtual RecademyUser User { get; init; }
 }

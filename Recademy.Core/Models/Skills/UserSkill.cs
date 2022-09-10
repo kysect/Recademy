@@ -8,9 +8,9 @@ public class UserSkill
 {
     [ForeignKey("User")]
     public int UserId { get; set; }
-    public RecademyUser User { get; set; }
+    public virtual RecademyUser User { get; set; }
 
     [ForeignKey("Skill")]
     public string SkillName { get; set; }
-    public Skill Skill { get; set; }
+    public virtual Skill Skill { get; set; }
 }

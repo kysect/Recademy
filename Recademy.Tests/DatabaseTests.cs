@@ -13,6 +13,7 @@ public class DatabaseTests
     {
         var context = new RecademyContext(new DbContextOptionsBuilder<RecademyContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .UseLazyLoadingProxies()
                 .Options);
 
         context.Database.EnsureCreated();
