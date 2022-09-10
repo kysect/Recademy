@@ -13,4 +13,9 @@
     <PackageReference Include="coverlet.collector" Version="3.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Recademy.Core\Recademy.Core.csproj" />
+    <ProjectReference Include="..\Recademy.DataAccess\Recademy.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>
