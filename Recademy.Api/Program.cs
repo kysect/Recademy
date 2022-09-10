@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Recademy.Api.Extensions;
 using Recademy.DataAccess;
+using Recademy.DataAccess.Seeding;
 using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -35,6 +36,7 @@ builder.Services.AddDbContext<RecademyContext>(options => options
     .UseInMemoryDatabase("RecademyDb")
     .UseLazyLoadingProxies());
 
+builder.Services.AddScoped<IDbContextSeeder, DbContextSeeder>();
 builder.Services.AddRecademyServices();
 
 WebApplication app = builder.GetConfiguredRecademyApp();
