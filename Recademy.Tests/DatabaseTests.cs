@@ -12,7 +12,7 @@ public class DatabaseTests
     [Test]
     public void CreateDatabase_EnsureCreated()
     {
-        var context = CreateContext();
+        using var context = CreateContext();
 
         Assert.Pass();
     }
@@ -20,9 +20,9 @@ public class DatabaseTests
     [Test]
     public void CreateDatabase_UserTableNotEmpty()
     {
-        var context = CreateContext();
+        using var context = CreateContext();
 
-        Assert.IsNotEmpty(context.Users);
+        Assert.That(context.Users, Is.Not.Empty);
     }
 
     private RecademyContext CreateContext()

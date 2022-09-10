@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Recademy.Core.Models.Users;
 using Recademy.Core.Types;
+using System;
 using System.Collections.Generic;
 
 namespace Recademy.DataAccess.Seeding;
@@ -30,7 +31,7 @@ public class UserSeedingGenerator : IEntitySeedingGenerator
 
             _users.Add(user);
 
-            _recademyUsers.Add(new RecademyUser()
+            _recademyUsers.Add(new RecademyUser
             {
                 UserId = user.Id,
             });
@@ -39,6 +40,8 @@ public class UserSeedingGenerator : IEntitySeedingGenerator
 
     public void Seed(ModelBuilder modelBuilder)
     {
+        ArgumentNullException.ThrowIfNull(modelBuilder);
+
         modelBuilder.Entity<User>().HasData(_users);
         modelBuilder.Entity<RecademyUser>().HasData(_recademyUsers);
     }
