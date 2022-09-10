@@ -9,6 +9,7 @@ public interface IUserAchievementService
 {
     IReadOnlyCollection<IUserAchievement> GetAllAchievements();
     IReadOnlyCollection<IUserAchievement> GetUserAchievements(int userId);
+    IReadOnlyCollection<UserAchievementPointsDto> GetRangesUserAchievements();
     Task<IReadOnlyCollection<UserAchievementRequestDto>> GetUserAchievementRequests();
     IReadOnlyCollection<UserAchievementRequestDto> GetUserAchievementRequests(int userId);
     Task<UserAchievementRequestDto> GetUserAchievementRequestById(int requestId);

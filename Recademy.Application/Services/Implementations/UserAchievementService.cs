@@ -38,6 +38,26 @@ public sealed class UserAchievementService : IUserAchievementService
             .ToList();
     }
 
+    public IReadOnlyCollection<UserAchievementPointsDto> GetRangesUserAchievements()
+    {
+        var rangedUserAchievementPoints = new List<UserAchievementPointsDto>();
+
+        IReadOnlyCollection<UserAchievementInfo> userAchievementsInfo = _context.UserAchievementInfos.ToList();
+
+        foreach (IGrouping<string, UserAchievementInfo> userAchievementInfo in userAchievementsInfo.GroupBy(info => info.User.GithubUsername))
+        {
+            int userPoints = userAchievementInfo
+                .Select(info => UserAchievementProvider.FindAchievementById(info.AchievementId))
+                .Sum(achievement => achievement.Points);
+
+            var userAchievementPoints = new UserAchievementPointsDto(Username: userAchievementInfo.Key, userPoints);
+
+            rangedUserAchievementPoints.Add(userAchievementPoints);
+        }
+
+        return rangedUserAchievementPoints.OrderBy(info => info.Points).ToList();
+    }
+
     public async Task<IReadOnlyCollection<UserAchievementRequestDto>> GetUserAchievementRequests()
     {
         return await _context.UserAchievementRequests
