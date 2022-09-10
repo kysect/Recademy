@@ -41,6 +41,8 @@ public class GithubService : IGithubService
 
     public Issue CreateIssues(GitHubIssueCreateDto issueCreateDto)
     {
+        ArgumentNullException.ThrowIfNull(issueCreateDto);
+
         string issueTitle = $"{GhUtil.IssueText} {issueCreateDto.IssueTitle}";
         var issue = new NewIssue(issueTitle)
         {

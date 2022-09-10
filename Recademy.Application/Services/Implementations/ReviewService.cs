@@ -35,6 +35,8 @@ public class ReviewService : IReviewService
 
     public IReadOnlyCollection<ReviewRequestInfoDto> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto)
     {
+        ArgumentNullException.ThrowIfNull(searchContextDto);
+
         ICollection<string> currentUserSkills = _userRepository
             .GetUserById(searchContextDto.UserId)
             .UserSkills
@@ -53,6 +55,8 @@ public class ReviewService : IReviewService
 
     public ReviewRequestInfoDto AddReviewRequest(ReviewRequestAddDto reviewRequestAddDto)
     {
+        ArgumentNullException.ThrowIfNull(reviewRequestAddDto);
+
         ProjectInfo project = _projectRepository.GetProjectById(reviewRequestAddDto.ProjectId);
         IReadOnlyCollection<ReviewRequest> projectReviewRequest = _reviewRepository.FindForProject(project);
         ReviewRequest lastActiveReview = projectReviewRequest.FirstOrDefault(rr => rr.State == ProjectState.Requested

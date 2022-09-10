@@ -37,7 +37,7 @@ public class RegisterService : IRegisterService
         ArgumentNullException.ThrowIfNull(claims);
 
         if (claims.Identity?.AuthenticationType != "GitHub")
-            throw new Exception("Only GitHub authentication type is supported");
+            throw new NotSupportedException("Only GitHub authentication type is supported");
 
         return _oauthProvider.GetUserFromGithubClaims(claims);
 

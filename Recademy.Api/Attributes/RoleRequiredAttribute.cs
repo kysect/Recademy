@@ -33,6 +33,8 @@ public sealed class RoleRequiredAttribute : ActionFilterAttribute
 
     public override void OnActionExecuting(ActionExecutingContext context)
     {
+        ArgumentNullException.ThrowIfNull(context);
+
         if (!context.HttpContext.Request.Cookies.TryGetValue("JwtToken", out string token))
         {
             context.Result = new UnauthorizedResult();

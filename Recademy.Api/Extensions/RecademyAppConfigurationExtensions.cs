@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Recademy.Api.Extensions;
 
@@ -7,6 +8,8 @@ public static class RecademyAppConfigurationExtensions
 {
     public static WebApplication GetConfiguredRecademyApp(this WebApplicationBuilder builder)
     {
+        ArgumentNullException.ThrowIfNull(builder);
+
         WebApplication app = builder.Build();
 
         // Configure the HTTP request pipeline.

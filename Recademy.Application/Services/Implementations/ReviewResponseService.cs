@@ -6,7 +6,7 @@ using Recademy.Core.Models.Reviews;
 using Recademy.Core.Types;
 using Recademy.DataAccess;
 using Recademy.Dto.Reviews;
-
+using System;
 using System.Linq;
 
 namespace Recademy.Application.Services.Implementations;
@@ -22,6 +22,8 @@ public class ReviewResponseService : IReviewResponseService
 
     public ReviewResponseInfoDto SendReviewResponse(ReviewResponseCreateDto reviewResponseCreateDto)
     {
+        ArgumentNullException.ThrowIfNull(reviewResponseCreateDto);
+
         ReviewRequest request = _context
             .ReviewRequests
             .Include(s => s.ProjectInfo)
