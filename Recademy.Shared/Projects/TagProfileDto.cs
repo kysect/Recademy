@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace Recademy.Dto.Projects
+namespace Recademy.Dto.Projects;
+
+public class TagProfileDto
 {
-    public class TagProfileDto
-    {
-        public string TagName { get; set; }
-        public List<ProjectInfoDto> Projects { get; set; }
-    }
+    public string TagName { get; init; }
+    public IReadOnlyCollection<ProjectInfoDto> Projects { get; init; }
 }

@@ -13,73 +13,72 @@ using System.Collections.Generic;
 using ProductHeaderValue = Octokit.ProductHeaderValue;
 using User = Octokit.User;
 
-namespace Recademy.Application.Tools
+namespace Recademy.Application.Tools;
+
+//TODO: implement work with token
+public interface IGithubApiAccessor
 {
-    //TODO: implement work with token
-    public interface IGithubApiAccessor
+    Issue CreateIssue(string owner, string repositoryName, NewIssue issueInfo);
+    IReadOnlyList<Repository> ReadAllUserRepositories(string token);
+    MarkupString GetReadme(string login, string repositoryName);
+    GithubProfileDto GetUserProfile(string login);
+}
+
+public class GithubApiAccessor : IGithubApiAccessor
+{
+    private readonly GitHubClient _client = new GitHubClient(new ProductHeaderValue("Recademy"))
     {
-        Issue CreateIssue(string owner, string repositoryName, NewIssue issueInfo);
-        IReadOnlyList<Repository> ReadAllUserRepositories(string token);
-        MarkupString GetReadme(string login, string repositoryName);
-        GithubProfileDto GetUserProfile(string login);
+        Credentials = new Credentials(GhUtil.Token)
+    };
+
+    public Issue CreateIssue(String owner, String repositoryName, NewIssue issueInfo)
+    {
+        return _client
+            .Issue
+            .Create(owner, repositoryName, issueInfo)
+            .Result;
     }
 
-    public class GithubApiAccessor : IGithubApiAccessor
+    public IReadOnlyList<Repository> ReadAllUserRepositories(String token)
     {
-        private readonly GitHubClient _client = new GitHubClient(new ProductHeaderValue("Recademy"))
-        {
-            Credentials = new Credentials(GhUtil.Token)
-        };
+        return _client
+            .Repository
+            .GetAllForCurrent()
+            .Result;
+    }
 
-        public Issue CreateIssue(String owner, String repositoryName, NewIssue issueInfo)
+    public MarkupString GetReadme(string login, string repositoryName)
+    {
+        //TODO: replace try/catch with null-check
+        try
         {
-            return _client
-                .Issue
-                .Create(owner, repositoryName, issueInfo)
-                .Result;
-        }
-
-        public IReadOnlyList<Repository> ReadAllUserRepositories(String token)
-        {
-            return _client
+            string readme = _client
                 .Repository
-                .GetAllForCurrent()
-                .Result;
-        }
+                .Content
+                .GetReadme(login, repositoryName)
+                .Result.Content;
 
-        public MarkupString GetReadme(string login, string repositoryName)
+            return (MarkupString)Markdown.ToHtml(readme);
+        }
+        catch (AggregateException)
         {
-            //TODO: replace try/catch with null-check
-            try
-            {
-                string readme = _client
-                    .Repository
-                    .Content
-                    .GetReadme(login, repositoryName)
-                    .Result.Content;
-
-                return (MarkupString)Markdown.ToHtml(readme);
-            }
-            catch (AggregateException)
-            {
-                //TODO: Replace with null, ensure that it will work fine
-                return (MarkupString)"No readme";
-            }
+            //TODO: Replace with null, ensure that it will work fine
+            return (MarkupString)"No readme";
         }
+    }
 
-        public GithubProfileDto GetUserProfile(string login)
+    public GithubProfileDto GetUserProfile(string login)
+    {
+        User result = _client.User.Get(login).Result;
+
+        return new GithubProfileDto
         {
-            User result = _client.User.Get(login).Result;
-
-            return new GithubProfileDto
-            {
-                GithubUserId = result.Id,
-                AvatarUrl = result.AvatarUrl,
-                Name = result.Name,
-                Bio = result.Bio,
-                Company = result.Company,
-                Login = result.Login
-            };
-        }
+            GithubUserId = result.Id,
+            AvatarUrl = result.AvatarUrl,
+            Name = result.Name,
+            Bio = result.Bio,
+            Company = result.Company,
+            Login = result.Login
+        };
     }
 }

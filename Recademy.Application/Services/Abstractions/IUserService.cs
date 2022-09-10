@@ -4,16 +4,15 @@ using Recademy.Dto.Users;
 
 using System.Collections.Generic;
 
-namespace Recademy.Application.Services.Abstractions
-{
-    public interface IUserService
-    {
-        RecademyUserDto ReadUserInfo(int userId);
-        RecademyUserDto FindById(int userId);
-        RecademyUserDto FindRecademyUser(string username);
-        UserInfoDto FindUser(string username);
-        IReadOnlyCollection<ProjectInfoDto> ReadUserProjects(int userId);
+namespace Recademy.Application.Services.Abstractions;
 
-        UserInfoDto UpdateUserMentorRole(int adminId, int userId, UserType userType);
-    }
+public interface IUserService
+{
+    RecademyUserDto ReadUserInfo(int userId);
+    RecademyUserDto FindById(int userId);
+    RecademyUserDto FindRecademyUser(string username);
+    UserInfoDto FindUser(string username);
+    IReadOnlyCollection<ProjectInfoDto> ReadUserProjects(int userId);
+
+    UserInfoDto UpdateUserMentorRole(int adminId, int userId, UserType userType);
 }

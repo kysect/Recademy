@@ -1,5 +1,4 @@
-﻿using System;
-using Recademy.Application.Services.Abstractions;
+﻿using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Achievements;
 using Recademy.DataAccess;
 using System.Collections.Generic;
@@ -29,7 +28,7 @@ public sealed class UserAchievementService : IUserAchievementService
 
     public IReadOnlyCollection<IUserAchievement> GetUserAchievements(int userId)
     {
-        HashSet<int> userAchievements = _context.UserAchievementInfos
+        var userAchievements = _context.UserAchievementInfos
             .Where(achievement => achievement.UserId == userId)
             .Select(achievement => achievement.AchievementId)
             .ToHashSet();
@@ -58,7 +57,7 @@ public sealed class UserAchievementService : IUserAchievementService
 
     public async Task<UserAchievementRequestDto> GetUserAchievementRequestById(int requestId)
     {
-        var request = await _context.UserAchievementRequests
+        UserAchievementRequest request = await _context.UserAchievementRequests
             .Include(request => request.User)
             .ThenInclude(recademyUser => recademyUser.User)
             .FirstOrDefaultAsync(request => request.RequestId == requestId);

@@ -1,9 +1,8 @@
-﻿namespace Recademy.Core.Types
+﻿namespace Recademy.Core.Types;
+
+public enum ReviewConclusion
 {
-    public enum ReviewConclusion
-    {
-        LooksGood = 1,
-        WithComments = 2,
-        NeedWork = 3
-    }
+    LooksGood = 1,
+    WithComments = 2,
+    NeedWork = 3
 }

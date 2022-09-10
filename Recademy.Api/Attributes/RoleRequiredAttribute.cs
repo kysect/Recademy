@@ -9,9 +9,11 @@ using Recademy.Dto.Enums;
 
 namespace Recademy.Api.Attributes;
 
-public class RoleRequiredAttribute : ActionFilterAttribute
+public sealed class RoleRequiredAttribute : ActionFilterAttribute
 {
     private readonly HashSet<UserTypeDto> _requiredRoles;
+
+    public IReadOnlyCollection<UserTypeDto> RequiredRoles { get; }
 
     public RoleRequiredAttribute()
     {
@@ -24,14 +26,18 @@ public class RoleRequiredAttribute : ActionFilterAttribute
 
     public RoleRequiredAttribute(params UserTypeDto[] requiredRoles)
     {
+        RequiredRoles = requiredRoles;
+
         _requiredRoles = requiredRoles.ToHashSet();
     }
 
-    public override void OnActionExecuting(ActionExecutingContext filterContext)
+    public override void OnActionExecuting(ActionExecutingContext context)
     {
-        if (!filterContext.HttpContext.Request.Cookies.TryGetValue("JwtToken", out string token))
+        ArgumentNullException.ThrowIfNull(context);
+
+        if (!context.HttpContext.Request.Cookies.TryGetValue("JwtToken", out string token))
         {
-            filterContext.Result = new UnauthorizedResult();
+            context.Result = new UnauthorizedResult();
             return;
         }
 
@@ -44,13 +50,13 @@ public class RoleRequiredAttribute : ActionFilterAttribute
 
         if (!Enum.TryParse(userType, ignoreCase: true, out UserTypeDto userTypeEnum))
         {
-            filterContext.Result = new UnauthorizedResult();
+            context.Result = new UnauthorizedResult();
             return;
         }
 
         if (!_requiredRoles.Contains(userTypeEnum))
         {
-            filterContext.Result = new UnauthorizedResult();
+            context.Result = new UnauthorizedResult();
         }
     }
 }

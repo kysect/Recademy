@@ -6,33 +6,32 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 
-namespace Recademy.Application.Services.Implementations
+namespace Recademy.Application.Services.Implementations;
+
+public class OauthProviderService : IOauthProviderService
 {
-    public class OauthProviderService : IOauthProviderService
+    public User GetUserFromGithubClaims(ClaimsPrincipal claims)
     {
-        public User GetUserFromGithubClaims(ClaimsPrincipal claims)
+        ArgumentNullException.ThrowIfNull(claims);
+
+        if (!IsEnoughUserInfo(claims))
+            return null;
+
+        string githubLink = claims.FindFirst(claim => claim.Type == "urn:github:url")?.Value;
+        string githubLogin = githubLink?.Split('/').LastOrDefault();
+
+        var user = new User
         {
-            ArgumentNullException.ThrowIfNull(claims);
+            Name = claims.FindFirst(c => c.Type == ClaimTypes.Name)?.Value,
+            GithubUsername = githubLogin,
+            UserType = UserType.CommonUser
+        };
 
-            if (!IsEnoughUserInfo(claims))
-                return null;
+        return user;
+    }
 
-            var githubLink = claims.FindFirst(claim => claim.Type == "urn:github:url")?.Value;
-            var githubLogin = githubLink?.Split('/').LastOrDefault();
-
-            var user = new User
-            {
-                Name = claims.FindFirst(c => c.Type == ClaimTypes.Name)?.Value,
-                GithubUsername = githubLogin,
-                UserType = UserType.CommonUser
-            };
-
-            return user;
-        }
-
-        private bool IsEnoughUserInfo(ClaimsPrincipal claims)
-        {
-            return claims.HasClaim(c => c.Type == ClaimTypes.Name) && claims.Claims.Any(c => c.Type == "urn:github:url");
-        }
+    private bool IsEnoughUserInfo(ClaimsPrincipal claims)
+    {
+        return claims.HasClaim(c => c.Type == ClaimTypes.Name) && claims.Claims.Any(c => c.Type == "urn:github:url");
     }
 }

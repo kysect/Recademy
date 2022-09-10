@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace Recademy.Application.Services.Abstractions
-{
-    public interface IGamificationService
-    {
-        void CreateReviewResponseUpvote(int reviewId, int userId);
-        IReadOnlyCollection<int> ReadReviewResponseUpvote(int reviewId);
-        void DeleteReviewResponseUpvote(int reviewId, int userId);
+namespace Recademy.Application.Services.Abstractions;
 
-        Dictionary<string, int> GetUsersRanking();
-        int GetUserKarmaPointCount(int userId);
-    }
+public interface IGamificationService
+{
+    void CreateReviewResponseUpvote(int reviewId, int userId);
+    IReadOnlyCollection<int> ReadReviewResponseUpvote(int reviewId);
+    void DeleteReviewResponseUpvote(int reviewId, int userId);
+
+    Dictionary<string, int> GetUsersRanking();
+    int GetUserKarmaPointCount(int userId);
 }

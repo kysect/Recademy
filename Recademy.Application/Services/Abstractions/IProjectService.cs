@@ -2,12 +2,11 @@
 
 using System.Collections.Generic;
 
-namespace Recademy.Application.Services.Abstractions
+namespace Recademy.Application.Services.Abstractions;
+
+public interface IProjectService
 {
-    public interface IProjectService
-    {
-        ProjectInfoDto GetProjectInfo(int projectId);
-        IReadOnlyCollection<ProjectInfoDto> GetProjectsByTag(string tagName);
-        ProjectInfoDto AddProject(AddProjectDto arguments);
-    }
+    ProjectInfoDto GetProjectInfo(int projectId);
+    IReadOnlyCollection<ProjectInfoDto> GetProjectsByTag(string tagName);
+    ProjectInfoDto AddProject(AddProjectDto arguments);
 }

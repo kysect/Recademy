@@ -1,9 +1,8 @@
 ﻿using Recademy.Dto.Reviews;
 
-namespace Recademy.Application.Services.Abstractions
+namespace Recademy.Application.Services.Abstractions;
+
+public interface IReviewResponseService
 {
-    public interface IReviewResponseService
-    {
-        ReviewResponseInfoDto SendReviewResponse(ReviewResponseCreateDto reviewResponseCreateDto);
-    }
+    ReviewResponseInfoDto SendReviewResponse(ReviewResponseCreateDto reviewResponseCreateDto);
 }

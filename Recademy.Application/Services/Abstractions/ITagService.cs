@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace Recademy.Application.Services.Abstractions
+namespace Recademy.Application.Services.Abstractions;
+
+public interface ITagService
 {
-    public interface ITagService
-    {
-        IReadOnlyCollection<string> GetUserTags(int userId);
-        IReadOnlyCollection<string> GetAllTags();
-    }
+    IReadOnlyCollection<string> GetUserTags(int userId);
+    IReadOnlyCollection<string> GetAllTags();
 }

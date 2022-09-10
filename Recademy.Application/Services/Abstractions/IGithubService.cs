@@ -6,12 +6,11 @@ using Recademy.Dto.Github;
 
 using System.Collections.Generic;
 
-namespace Recademy.Application.Services.Abstractions
+namespace Recademy.Application.Services.Abstractions;
+
+public interface IGithubService
 {
-    public interface IGithubService
-    {
-        IReadOnlyCollection<GithubRepositoryDto> GhGetRepositories(int userId);
-        Issue CreateIssues(GitHubIssueCreateDto issueCreateDto);
-        MarkupString GetReadme(string ownerLogin, string repositoryName);
-    }
+    IReadOnlyCollection<GithubRepositoryDto> GhGetRepositories(int userId);
+    Issue CreateIssues(GitHubIssueCreateDto issueCreateDto);
+    MarkupString GetReadme(string ownerLogin, string repositoryName);
 }

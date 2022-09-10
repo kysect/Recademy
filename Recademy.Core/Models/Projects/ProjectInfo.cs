@@ -6,24 +6,23 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Recademy.Core.Models.Projects
+namespace Recademy.Core.Models.Projects;
+
+public class ProjectInfo
 {
-    public class ProjectInfo
-    {
-        [Key]
-        public int Id { get; set; }
+    [Key]
+    public int Id { get; init; }
 
-        public string Title { get; set; }
+    public string Title { get; init; }
 
-        [ForeignKey("User")]
-        public int AuthorId { get; set; }
-        public User User { get; set; }
+    [ForeignKey("User")]
+    public int AuthorId { get; init; }
+    public User User { get; init; }
 
-        public string Description { get; set; }
+    public string Description { get; init; }
 
-        public string GithubLink { get; set; }
+    public string GithubLink { get; init; }
 
-        public ICollection<ProjectSkill> Skills { get; set; }
-        public ICollection<ReviewRequest> ReviewRequests { get; set; }
-    }
+    public ICollection<ProjectSkill> Skills { get; init; }
+    public ICollection<ReviewRequest> ReviewRequests { get; init; }
 }

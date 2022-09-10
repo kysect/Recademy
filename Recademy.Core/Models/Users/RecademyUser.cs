@@ -14,12 +14,12 @@ public class RecademyUser
 {
     [Key]
     [ForeignKey("User")]
-    public int UserId { get; set; }
-    public User User { get; set; }
-    public UserRoleAssociation Role { get; set; }
-    public ICollection<UserSkill> UserSkills { get; set; }
-    public ICollection<ProjectInfo> ProjectInfos { get; set; }
-    public ICollection<ReviewRequest> ReviewRequests { get; set; }
-    public ICollection<ReviewResponse> ReviewResponses { get; set; }
-    public ICollection<UserAchievementInfo> UserAchievements { get; set; }
+    public int UserId { get; init; }
+    public User User { get; init; }
+    public UserRoleAssociation Role { get; init; }
+    public ICollection<UserSkill> UserSkills { get; init; }
+    public ICollection<ProjectInfo> ProjectInfos { get; init; }
+    public ICollection<ReviewRequest> ReviewRequests { get; init; }
+    public ICollection<ReviewResponse> ReviewResponses { get; init; }
+    public ICollection<UserAchievementInfo> UserAchievements { get; init; }
 }

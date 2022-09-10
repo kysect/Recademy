@@ -9,76 +9,75 @@ using Recademy.Dto.Users;
 
 using System.Collections.Generic;
 
-namespace Recademy.Application.Services.Implementations
+namespace Recademy.Application.Services.Implementations;
+
+public class UserService : IUserService
 {
-    public class UserService : IUserService
+    private readonly IUserRepository _userRepository;
+    private readonly IProjectRepository _projectRepository;
+
+    public UserService(
+        IUserRepository userRepository,
+        IProjectRepository projectRepository)
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IProjectRepository _projectRepository;
+        _userRepository = userRepository;
+        _projectRepository = projectRepository;
+    }
 
-        public UserService(
-            IUserRepository userRepository,
-            IProjectRepository projectRepository)
-        {
-            _userRepository = userRepository;
-            _projectRepository = projectRepository;
-        }
+    public RecademyUserDto ReadUserInfo(int userId)
+    {
+        return _userRepository
+            .GetUserById(userId)
+            .ToDto();
+    }
 
-        public RecademyUserDto ReadUserInfo(int userId)
-        {
-            return _userRepository
-                .Get(userId)
-                .ToDto();
-        }
+    public RecademyUserDto FindById(int userId)
+    {
+        return _userRepository
+            .Find(userId)
+            .ToDto();
+    }
 
-        public RecademyUserDto FindById(int userId)
-        {
-            return _userRepository
-                .Find(userId)
-                .ToDto();
-        }
+    public RecademyUserDto FindRecademyUser(string username)
+    {
+        return _userRepository
+            .FindRecademyUser(username)
+            .ToDto();
+    }
 
-        public RecademyUserDto FindRecademyUser(string username)
-        {
-            return _userRepository
-                .FindRecademyUser(username)
-                .ToDto();
-        }
+    public UserInfoDto FindUser(string username)
+    {
+        return _userRepository
+            .FindUser(username)
+            .ToDto();
+    }
 
-        public UserInfoDto FindUser(string username)
-        {
-            return _userRepository
-                .FindUser(username)
-                .ToDto();
-        }
+    public IReadOnlyCollection<ProjectInfoDto> ReadUserProjects(int userId)
+    {
+        RecademyUser user = _userRepository.GetUserById(userId);
 
-        public IReadOnlyCollection<ProjectInfoDto> ReadUserProjects(int userId)
-        {
-            RecademyUser user = _userRepository.Get(userId);
+        return _projectRepository
+            .FindByUser(user)
+            .To(project => project.ToDto());
+    }
 
-            return _projectRepository
-                .FindByUser(user)
-                .To(project => project.ToDto());
-        }
+    public UserInfoDto UpdateUserMentorRole(int adminId, int userId, UserType userType)
+    {
+        // TODO: Add method to get just User
+        RecademyUser admin = _userRepository.GetUserById(adminId);
+        RecademyUser user = _userRepository.GetUserById(userId);
 
-        public UserInfoDto UpdateUserMentorRole(int adminId, int userId, UserType userType)
-        {
-            // TODO: Add method to get just User
-            RecademyUser admin = _userRepository.Get(adminId);
-            RecademyUser user = _userRepository.Get(userId);
+        if (admin.User.UserType != UserType.Admin)
+            throw RecademyException.NotEnoughPermission(adminId, admin.User.UserType, UserType.Admin);
 
-            if (admin.User.UserType != UserType.Admin)
-                throw RecademyException.NotEnoughPermission(adminId, admin.User.UserType, UserType.Admin);
+        if (user.User.UserType == UserType.Admin)
+            throw new RecademyException($"Cannot change role, user with id {userId} has admin role");
 
-            if (user.User.UserType == UserType.Admin)
-                throw new RecademyException($"Cannot change role, user with id {userId} has admin role");
+        if (userType == UserType.Admin)
+            throw new RecademyException("Cannot set admin role. Action is not supported");
 
-            if (userType == UserType.Admin)
-                throw new RecademyException("Cannot set admin role. Action is not supported");
-
-            return _userRepository
-                .UpdateUserRole(user.User, userType)
-                .ToDto();
-        }
+        return _userRepository
+            .UpdateUserRole(user.User, userType)
+            .ToDto();
     }
 }
