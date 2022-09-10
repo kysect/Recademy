@@ -2,7 +2,7 @@
 
 namespace Recademy.DataAccess.Seeding;
 
-public interface IDbContextSeeder
+public interface IEntitySeedingGenerator
 {
     void Seed(ModelBuilder modelBuilder);
 }
