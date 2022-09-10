@@ -20,7 +20,7 @@ public class UserAchievementController : Controller
         _userAchievementService = userAchievementService;
     }
 
-    [HttpGet("users/list")]
+    [HttpGet("users")]
     public ActionResult<IReadOnlyCollection<UserAchievementDto>> GetAllAchievements()
     {
         IReadOnlyCollection<UserAchievementDto> achievements = _userAchievementService
@@ -51,6 +51,14 @@ public class UserAchievementController : Controller
             .ToList();
 
         return Ok(achievements);
+    }
+
+    [HttpGet("users/ranged")]
+    public ActionResult<IReadOnlyCollection<UserAchievementPointsDto>> GetRangesUserAchievements()
+    {
+        IReadOnlyCollection<UserAchievementPointsDto> achievementPoints = _userAchievementService.GetRangesUserAchievements();
+
+        return Ok(achievementPoints);
     }
 
     [HttpGet("users/requests")]
