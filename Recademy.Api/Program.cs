@@ -35,7 +35,6 @@ builder.Services.AddDbContext<RecademyContext>(options => options
     .UseInMemoryDatabase("RecademyDb")
     .UseLazyLoadingProxies());
 
-builder.Services.AddRecademyRepositories();
 builder.Services.AddRecademyServices();
 
 WebApplication app = builder.GetConfiguredRecademyApp();

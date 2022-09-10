@@ -8,11 +8,11 @@ namespace Recademy.Application.Services.Abstractions;
 
 public interface IUserService
 {
-    RecademyUserDto ReadUserInfo(int userId);
+    RecademyUserDto GetById(int userId);
     RecademyUserDto FindById(int userId);
-    RecademyUserDto FindRecademyUser(string username);
-    UserInfoDto FindUser(string username);
-    IReadOnlyCollection<ProjectInfoDto> ReadUserProjects(int userId);
+    RecademyUserDto FindRecademyUserByUsername(string username);
+    UserInfoDto FindUserByUsername(string username);
+    IReadOnlyCollection<ProjectInfoDto> GetProjectsByUserId(int userId);
 
-    UserInfoDto UpdateUserMentorRole(int adminId, int userId, UserType userType);
+    UserInfoDto UpdateUserRole(int adminId, int userId, UserType userType);
 }

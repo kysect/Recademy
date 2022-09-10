@@ -1,83 +1,77 @@
 using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
-using Recademy.Core.Models.Users;
-using Recademy.Core.Tools;
 using Recademy.Core.Types;
-using Recademy.DataAccess.Repositories.Abstractions;
+using Recademy.DataAccess;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Users;
-
 using System.Collections.Generic;
+using System.Linq;
+using User = Recademy.Core.Models.Users.User;
 
 namespace Recademy.Application.Services.Implementations;
 
 public class UserService : IUserService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IProjectRepository _projectRepository;
+    private readonly RecademyContext _context;
 
-    public UserService(
-        IUserRepository userRepository,
-        IProjectRepository projectRepository)
+    public UserService(RecademyContext context)
     {
-        _userRepository = userRepository;
-        _projectRepository = projectRepository;
+        _context = context;
     }
 
-    public RecademyUserDto ReadUserInfo(int userId)
+    public RecademyUserDto GetById(int userId)
     {
-        return _userRepository
-            .GetUserById(userId)
+        return _context.RecademyUsers
+            .Single(user => user.UserId == userId)
             .ToDto();
     }
 
     public RecademyUserDto FindById(int userId)
     {
-        return _userRepository
-            .Find(userId)
+        return _context.RecademyUsers
+            .SingleOrDefault(user => user.UserId == userId)
             .ToDto();
     }
 
-    public RecademyUserDto FindRecademyUser(string username)
+    public RecademyUserDto FindRecademyUserByUsername(string username)
     {
-        return _userRepository
-            .FindRecademyUser(username)
+        return _context.RecademyUsers
+            .SingleOrDefault(user => user.User.GithubUsername == username)
             .ToDto();
     }
 
-    public UserInfoDto FindUser(string username)
+    public UserInfoDto FindUserByUsername(string username)
     {
-        return _userRepository
-            .FindUser(username)
+        return _context.Users
+            .SingleOrDefault(user => user.GithubUsername == username)
             .ToDto();
     }
 
-    public IReadOnlyCollection<ProjectInfoDto> ReadUserProjects(int userId)
+    public IReadOnlyCollection<ProjectInfoDto> GetProjectsByUserId(int userId)
     {
-        RecademyUser user = _userRepository.GetUserById(userId);
-
-        return _projectRepository
-            .FindByUser(user)
-            .To(project => project.ToDto());
+        return _context.ProjectInfos
+            .Where(project => project.AuthorId == userId)
+            .Select(project => project.ToDto())
+            .ToList();
     }
 
-    public UserInfoDto UpdateUserMentorRole(int adminId, int userId, UserType userType)
+    public UserInfoDto UpdateUserRole(int adminId, int userId, UserType userType)
     {
-        // TODO: Add method to get just User
-        RecademyUser admin = _userRepository.GetUserById(adminId);
-        RecademyUser user = _userRepository.GetUserById(userId);
+        User admin = _context.Users.Single(user => user.Id == adminId);
+        User user = _context.Users.Single(user => user.Id == userId);
 
-        if (admin.User.UserType != UserType.Admin)
-            throw RecademyException.NotEnoughPermission(adminId, admin.User.UserType, UserType.Admin);
+        if (admin.UserType != UserType.Admin)
+            throw RecademyException.NotEnoughPermission(adminId, admin.UserType, UserType.Admin);
 
-        if (user.User.UserType == UserType.Admin)
+        if (user.UserType == UserType.Admin)
             throw new RecademyException($"Cannot change role, user with id {userId} has admin role");
 
         if (userType == UserType.Admin)
             throw new RecademyException("Cannot set admin role. Action is not supported");
 
-        return _userRepository
-            .UpdateUserRole(user.User, userType)
-            .ToDto();
+        user.UserType = userType;
+        _context.SaveChanges();
+
+        return user.ToDto();
     }
 }

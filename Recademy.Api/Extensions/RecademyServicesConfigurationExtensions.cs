@@ -2,20 +2,11 @@
 using Recademy.Application.Services.Abstractions;
 using Recademy.Application.Services.Implementations;
 using Recademy.Application.Tools;
-using Recademy.DataAccess.Repositories.Abstractions;
-using Recademy.DataAccess.Repositories.Implementations;
 
 namespace Recademy.Api.Extensions;
 
 public static class RecademyServicesConfigurationExtensions
 {
-    public static void AddRecademyRepositories(this IServiceCollection services)
-    {
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IProjectRepository, ProjectRepository>();
-        services.AddScoped<IReviewRepository, ReviewRepository>();
-    }
-
     public static void AddRecademyServices(this IServiceCollection services)
     {
         services.AddScoped<IOauthProviderService, OauthProviderService>();

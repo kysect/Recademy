@@ -26,21 +26,21 @@ public class UserController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<RecademyUserDto> GetById([Required] int userId)
     {
-        return _userService.ReadUserInfo(userId);
+        return _userService.GetById(userId);
     }
 
     [HttpGet("{username}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<RecademyUserDto> GetByUsername([Required] string username)
     {
-        return _userService.FindRecademyUser(username);
+        return _userService.FindRecademyUserByUsername(username);
     }
 
     [HttpGet("{userId}/projects")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<IReadOnlyCollection<ProjectInfoDto>> GetUserProjects([Required] int userId)
     {
-        return Ok(_userService.ReadUserProjects(userId));
+        return Ok(_userService.GetProjectsByUserId(userId));
     }
 
     // TODO: refactor not to pass admin id
@@ -48,13 +48,13 @@ public class UserController : Controller
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<UserInfoDto> SetMentorRole([Required] int adminId, [Required] int userId)
     {
-        return _userService.UpdateUserMentorRole(adminId, userId, UserType.Mentor);
+        return _userService.UpdateUserRole(adminId, userId, UserType.Mentor);
     }
 
     [HttpDelete("{adminId}/users/{userId}/role/mentor")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<UserInfoDto> RemoveMentorRole([Required] int adminId, [Required] int userId)
     {
-        return _userService.UpdateUserMentorRole(adminId, userId, UserType.CommonUser);
+        return _userService.UpdateUserRole(adminId, userId, UserType.CommonUser);
     }
 }

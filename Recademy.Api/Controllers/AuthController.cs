@@ -90,7 +90,7 @@ public class AuthController : Controller
                 .Split('/')
                 .LastOrDefault();
 
-            UserInfoDto dto = _userService.FindUser(username);
+            UserInfoDto dto = _userService.FindUserByUsername(username);
 
             if (dto is null)
                 return Unauthorized(username);
