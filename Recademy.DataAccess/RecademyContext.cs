@@ -6,17 +6,23 @@ using Recademy.Core.Models.Reviews;
 using Recademy.Core.Models.Roles;
 using Recademy.Core.Models.Skills;
 using Recademy.Core.Models.Users;
+using Recademy.DataAccess.Seeding;
 
 namespace Recademy.DataAccess;
 
 public class RecademyContext : DbContext
 {
-    public RecademyContext(DbContextOptions options) : base(options)
+    private readonly IDbContextSeeder _seeder;
+
+    public RecademyContext(DbContextOptions options, IDbContextSeeder seeder) : base(options)
     {
+        _seeder = seeder;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        _seeder.Seed(modelBuilder);
+
         modelBuilder.Entity<UserSkill>()
             .HasKey(bc => new { bc.UserId, bc.SkillName });
 
