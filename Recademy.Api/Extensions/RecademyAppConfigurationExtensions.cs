@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Recademy.DataAccess;
 using System;
 
 namespace Recademy.Api.Extensions;
@@ -42,6 +44,10 @@ public static class RecademyAppConfigurationExtensions
 
         app.UseSwagger();
         app.UseSwaggerUI(configuration => configuration.SwaggerEndpoint("/swagger/Recademy/swagger.json", "Recademy API"));
+
+        using IServiceScope scope = app.Services.CreateScope();
+        RecademyContext context = scope.ServiceProvider.GetRequiredService<RecademyContext>();
+        context.Database.EnsureCreated();
 
         return app;
     }
