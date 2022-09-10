@@ -3,26 +3,25 @@ using Recademy.Application.Services.Abstractions;
 using Recademy.Dto.Reviews;
 using System.ComponentModel.DataAnnotations;
 
-namespace Recademy.Api.Controllers
+namespace Recademy.Api.Controllers;
+
+[Produces("application/json")]
+[Consumes("application/json")]
+[Route("api/reviews/responses")]
+[ApiController]
+public class ReviewResponseController
 {
-    [Produces("application/json")]
-    [Consumes("application/json")]
-    [Route("api/reviews/responses")]
-    [ApiController]
-    public class ReviewResponseController
+    private readonly IReviewResponseService _reviewResponseService;
+
+    public ReviewResponseController(IReviewResponseService reviewResponseService)
     {
-        private readonly IReviewResponseService _reviewResponseService;
-
-        public ReviewResponseController(IReviewResponseService reviewResponseService)
-        {
-            _reviewResponseService = reviewResponseService;
-        }
+        _reviewResponseService = reviewResponseService;
+    }
 
 
-        [HttpPost]
-        public ActionResult<ReviewResponseInfoDto> CreateReviewResponse([FromBody][Required] ReviewResponseCreateDto reviewResponseCreate)
-        {
-            return _reviewResponseService.SendReviewResponse(reviewResponseCreate);
-        }
+    [HttpPost]
+    public ActionResult<ReviewResponseInfoDto> CreateReviewResponse([FromBody][Required] ReviewResponseCreateDto reviewResponseCreate)
+    {
+        return _reviewResponseService.SendReviewResponse(reviewResponseCreate);
     }
 }

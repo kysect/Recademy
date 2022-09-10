@@ -2,10 +2,9 @@
 
 using System.Security.Claims;
 
-namespace Recademy.Application.Services.Abstractions
+namespace Recademy.Application.Services.Abstractions;
+
+public interface IOauthProviderService
 {
-    public interface IOauthProviderService
-    {
-        public User GetUserFromGithubClaims(ClaimsPrincipal claims);
-    }
+    public User GetUserFromGithubClaims(ClaimsPrincipal claims);
 }

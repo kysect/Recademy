@@ -1,6 +1,5 @@
-﻿namespace Recademy.Application.Services.Abstractions
+﻿namespace Recademy.Application.Services.Abstractions;
+
+public interface IAuthService
 {
-    public interface IAuthService
-    {
-    }
 }

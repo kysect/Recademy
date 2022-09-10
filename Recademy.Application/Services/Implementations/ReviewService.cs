@@ -11,99 +11,99 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Recademy.Application.Services.Implementations
+namespace Recademy.Application.Services.Implementations;
+
+public class ReviewService : IReviewService
 {
-    public class ReviewService : IReviewService
+    private readonly IUserRepository _userRepository;
+    private readonly IProjectRepository _projectRepository;
+    private readonly IReviewRepository _reviewRepository;
+
+    public ReviewService(IUserRepository userRepository, IProjectRepository projectRepository, IReviewRepository reviewRepository)
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IProjectRepository _projectRepository;
-        private readonly IReviewRepository _reviewRepository;
+        _reviewRepository = reviewRepository;
+        _userRepository = userRepository;
+        _projectRepository = projectRepository;
+    }
 
-        public ReviewService(IUserRepository userRepository, IProjectRepository projectRepository, IReviewRepository reviewRepository)
+    public IReadOnlyCollection<ReviewRequestInfoDto> GetReviewRequests()
+    {
+        return _reviewRepository
+            .FindActive()
+            .To(request => request.ToDto());
+    }
+
+    public IReadOnlyCollection<ReviewRequestInfoDto> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto)
+    {
+        ICollection<string> currentUserSkills = _userRepository
+            .GetUserById(searchContextDto.UserId)
+            .UserSkills
+            .Select(s => s.SkillName)
+            .ToList();
+
+        IReadOnlyCollection<ReviewRequest> result = _reviewRepository.FindActiveByArguments(
+            currentUserSkills,
+            !searchContextDto.WithoutReviewed,
+            searchContextDto.AuthorId,
+            searchContextDto.ProjectName,
+            searchContextDto.Tags);
+
+        return result.To(request => request.ToDto());
+    }
+
+    public ReviewRequestInfoDto AddReviewRequest(ReviewRequestAddDto reviewRequestAddDto)
+    {
+        ProjectInfo project = _projectRepository.GetProjectById(reviewRequestAddDto.ProjectId);
+        IReadOnlyCollection<ReviewRequest> projectReviewRequest = _reviewRepository.FindForProject(project);
+        ReviewRequest lastActiveReview = projectReviewRequest.FirstOrDefault(rr => rr.State == ProjectState.Requested
+                                                                         || rr.State == ProjectState.Reviewed);
+        if (lastActiveReview != null)
         {
-            _reviewRepository = reviewRepository;
-            _userRepository = userRepository;
-            _projectRepository = projectRepository;
+            throw new RecademyException($"Review for this project already exist. Close it before adding new. Review id: {lastActiveReview.Id}");
         }
 
-        public IReadOnlyCollection<ReviewRequestInfoDto> GetReviewRequests()
+        //TODO: check if project belong to review author
+
+        var newRequest = new ReviewRequest
         {
-            return _reviewRepository
-                .FindActive()
-                .To(request => request.ToDto());
-        }
+            DateCreate = DateTime.UtcNow,
+            State = ProjectState.Requested,
+            Description = reviewRequestAddDto.Description,
+            ProjectId = reviewRequestAddDto.ProjectId,
+            UserId = reviewRequestAddDto.UserId,
+        };
 
-        public IReadOnlyCollection<ReviewRequestInfoDto> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto)
-        {
-            List<string> currentUserSkills = _userRepository
-                .Get(searchContextDto.UserId)
-                .UserSkills
-                .Select(s => s.SkillName)
-                .ToList();
-
-            List<ReviewRequest> result = _reviewRepository.FindActiveByArguments(
-                currentUserSkills,
-                !searchContextDto.WithoutReviewed,
-                searchContextDto.AuthorId,
-                searchContextDto.ProjectName,
-                searchContextDto.Tags);
-
-            return result.To(request => request.ToDto());
-        }
-
-        public ReviewRequestInfoDto AddReviewRequest(ReviewRequestAddDto reviewRequestAddDto)
-        {
-            ProjectInfo project = _projectRepository.Get(reviewRequestAddDto.ProjectId);
-            var projectReviewRequest = _reviewRepository.FindForProject(project);
-            var lastActiveReview = projectReviewRequest.FirstOrDefault(rr => rr.State == ProjectState.Requested
-                                                                             || rr.State == ProjectState.Reviewed);
-            if (lastActiveReview != null)
-                throw new RecademyException(
-                    $"Review for this project already exist. Close it before adding new. Review id: {lastActiveReview.Id}");
-
-            //TODO: check if project belong to review author
-
-            var newRequest = new ReviewRequest
-            {
-                DateCreate = DateTime.UtcNow,
-                State = ProjectState.Requested,
-                Description = reviewRequestAddDto.Description,
-                ProjectId = reviewRequestAddDto.ProjectId,
-                UserId = reviewRequestAddDto.UserId,
-            };
-
-            return _reviewRepository
+        return _reviewRepository
             .Create(newRequest)
-                .To(request => request.ToDto());
-        }
+            .To(request => request.ToDto());
+    }
 
-        public ReviewRequestInfoDto CompleteReview(int requestId)
-        {
-            ReviewRequest reviewRequest = _reviewRepository.Get(requestId);
+    public ReviewRequestInfoDto CompleteReview(int requestId)
+    {
+        ReviewRequest reviewRequest = _reviewRepository.GetReviewRequestById(requestId);
 
-            if (reviewRequest.State == ProjectState.Requested)
-                throw new RecademyException($"Completing review failed. Review request was not reviewed. Review request id: {reviewRequest.Id}");
+        if (reviewRequest.State == ProjectState.Requested)
+            throw new RecademyException($"Completing review failed. Review request was not reviewed. Review request id: {reviewRequest.Id}");
 
-            return _reviewRepository
-                .UpdateState(reviewRequest, ProjectState.Completed)
-                .To(request => request.ToDto());
-        }
+        return _reviewRepository
+            .UpdateState(reviewRequest, ProjectState.Completed)
+            .To(request => request.ToDto());
+    }
 
-        public ReviewRequestInfoDto AbandonReview(int requestId)
-        {
-            ReviewRequest reviewRequest = _reviewRepository.Get(requestId);
+    public ReviewRequestInfoDto AbandonReview(int requestId)
+    {
+        ReviewRequest reviewRequest = _reviewRepository.GetReviewRequestById(requestId);
 
-            //TODO: check state
-            return _reviewRepository
-                .UpdateState(reviewRequest, ProjectState.Abandoned)
-                .To(request => request.ToDto());
-        }
+        //TODO: check state
+        return _reviewRepository
+            .UpdateState(reviewRequest, ProjectState.Abandoned)
+            .To(request => request.ToDto());
+    }
 
-        public ReviewRequestInfoDto GetReviewInfo(int requestId)
-        {
-            return _reviewRepository
-                .Get(requestId)
-                .To(request => request.ToDto());
-        }
+    public ReviewRequestInfoDto GetReviewInfo(int requestId)
+    {
+        return _reviewRepository
+            .GetReviewRequestById(requestId)
+            .To(request => request.ToDto());
     }
 }

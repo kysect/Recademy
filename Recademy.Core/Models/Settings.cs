@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Recademy.Core.Models
+namespace Recademy.Core.Models;
+
+public class Settings
 {
-    public class Settings
-    {
-        [Key]
-        public string Token { get; set; }
-    }
+    [Key]
+    public string Token { get; set; }
 }

@@ -54,7 +54,9 @@ public sealed class UserRoleService : IUserRoleService
             _context.UserRoleAssociations.Update(roleAssociation);
         }
         else
+        {
             _context.Add(new UserRoleAssociation(userId, roleId));
+        }
 
         await _context.SaveChangesAsync();
     }

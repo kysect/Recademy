@@ -2,16 +2,15 @@
 
 using System.Collections.Generic;
 
-namespace Recademy.Application.Services.Abstractions
-{
-    public interface IReviewService
-    {
-        IReadOnlyCollection<ReviewRequestInfoDto> GetReviewRequests();
-        ReviewRequestInfoDto GetReviewInfo(int requestId);
-        IReadOnlyCollection<ReviewRequestInfoDto> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto);
+namespace Recademy.Application.Services.Abstractions;
 
-        ReviewRequestInfoDto AddReviewRequest(ReviewRequestAddDto reviewRequestAddDto);
-        ReviewRequestInfoDto CompleteReview(int requestId);
-        ReviewRequestInfoDto AbandonReview(int requestId);
-    }
+public interface IReviewService
+{
+    IReadOnlyCollection<ReviewRequestInfoDto> GetReviewRequests();
+    ReviewRequestInfoDto GetReviewInfo(int requestId);
+    IReadOnlyCollection<ReviewRequestInfoDto> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto);
+
+    ReviewRequestInfoDto AddReviewRequest(ReviewRequestAddDto reviewRequestAddDto);
+    ReviewRequestInfoDto CompleteReview(int requestId);
+    ReviewRequestInfoDto AbandonReview(int requestId);
 }

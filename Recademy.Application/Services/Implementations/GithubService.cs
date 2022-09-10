@@ -11,48 +11,47 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Recademy.Application.Services.Implementations
+namespace Recademy.Application.Services.Implementations;
+
+public class GithubService : IGithubService
 {
-    public class GithubService : IGithubService
+    private readonly IGithubApiAccessor _githubApiAccessor;
+
+    public GithubService(IGithubApiAccessor githubApiAccessor)
     {
-        private readonly IGithubApiAccessor _githubApiAccessor;
+        _githubApiAccessor = githubApiAccessor;
+    }
 
-        public GithubService(IGithubApiAccessor githubApiAccessor)
-        {
-            _githubApiAccessor = githubApiAccessor;
-        }
+    public IReadOnlyCollection<GithubRepositoryDto> GhGetRepositories(int userId)
+    {
+        //TODO: get token by userId
+        IReadOnlyList<Repository> repositories = _githubApiAccessor.ReadAllUserRepositories(String.Empty);
 
-        public IReadOnlyCollection<GithubRepositoryDto> GhGetRepositories(int userId)
-        {
-            //TODO: get token by userId
-            IReadOnlyList<Repository> repositories = _githubApiAccessor.ReadAllUserRepositories(String.Empty);
-
-            return repositories
-                .Where(repository => !repository.Private)
-                .Select(repository => new GithubRepositoryDto
-                {
-                    RepositoryName = repository.Name,
-                    RepositoryUrl = repository.Url,
-                    Readme = _githubApiAccessor.GetReadme(repository.Owner.Login, repository.Name),
-                    Language = repository.Language
-                })
-                .ToList();
-        }
-
-        public Issue CreateIssues(GitHubIssueCreateDto issueCreateDto)
-        {
-            string issueTitle = $"{GhUtil.IssueText} {issueCreateDto.IssueTitle}";
-            var issue = new NewIssue(issueTitle)
+        return repositories
+            .Where(repository => !repository.Private)
+            .Select(repository => new GithubRepositoryDto
             {
-                Body = issueCreateDto.IssueText
-            };
+                RepositoryName = repository.Name,
+                RepositoryUrl = repository.Url,
+                Readme = _githubApiAccessor.GetReadme(repository.Owner.Login, repository.Name),
+                Language = repository.Language
+            })
+            .ToList();
+    }
 
-            return _githubApiAccessor.CreateIssue(issueCreateDto.OwnerLogin, issueCreateDto.RepositoryName, issue);
-        }
-
-        public MarkupString GetReadme(string ownerLogin, string repositoryName)
+    public Issue CreateIssues(GitHubIssueCreateDto issueCreateDto)
+    {
+        string issueTitle = $"{GhUtil.IssueText} {issueCreateDto.IssueTitle}";
+        var issue = new NewIssue(issueTitle)
         {
-            return _githubApiAccessor.GetReadme(ownerLogin, repositoryName);
-        }
+            Body = issueCreateDto.IssueText
+        };
+
+        return _githubApiAccessor.CreateIssue(issueCreateDto.OwnerLogin, issueCreateDto.RepositoryName, issue);
+    }
+
+    public MarkupString GetReadme(string ownerLogin, string repositoryName)
+    {
+        return _githubApiAccessor.GetReadme(ownerLogin, repositoryName);
     }
 }

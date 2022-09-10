@@ -3,31 +3,30 @@ using Recademy.Application.Services.Abstractions;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Recademy.Api.Controllers
+namespace Recademy.Api.Controllers;
+
+[Produces("application/json")]
+[Consumes("application/json")]
+[Route("api/tags")]
+[ApiController]
+public class TagController : Controller
 {
-    [Produces("application/json")]
-    [Consumes("application/json")]
-    [Route("api/tags")]
-    [ApiController]
-    public class TagController : Controller
+    private readonly ITagService _tagService;
+
+    public TagController(ITagService tagService)
     {
-        private readonly ITagService _tagService;
+        _tagService = tagService;
+    }
 
-        public TagController(ITagService tagService)
-        {
-            _tagService = tagService;
-        }
+    [HttpGet]
+    public ActionResult<IReadOnlyCollection<string>> GetAll()
+    {
+        return Ok(_tagService.GetAllTags());
+    }
 
-        [HttpGet]
-        public ActionResult<IReadOnlyCollection<string>> GetAll()
-        {
-            return Ok(_tagService.GetAllTags());
-        }
-
-        [HttpGet("users/{userId}")]
-        public ActionResult<IReadOnlyCollection<string>> GetByUserId([Required] int userId)
-        {
-            return Ok(_tagService.GetUserTags(userId));
-        }
+    [HttpGet("users/{userId}")]
+    public ActionResult<IReadOnlyCollection<string>> GetByUserId([Required] int userId)
+    {
+        return Ok(_tagService.GetUserTags(userId));
     }
 }

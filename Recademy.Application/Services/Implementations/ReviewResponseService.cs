@@ -9,42 +9,41 @@ using Recademy.Dto.Reviews;
 
 using System.Linq;
 
-namespace Recademy.Application.Services.Implementations
+namespace Recademy.Application.Services.Implementations;
+
+public class ReviewResponseService : IReviewResponseService
 {
-    public class ReviewResponseService : IReviewResponseService
+    private readonly RecademyContext _context;
+
+    public ReviewResponseService(RecademyContext context)
     {
-        private readonly RecademyContext _context;
+        _context = context;
+    }
 
-        public ReviewResponseService(RecademyContext context)
-        {
-            _context = context;
-        }
+    public ReviewResponseInfoDto SendReviewResponse(ReviewResponseCreateDto reviewResponseCreateDto)
+    {
+        ReviewRequest request = _context
+            .ReviewRequests
+            .Include(s => s.ProjectInfo)
+            .ThenInclude(p => p.Skills)
+            .Include(s => s.User)
+            .FirstOrDefault(r => r.Id == reviewResponseCreateDto.ReviewRequestId);
 
-        public ReviewResponseInfoDto SendReviewResponse(ReviewResponseCreateDto reviewResponseCreateDto)
-        {
-            ReviewRequest request = _context
-                .ReviewRequests
-                .Include(s => s.ProjectInfo)
-                .ThenInclude(p => p.Skills)
-                .Include(s => s.User)
-                .FirstOrDefault(r => r.Id == reviewResponseCreateDto.ReviewRequestId);
+        if (request == null)
+            throw RecademyException.ReviewRequestNotFound(reviewResponseCreateDto.ReviewRequestId);
 
-            if (request == null)
-                throw RecademyException.ReviewRequestNotFound(reviewResponseCreateDto.ReviewRequestId);
+        if (request.State == ProjectState.Completed || request.State == ProjectState.Abandoned)
+            throw new RecademyException("Failed to send review. It is already closed.");
 
-            if (request.State == ProjectState.Completed || request.State == ProjectState.Abandoned)
-                throw new RecademyException("Failed to send review. It is already closed.");
+        ReviewResponse newReview = reviewResponseCreateDto.FromDto();
 
-            var newReview = reviewResponseCreateDto.FromDto();
+        request.State = ProjectState.Reviewed;
 
-            request.State = ProjectState.Reviewed;
+        _context.ReviewResponses.Add(newReview);
+        _context.SaveChanges();
 
-            _context.ReviewResponses.Add(newReview);
-            _context.SaveChanges();
+        newReview.ReviewRequest = request;
 
-            newReview.ReviewRequest = request;
-
-            return newReview.ToDto();
-        }
+        return newReview.ToDto();
     }
 }

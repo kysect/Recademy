@@ -2,16 +2,15 @@
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Recademy.Core.Models.Skills
-{
-    public class UserSkill
-    {
-        [ForeignKey("User")]
-        public int UserId { get; set; }
-        public RecademyUser User { get; set; }
+namespace Recademy.Core.Models.Skills;
 
-        [ForeignKey("Skill")]
-        public string SkillName { get; set; }
-        public Skill Skill { get; set; }
-    }
+public class UserSkill
+{
+    [ForeignKey("User")]
+    public int UserId { get; set; }
+    public RecademyUser User { get; set; }
+
+    [ForeignKey("Skill")]
+    public string SkillName { get; set; }
+    public Skill Skill { get; set; }
 }

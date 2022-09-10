@@ -1,29 +1,14 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-
-using Recademy.Application.Services.Abstractions;
-using Recademy.Application.Services.Implementations;
-using Recademy.Application.Tools;
+using Recademy.Api.Extensions;
 using Recademy.DataAccess;
-using Recademy.DataAccess.Repositories.Abstractions;
-using Recademy.DataAccess.Repositories.Implementations;
-
 using Serilog;
 
-using System.Security.Claims;
-using System.Threading.Tasks;
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
-
-var builder = WebApplication.CreateBuilder(args);
-
-var logger = new LoggerConfiguration()
+ILogger logger = new LoggerConfiguration()
     .WriteTo.File("RecademyApi.log")
     .CreateLogger();
 
@@ -44,108 +29,17 @@ builder.Services.AddSwaggerGen(options =>
         });
 });
 
-builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", policyConfig =>
-{
-    policyConfig
-        .AllowAnyOrigin()
-        .AllowAnyHeader()
-        .AllowAnyMethod();
-}));
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-})
-.AddCookie(options =>
-{
-    options.LoginPath = "/api/auth/sign-in";
-    options.LogoutPath = "/api/auth/sign-out";
-})
-.AddGitHub(options =>
-{
-    options.ClientId = builder.Configuration["OAuth:GitHub:ClientId"];
-    options.ClientSecret = builder.Configuration["OAuth:GitHub:ClientSecret"];
-
-    options.CallbackPath = new PathString("/signin-github");
-    options.AuthorizationEndpoint = "https://github.com/login/oauth/authorize";
-    options.TokenEndpoint = "https://github.com/login/oauth/access_token";
-    options.UserInformationEndpoint = "https://api.github.com/user";
-
-    options.Scope.Add("read:user");
-    options.Scope.Add("user:email");
-
-    options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
-    options.ClaimActions.MapJsonKey(ClaimTypes.Name, "login");
-    options.ClaimActions.MapJsonKey("urn:github:name", "name");
-    options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email", ClaimValueTypes.Email);
-    options.ClaimActions.MapJsonKey("urn:github:url", "url");
-
-    options.Events.OnCreatingTicket += context =>
-    {
-        if (context.AccessToken is { })
-        {
-            context.Identity?.AddClaim(new Claim("access_token", context.AccessToken));
-        }
-
-        return Task.CompletedTask;
-    };
-
-    options.CorrelationCookie.SameSite = SameSiteMode.Lax;
-});
+builder.Services.AddRecademyAuthentication(builder.Configuration);
 
 builder.Services.AddDbContext<RecademyContext>(options => options.UseInMemoryDatabase("RecademyDb"));
 
-builder.Services.AddScoped<IOauthProviderService, OauthProviderService>();
-builder.Services.AddScoped<IRegisterService, RegisterService>();
-builder.Services.AddScoped<IGithubApiAccessor, GithubApiAccessor>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
-builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IGamificationService, GamificationService>();
-builder.Services.AddScoped<IGithubService, GithubService>();
-builder.Services.AddScoped<IProjectService, ProjectService>();
-builder.Services.AddScoped<IReviewService, ReviewService>();
-builder.Services.AddScoped<ITagService, TagService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserAchievementService, UserAchievementService>();
-builder.Services.AddScoped<IUserRoleService, UserRoleService>();
+builder.Services.AddRecademyRepositories();
+builder.Services.AddRecademyServices();
 
-var app = builder.Build();
+WebApplication app = builder.GetConfiguredRecademyApp();
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.File("Recademy.log")
     .CreateLogger();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseWebAssemblyDebugging();
-}
-else
-{
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-
-app.UseBlazorFrameworkFiles();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseCors("CorsPolicy");
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapRazorPages();
-app.MapControllers();
-app.MapFallbackToFile("index.html");
-
-app.UseSwagger();
-app.UseSwaggerUI(configuration => configuration.SwaggerEndpoint("/swagger/Recademy/swagger.json", "Recademy API"));
 
 app.Run();
