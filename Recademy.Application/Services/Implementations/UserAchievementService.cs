@@ -55,7 +55,7 @@ public sealed class UserAchievementService : IUserAchievementService
             rangedUserAchievementPoints.Add(userAchievementPoints);
         }
 
-        return rangedUserAchievementPoints.OrderBy(info => info.Points).ToList();
+        return rangedUserAchievementPoints.OrderByDescending(info => info.Points).ToList();
     }
 
     public async Task<IReadOnlyCollection<UserAchievementRequestDto>> GetUserAchievementRequests()
