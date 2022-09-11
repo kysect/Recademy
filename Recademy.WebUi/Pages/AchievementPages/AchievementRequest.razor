@@ -31,7 +31,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await Http.GetFromJsonAsync<IReadOnlyCollection<UserAchievementDto>>("api/achievements/users/list");
+        var response = await Http.GetFromJsonAsync<IReadOnlyCollection<UserAchievementDto>>("api/achievements/users");
 
         _achievements = response ?? new List<UserAchievementDto>();
     }

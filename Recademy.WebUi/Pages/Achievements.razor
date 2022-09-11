@@ -1,4 +1,4 @@
-﻿@page "/achievements"
+@page "/achievements"
 @using Recademy.Dto.Achievements
 @inject HttpClient Http
 
@@ -90,7 +90,7 @@
             return;
         }
 
-        var response = await Http.GetFromJsonAsync<IReadOnlyCollection<UserAchievementDto>>("api/achievements/users/list");
+        var response = await Http.GetFromJsonAsync<IReadOnlyCollection<UserAchievementDto>>("api/achievements/users");
 
         if (response is not null)
         {
