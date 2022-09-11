@@ -1,5 +1,6 @@
-@page "/achievements"
+﻿@page "/achievements"
 @using Recademy.Dto.Achievements
+@using Recademy.Dto.Enums
 @inject HttpClient Http
 
 <BSNavbar Color="BSColor.Light">
@@ -12,7 +13,11 @@
             <Content>
                 <BSNav MarginEnd="Margins.Auto" MarginBottom="Margins.Small" Class="mb-lg-0">
                     <BSNavItem Url="/achievements/request">Запросить достижение</BSNavItem>
-                    <BSNavItem Url="/achievements/requests">Просмотреть запросы</BSNavItem>
+                    <!-- TODO: make an extensions -->
+                    @if (MainLayout.User.UserType is UserTypeDto.Admin or UserTypeDto.Mentor)
+                    {
+                        <BSNavItem Url="/achievements/requests">Просмотреть запросы</BSNavItem>
+                    }
                 </BSNav>
             </Content>
         </BSCollapse>
