@@ -1,3 +1,33 @@
 ﻿@page "/"
+@using Recademy.Dto.Achievements
+@inject HttpClient Http
 
 <h1>Добро пожаловать в Kysect!</h1>
+
+@if (_userPoints.Count > 0)
+{
+    <div style="width: fit-content; max-width: 30%; right: 5%; position: absolute">
+        <h5>Kysочковый рейтинг</h5>
+        <BSListGroup>
+            @foreach (UserAchievementPointsDto userPoint in _userPoints)
+            {
+                <BSListGroupItem>@userPoint.Username - @userPoint.Points</BSListGroupItem>
+            }
+        </BSListGroup>
+    </div>
+}
+
+@code
+{
+    private IReadOnlyCollection<UserAchievementPointsDto> _userPoints = new List<UserAchievementPointsDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var userPoints = await Http.GetFromJsonAsync<IReadOnlyCollection<UserAchievementPointsDto>>($"api/achievements/users/ranged");
+
+        if (userPoints is not null)
+        {
+            _userPoints = userPoints;
+        }
+    }
+}
