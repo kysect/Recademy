@@ -1,9 +1,13 @@
 ﻿@using Recademy.Dto.Users
 @using Recademy.Dto.Roles
+@using Recademy.Dto.Enums
 @inherits LayoutComponentBase
 @inject ILogger<MainLayout> Logger
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
+@inject IBlazorStrap BlazorStrap
+
+<BSToaster />
 
 <div class="page">
     <div class="sidebar">
@@ -20,6 +24,9 @@
             }
             else
             {
+                <div>
+                    <button class="btn btn-primary" @onclick="MakeUserAdmin">Go admin!</button>
+                </div>
                 @if (!string.IsNullOrEmpty(@UserRole?.Name))
                 {
                     <div>
@@ -57,6 +64,10 @@
             if (User is not null)
                 UserRole = await Http.GetFromJsonAsync<UserRoleDto>($"api/roles/users/{User.Id}");
         }
+        catch (HttpRequestException httpException)
+        {
+            Logger.LogError($"Server returned error response with status code {httpException.StatusCode}");
+        }
         catch (Exception ex)
         {
             Logger.LogError(ex, $"An error occurred while initializing page");
@@ -86,5 +97,39 @@
 
         User = null;
         UserRole = null;
+    }
+
+    private async void MakeUserAdmin()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync($"api/users/{User.Id}/permissions", UserTypeDto.Admin);
+
+            User = await Http.GetFromJsonAsync<UserInfoDto>("api/auth/user/current");
+
+            // TODO (annchous): reduce copypaste
+            if (response.IsSuccessStatusCode)
+            {
+                BlazorStrap.Toaster.Add($"Права доступа у пользователя {User.GithubUsername} успешно изменены на {User.UserType}", o =>
+                {
+                    o.Color = BSColor.Success;
+                    o.CloseAfter = 3000;
+                    o.Toast = Toast.BottomRight;
+                });
+            }
+            else
+            {
+                BlazorStrap.Toaster.Add("Произошла ошибка при отправке запроса на изменение прав доступа", o =>
+                {
+                    o.Color = BSColor.Danger;
+                    o.CloseAfter = 3000;
+                    o.Toast = Toast.BottomRight;
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, $"An error occurred while updating user permissions");
+        }
     }
 }

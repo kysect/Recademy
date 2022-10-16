@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Recademy.Api.Attributes;
 using Recademy.Dto.Roles;
+using System;
 
 namespace Recademy.Api.Controllers;
 
@@ -29,9 +30,16 @@ public class UserRoleController : Controller
     [HttpGet("users/{userId}")]
     public ActionResult<UserRoleDto> GetUserRole(int userId)
     {
-        UserRoleDto role = _userRoleService.GetUserRole(userId);
-
-        return Ok(role);
+        try
+        {
+            UserRoleDto role = _userRoleService.GetUserRole(userId);
+            return Ok(role);
+        }
+        catch (Exception ex)
+        {
+            // TODO (annchous): log stack
+            return BadRequest(ex.Message);
+        }
     }
 
     [RoleRequired]

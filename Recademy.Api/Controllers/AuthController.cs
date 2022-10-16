@@ -86,7 +86,7 @@ public class AuthController : Controller
         try
         {
             string username = HttpContext.User
-                .FindFirstValue("urn:github:url")
+                .FindFirstValue("urn:github:url")?
                 .Split('/')
                 .LastOrDefault();
 

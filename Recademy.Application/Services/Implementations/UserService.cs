@@ -4,6 +4,7 @@ using Recademy.Core.Types;
 using Recademy.DataAccess;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Users;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using User = Recademy.Core.Models.Users.User;
@@ -70,6 +71,16 @@ public class UserService : IUserService
             throw new RecademyException("Cannot set admin role. Action is not supported");
 
         user.UserType = userType;
+        _context.SaveChanges();
+
+        return user.ToDto();
+    }
+
+    public UserInfoDto UpdateUserPermissions(int userId, UserType permission)
+    {
+        User user = _context.Users.Single(user => user.Id == userId);
+
+        user.UserType = permission;
         _context.SaveChanges();
 
         return user.ToDto();

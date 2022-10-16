@@ -1,7 +1,6 @@
 ﻿using Recademy.Core.Types;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Users;
-
 using System.Collections.Generic;
 
 namespace Recademy.Application.Services.Abstractions;
@@ -15,4 +14,5 @@ public interface IUserService
     IReadOnlyCollection<ProjectInfoDto> GetProjectsByUserId(int userId);
 
     UserInfoDto UpdateUserRole(int adminId, int userId, UserType userType);
+    UserInfoDto UpdateUserPermissions(int userId, UserType permission);
 }
