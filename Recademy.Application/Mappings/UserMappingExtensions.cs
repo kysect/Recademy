@@ -72,7 +72,7 @@ public static class UserMappingExtensions
         };
     }
 
-    private static UserTypeDto ToDto(this UserType userType)
+    public static UserTypeDto ToDto(this UserType userType)
     {
         return userType switch
         {
@@ -83,7 +83,7 @@ public static class UserMappingExtensions
         };
     }
 
-    private static UserType FromDto(this UserTypeDto userType)
+    public static UserType FromDto(this UserTypeDto userType)
     {
         return userType switch
         {
