@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Roles;
+using Recademy.Core.Types;
 using Recademy.DataAccess;
 using Recademy.Dto.Roles;
 
@@ -36,7 +37,7 @@ public sealed class UserRoleService : IUserRoleService
             .SingleOrDefault(association => association.UserId == userId);
 
         if (roleAssociation is null)
-            return null;
+            throw new RecademyException($"Role for user id {userId} was not found");
 
         return _roles
             .First(role => role.Id.Equals(roleAssociation.RoleId))
