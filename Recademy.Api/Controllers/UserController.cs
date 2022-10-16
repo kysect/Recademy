@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Types;
+using Recademy.Dto.Enums;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Users;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -49,6 +52,13 @@ public class UserController : Controller
     public ActionResult<UserInfoDto> SetMentorRole([Required] int adminId, [Required] int userId)
     {
         return _userService.UpdateUserRole(adminId, userId, UserType.Mentor);
+    }
+
+    [HttpPost("{userId}/permissions")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<UserInfoDto> UpdateUserPermissions([Required][FromRoute] int userId, [Required][FromBody] UserTypeDto userTypeDto)
+    {
+        return Ok(_userService.UpdateUserPermissions(userId, userTypeDto.FromDto()));
     }
 
     [HttpDelete("{adminId}/users/{userId}/role/mentor")]
