@@ -2,7 +2,7 @@
 
 namespace Recademy.Dto.Reviews;
 
-public class ReviewRequestAddDto
+public class CreateReviewRequestDto
 {
     [Required]
     public int UserId { get; set; }

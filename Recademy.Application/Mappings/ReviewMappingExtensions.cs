@@ -19,7 +19,7 @@ public static class ReviewMappingExtensions
         {
             Id = reviewRequest.Id,
             ProjectId = reviewRequest.ProjectId,
-            DateCreate = reviewRequest.DateCreate,
+            DateCreate = reviewRequest.CreationTime,
             State = reviewRequest.State.ToDto(),
             ProjectInfo = reviewRequest.ProjectInfo.Maybe(project => project.ToDto()),
             User = reviewRequest.User.Maybe(recademyUser => recademyUser.ToDto()),
@@ -35,7 +35,7 @@ public static class ReviewMappingExtensions
         {
             Id = reviewRequest.Id,
             ProjectId = reviewRequest.ProjectId,
-            DateCreate = reviewRequest.DateCreate,
+            CreationTime = reviewRequest.DateCreate,
             State = reviewRequest.State.FromDto(),
             ProjectInfo = reviewRequest.ProjectInfo.Maybe(project => project.FromDto()),
             User = reviewRequest.User.Maybe(recademyUser => recademyUser.FromDto()),
@@ -53,7 +53,7 @@ public static class ReviewMappingExtensions
             Description = reviewResponse.Description,
             CreationTime = reviewResponse.CreationTime,
             ReviewConclusion = reviewResponse.ReviewConclusion.ToDto(),
-            ReviewRequest = reviewResponse.ReviewRequest.Maybe(request => request.ToDto()),
+            ReviewRequest = reviewResponse.Request.Maybe(request => request.ToDto()),
             ReviewerId = reviewResponse.ReviewerId,
         };
     }
@@ -69,23 +69,23 @@ public static class ReviewMappingExtensions
             Description = reviewResponse.Description,
             CreationTime = reviewResponse.CreationTime,
             ReviewConclusion = reviewResponse.ReviewConclusion.FromDto(),
-            ReviewRequest = reviewResponse.ReviewRequest.Maybe(request => request.FromDto()),
+            Request = reviewResponse.ReviewRequest.Maybe(request => request.FromDto()),
             ReviewerId = reviewResponse.ReviewerId,
         };
     }
 
-    public static ReviewResponse FromDto(this ReviewResponseCreateDto reviewResponse)
+    public static ReviewResponse FromDto(this CreateReviewResponseDto createReviewResponse)
     {
-        if (reviewResponse is null)
+        if (createReviewResponse is null)
             return null;
 
         return new ReviewResponse
         {
-            ReviewRequestId = reviewResponse.ReviewRequestId,
-            Description = reviewResponse.ReviewText,
-            ReviewerId = reviewResponse.UserId,
+            RequestId = createReviewResponse.RequestId,
+            Description = createReviewResponse.Comment,
+            ReviewerId = createReviewResponse.ReviewerId,
             CreationTime = DateTime.UtcNow,
-            ReviewConclusion = reviewResponse.ReviewConclusion.FromDto()
+            ReviewConclusion = createReviewResponse.ReviewConclusion.FromDto()
         };
     }
 
@@ -111,26 +111,26 @@ public static class ReviewMappingExtensions
         };
     }
 
-    private static ProjectStateDto ToDto(this ProjectState projectState)
+    private static ProjectStateDto ToDto(this ReviewState reviewState)
     {
-        return projectState switch
+        return reviewState switch
         {
-            ProjectState.Requested => ProjectStateDto.Requested,
-            ProjectState.Reviewed => ProjectStateDto.Reviewed,
-            ProjectState.Completed => ProjectStateDto.Completed,
-            ProjectState.Abandoned => ProjectStateDto.Abandoned,
-            _ => throw new ArgumentOutOfRangeException(nameof(projectState), projectState, null)
+            ReviewState.Requested => ProjectStateDto.Requested,
+            ReviewState.Reviewed => ProjectStateDto.Reviewed,
+            ReviewState.Completed => ProjectStateDto.Completed,
+            ReviewState.Abandoned => ProjectStateDto.Abandoned,
+            _ => throw new ArgumentOutOfRangeException(nameof(reviewState), reviewState, null)
         };
     }
 
-    private static ProjectState FromDto(this ProjectStateDto projectState)
+    private static ReviewState FromDto(this ProjectStateDto projectState)
     {
         return projectState switch
         {
-            ProjectStateDto.Requested => ProjectState.Requested,
-            ProjectStateDto.Reviewed => ProjectState.Reviewed,
-            ProjectStateDto.Completed => ProjectState.Completed,
-            ProjectStateDto.Abandoned => ProjectState.Abandoned,
+            ProjectStateDto.Requested => ReviewState.Requested,
+            ProjectStateDto.Reviewed => ReviewState.Reviewed,
+            ProjectStateDto.Completed => ReviewState.Completed,
+            ProjectStateDto.Abandoned => ReviewState.Abandoned,
             _ => throw new ArgumentOutOfRangeException(nameof(projectState), projectState, null)
         };
     }

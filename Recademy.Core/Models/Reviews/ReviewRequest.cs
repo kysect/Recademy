@@ -12,9 +12,9 @@ public class ReviewRequest
 {
     [Key]
     public int Id { get; init; }
-    public DateTime DateCreate { get; init; }
-    public ProjectState State { get; set; }
+    public ReviewState State { get; set; }
     public string Description { get; init; }
+    public DateTime CreationTime { get; init; }
     public virtual ICollection<ReviewResponse> ReviewResponse { get; init; }
 
     [ForeignKey("ProjectInfo")]

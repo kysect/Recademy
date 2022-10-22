@@ -76,9 +76,9 @@ public class RecademyContext : DbContext
             .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<ReviewResponse>()
-            .HasOne(rr => rr.ReviewRequest)
+            .HasOne(rr => rr.Request)
             .WithMany(rr => rr.ReviewResponse)
-            .HasForeignKey(rr => rr.ReviewRequestId)
+            .HasForeignKey(rr => rr.RequestId)
             .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<ReviewResponse>()
