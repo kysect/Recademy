@@ -1,6 +1,4 @@
-﻿using Recademy.Dto.Projects;
-
-namespace Recademy.Dto.Skills;
+﻿namespace Recademy.Dto.Skills;
 
 public class ProjectSkillDto
 {
@@ -8,6 +6,6 @@ public class ProjectSkillDto
     {
     }
 
-    public ProjectInfoDto Project { get; init; }
+    public int ProjectId { get; init; }
     public SkillDto Skill { get; init; }
 }

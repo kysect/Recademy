@@ -1,8 +1,6 @@
 ﻿using Recademy.Core.Models.Skills;
 using Recademy.Dto.Skills;
 
-using System.Linq;
-
 namespace Recademy.Application.Mappings;
 
 public static class SkillMappingExtensions
@@ -16,12 +14,6 @@ public static class SkillMappingExtensions
         {
             Name = skill.Name,
             Description = skill.Description,
-            ProjectSkills = skill.ProjectSkills
-                .Select(projectSkill => projectSkill.ToDto())
-                .ToList(),
-            UserSkills = skill.UserSkills
-                .Select(userSkill => userSkill.ToDto())
-                .ToList(),
         };
     }
 
@@ -34,12 +26,6 @@ public static class SkillMappingExtensions
         {
             Name = skill.Name,
             Description = skill.Description,
-            ProjectSkills = skill.ProjectSkills
-                .Select(projectSkill => projectSkill.FromDto())
-                .ToList(),
-            UserSkills = skill.UserSkills
-                .Select(userSkill => userSkill.FromDto())
-                .ToList(),
         };
     }
 
@@ -75,7 +61,7 @@ public static class SkillMappingExtensions
 
         return new ProjectSkillDto
         {
-            Project = projectSkill.ProjectInfo.ToDto(),
+            ProjectId = projectSkill.ProjectId,
             Skill = projectSkill.Skill.ToDto(),
         };
     }
@@ -86,7 +72,7 @@ public static class SkillMappingExtensions
 
         return new ProjectSkill
         {
-            ProjectId = projectSkill.Project.ProjectId,
+            ProjectId = projectSkill.ProjectId,
             SkillName = projectSkill.Skill.Name,
             Skill = projectSkill.Skill.FromDto(),
         };
