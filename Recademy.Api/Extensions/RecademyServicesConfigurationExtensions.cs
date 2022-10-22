@@ -8,6 +8,7 @@ public static class RecademyServicesConfigurationExtensions
 {
     public static void AddRecademyServices(this IServiceCollection services)
     {
+        services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IOauthProviderService, OauthProviderService>();
         services.AddScoped<IRegisterService, RegisterService>();
         services.AddScoped<IUserService, UserService>();
