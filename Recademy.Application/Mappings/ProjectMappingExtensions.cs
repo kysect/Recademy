@@ -16,6 +16,7 @@ public static class ProjectMappingExtensions
         {
             ProjectId = project.Id,
             UserId = project.AuthorId,
+            Username = project.User?.GithubUsername,
             ProjectName = project.Title,
             ProjectUrl = project.GithubLink,
             ProjectSkills = project.Skills.Select(skill => skill.ToDto()).ToList(),

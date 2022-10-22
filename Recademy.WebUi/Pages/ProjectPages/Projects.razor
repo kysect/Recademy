@@ -35,12 +35,22 @@
             @foreach (ProjectInfoDto project in _userProjects)
             {
                 <BSTR>
-                        <BSTD>@project.ProjectId</BSTD>
-                        <BSTD>@project.ProjectName</BSTD>
+                    <BSTD>@project.ProjectId</BSTD>
+                    <BSTD>@project.ProjectName</BSTD>
                     <BSTD>@project.ProjectUrl</BSTD>
-                        <!-- Make userId mapping to user -->
+                    @if (!string.IsNullOrEmpty(@project.Username))
+                    {
+                        <BSTD>@project.Username</BSTD>
+                    }
+                    else if (@project.UserId != 0)
+                    {
                         <BSTD>@project.UserId</BSTD>
-                        <BSTD>@string.Join(", ", @project.ProjectSkills.Select(skill => skill.Skill?.Name))</BSTD>
+                    }
+                    else
+                    {
+                        <BSTD>Unknown</BSTD>
+                    }
+                    <BSTD>@string.Join(", ", @project.ProjectSkills.Select(skill => skill.Skill?.Name))</BSTD>
                     <BSTD>
                         <BSButton Color="BSColor.Primary">
                             Запросить ревью

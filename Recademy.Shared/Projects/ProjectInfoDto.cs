@@ -1,5 +1,4 @@
 ﻿using Recademy.Dto.Skills;
-
 using System.Collections.Generic;
 
 namespace Recademy.Dto.Projects;
@@ -10,9 +9,10 @@ public class ProjectInfoDto
     {
     }
 
-    public ProjectInfoDto(int userId, int projectId, string projectName, string projectUrl, IReadOnlyCollection<ProjectSkillDto> projectSkills)
+    public ProjectInfoDto(int userId, string username, int projectId, string projectName, string projectUrl, IReadOnlyCollection<ProjectSkillDto> projectSkills)
     {
         UserId = userId;
+        Username = username;
         ProjectId = projectId;
         ProjectName = projectName;
         ProjectUrl = projectUrl;
@@ -20,6 +20,7 @@ public class ProjectInfoDto
     }
 
     public int UserId { get; init; }
+    public string Username { get; init; }
     public int ProjectId { get; init; }
     public string ProjectName { get; init; }
     public string ProjectUrl { get; init; }
