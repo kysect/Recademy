@@ -8,6 +8,6 @@ public interface IProjectService
 {
     ProjectInfoDto GetProjectInfo(int projectId);
     IReadOnlyCollection<ProjectInfoDto> GetProjectsByTag(string tagName);
-    Task<ProjectInfoDto> CreateProject(CreateProjectDto arguments);
+    Task<ProjectInfoDto> CreateProject(CreateProjectDto createArguments);
     Task<IReadOnlyCollection<ProjectInfoDto>> GetProjectsByUserId(int userId);
 }

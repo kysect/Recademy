@@ -9,20 +9,22 @@ public class ProjectInfoDto
     {
     }
 
-    public ProjectInfoDto(int userId, string username, int projectId, string projectName, string projectUrl, IReadOnlyCollection<ProjectSkillDto> projectSkills)
+    public ProjectInfoDto(int userId, string username, int projectId, string title, string description, string link, IReadOnlyCollection<ProjectSkillDto> projectSkills)
     {
         UserId = userId;
         Username = username;
         ProjectId = projectId;
-        ProjectName = projectName;
-        ProjectUrl = projectUrl;
+        Title = title;
+        Description = description;
+        Link = link;
         ProjectSkills = projectSkills;
     }
 
     public int UserId { get; init; }
     public string Username { get; init; }
     public int ProjectId { get; init; }
-    public string ProjectName { get; init; }
-    public string ProjectUrl { get; init; }
+    public string Title { get; init; }
+    public string Description { get; init; }
+    public string Link { get; init; }
     public IReadOnlyCollection<ProjectSkillDto> ProjectSkills { get; init; }
 }

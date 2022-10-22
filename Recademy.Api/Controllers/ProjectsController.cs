@@ -22,7 +22,6 @@ public class ProjectsController : Controller
     public async Task<ActionResult<IReadOnlyCollection<ProjectInfoDto>>> GetProjectByUserId(int userId)
     {
         IReadOnlyCollection<ProjectInfoDto> userProjects = await _projectService.GetProjectsByUserId(userId);
-
         return Ok(userProjects);
     }
 

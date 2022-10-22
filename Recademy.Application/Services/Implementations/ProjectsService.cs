@@ -37,17 +37,18 @@ public class ProjectsService : IProjectService
             .ToList();
     }
 
-    public async Task<ProjectInfoDto> CreateProject(CreateProjectDto arguments)
+    public async Task<ProjectInfoDto> CreateProject(CreateProjectDto createArguments)
     {
-        ArgumentNullException.ThrowIfNull(arguments);
+        ArgumentNullException.ThrowIfNull(createArguments);
 
         // TODO: process skills correctly
         var newProject = new ProjectInfo
         {
-            AuthorId = arguments.UserId,
-            GithubLink = arguments.ProjectUrl,
-            Title = arguments.ProjectName,
-            Skills = arguments.Tags
+            AuthorId = createArguments.AuthorId,
+            Title = createArguments.Title,
+            Description = createArguments.Description,
+            GithubLink = createArguments.Link,
+            Skills = createArguments.Tags
                 .Select(tag => new ProjectSkill { SkillName = tag })
                 .ToList()
         };
