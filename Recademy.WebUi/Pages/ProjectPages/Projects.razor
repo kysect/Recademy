@@ -20,12 +20,43 @@
 
 @if (_userProjects.Count > 0)
 {
-    <BSCard CardType="CardType.Deck" Class="row">
-        @foreach (ProjectInfoDto project in _userProjects)
-        {
-            <p>@project.ProjectName</p>
-        }
-    </BSCard>
+    <BSTable Color="BSColor.Light" IsBordered="true" IsBorderLess="false" IsCaptionTop="false" IsStriped="false">
+        <BSTHead>
+            <BSTR>
+                <BSTD>ID</BSTD>
+                <BSTD>Название</BSTD>
+                <BSTD>Ссылка</BSTD>
+                <BSTD>Автор</BSTD>
+                <BSTD>Теги</BSTD>
+                <BSTD></BSTD>
+            </BSTR>
+        </BSTHead>
+        <BSTBody>
+            @foreach (ProjectInfoDto project in _userProjects)
+            {
+                <BSTR>
+                        <BSTD>@project.ProjectId</BSTD>
+                        <BSTD>@project.ProjectName</BSTD>
+                    <BSTD>@project.ProjectUrl</BSTD>
+                        <!-- Make userId mapping to user -->
+                        <BSTD>@project.UserId</BSTD>
+                        <BSTD>@string.Join(", ", @project.ProjectSkills.Select(skill => skill.Skill?.Name))</BSTD>
+                    <BSTD>
+                        <BSButton Color="BSColor.Primary">
+                            Запросить ревью
+                        </BSButton>
+                    </BSTD>
+                </BSTR>
+            }
+        </BSTBody>
+    </BSTable>
+}
+else
+{
+    <div>
+        <p>У тебя ещё нет проектов :c</p>
+        <BSImage Source="images/white-white-cat.gif" IsFluid="true"></BSImage>
+    </div>
 }
 
 @code {
