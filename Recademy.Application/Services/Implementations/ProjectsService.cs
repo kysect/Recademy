@@ -3,6 +3,7 @@ using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Projects;
 using Recademy.Core.Models.Skills;
+using Recademy.Core.Models.Users;
 using Recademy.DataAccess;
 using Recademy.Dto.Projects;
 using System;
@@ -12,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace Recademy.Application.Services.Implementations;
 
-public class ProjectService : IProjectService
+public class ProjectsService : IProjectService
 {
     private readonly RecademyContext _context;
 
-    public ProjectService(RecademyContext context)
+    public ProjectsService(RecademyContext context)
     {
         _context = context;
     }
@@ -53,6 +54,9 @@ public class ProjectService : IProjectService
 
         _context.ProjectInfos.Add(newProject);
         await _context.SaveChangesAsync();
+
+        // To set User entity value.
+        newProject = await _context.ProjectInfos.FindAsync(newProject.Id);
 
         return newProject.ToDto();
     }
