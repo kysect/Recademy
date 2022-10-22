@@ -54,7 +54,7 @@ public class UserAchievementController : Controller
     }
 
     [HttpGet("users/ranged")]
-    public ActionResult<IReadOnlyCollection<UserAchievementPointsDto>> GetRangesUserAchievements()
+    public ActionResult<IReadOnlyCollection<UserAchievementPointsDto>> GetRangedUserAchievements()
     {
         IReadOnlyCollection<UserAchievementPointsDto> achievementPoints = _userAchievementService.GetRangesUserAchievements();
 
