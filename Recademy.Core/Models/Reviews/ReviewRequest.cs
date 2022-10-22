@@ -23,5 +23,5 @@ public class ReviewRequest
 
     [ForeignKey("User")]
     public int UserId { get; init; }
-    public virtual RecademyUser User { get; init; }
+    public virtual User User { get; init; }
 }

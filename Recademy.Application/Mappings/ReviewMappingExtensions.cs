@@ -19,10 +19,11 @@ public static class ReviewMappingExtensions
         {
             Id = reviewRequest.Id,
             ProjectId = reviewRequest.ProjectId,
-            DateCreate = reviewRequest.CreationTime,
+            CreationDate = reviewRequest.CreationTime,
             State = reviewRequest.State.ToDto(),
             ProjectInfo = reviewRequest.ProjectInfo.Maybe(project => project.ToDto()),
-            User = reviewRequest.User.Maybe(recademyUser => recademyUser.ToDto()),
+            UserId = reviewRequest.User.Id,
+            Username = reviewRequest.User.GithubUsername,
         };
     }
 
@@ -35,10 +36,10 @@ public static class ReviewMappingExtensions
         {
             Id = reviewRequest.Id,
             ProjectId = reviewRequest.ProjectId,
-            CreationTime = reviewRequest.DateCreate,
+            CreationTime = reviewRequest.CreationDate,
             State = reviewRequest.State.FromDto(),
             ProjectInfo = reviewRequest.ProjectInfo.Maybe(project => project.FromDto()),
-            User = reviewRequest.User.Maybe(recademyUser => recademyUser.FromDto()),
+            UserId = reviewRequest.UserId,
         };
     }
 
