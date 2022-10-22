@@ -6,14 +6,11 @@ using Recademy.Core.Types;
 using Recademy.Dto.Enums;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Users;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Recademy.Api.Controllers;
 
-[Produces("application/json")]
-[Consumes("application/json")]
 [Route("api/users")]
 [ApiController]
 public class UserController : Controller
