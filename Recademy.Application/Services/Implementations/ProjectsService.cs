@@ -1,4 +1,5 @@
-﻿using Recademy.Application.Mappings;
+﻿using Microsoft.EntityFrameworkCore;
+using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Projects;
 using Recademy.Core.Models.Skills;
@@ -7,14 +8,15 @@ using Recademy.Dto.Projects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Recademy.Application.Services.Implementations;
 
-public class ProjectService : IProjectService
+public class ProjectsService : IProjectService
 {
     private readonly RecademyContext _context;
 
-    public ProjectService(RecademyContext context)
+    public ProjectsService(RecademyContext context)
     {
         _context = context;
     }
@@ -34,23 +36,36 @@ public class ProjectService : IProjectService
             .ToList();
     }
 
-    public ProjectInfoDto AddProject(AddProjectDto arguments)
+    public async Task<ProjectInfoDto> CreateProject(CreateProjectDto createArguments)
     {
-        ArgumentNullException.ThrowIfNull(arguments);
+        ArgumentNullException.ThrowIfNull(createArguments);
 
+        // TODO: process skills correctly
         var newProject = new ProjectInfo
         {
-            AuthorId = arguments.UserId,
-            GithubLink = arguments.ProjectUrl,
-            Title = arguments.ProjectName,
-            Skills = arguments.Tags
+            AuthorId = createArguments.AuthorId,
+            Title = createArguments.Title,
+            Description = createArguments.Description,
+            GithubLink = createArguments.Link,
+            Skills = createArguments.Tags
                 .Select(tag => new ProjectSkill { SkillName = tag })
                 .ToList()
         };
 
         _context.ProjectInfos.Add(newProject);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
+
+        // To set User entity value.
+        newProject = await _context.ProjectInfos.FindAsync(newProject.Id);
 
         return newProject.ToDto();
+    }
+
+    public async Task<IReadOnlyCollection<ProjectInfoDto>> GetProjectsByUserId(int userId)
+    {
+        return await _context.ProjectInfos
+            .Where(project => project.AuthorId == userId)
+            .Select(project => project.ToDto())
+            .ToListAsync();
     }
 }

@@ -1,0 +1,65 @@
+﻿@page "/projects/add"
+@using Recademy.Dto.Projects
+@inject HttpClient Http
+@inject IBlazorStrap BlazorStrap
+
+<BSToaster />
+
+<BSLabel MarginTop="Margins.Small">Название проекта</BSLabel>
+<BSInput InputType="InputType.Text" ValidateOnInput="true" @bind-Value="_projectTitle"></BSInput>
+
+<BSLabel MarginTop="Margins.Small">Описание проекта</BSLabel>
+<BSInput InputType="InputType.TextArea" @bind-Value="_projectDescription"></BSInput>
+
+<BSLabel MarginTop="Margins.Small">Ссылка на проект</BSLabel>
+<BSInput InputType="InputType.Url" ValidateOnInput="true" @bind-Value="_projectLink"></BSInput>
+
+<!-- TODO: tags -->
+
+<BSButton Color="BSColor.Primary" @onclick="CreateProject" MarginTopAndBottom="Margins.Medium">Отправить</BSButton>
+
+@code {
+    private string _projectTitle;
+    private string _projectDescription;
+    private string _projectLink;
+
+    private async Task CreateProject()
+    {
+        if (MainLayout.User is null)
+            return;
+
+        var request = new CreateProjectDto
+        (
+            AuthorId: MainLayout.User.Id,
+            Title: _projectTitle,
+            Description: _projectDescription,
+            Link: _projectLink,
+            new List<string>()
+        );
+
+        var response = await Http.PostAsJsonAsync($"api/projects", request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            BlazorStrap.Toaster.Add($"Проект {request.Title} успешно добавлен", o =>
+            {
+                o.Color = BSColor.Success;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+        }
+        else
+        {
+            BlazorStrap.Toaster.Add("Произошла ошибка при добавлении проекта", o =>
+            {
+                o.Color = BSColor.Danger;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+        }
+
+        _projectTitle = default;
+        _projectDescription = default;
+        _projectLink = default;
+    }
+}

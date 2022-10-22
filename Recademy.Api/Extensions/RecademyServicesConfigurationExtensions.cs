@@ -14,6 +14,6 @@ public static class RecademyServicesConfigurationExtensions
         services.AddScoped<IUserAchievementService, UserAchievementService>();
         services.AddScoped<IUserRoleService, UserRoleService>();
         services.AddScoped<IGamificationService, GamificationService>();
-        services.AddScoped<IProjectService, ProjectService>();
+        services.AddScoped<IProjectService, ProjectsService>();
     }
 }
