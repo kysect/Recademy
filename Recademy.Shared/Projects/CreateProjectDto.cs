@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Recademy.Dto.Projects;
 
-public class AddProjectDto
+public class CreateProjectDto
 {
-    public AddProjectDto()
+    public CreateProjectDto()
     {
 
     }
 
-    public AddProjectDto(string projectName, int userId, string url)
+    public CreateProjectDto(string projectName, int userId, string url)
     {
         UserId = userId;
         ProjectUrl = url;
