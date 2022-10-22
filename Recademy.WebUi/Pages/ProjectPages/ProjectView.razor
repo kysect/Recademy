@@ -1,0 +1,38 @@
+﻿@page "/projects/{ProjectId:int}"
+@using Recademy.Dto.Projects
+@inject HttpClient Http
+
+@if (@_project is not null)
+{
+    <h1>@_project?.Title</h1>
+
+    <BSLabel style="font-weight: bold">Описание проекта</BSLabel>
+    <p>@_project?.Description</p>
+    <p><b>Автор: </b>@_project.Username</p>
+    <BSLink><b>Ссылка: </b><a href="@_project.Link">@_project.Link</a></BSLink>
+}
+
+<BSImage Source="images/nyan-cat.gif" IsFluid="true"></BSImage>
+
+@code {
+    private ProjectInfoDto _project;
+
+    [Parameter]
+    public int ProjectId { get; init; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var project = await Http.GetFromJsonAsync<ProjectInfoDto>($"api/Projects/{ProjectId}");
+
+            if (project is not null)
+                _project = project;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
+}
