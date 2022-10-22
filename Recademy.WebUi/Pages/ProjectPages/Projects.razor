@@ -1,0 +1,51 @@
+﻿@page "/projects"
+@using Recademy.Dto.Projects
+@inject HttpClient Http
+
+<BSNavbar Color="BSColor.Light">
+    <BSContainer Container="Container.Fluid">
+        <BSNavbarBrand>Проекты</BSNavbarBrand>
+        <BSCollapse IsInNavbar="true">
+            <Toggler>
+                <BSNavbarToggle />
+            </Toggler>
+            <Content>
+                <BSNav MarginEnd="Margins.Auto" MarginBottom="Margins.Small" Class="mb-lg-0">
+                    <BSNavItem Url="/projects/reviews/requests">Просмотреть запросы на ревью</BSNavItem>
+                </BSNav>
+            </Content>
+        </BSCollapse>
+    </BSContainer>
+</BSNavbar>
+
+@if (_userProjects.Count > 0)
+{
+    <BSCard CardType="CardType.Deck" Class="row">
+        @foreach (ProjectInfoDto project in _userProjects)
+        {
+            <p>@project.ProjectName</p>
+        }
+    </BSCard>
+}
+
+@code {
+    private IReadOnlyCollection<ProjectInfoDto> _userProjects = new List<ProjectInfoDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (MainLayout.User is null)
+            return;
+
+        try
+        {
+            var userProjects = await Http.GetFromJsonAsync<IReadOnlyCollection<ProjectInfoDto>>($"api/Projects/users/{MainLayout.User.Id}");
+
+            if (userProjects is not null)
+                _userProjects = userProjects;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+}
