@@ -3,7 +3,6 @@ using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Projects;
 using Recademy.Core.Models.Skills;
-using Recademy.Core.Models.Users;
 using Recademy.DataAccess;
 using Recademy.Dto.Projects;
 using System;

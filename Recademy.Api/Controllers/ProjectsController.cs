@@ -18,6 +18,13 @@ public class ProjectsController : Controller
         _projectService = projectService;
     }
 
+    [HttpGet("{projectId}")]
+    public ActionResult<ProjectInfoDto> GetProjectById(int projectId)
+    {
+        ProjectInfoDto project = _projectService.GetProjectInfo(projectId);
+        return Ok(project);
+    }
+
     [HttpGet("users/{userId}")]
     public async Task<ActionResult<IReadOnlyCollection<ProjectInfoDto>>> GetProjectByUserId(int userId)
     {
