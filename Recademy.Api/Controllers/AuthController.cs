@@ -21,14 +21,14 @@ namespace Recademy.Api.Controllers;
 [ApiController]
 public class AuthController : Controller
 {
+    private readonly IAuthService _authService;
     private readonly IRegisterService _registerService;
-    private readonly IUserService _userService;
     private readonly ILogger<AuthController> _logger;
 
-    public AuthController(IRegisterService registerService, IUserService userService, ILogger<AuthController> logger)
+    public AuthController(IAuthService authService, IRegisterService registerService, ILogger<AuthController> logger)
     {
+        _authService = authService;
         _registerService = registerService;
-        _userService = userService;
         _logger = logger;
     }
 
@@ -85,15 +85,10 @@ public class AuthController : Controller
     {
         try
         {
-            string username = HttpContext.User
-                .FindFirstValue("urn:github:url")?
-                .Split('/')
-                .LastOrDefault();
-
-            UserInfoDto dto = _userService.FindUserByUsername(username);
+            UserInfoDto dto = _authService.GetCurrentUser(HttpContext.User);
 
             if (dto is null)
-                return Unauthorized(username);
+                return Unauthorized();
 
             _logger.LogInformation($"Current user is {dto.GithubUsername}");
 
