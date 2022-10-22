@@ -7,8 +7,9 @@ namespace Recademy.Application.Services.Abstractions;
 public interface IReviewService
 {
     Task<IReadOnlyCollection<ReviewRequestInfoDto>> GetReviewRequests();
+    Task<IReadOnlyCollection<ReviewRequestInfoDto>> GetReviewRequestsByUserId(int userId);
     ReviewRequestInfoDto GetReviewRequestById(int requestId);
-    ReviewRequestInfoDto CreateReviewRequest(CreateReviewRequestDto createReviewRequestDto);
+    Task<ReviewRequestInfoDto> CreateReviewRequest(CreateReviewRequestDto createReviewRequestDto);
     ReviewResponseInfoDto CreateReviewResponse(CreateReviewResponseDto createReviewResponseDto);
     ReviewRequestInfoDto CompleteReview(int requestId);
     ReviewRequestInfoDto AbandonReview(int requestId);

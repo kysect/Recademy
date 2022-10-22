@@ -30,6 +30,15 @@ public class ReviewService : IReviewService
             .ToListAsync();
     }
 
+    public async Task<IReadOnlyCollection<ReviewRequestInfoDto>> GetReviewRequestsByUserId(int userId)
+    {
+        return await _context.ReviewRequests
+            .Where(s => s.UserId == userId)
+            .Where(s => s.State == ReviewState.Requested)
+            .Select(request => request.ToDto())
+            .ToListAsync();
+    }
+
     public ReviewRequestInfoDto GetReviewRequestById(int requestId)
     {
         return _context.ReviewRequests
@@ -37,7 +46,7 @@ public class ReviewService : IReviewService
             .ToDto();
     }
 
-    public ReviewRequestInfoDto CreateReviewRequest(CreateReviewRequestDto createReviewRequestDto)
+    public async Task<ReviewRequestInfoDto> CreateReviewRequest(CreateReviewRequestDto createReviewRequestDto)
     {
         ArgumentNullException.ThrowIfNull(createReviewRequestDto);
 
@@ -68,8 +77,13 @@ public class ReviewService : IReviewService
             UserId = createReviewRequestDto.UserId,
         };
 
-        _context.Add(newRequest);
-        _context.SaveChanges();
+        _context.ReviewRequests.Add(newRequest);
+        await _context.SaveChangesAsync();
+
+        // To set User entity value. TODO: research include.
+        newRequest = await _context.ReviewRequests
+            .Include(request => request.User)
+            .FirstAsync(request => request.Id == newRequest.Id);
 
         return newRequest.ToDto();
     }
