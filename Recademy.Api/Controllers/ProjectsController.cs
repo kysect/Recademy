@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Recademy.Api.Attributes;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Dto.Projects;
+using Recademy.Dto.Users;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,10 +14,12 @@ namespace Recademy.Api.Controllers;
 public class ProjectsController : Controller
 {
     private readonly IProjectService _projectService;
+    private readonly IAuthService _authService;
 
-    public ProjectsController(IProjectService projectService)
+    public ProjectsController(IProjectService projectService, IAuthService authService)
     {
         _projectService = projectService;
+        _authService = authService;
     }
 
     [HttpGet("{projectId}")]
@@ -25,10 +29,20 @@ public class ProjectsController : Controller
         return Ok(project);
     }
 
+    [RoleRequired]
     [HttpGet("users/{userId}")]
     public async Task<ActionResult<IReadOnlyCollection<ProjectInfoDto>>> GetProjectByUserId(int userId)
     {
         IReadOnlyCollection<ProjectInfoDto> userProjects = await _projectService.GetProjectsByUserId(userId);
+        return Ok(userProjects);
+    }
+
+    [HttpGet("user")]
+    public async Task<ActionResult<IReadOnlyCollection<ProjectInfoDto>>> GetProjectByCurrentUser()
+    {
+        UserInfoDto currentUser = _authService.GetCurrentUser(HttpContext.User);
+        IReadOnlyCollection<ProjectInfoDto> userProjects = await _projectService.GetProjectsByUserId(currentUser.Id);
+
         return Ok(userProjects);
     }
 
