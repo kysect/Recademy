@@ -51,4 +51,11 @@ public class ReviewsController : Controller
         ReviewRequestInfoDto reviewRequest = await _reviewService.CreateReviewRequest(createReviewRequestDto);
         return Ok(reviewRequest);
     }
+
+    [HttpPost("responses")]
+    public async Task<ActionResult<ReviewRequestInfoDto>> CreateReviewResponse(CreateReviewResponseDto createReviewResponseDto)
+    {
+        ReviewResponseInfoDto reviewResponse = await _reviewService.CreateReviewResponse(createReviewResponseDto);
+        return Ok(reviewResponse);
+    }
 }

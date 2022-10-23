@@ -88,7 +88,7 @@ public class ReviewService : IReviewService
         return newRequest.ToDto();
     }
 
-    public ReviewResponseInfoDto CreateReviewResponse(CreateReviewResponseDto createReviewResponseDto)
+    public async Task<ReviewResponseInfoDto> CreateReviewResponse(CreateReviewResponseDto createReviewResponseDto)
     {
         ArgumentNullException.ThrowIfNull(createReviewResponseDto);
 
@@ -110,7 +110,7 @@ public class ReviewService : IReviewService
         request.State = ReviewState.Reviewed;
 
         _context.ReviewResponses.Add(newReview);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         newReview.Request = request;
 
