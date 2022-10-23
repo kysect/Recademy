@@ -1,6 +1,8 @@
 ﻿@page "/projects/reviews/requests"
 @using Recademy.Dto.Reviews
+@using Recademy.Common
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
 
 <h3>Запросы на ревью</h3>
 
@@ -15,6 +17,7 @@
                 <BSTD>Пользователь</BSTD>
                 <BSTD>Дата отправки</BSTD>
                 <BSTD>Состояние</BSTD>
+                <BSTD></BSTD>
             </BSTR>
         </BSTHead>
         <BSTBody>
@@ -27,6 +30,12 @@
                     <BSTD>@request.CreationDate</BSTD>
                     <!-- TODO: transalte into russian -->
                     <BSTD>@request.State</BSTD>
+                    @if (MainLayout.User?.HasMentorRights() ?? false)
+                    {
+                        <BSButton Color="BSColor.Primary" MarginTopAndBottom="Margins.ExtraSmall" Size="Size.Small" @onclick="() => OpenReviewResponsePage(request.Id)">
+                            Оценить
+                        </BSButton>
+                    }
                 </BSTR>
             }
         </BSTBody>
@@ -47,5 +56,10 @@
         {
             _reviewRequests = reviewRequests;
         }
+    }
+
+    private void OpenReviewResponsePage(int requestId)
+    {
+        NavigationManager.NavigateTo($"/projects/reviews/responses/create/{requestId}");
     }
 }

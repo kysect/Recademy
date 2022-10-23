@@ -1,0 +1,96 @@
+﻿@page "/projects/reviews/responses/create/{RequestId:int?}"
+@using Recademy.Dto.Reviews
+@using Recademy.Dto.Enums
+@inject HttpClient Http
+@inject IBlazorStrap BlazorStrap
+
+<BSToaster />
+
+<h3>Ответ на ревью</h3>
+
+<BSLabel MarginTop="Margins.Small">Запрос</BSLabel>
+<BSInput InputType="InputType.Select" @bind-Value="RequestId">
+    @if (_reviewRequests is not null)
+    {
+        @foreach (ReviewRequestInfoDto request in _reviewRequests)
+        {
+            <option value="@request.Id">@request.ProjectInfo.Title (@request.Username)</option>
+        }
+    }
+</BSInput>
+
+<BSLabel MarginTop="Margins.Small">Комментарий</BSLabel>
+<BSInput InputType="InputType.Text" @bind-Value="_comment" />
+
+<BSLabel MarginTop="Margins.Small">Оценка</BSLabel>
+<BSInput InputType="InputType.Select" @bind-Value="_selectedReviewConclusion">
+    @if (_reviewConclusions is not null)
+    {
+        @foreach (ReviewConclusionDto reviewConclusion in _reviewConclusions)
+        {
+            <option value="@((int)reviewConclusion)">@reviewConclusion</option>
+        }
+    }
+</BSInput>
+
+<BSButton Color="BSColor.Primary" @onclick="SendReviewResponse" MarginTopAndBottom="Margins.Medium">Отправить ответ</BSButton>
+
+@code {
+    private readonly IReadOnlyCollection<ReviewConclusionDto> _reviewConclusions = Enum.GetValues<ReviewConclusionDto>();
+    private IReadOnlyCollection<ReviewRequestInfoDto> _reviewRequests;
+    private string _comment;
+    private ReviewConclusionDto _selectedReviewConclusion = ReviewConclusionDto.LooksGood;
+
+    [Parameter]
+    public int RequestId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (MainLayout.User is null)
+            return;
+
+        var reviewRequests = await Http.GetFromJsonAsync<IReadOnlyCollection<ReviewRequestInfoDto>>("api/reviews/requests");
+
+        if (reviewRequests is not null)
+        {
+            _reviewRequests = reviewRequests;
+        }
+    }
+
+    private async Task SendReviewResponse()
+    {
+        // TODO: add validation on input
+        var request = new CreateReviewResponseDto()
+            {
+                RequestId = RequestId,
+                ReviewerId = MainLayout.User.Id,
+                ReviewConclusion = _selectedReviewConclusion,
+                Comment = _comment,
+            };
+
+        var response = await Http.PostAsJsonAsync($"api/reviews/responses", request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            BlazorStrap.Toaster.Add("Ответ на ревью успешно создан", o =>
+            {
+                o.Color = BSColor.Success;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+        }
+        else
+        {
+            BlazorStrap.Toaster.Add("Произошла ошибка при отправке ответа на ревью", o =>
+            {
+                o.Color = BSColor.Danger;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+        }
+
+        RequestId = default;
+        _selectedReviewConclusion = ReviewConclusionDto.LooksGood;
+        _comment = default;
+    }
+}
