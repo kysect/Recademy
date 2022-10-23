@@ -71,7 +71,7 @@ public class ReviewService : IReviewService
         var newRequest = new ReviewRequest
         {
             State = ReviewState.Requested,
-            Description = createReviewRequestDto.Description,
+            Description = createReviewRequestDto.Comment,
             CreationTime = DateTime.UtcNow,
             ProjectId = createReviewRequestDto.ProjectId,
             UserId = createReviewRequestDto.UserId,
