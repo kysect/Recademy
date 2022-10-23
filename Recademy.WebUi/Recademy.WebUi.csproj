@@ -15,6 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Recademy.Common\Recademy.Common.csproj" />
 		<ProjectReference Include="..\Recademy.Core\Recademy.Core.csproj" />
 		<ProjectReference Include="..\Recademy.Shared\Recademy.Dto.csproj" />
 	</ItemGroup>
