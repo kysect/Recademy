@@ -10,16 +10,15 @@ namespace Recademy.Core.Models.Reviews;
 public class ReviewResponse
 {
     [Key]
-    public int Id { get; set; }
-    public string Description { get; set; }
-    public DateTime CreationTime { get; set; }
-    public ReviewConclusion ReviewConclusion { get; set; }
-
-    [ForeignKey("ReviewRequest")]
-    public int ReviewRequestId { get; set; }
-    public virtual ReviewRequest ReviewRequest { get; set; }
+    public int Id { get; init; }
+    [ForeignKey("Request")]
+    public int RequestId { get; init; }
+    public virtual ReviewRequest Request { get; set; }
 
     [ForeignKey("User")]
-    public int ReviewerId { get; set; }
-    public virtual RecademyUser Reviewer { get; set; }
+    public int ReviewerId { get; init; }
+    public virtual RecademyUser Reviewer { get; init; }
+    public ReviewConclusion ReviewConclusion { get; init; }
+    public string Description { get; init; }
+    public DateTime CreationTime { get; init; }
 }

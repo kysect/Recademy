@@ -1,0 +1,82 @@
+﻿@page "/projects/reviews/requests/create/{ProjectId:int?}"
+@using Recademy.Dto.Projects
+@using Recademy.Dto.Reviews
+@inject HttpClient Http
+@inject IBlazorStrap BlazorStrap
+
+<BSToaster />
+
+<h3>Запрос на ревью</h3>
+
+<BSLabel MarginTop="Margins.Small">Проект</BSLabel>
+<BSInput InputType="InputType.Select" @bind-Value="ProjectId">
+    @if (_userProjects is not null)
+    {
+        @foreach (ProjectInfoDto project in _userProjects)
+        {
+            <option value="@project.ProjectId">@project.Title</option>
+        }
+    }
+</BSInput>
+
+<BSLabel MarginTop="Margins.Small">Комментарий</BSLabel>
+<BSInput InputType="InputType.Text" @bind-Value="_comment" />
+
+<BSButton Color="BSColor.Primary" @onclick="SendReviewRequest" MarginTopAndBottom="Margins.Medium">Отправить запрос</BSButton>
+
+@code {
+    private IReadOnlyCollection<ProjectInfoDto> _userProjects;
+    private string _comment;
+
+    [Parameter]
+    public int ProjectId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (MainLayout.User is null)
+            return;
+
+        var userProjects = await Http.GetFromJsonAsync<IReadOnlyCollection<ProjectInfoDto>>("api/projects/user");
+
+        if (userProjects is not null)
+        {
+            _userProjects = userProjects;
+        }
+    }
+
+    private async Task SendReviewRequest()
+    {
+        // TODO: add validation on input
+        var request = new CreateReviewRequestDto()
+        {
+            UserId = MainLayout.User.Id,
+                ProjectId = ProjectId,
+            Comment = _comment,
+        };
+
+        var response = await Http.PostAsJsonAsync($"api/reviews/requests", request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            BlazorStrap.Toaster.Add("Запрос на ревью успешно создан", o =>
+            {
+                o.Color = BSColor.Success;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+        }
+        else
+        {
+            // TODO: show more suitable error (for example that review was already requested)
+            BlazorStrap.Toaster.Add("Произошла ошибка при отправке запроса на ревью", o =>
+            {
+                o.Color = BSColor.Danger;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+        }
+
+        ProjectId = default;
+        _comment = default;
+    }
+}

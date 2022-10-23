@@ -14,6 +14,7 @@
                 <BSNav MarginEnd="Margins.Auto" MarginBottom="Margins.Small" Class="mb-lg-0">
                     <BSNavItem Url="/projects/add">Добавить проект</BSNavItem>
                     <BSNavItem Url="/projects/reviews/requests">Просмотреть запросы на ревью</BSNavItem>
+                    <BSNavItem Url="/projects/reviews/requests/create">Создать запрос на ревью</BSNavItem>
                 </BSNav>
             </Content>
         </BSCollapse>
@@ -42,7 +43,7 @@
                     <BSButton Color="BSColor.Primary" Size="Size.Small" @onclick="() => OpenProjectPage(project.ProjectId)">
                         Подробнее
                     </BSButton>
-                    <BSButton Color="BSColor.Primary" MarginTopAndBottom="Margins.ExtraSmall" Size="Size.Small">
+                <BSButton Color="BSColor.Primary" MarginTopAndBottom="Margins.ExtraSmall" Size="Size.Small" @onclick="() => OpenReviewRequestPage(project.ProjectId)">
                         Запросить ревью
                     </BSButton>
                 </BSCard>
@@ -68,7 +69,7 @@ else
 
         try
         {
-            var userProjects = await Http.GetFromJsonAsync<IReadOnlyCollection<ProjectInfoDto>>($"api/Projects/users/{MainLayout.User.Id}");
+            var userProjects = await Http.GetFromJsonAsync<IReadOnlyCollection<ProjectInfoDto>>($"api/Projects/user");
 
             if (userProjects is not null)
                 _userProjects = userProjects;
@@ -82,5 +83,10 @@ else
     private void OpenProjectPage(int projectId)
     {
         NavigationManager.NavigateTo($"/projects/{projectId}");
+    }
+    
+    private void OpenReviewRequestPage(int projectId)
+    {
+        NavigationManager.NavigateTo($"/projects/reviews/requests/create/{projectId}");
     }
 }

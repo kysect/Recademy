@@ -1,6 +1,6 @@
 ﻿namespace Recademy.Core.Types;
 
-public enum ProjectState
+public enum ReviewState
 {
     Requested = 1,
     Reviewed = 2,

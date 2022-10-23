@@ -1,16 +1,16 @@
 ﻿using Recademy.Dto.Reviews;
-
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Recademy.Application.Services.Abstractions;
 
 public interface IReviewService
 {
-    IReadOnlyCollection<ReviewRequestInfoDto> GetReviewRequests();
-    ReviewRequestInfoDto GetReviewInfo(int requestId);
-    IReadOnlyCollection<ReviewRequestInfoDto> ReadReviewRequestBySearchContext(ReviewRequestSearchContextDto searchContextDto);
-
-    ReviewRequestInfoDto AddReviewRequest(ReviewRequestAddDto reviewRequestAddDto);
+    Task<IReadOnlyCollection<ReviewRequestInfoDto>> GetReviewRequests();
+    Task<IReadOnlyCollection<ReviewRequestInfoDto>> GetReviewRequestsByUserId(int userId);
+    ReviewRequestInfoDto GetReviewRequestById(int requestId);
+    Task<ReviewRequestInfoDto> CreateReviewRequest(CreateReviewRequestDto createReviewRequestDto);
+    ReviewResponseInfoDto CreateReviewResponse(CreateReviewResponseDto createReviewResponseDto);
     ReviewRequestInfoDto CompleteReview(int requestId);
     ReviewRequestInfoDto AbandonReview(int requestId);
 }
