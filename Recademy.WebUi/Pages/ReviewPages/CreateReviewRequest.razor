@@ -47,10 +47,10 @@
     private async Task SendReviewRequest()
     {
         // TODO: add validation on input
-        var request = new CreateReviewRequestDto()
+        var request = new CreateReviewRequestDto
         {
             UserId = MainLayout.User.Id,
-                ProjectId = ProjectId,
+            ProjectId = ProjectId,
             Comment = _comment,
         };
 
