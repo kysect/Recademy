@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Recademy.Dto.Achievements;
 using Recademy.Application.Mappings;
 using Recademy.Application.Providers;
@@ -104,15 +105,21 @@ public sealed class UserAchievementService : IUserAchievementService
         await _context.SaveChangesAsync();
     }
 
-    public async Task AddUserAchievementRequest(UserAchievementRequestDto request)
+    public async Task<UserAchievementRequestDto> AddUserAchievementRequest(UserAchievementRequestDto request)
     {
         UserAchievementRequest achievementRequest = request.FromDto();
 
         await _context.UserAchievementRequests.AddAsync(achievementRequest);
         await _context.SaveChangesAsync();
+
+        achievementRequest = await _context.UserAchievementRequests
+            .Include(request => request.User)
+            .FirstAsync(request => request.RequestId == achievementRequest.RequestId);
+
+        return achievementRequest.ToDto();
     }
 
-    public async Task AddUserAchievementResponse(UserAchievementResponseDto response)
+    public async Task<UserAchievementResponseDto> AddUserAchievementResponse(UserAchievementResponseDto response)
     {
         UserAchievementResponse achievementResponse = response.FromDto();
 
@@ -126,5 +133,10 @@ public sealed class UserAchievementService : IUserAchievementService
 
         if (achievementResponse.Response is UserAchievementResponseType.Approved)
             await AddUserAchievement(achievementRequest.UserId, achievementRequest.AchievementId);
+
+        achievementResponse = await _context.UserAchievementResponses
+                .FirstAsync(response => response.ResponseId == achievementResponse.ResponseId);
+
+        return achievementResponse.ToDto();
     }
 }

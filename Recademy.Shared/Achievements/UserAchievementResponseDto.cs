@@ -5,10 +5,6 @@ namespace Recademy.Dto.Achievements;
 
 public class UserAchievementResponseDto
 {
-    public UserAchievementResponseDto()
-    {
-    }
-
     public int ResponseId { get; init; }
     public int RequestId { get; init; }
     public UserAchievementResponseTypeDto Response { get; init; }
