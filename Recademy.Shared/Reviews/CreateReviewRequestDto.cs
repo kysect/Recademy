@@ -1,10 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Recademy.Dto.Reviews;
+﻿namespace Recademy.Dto.Reviews;
 
 public class CreateReviewRequestDto
 {
-    public int UserId { get; set; }
-    public int ProjectId { get; set; }
-    public string Comment { get; set; }
+    public int UserId { get; init; }
+    public int ProjectId { get; init; }
+    public string Comment { get; init; }
 }

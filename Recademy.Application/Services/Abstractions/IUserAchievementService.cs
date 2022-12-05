@@ -16,6 +16,6 @@ public interface IUserAchievementService
     int GetUserAchievementPoints(int userId);
     Task<UserAchievementResponseDto> GetUserAchievementResponse(int requestId);
     Task AddUserAchievement(int userId, int achievementId);
-    Task AddUserAchievementRequest(UserAchievementRequestDto request);
-    Task AddUserAchievementResponse(UserAchievementResponseDto response);
+    Task<UserAchievementRequestDto> AddUserAchievementRequest(UserAchievementRequestDto request);
+    Task<UserAchievementResponseDto> AddUserAchievementResponse(UserAchievementResponseDto response);
 }

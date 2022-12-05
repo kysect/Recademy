@@ -46,6 +46,13 @@ public class ReviewService : IReviewService
             .ToDto();
     }
 
+    public ReviewResponseInfoDto GetReviewResponseById(int responseId)
+    {
+        return _context.ReviewResponses
+            .Single(r => r.Id == responseId)
+            .ToDto();
+    }
+
     public async Task<ReviewRequestInfoDto> CreateReviewRequest(CreateReviewRequestDto createReviewRequestDto)
     {
         ArgumentNullException.ThrowIfNull(createReviewRequestDto);
