@@ -25,20 +25,20 @@
             else
             {
                 <div>
-                    <button class="btn btn-primary" @onclick="MakeUserAdmin">Go admin!</button>
+                    <button class="btn btn-primary" style="background-color: slateblue; border: 0; border-radius: 12px;" @onclick="MakeUserAdmin">Go admin!</button>
                 </div>
                 @if (!string.IsNullOrEmpty(@UserRole?.Name))
                 {
                     <div>
                         [@UserRole.Name] @User.GithubUsername
-                        <button class="btn btn-primary" @onclick="SignOut">Sign out</button>
+                        <button class="btn btn-primary" style="background-color: slateblue; border: 0; border-radius: 12px;" @onclick="SignOut">Sign out</button>
                     </div>
                 }
                 else
                 {
                     <div>
                         @User.GithubUsername
-                        <button class="btn btn-primary" @onclick="SignOut">Sign out</button>
+                        <button class="btn btn-primary" style="background-color: slateblue; border: 0; border-radius: 12px;" @onclick="SignOut">Sign out</button>
                     </div>
                 }
             }
