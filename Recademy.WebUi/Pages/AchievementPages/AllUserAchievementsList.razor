@@ -2,14 +2,23 @@
 
 @if (AllUserAchievements.Count > 0)
 {
-    <div>
-        <ul>
-            @foreach (UserAchievementDto achievement in AllUserAchievements)
-            {
-                <li>@achievement.Title (@achievement.Description) - @achievement.Points kysочков</li>
-            }
-        </ul>
-    </div>
+    <BSCard CardType="CardType.Deck" Class="row">
+        @foreach (UserAchievementDto achievement in AllUserAchievements)
+        {
+            <BSCard CardType="CardType.Card" MarginLeftAndRight="Margins.Medium" MarginTopAndBottom="Margins.Medium" style="width: 12rem; margin: 0.2rem; border-radius: 12px; border: 0; box-shadow: 5px 5px lightgray;">
+                <BSCard CardType="CardType.Body" PaddingBottom="Padding.ExtraSmall">
+                    <BSCard CardType="CardType.Title"><p style="font-size: 32px; font-weight: bold; color:dodgerblue">@achievement.Points</p></BSCard>
+                    <BSCard CardType="CardType.Subtitle">
+                        <p style="font-size: 14px; padding: auto; margin: auto">kysочков</p>
+                    </BSCard>
+                    <BSCard CardType="CardType.Text">
+                        <p style="font-size: 14px; font-weight: bold">@achievement.Title</p>
+                        <p style="font-size: 14px;">@achievement.Description</p>
+                    </BSCard>
+                </BSCard>
+            </BSCard>
+        }
+    </BSCard>
 }
 
 @code {
