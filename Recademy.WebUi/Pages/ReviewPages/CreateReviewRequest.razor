@@ -6,23 +6,30 @@
 
 <BSToaster />
 
-<h3>Запрос на ревью</h3>
+@if (MainLayout.User is null)
+{
+    <Unauthorized />
+}
+else
+{
+    <h3>Запрос на ревью</h3>
 
-<BSLabel MarginTop="Margins.Small">Проект</BSLabel>
-<BSInput InputType="InputType.Select" @bind-Value="ProjectId">
-    @if (_userProjects is not null)
-    {
-        @foreach (ProjectInfoDto project in _userProjects)
+    <BSLabel MarginTop="Margins.Small">Проект</BSLabel>
+    <BSInput InputType="InputType.Select" @bind-Value="ProjectId">
+        @if (_userProjects is not null)
         {
-            <option value="@project.ProjectId">@project.Title</option>
+            @foreach (ProjectInfoDto project in _userProjects)
+            {
+                <option value="@project.ProjectId">@project.Title</option>
+            }
         }
-    }
-</BSInput>
+    </BSInput>
 
-<BSLabel MarginTop="Margins.Small">Комментарий</BSLabel>
-<BSInput InputType="InputType.Text" @bind-Value="_comment" />
+    <BSLabel MarginTop="Margins.Small">Комментарий</BSLabel>
+    <BSInput InputType="InputType.Text" @bind-Value="_comment" />
 
-<BSButton Color="BSColor.Primary" @onclick="SendReviewRequest" MarginTopAndBottom="Margins.Medium">Отправить запрос</BSButton>
+    <BSButton Color="BSColor.Primary" @onclick="SendReviewRequest" MarginTopAndBottom="Margins.Medium">Отправить запрос</BSButton>
+}
 
 @code {
     private IReadOnlyCollection<ProjectInfoDto> _userProjects;

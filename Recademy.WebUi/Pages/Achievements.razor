@@ -3,64 +3,71 @@
 @using Recademy.Common
 @inject HttpClient Http
 
-<BSNavbar Color="BSColor.Light">
-    <BSContainer Container="Container.Fluid">
-        <BSNavbarBrand>Достижения</BSNavbarBrand>
-        <BSCollapse IsInNavbar="true">
-            <Toggler>
-                <BSNavbarToggle />
-            </Toggler>
-            <Content>
-                <BSNav MarginEnd="Margins.Auto" MarginBottom="Margins.Small" Class="mb-lg-0">
-                    <BSNavItem Url="/achievements/request">Запросить достижение</BSNavItem>
-                    @if (MainLayout.User.HasMentorRights())
-                    {
-                        <BSNavItem Url="/achievements/requests">Просмотреть запросы</BSNavItem>
-                    }
-                </BSNav>
-            </Content>
-        </BSCollapse>
-    </BSContainer>
-</BSNavbar>
-
-@if (MainLayout.User is not null)
+@if (MainLayout.User is null)
 {
-    <div>
-        <p>Kysочков у @MainLayout.User.GithubUsername: @_userPointsCount</p>
-    </div>
+    <Unauthorized /> 
 }
-
-@if (_userAchievements.Count > 0)
+else
 {
-    <BSCard CardType="CardType.Deck" Class="row">
-        @foreach (UserAchievementDto achievement in _userAchievements)
-        {
-            <BSCard CardType="CardType.Card" style="width: 12rem; margin: 0.2rem">
-                <BSCard CardType="CardType.Body" PaddingBottom="Padding.ExtraSmall">
-                    <BSCard CardType="CardType.Title"><p style="font-size: 16px">@achievement.Title</p></BSCard>
-                    <BSCard CardType="CardType.Subtitle">
-                        <p style="font-size: 14px; padding: auto; margin: auto">Kysочки: @achievement.Points</p>
-                    </BSCard>
-                    <BSCard CardType="CardType.Text">
-                        <p style="font-size: 14px">@achievement.Description</p>
+    <BSNavbar Color="BSColor.Light">
+        <BSContainer Container="Container.Fluid">
+            <BSNavbarBrand>Достижения</BSNavbarBrand>
+            <BSCollapse IsInNavbar="true">
+                <Toggler>
+                    <BSNavbarToggle />
+                </Toggler>
+                <Content>
+                    <BSNav MarginEnd="Margins.Auto" MarginBottom="Margins.Small" Class="mb-lg-0">
+                        <BSNavItem Url="/achievements/request">Запросить достижение</BSNavItem>
+                        @if (MainLayout.User.HasMentorRights())
+                        {
+                            <BSNavItem Url="/achievements/requests">Просмотреть запросы</BSNavItem>
+                        }
+                    </BSNav>
+                </Content>
+            </BSCollapse>
+        </BSContainer>
+    </BSNavbar>
+
+    @if (MainLayout.User is not null)
+    {
+        <div>
+            <p>Kysочков у @MainLayout.User.GithubUsername: @_userPointsCount</p>
+        </div>
+    }
+
+    @if (_userAchievements.Count > 0)
+    {
+        <BSCard CardType="CardType.Deck" Class="row">
+            @foreach (UserAchievementDto achievement in _userAchievements)
+            {
+                <BSCard CardType="CardType.Card" style="width: 12rem; margin: 0.2rem">
+                    <BSCard CardType="CardType.Body" PaddingBottom="Padding.ExtraSmall">
+                        <BSCard CardType="CardType.Title"><p style="font-size: 16px">@achievement.Title</p></BSCard>
+                        <BSCard CardType="CardType.Subtitle">
+                            <p style="font-size: 14px; padding: auto; margin: auto">Kysочки: @achievement.Points</p>
+                        </BSCard>
+                        <BSCard CardType="CardType.Text">
+                            <p style="font-size: 14px">@achievement.Description</p>
+                        </BSCard>
                     </BSCard>
                 </BSCard>
-            </BSCard>
-        }
-    </BSCard>
-}
-
-<BSButton Color="BSColor.Primary" @onclick="FillAllAchievements">Все достижения</BSButton>
-@if (_allUserAchievements.Count > 0 && _allAchievementsShow)
-{
-    <div>
-        <ul>
-            @foreach (UserAchievementDto achievement in _allUserAchievements)
-            {
-                <li>@achievement.Title (@achievement.Description) - @achievement.Points kysочков</li>
             }
-        </ul>
-    </div>
+        </BSCard>
+    }
+
+    <BSButton Color="BSColor.Primary" @onclick="FillAllAchievements">Все достижения</BSButton>
+    @if (_allUserAchievements.Count > 0 && _allAchievementsShow)
+    {
+        <div>
+            <ul>
+                @foreach (UserAchievementDto achievement in _allUserAchievements)
+                {
+                    <li>@achievement.Title (@achievement.Description) - @achievement.Points kysочков</li>
+                }
+            </ul>
+        </div>
+    }
 }
 
 @code {

@@ -4,42 +4,49 @@
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
-<h3>Запросы на ревью</h3>
-
-<!-- TODO: is not null or empty -->
-@if (_reviewRequests is not null)
+@if (MainLayout.User is null)
 {
-    <BSTable Color="BSColor.Light" IsBordered="true" IsBorderLess="false" IsCaptionTop="false" IsStriped="false">
-        <BSTHead>
-            <BSTR>
-                <BSTD>ID</BSTD>
-                <BSTD>Проект</BSTD>
-                <BSTD>Пользователь</BSTD>
-                <BSTD>Дата отправки</BSTD>
-                <BSTD>Состояние</BSTD>
-                <BSTD></BSTD>
-            </BSTR>
-        </BSTHead>
-        <BSTBody>
-            @foreach (ReviewRequestInfoDto request in _reviewRequests)
-            {
+    <Unauthorized />
+}
+else
+{
+    <h3>Запросы на ревью</h3>
+
+    <!-- TODO: is not null or empty -->
+    @if (_reviewRequests is not null)
+    {
+        <BSTable Color="BSColor.Light" IsBordered="true" IsBorderLess="false" IsCaptionTop="false" IsStriped="false">
+            <BSTHead>
                 <BSTR>
-                    <BSTD>@request.Id</BSTD>
-                    <BSTD>@request.ProjectInfo?.Title</BSTD>
-                    <BSTD>@request.Username</BSTD>
-                    <BSTD>@request.CreationDate</BSTD>
-                    <!-- TODO: transalte into russian -->
-                    <BSTD>@request.State</BSTD>
-                    @if (MainLayout.User?.HasMentorRights() ?? false)
-                    {
-                        <BSButton Color="BSColor.Primary" MarginTopAndBottom="Margins.ExtraSmall" Size="Size.Small" @onclick="() => OpenReviewResponsePage(request.Id)">
-                            Оценить
-                        </BSButton>
-                    }
+                    <BSTD>ID</BSTD>
+                    <BSTD>Проект</BSTD>
+                    <BSTD>Пользователь</BSTD>
+                    <BSTD>Дата отправки</BSTD>
+                    <BSTD>Состояние</BSTD>
+                    <BSTD></BSTD>
                 </BSTR>
-            }
-        </BSTBody>
-    </BSTable>
+            </BSTHead>
+            <BSTBody>
+                @foreach (ReviewRequestInfoDto request in _reviewRequests)
+                {
+                    <BSTR>
+                        <BSTD>@request.Id</BSTD>
+                        <BSTD>@request.ProjectInfo?.Title</BSTD>
+                        <BSTD>@request.Username</BSTD>
+                        <BSTD>@request.CreationDate</BSTD>
+                        <!-- TODO: transalte into russian -->
+                        <BSTD>@request.State</BSTD>
+                        @if (MainLayout.User?.HasMentorRights() ?? false)
+                        {
+                            <BSButton Color="BSColor.Primary" MarginTopAndBottom="Margins.ExtraSmall" Size="Size.Small" @onclick="() => OpenReviewResponsePage(request.Id)">
+                                Оценить
+                            </BSButton>
+                        }
+                    </BSTR>
+                }
+            </BSTBody>
+        </BSTable>
+    }
 }
 
 @code {

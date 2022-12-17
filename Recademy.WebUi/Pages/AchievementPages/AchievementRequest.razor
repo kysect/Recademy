@@ -5,24 +5,30 @@
 
 <BSToaster />
 
-<h3>Запрос достижения</h3>
+@if (MainLayout.User is null)
+{
+    <Unauthorized />
+}
+else
+{
+    <h3>Запрос достижения</h3>
 
-<BSLabel MarginTop="Margins.Small">Достижение</BSLabel>
-<BSInput InputType="InputType.Select" @bind-Value="_achievementId">
-    @if (_achievements is not null)
-    {
-        @foreach (UserAchievementDto achievement in _achievements)
+    <BSLabel MarginTop="Margins.Small">Достижение</BSLabel>
+    <BSInput InputType="InputType.Select" @bind-Value="_achievementId">
+        @if (_achievements is not null)
         {
-            <option value="@achievement.Id">@achievement.Title</option>
+            @foreach (UserAchievementDto achievement in _achievements)
+            {
+                <option value="@achievement.Id">@achievement.Title</option>
+            }
         }
-    }
-</BSInput>
+    </BSInput>
 
-<BSLabel MarginTop="Margins.Small">Причина запроса</BSLabel>
-<BSInput InputType="InputType.Text" placeholder="Указание причины позволит ускорить процесс обработки запроса" @bind-Value="_achievementReason" />
+    <BSLabel MarginTop="Margins.Small">Причина запроса</BSLabel>
+    <BSInput InputType="InputType.Text" placeholder="Указание причины позволит ускорить процесс обработки запроса" @bind-Value="_achievementReason" />
 
-<BSButton Color="BSColor.Primary" @onclick="SendAchievementRequest" MarginTopAndBottom="Margins.Medium">Отправить запрос</BSButton>
-
+    <BSButton Color="BSColor.Primary" @onclick="SendAchievementRequest" MarginTopAndBottom="Margins.Medium">Отправить запрос</BSButton>
+}
 
 @code {
     private IReadOnlyCollection<UserAchievementDto> _achievements;

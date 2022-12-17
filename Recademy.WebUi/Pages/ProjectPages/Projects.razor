@@ -3,60 +3,67 @@
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
-<BSNavbar Color="BSColor.Light">
-    <BSContainer Container="Container.Fluid">
-        <BSNavbarBrand>Проекты</BSNavbarBrand>
-        <BSCollapse IsInNavbar="true">
-            <Toggler>
-                <BSNavbarToggle />
-            </Toggler>
-            <Content>
-                <BSNav MarginEnd="Margins.Auto" MarginBottom="Margins.Small" Class="mb-lg-0">
-                    <BSNavItem Url="/projects/add">Добавить проект</BSNavItem>
-                    <BSNavItem Url="/projects/reviews/requests">Просмотреть запросы на ревью</BSNavItem>
-                    <BSNavItem Url="/projects/reviews/requests/create">Создать запрос на ревью</BSNavItem>
-                </BSNav>
-            </Content>
-        </BSCollapse>
-    </BSContainer>
-</BSNavbar>
-
-@if (_userProjects.Count > 0)
+@if (MainLayout.User is null)
 {
-    <BSCard CardType="CardType.Deck" Class="row">
-        @foreach (ProjectInfoDto project in _userProjects)
-        {
-            <BSCard CardType="CardType.Card" style="width: 25%; margin: 0.2rem">
-                <BSCard CardType="CardType.Body" PaddingBottom="Padding.ExtraSmall">
-                    <BSCard CardType="CardType.Title">
-                        <p style="font-size: 16px">@project.Title</p>
-                    </BSCard>
-                    <BSCard CardType="CardType.Subtitle">
-                        @string.Join(", ", @project.ProjectSkills.Select(skill => skill.Skill?.Name))
-                    </BSCard>
-                    <BSCard CardType="CardType.Link">
-                        <a href="@project.Link" target="_blank" style="font-size: 14px; padding: auto; margin: auto">@project.Link</a>
-                    </BSCard>
-                    <BSCard CardType="CardType.Text">
-                        <p style="font-size: 14px; padding: auto; margin: auto">Автор: @project.Username</p>
-                    </BSCard>
-                    <BSButton Color="BSColor.Primary" Size="Size.Small" @onclick="() => OpenProjectPage(project.ProjectId)">
-                        Подробнее
-                    </BSButton>
-                    <BSButton Color="BSColor.Primary" MarginTopAndBottom="Margins.ExtraSmall" Size="Size.Small" @onclick="() => OpenReviewRequestPage(project.ProjectId)">
-                        Запросить ревью
-                    </BSButton>
-                </BSCard>
-            </BSCard>
-        }
-    </BSCard>
+    <Unauthorized />
 }
 else
 {
-    <div>
-        <p>У тебя ещё нет проектов :c</p>
-        <BSImage Source="images/white-white-cat.gif" IsFluid="true"></BSImage>
-    </div>
+    <BSNavbar Color="BSColor.Light">
+        <BSContainer Container="Container.Fluid">
+            <BSNavbarBrand>Проекты</BSNavbarBrand>
+            <BSCollapse IsInNavbar="true">
+                <Toggler>
+                    <BSNavbarToggle />
+                </Toggler>
+                <Content>
+                    <BSNav MarginEnd="Margins.Auto" MarginBottom="Margins.Small" Class="mb-lg-0">
+                        <BSNavItem Url="/projects/add">Добавить проект</BSNavItem>
+                        <BSNavItem Url="/projects/reviews/requests">Просмотреть запросы на ревью</BSNavItem>
+                        <BSNavItem Url="/projects/reviews/requests/create">Создать запрос на ревью</BSNavItem>
+                    </BSNav>
+                </Content>
+            </BSCollapse>
+        </BSContainer>
+    </BSNavbar>
+
+    @if (_userProjects.Count > 0)
+    {
+        <BSCard CardType="CardType.Deck" Class="row">
+            @foreach (ProjectInfoDto project in _userProjects)
+            {
+                <BSCard CardType="CardType.Card" style="width: 25%; margin: 0.2rem">
+                    <BSCard CardType="CardType.Body" PaddingBottom="Padding.ExtraSmall">
+                        <BSCard CardType="CardType.Title">
+                            <p style="font-size: 16px">@project.Title</p>
+                        </BSCard>
+                        <BSCard CardType="CardType.Subtitle">
+                            @string.Join(", ", @project.ProjectSkills.Select(skill => skill.Skill?.Name))
+                        </BSCard>
+                        <BSCard CardType="CardType.Link">
+                            <a href="@project.Link" target="_blank" style="font-size: 14px; padding: auto; margin: auto">@project.Link</a>
+                        </BSCard>
+                        <BSCard CardType="CardType.Text">
+                            <p style="font-size: 14px; padding: auto; margin: auto">Автор: @project.Username</p>
+                        </BSCard>
+                        <BSButton Color="BSColor.Primary" Size="Size.Small" @onclick="() => OpenProjectPage(project.ProjectId)">
+                            Подробнее
+                        </BSButton>
+                        <BSButton Color="BSColor.Primary" MarginTopAndBottom="Margins.ExtraSmall" Size="Size.Small" @onclick="() => OpenReviewRequestPage(project.ProjectId)">
+                            Запросить ревью
+                        </BSButton>
+                    </BSCard>
+                </BSCard>
+            }
+        </BSCard>
+    }
+    else
+    {
+        <div>
+            <p>У тебя ещё нет проектов :c</p>
+            <BSImage Source="images/white-white-cat.gif" IsFluid="true"></BSImage>
+        </div>
+    }
 }
 
 @code {

@@ -5,18 +5,25 @@
 
 <BSToaster />
 
-<BSLabel MarginTop="Margins.Small">Название проекта</BSLabel>
-<BSInput InputType="InputType.Text" ValidateOnInput="true" @bind-Value="_projectTitle"></BSInput>
+@if (MainLayout.User is null)
+{
+    <Unauthorized />
+}
+else
+{
+    <BSLabel MarginTop="Margins.Small">Название проекта</BSLabel>
+    <BSInput InputType="InputType.Text" ValidateOnInput="true" @bind-Value="_projectTitle"></BSInput>
 
-<BSLabel MarginTop="Margins.Small">Описание проекта</BSLabel>
-<BSInput InputType="InputType.TextArea" @bind-Value="_projectDescription"></BSInput>
+    <BSLabel MarginTop="Margins.Small">Описание проекта</BSLabel>
+    <BSInput InputType="InputType.TextArea" @bind-Value="_projectDescription"></BSInput>
 
-<BSLabel MarginTop="Margins.Small">Ссылка на проект</BSLabel>
-<BSInput InputType="InputType.Url" ValidateOnInput="true" @bind-Value="_projectLink"></BSInput>
+    <BSLabel MarginTop="Margins.Small">Ссылка на проект</BSLabel>
+    <BSInput InputType="InputType.Url" ValidateOnInput="true" @bind-Value="_projectLink"></BSInput>
 
-<!-- TODO: tags -->
+    <!-- TODO: tags -->
 
-<BSButton Color="BSColor.Primary" @onclick="CreateProject" MarginTopAndBottom="Margins.Medium">Отправить</BSButton>
+    <BSButton Color="BSColor.Primary" @onclick="CreateProject" MarginTopAndBottom="Margins.Medium">Отправить</BSButton>
+}
 
 @code {
     private string _projectTitle;

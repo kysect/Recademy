@@ -4,17 +4,24 @@
 
 <h1>Добро пожаловать в Kysect!</h1>
 
-@if (_userPoints.Count > 0)
+@if (MainLayout.User is null)
 {
-    <div style="width: fit-content; max-width: 30%; right: 5%; position: absolute">
-        <h5>Kysочковый рейтинг</h5>
-        <BSListGroup>
-            @foreach (UserAchievementPointsDto userPoint in _userPoints)
-            {
-                <BSListGroupItem>@userPoint.Username - @userPoint.Points</BSListGroupItem>
-            }
-        </BSListGroup>
-    </div>
+    <Unauthorized />
+}
+else
+{
+    @if (_userPoints.Count > 0)
+    {
+        <div style="width: fit-content; max-width: 30%; right: 5%; position: absolute">
+            <h5>Kysочковый рейтинг</h5>
+            <BSListGroup>
+                @foreach (UserAchievementPointsDto userPoint in _userPoints)
+                {
+                    <BSListGroupItem>@userPoint.Username - @userPoint.Points</BSListGroupItem>
+                }
+            </BSListGroup>
+        </div>
+    }
 }
 
 @code

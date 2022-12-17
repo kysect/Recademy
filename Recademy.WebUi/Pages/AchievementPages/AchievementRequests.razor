@@ -3,37 +3,44 @@
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
-<h3>Запросы на получение достижений</h3>
+@if (MainLayout.User is null)
+{
+    <Unauthorized />
+}
+else
+{
+    <h3>Запросы на получение достижений</h3>
 
-<BSTable Color="BSColor.Light" IsBordered="true" IsBorderLess="false" IsCaptionTop="false" IsStriped="false">
-    <BSTHead>
-        <BSTR>
-            <BSTD>Id</BSTD>
-            <BSTD>Achievement</BSTD>
-            <BSTD>User</BSTD>
-            <BSTD>Reason</BSTD>
-        </BSTR>
-    </BSTHead>
-    <BSTBody>
-        @if (_requests is not null)
-        {
-            @foreach (UserAchievementRequestDto request in _requests)
+    <BSTable Color="BSColor.Light" IsBordered="true" IsBorderLess="false" IsCaptionTop="false" IsStriped="false">
+        <BSTHead>
+            <BSTR>
+                <BSTD>Id</BSTD>
+                <BSTD>Achievement</BSTD>
+                <BSTD>User</BSTD>
+                <BSTD>Reason</BSTD>
+            </BSTR>
+        </BSTHead>
+        <BSTBody>
+            @if (_requests is not null)
             {
-                <BSTR>
-                    <BSTD>@request.RequestId</BSTD>
-                    <BSTD>@request.Achievement.Title</BSTD>
-                    <BSTD>@request.User.GithubUsername</BSTD>
-                    <BSTD>@request.Reason</BSTD>
-                    <BSTD>
-                    <BSButton Color="BSColor.Primary" @onclick="@(() => Reply(@request.RequestId))">
-                            Ответить
-                        </BSButton>
-                    </BSTD>
-                </BSTR>
+                @foreach (UserAchievementRequestDto request in _requests)
+                {
+                    <BSTR>
+                        <BSTD>@request.RequestId</BSTD>
+                        <BSTD>@request.Achievement.Title</BSTD>
+                        <BSTD>@request.User.GithubUsername</BSTD>
+                        <BSTD>@request.Reason</BSTD>
+                        <BSTD>
+                            <BSButton Color="BSColor.Primary" @onclick="@(() => Reply(@request.RequestId))">
+                                Ответить
+                            </BSButton>
+                        </BSTD>
+                    </BSTR>
+                }
             }
-        }
-    </BSTBody>
-</BSTable>
+        </BSTBody>
+    </BSTable>
+}
 
 @code {
     private const string ResponsePageUri = "/achievements/requests/{0}/response";

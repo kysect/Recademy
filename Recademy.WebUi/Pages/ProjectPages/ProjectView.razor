@@ -2,17 +2,24 @@
 @using Recademy.Dto.Projects
 @inject HttpClient Http
 
-@if (@_project is not null)
+@if (MainLayout.User is null)
 {
-    <h1>@_project?.Title</h1>
-
-    <BSLabel style="font-weight: bold">Описание проекта</BSLabel>
-    <p>@_project?.Description</p>
-    <p><b>Автор: </b>@_project.Username</p>
-    <BSLink><b>Ссылка: </b><a href="@_project.Link">@_project.Link</a></BSLink>
+    <Unauthorized />
 }
+else
+{
+    @if (@_project is not null)
+    {
+        <h1>@_project?.Title</h1>
 
-<BSImage Source="images/nyan-cat.gif" IsFluid="true"></BSImage>
+        <BSLabel style="font-weight: bold">Описание проекта</BSLabel>
+        <p>@_project?.Description</p>
+        <p><b>Автор: </b>@_project.Username</p>
+        <BSLink><b>Ссылка: </b><a href="@_project.Link">@_project.Link</a></BSLink>
+    }
+
+    <BSImage Source="images/nyan-cat.gif" IsFluid="true"></BSImage>
+}
 
 @code {
     private ProjectInfoDto _project;
