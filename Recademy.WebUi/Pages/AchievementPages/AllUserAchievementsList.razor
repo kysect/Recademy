@@ -1,0 +1,18 @@
+﻿@using Recademy.Dto.Achievements
+
+@if (AllUserAchievements.Count > 0)
+{
+    <div>
+        <ul>
+            @foreach (UserAchievementDto achievement in AllUserAchievements)
+            {
+                <li>@achievement.Title (@achievement.Description) - @achievement.Points kysочков</li>
+            }
+        </ul>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public IReadOnlyCollection<UserAchievementDto> AllUserAchievements { get; set; }
+}

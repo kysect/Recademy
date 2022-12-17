@@ -1,6 +1,7 @@
 ﻿@page "/achievements"
 @using Recademy.Dto.Achievements
 @using Recademy.Common
+@using Recademy.WebUi.Pages.AchievementPages
 @inject HttpClient Http
 
 @if (MainLayout.User is null)
@@ -9,15 +10,30 @@
 }
 else
 {
+
+    <BSProgress>
+        <BSProgressBar Color="BSColor.Dark" Value="@CalculateUserPointsPercent()" >@(Math.Round(@CalculateUserPointsPercent()))%</BSProgressBar>
+    </BSProgress>
+
+    <div style="display: flex; flex-direction: row; justify-content: center; padding: 1em;">
+        <BSImage Source="../images/crown.svg" IsFluid="true" style="max-height: 1.5em" />
+        <BSLabel PaddingLeftAndRight="Padding.Small">
+            Kysочков у <BSLabel style="color:dodgerblue; font-weight: bold">@MainLayout.User.GithubUsername</BSLabel>: @_userPointsCount
+        </BSLabel>
+        <BSImage Source="../images/crown.svg" IsFluid="true" style="max-height: 1.5em" />
+    </div>
+    
+
     <BSNavbar Color="BSColor.Light">
         <BSContainer Container="Container.Fluid">
-            <BSNavbarBrand>Достижения</BSNavbarBrand>
             <BSCollapse IsInNavbar="true">
                 <Toggler>
                     <BSNavbarToggle />
                 </Toggler>
                 <Content>
                     <BSNav MarginEnd="Margins.Auto" MarginBottom="Margins.Small" Class="mb-lg-0">
+                        <BSNavItem OnClick="() => _allAchievementsShow = false" style="font-weight: bold">Достижения</BSNavItem>
+                        <BSNavItem OnClick="() => _allAchievementsShow = true">Все достижения</BSNavItem>
                         <BSNavItem Url="/achievements/request">Запросить достижение</BSNavItem>
                         @if (MainLayout.User.HasMentorRights())
                         {
@@ -29,44 +45,14 @@ else
         </BSContainer>
     </BSNavbar>
 
-    @if (MainLayout.User is not null)
-    {
-        <div>
-            <p>Kysочков у @MainLayout.User.GithubUsername: @_userPointsCount</p>
-        </div>
-    }
 
-    @if (_userAchievements.Count > 0)
+    @if (!_allAchievementsShow)
     {
-        <BSCard CardType="CardType.Deck" Class="row">
-            @foreach (UserAchievementDto achievement in _userAchievements)
-            {
-                <BSCard CardType="CardType.Card" style="width: 12rem; margin: 0.2rem">
-                    <BSCard CardType="CardType.Body" PaddingBottom="Padding.ExtraSmall">
-                        <BSCard CardType="CardType.Title"><p style="font-size: 16px">@achievement.Title</p></BSCard>
-                        <BSCard CardType="CardType.Subtitle">
-                            <p style="font-size: 14px; padding: auto; margin: auto">Kysочки: @achievement.Points</p>
-                        </BSCard>
-                        <BSCard CardType="CardType.Text">
-                            <p style="font-size: 14px">@achievement.Description</p>
-                        </BSCard>
-                    </BSCard>
-                </BSCard>
-            }
-        </BSCard>
+        <UserAchievementsList UserAchievements="@_userAchievements"/>
     }
-
-    <BSButton Color="BSColor.Primary" @onclick="FillAllAchievements">Все достижения</BSButton>
-    @if (_allUserAchievements.Count > 0 && _allAchievementsShow)
+    else
     {
-        <div>
-            <ul>
-                @foreach (UserAchievementDto achievement in _allUserAchievements)
-                {
-                    <li>@achievement.Title (@achievement.Description) - @achievement.Points kysочков</li>
-                }
-            </ul>
-        </div>
+        <AllUserAchievementsList AllUserAchievements="@_allUserAchievements"/>
     }
 }
 
@@ -91,22 +77,26 @@ else
         var userPoints = await Http.GetFromJsonAsync<int>($"api/achievements/users/{MainLayout.User.Id}/points");
 
         _userPointsCount = userPoints;
-    }
-
-    private async Task FillAllAchievements()
-    {
-        if (_allAchievementsShow)
-        {
-            _allAchievementsShow = false;
-            return;
-        }
 
         var response = await Http.GetFromJsonAsync<IReadOnlyCollection<UserAchievementDto>>("api/achievements/users");
 
         if (response is not null)
         {
             _allUserAchievements = response;
-            _allAchievementsShow = true;
         }
+    }
+
+    private double CalculateUserPointsPercent()
+    {
+        if (_allUserAchievements is null)
+            return 0;
+
+        if (_userAchievements is null)
+            return 0;
+
+        int totalPoints = _allUserAchievements.Sum(achievement => achievement.Points);
+        int userPoints = _userAchievements.Sum(achievement => achievement.Points);
+
+        return userPoints * 100.0 / totalPoints;
     }
 }

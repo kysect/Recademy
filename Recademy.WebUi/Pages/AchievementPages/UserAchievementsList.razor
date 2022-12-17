@@ -1,0 +1,26 @@
+﻿@using Recademy.Dto.Achievements
+
+@if (UserAchievements.Count > 0)
+{
+    <BSCard CardType="CardType.Deck" Class="row">
+        @foreach (UserAchievementDto achievement in UserAchievements)
+        {
+            <BSCard CardType="CardType.Card" MarginLeftAndRight="Margins.Medium" MarginTopAndBottom="Margins.Medium" style="width: 12rem; margin: 0.2rem">
+                <BSCard CardType="CardType.Body" PaddingBottom="Padding.ExtraSmall">
+                    <BSCard CardType="CardType.Title"><p style="font-size: 16px">@achievement.Title</p></BSCard>
+                    <BSCard CardType="CardType.Subtitle">
+                        <p style="font-size: 14px; padding: auto; margin: auto">Kysочки: @achievement.Points</p>
+                    </BSCard>
+                    <BSCard CardType="CardType.Text">
+                        <p style="font-size: 14px">@achievement.Description</p>
+                    </BSCard>
+                </BSCard>
+            </BSCard>
+        }
+    </BSCard>
+}
+
+@code {
+    [Parameter]
+    public IReadOnlyCollection<UserAchievementDto> UserAchievements { get; set; }
+}
