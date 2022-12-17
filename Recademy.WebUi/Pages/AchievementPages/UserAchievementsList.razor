@@ -5,7 +5,7 @@
     <BSCard CardType="CardType.Deck" Class="row">
         @foreach (UserAchievementDto achievement in UserAchievements)
         {
-            <BSCard CardType="CardType.Card" MarginLeftAndRight="Margins.Medium" MarginTopAndBottom="Margins.Medium" style="width: 12rem; margin: 0.2rem">
+            <BSCard CardType="CardType.Card" MarginLeftAndRight="Margins.Medium" MarginTopAndBottom="Margins.Medium" style="width: 12rem; margin: 0.2rem; border-radius: 12px; border: 0; box-shadow: 5px 5px lightgray;">
                 <BSCard CardType="CardType.Body" PaddingBottom="Padding.ExtraSmall">
                     <BSCard CardType="CardType.Title"><p style="font-size: 16px">@achievement.Title</p></BSCard>
                     <BSCard CardType="CardType.Subtitle">
