@@ -38,7 +38,7 @@ else
                             <BSTD>@request.User.GithubUsername</BSTD>
                             <BSTD>@request.Reason</BSTD>
                             <BSTD>
-                                <BSButton Color="BSColor.Primary" @onclick="@(() => Reply(@request.RequestId))">
+                                <BSButton Color="BSColor.Primary" style="background-color: slateblue; border: 0; border-radius: 12px;" @onclick="@(() => Reply(@request.RequestId))">
                                     Ответить
                                 </BSButton>
                             </BSTD>

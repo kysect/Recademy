@@ -13,7 +13,7 @@ else
     <h3>Ответить на запрос @_request?.User.GithubUsername на получение достижения @_request?.Achievement.Title</h3>
 
     <BSLabel MarginTop="Margins.Small">Ответ</BSLabel>
-    <BSInput InputType="InputType.Select" @bind-Value="_selectedResponseType">
+    <BSInput InputType="InputType.Select" style="max-width: 50%" @bind-Value="_selectedResponseType">
         @if (_responseTypes is not null)
         {
             @foreach (UserAchievementResponseTypeDto responseType in _responseTypes)
@@ -24,9 +24,9 @@ else
     </BSInput>
 
     <BSLabel MarginTop="Margins.Small">Комментарий к ответу</BSLabel>
-    <BSInput InputType="InputType.Text" @bind-Value="_responseComment" />
+    <BSInput InputType="InputType.Text" style="max-width: 50%" @bind-Value="_responseComment" />
 
-    <BSButton Color="BSColor.Primary" @onclick="SendAchievementResponse" MarginTopAndBottom="Margins.Medium">Отправить ответ</BSButton>
+    <BSButton Color="BSColor.Primary" @onclick="SendAchievementResponse" MarginTopAndBottom="Margins.Medium" style="background-color: slateblue; border: 0; border-radius: 12px;">Отправить ответ</BSButton>
 }
 
 @code {
