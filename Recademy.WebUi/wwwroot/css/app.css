@@ -63,3 +63,8 @@ a, .btn-link {
 .blazor-error-boundary::after {
     content: "An error has occurred."
 }
+
+.r-table th, td {
+    border: 1px solid black !important;
+    border-radius: 10px !important;
+}
