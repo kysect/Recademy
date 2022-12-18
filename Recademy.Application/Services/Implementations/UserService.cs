@@ -4,7 +4,6 @@ using Recademy.Core.Types;
 using Recademy.DataAccess;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Users;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using User = Recademy.Core.Models.Users.User;
