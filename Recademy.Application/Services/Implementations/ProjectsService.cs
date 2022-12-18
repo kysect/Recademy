@@ -3,6 +3,7 @@ using Recademy.Application.Mappings;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Core.Models.Projects;
 using Recademy.Core.Models.Skills;
+using Recademy.Core.Types;
 using Recademy.DataAccess;
 using Recademy.Dto.Projects;
 using System;
@@ -39,6 +40,11 @@ public class ProjectsService : IProjectService
     public async Task<ProjectInfoDto> CreateProject(CreateProjectDto createArguments)
     {
         ArgumentNullException.ThrowIfNull(createArguments);
+
+        bool isProjectAlreadyExists = await _context.ProjectInfos.AnyAsync(project => project.Title == createArguments.Title);
+
+        if (isProjectAlreadyExists)
+            throw new RecademyException($"Project with title {createArguments.Title} already exists");
 
         // TODO: process skills correctly
         var newProject = new ProjectInfo
