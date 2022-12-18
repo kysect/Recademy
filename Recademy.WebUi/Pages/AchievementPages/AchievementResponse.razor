@@ -26,7 +26,7 @@ else
     <BSLabel MarginTop="Margins.Small">Комментарий к ответу</BSLabel>
     <BSInput InputType="InputType.Text" Class="form-input" @bind-Value="_responseComment" />
 
-    <BSButton Color="BSColor.Primary" @onclick="SendAchievementResponse" MarginTopAndBottom="Margins.Medium" style="background-color: slateblue; border: 0; border-radius: 12px;">Отправить ответ</BSButton>
+    <button style="margin-top: 1em" @onclick="SendAchievementResponse">Отправить ответ</button>
 }
 
 @code {

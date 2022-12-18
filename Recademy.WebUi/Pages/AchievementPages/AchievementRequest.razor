@@ -27,7 +27,7 @@ else
     <BSLabel MarginTop="Margins.Small">Причина запроса</BSLabel>
     <BSInput InputType="InputType.Text" placeholder="Указание причины позволит ускорить процесс обработки запроса" Class="form-input" @bind-Value="_achievementReason" />
 
-    <BSButton Color="BSColor.Primary" @onclick="SendAchievementRequest" MarginTopAndBottom="Margins.Medium" style="background-color: slateblue; border: 0; border-radius: 12px;">Отправить запрос</BSButton>
+    <button style="margin-top: 1em" @onclick="SendAchievementRequest">Отправить запрос</button>
 }
 
 @code {

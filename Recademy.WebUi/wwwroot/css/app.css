@@ -79,3 +79,11 @@ a, .btn-link {
         width: 75%;
     }
 }
+
+button {
+    background-color: slateblue;
+    color: white;
+    border: 0;
+    border-radius: 12px;
+    padding: 2px 10px;
+}

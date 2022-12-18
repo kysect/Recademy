@@ -19,26 +19,26 @@
             @if (User is null)
             {
                 <div>
-                    <button class="btn btn-primary" style="background-color: slateblue; border: 0; border-radius: 12px;" @onclick="SignIn">Войти</button>
+                    <button @onclick="SignIn">Войти</button>
                 </div>
             }
             else
             {
                 <div>
-                    <button class="btn btn-primary" style="background-color: slateblue; border: 0; border-radius: 12px;" @onclick="MakeUserAdmin">Получить админку!</button>
+                    <button @onclick="MakeUserAdmin">Получить админку!</button>
                 </div>
                 @if (!string.IsNullOrEmpty(@UserRole?.Name))
                 {
                     <div>
                         [@UserRole.Name] @User.GithubUsername
-                        <button class="btn btn-primary" style="background-color: slateblue; border: 0; border-radius: 12px;" @onclick="SignOut">Выйти</button>
+                        <button @onclick="SignOut">Выйти</button>
                     </div>
                 }
                 else
                 {
                     <div>
                         @User.GithubUsername
-                        <button class="btn btn-primary" style="background-color: slateblue; border: 0; border-radius: 12px;" @onclick="SignOut">Выйти</button>
+                        <button @onclick="SignOut">Выйти</button>
                     </div>
                 }
             }
