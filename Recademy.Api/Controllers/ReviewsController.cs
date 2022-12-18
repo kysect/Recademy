@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Recademy.Api.Attributes;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Dto.Reviews;
@@ -10,6 +11,7 @@ namespace Recademy.Api.Controllers;
 
 [Route("api/reviews")]
 [ApiController]
+[Authorize]
 public class ReviewsController : Controller
 {
     private readonly IReviewService _reviewService;
@@ -45,6 +47,7 @@ public class ReviewsController : Controller
         return Ok(reviewRequest);
     }
 
+    [AllowAnonymous]
     [HttpPost("requests")]
     public async Task<ActionResult<ReviewRequestInfoDto>> CreateReviewRequest(CreateReviewRequestDto createReviewRequestDto)
     {
