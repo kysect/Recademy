@@ -7,6 +7,8 @@ namespace Recademy.Application.Services.Abstractions;
 
 public interface IUserService
 {
+    IReadOnlyCollection<UserInfoDto> GetAllUsers();
+    IReadOnlyCollection<RecademyUserDto> GetAllRecademyUsers();
     RecademyUserDto GetById(int userId);
     RecademyUserDto FindById(int userId);
     RecademyUserDto FindRecademyUserByUsername(string username);

@@ -22,18 +22,27 @@ public class UserController : Controller
         _userService = userService;
     }
 
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<IReadOnlyCollection<UserInfoDto>> GetAllUsers()
+    {
+        IReadOnlyCollection<UserInfoDto> allUsers = _userService.GetAllUsers();
+        return Ok(allUsers);
+    }
+
+    [HttpGet("/detailed")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<IReadOnlyCollection<RecademyUserDto>> GetAllRecademyUsers()
+    {
+        IReadOnlyCollection<RecademyUserDto> allUsers = _userService.GetAllRecademyUsers();
+        return Ok(allUsers);
+    }
+
     [HttpGet("{userId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<RecademyUserDto> GetById([Required] int userId)
     {
         return _userService.GetById(userId);
-    }
-
-    [HttpGet("{username}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public ActionResult<RecademyUserDto> GetByUsername([Required] string username)
-    {
-        return _userService.FindRecademyUserByUsername(username);
     }
 
     [HttpGet("{userId}/projects")]
