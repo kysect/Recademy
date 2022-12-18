@@ -1,5 +1,5 @@
 ﻿@page "/"
-@using Recademy.Dto.Achievements
+@using Recademy.Dto.Users
 @inject HttpClient Http
 
 <h1>Добро пожаловать в Kysect!</h1>
@@ -10,31 +10,57 @@
 }
 else
 {
-    @if (_userPoints.Count > 0)
+    @if (_users.Count > 0)
     {
-        <div style="width: fit-content; max-width: 30%; right: 5%; position: absolute">
-            <h5>Kysочковый рейтинг</h5>
-            <BSListGroup>
-                @foreach (UserAchievementPointsDto userPoint in _userPoints)
+        <div style="width: fit-content; width: 50%;">
+            <h5 style="margin: 1em">Kysочковый рейтинг</h5>
+            
+            @for (int i = 0; i < _users.Count; i++)
+            {
+                var user = _users[i];
+                var points = user.UserAchievements.Sum(a => a.Points);
+
+                @if (i == 0 && points > 0)
                 {
-                    <BSListGroupItem>@userPoint.Username - @userPoint.Points</BSListGroupItem>
+                    <div class="rating-card gold">
+                        <p style="margin: 0; font-size: 1.2em"><b>@user.User.Name (@user.User.GithubUsername)</b></p>
+                        <p style="margin: 0; font-weight: bold; font-size: 2em; color: black">@points</p>
+                    </div>
                 }
-            </BSListGroup>
+                else if (i == 1 && points > 0)
+                {
+                    <div class="rating-card silver">
+                        <p style="margin: 0"><b>@user.User.Name (@user.User.GithubUsername)</b></p>
+                        <p style="margin: 0; font-weight: bold; font-size: large; color: black">@points</p>
+                    </div>
+                }
+                else if (i == 2 && points > 0)
+                {
+                    <div class="rating-card bronze">
+                        <p style="margin: 0"><b>@user.User.Name (@user.User.GithubUsername)</b></p>
+                        <p style="margin: 0; font-weight: bold; font-size: large; color: black">@points</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="rating-card">
+                        <p style="margin: 0"><b>@user.User.Name (@user.User.GithubUsername)</b></p>
+                        <p style="margin: 0; font-weight: bold; font-size: large; color: black">@points</p>
+                    </div>
+                }
+            }
         </div>
     }
 }
 
 @code
 {
-    private IReadOnlyCollection<UserAchievementPointsDto> _userPoints = new List<UserAchievementPointsDto>();
+    private IReadOnlyList<RecademyUserDto> _users = new List<RecademyUserDto>();
 
     protected override async Task OnInitializedAsync()
     {
-        var userPoints = await Http.GetFromJsonAsync<IReadOnlyCollection<UserAchievementPointsDto>>($"api/achievements/users/ranged");
+        var response = await Http.GetFromJsonAsync<IReadOnlyCollection<RecademyUserDto>>("api/users/detailed");
 
-        if (userPoints is not null)
-        {
-            _userPoints = userPoints;
-        }
+        _users = response?.OrderByDescending(u => u.UserAchievements.Sum(a => a.Points)).ToList() ?? new List<RecademyUserDto>();
     }
 }
