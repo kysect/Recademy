@@ -10,6 +10,7 @@ using Recademy.Dto.Achievements;
 using Recademy.Application.Mappings;
 using Recademy.Application.Providers;
 using Recademy.Core.Types;
+using System;
 
 namespace Recademy.Application.Services.Implementations;
 
@@ -107,14 +108,20 @@ public sealed class UserAchievementService : IUserAchievementService
 
     public async Task<UserAchievementRequestDto> AddUserAchievementRequest(UserAchievementRequestDto request)
     {
+        bool isRequestAlreadyExists = await _context.UserAchievementRequests
+            .AnyAsync(r => r.AchievementId == request.AchievementId && r.UserId == request.UserId);
+
+        if (isRequestAlreadyExists)
+            throw new RecademyException($"Request of achievement {request.AchievementId} by user {request.UserId} already exists");
+
         UserAchievementRequest achievementRequest = request.FromDto();
 
         await _context.UserAchievementRequests.AddAsync(achievementRequest);
         await _context.SaveChangesAsync();
 
         achievementRequest = await _context.UserAchievementRequests
-            .Include(request => request.User)
-            .FirstAsync(request => request.RequestId == achievementRequest.RequestId);
+            .Include(r => r.User)
+            .FirstAsync(r => r.RequestId == achievementRequest.RequestId);
 
         return achievementRequest.ToDto();
     }

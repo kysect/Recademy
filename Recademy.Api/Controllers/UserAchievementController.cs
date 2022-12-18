@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Recademy.Api.Attributes;
 using Recademy.Dto.Enums;
+using System;
 
 namespace Recademy.Api.Controllers;
 
@@ -104,9 +105,15 @@ public class UserAchievementController : Controller
     [HttpPost("users/{userId}/requests")]
     public async Task<IActionResult> RequestUserAchievement(UserAchievementRequestDto request)
     {
-        await _userAchievementService.AddUserAchievementRequest(request);
-
-        return Ok();
+        try
+        {
+            await _userAchievementService.AddUserAchievementRequest(request);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [RoleRequired]

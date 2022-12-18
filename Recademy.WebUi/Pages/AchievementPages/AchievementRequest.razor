@@ -65,7 +65,13 @@ else
         }
         else
         {
-            BlazorStrap.Toaster.Add("Произошла ошибка при отправке запроса на получение достижения", o =>
+            string errorMessage = await response.Content.ReadAsStringAsync();
+            string toasterMessage = "Произошла ошибка при отправке запроса на получение достижения";
+
+            if (!string.IsNullOrEmpty(errorMessage))
+                toasterMessage += $": {errorMessage}";
+
+            BlazorStrap.Toaster.Add(toasterMessage, o =>
             {
                 o.Color = BSColor.Danger;
                 o.CloseAfter = 3000;
