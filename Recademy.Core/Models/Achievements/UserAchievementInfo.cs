@@ -5,8 +5,8 @@ namespace Recademy.Core.Models.Achievements;
 
 public class UserAchievementInfo
 {
-    [ForeignKey("User")]
+    [ForeignKey("RecademyUser")]
     public int UserId { get; set; }
-    public virtual User User { get; set; }
+    public virtual RecademyUser User { get; set; }
     public int AchievementId { get; set; }
 }

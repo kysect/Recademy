@@ -5,13 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Recademy.Dto.Achievements;
 using Recademy.Application.Mappings;
 using Recademy.Application.Providers;
-using Recademy.Core.Tools;
 using Recademy.Core.Types;
-using System;
 
 namespace Recademy.Application.Services.Implementations;
 
@@ -47,7 +44,7 @@ public sealed class UserAchievementService : IUserAchievementService
 
         IReadOnlyCollection<UserAchievementInfo> userAchievementsInfo = _context.UserAchievementInfos.ToList();
 
-        foreach (IGrouping<string, UserAchievementInfo> userAchievementInfo in userAchievementsInfo.GroupBy(info => info.User.GithubUsername))
+        foreach (IGrouping<string, UserAchievementInfo> userAchievementInfo in userAchievementsInfo.GroupBy(info => info.User.User.GithubUsername))
         {
             int userPoints = userAchievementInfo
                 .Select(info => UserAchievementProvider.FindAchievementById(info.AchievementId))
