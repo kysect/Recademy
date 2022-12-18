@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using Recademy.Dto.Users
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
 
 <h1>Добро пожаловать в Kysect!</h1>
 
@@ -22,28 +23,28 @@ else
 
                 @if (i == 0 && points > 0)
                 {
-                    <div class="rating-card gold">
+                    <div class="rating-card gold" @onclick="() => OpenUserProfile(user.UserId)">
                         <p style="margin: 0; font-size: 1.25em"><b>@user.User.Name (@user.User.GithubUsername)</b></p>
                         <p style="margin: 0; font-weight: bold; font-size: 2em; color: black">@points</p>
                     </div>
                 }
                 else if (i == 1 && points > 0)
                 {
-                    <div class="rating-card silver">
+                    <div class="rating-card silver" @onclick="() => OpenUserProfile(user.UserId)">
                         <p style="margin: 0; font-size: 1.15em"><b>@user.User.Name (@user.User.GithubUsername)</b></p>
                         <p style="margin: 0; font-weight: bold; font-size: 1.9em; color: black">@points</p>
                     </div>
                 }
                 else if (i == 2 && points > 0)
                 {
-                    <div class="rating-card bronze">
+                    <div class="rating-card bronze" @onclick="() => OpenUserProfile(user.UserId)">
                         <p style="margin: 0; font-size: 1.05em"><b>@user.User.Name (@user.User.GithubUsername)</b></p>
                         <p style="margin: 0; font-weight: bold; font-size: 1.8em; color: black">@points</p>
                     </div>
                 }
                 else
                 {
-                    <div class="rating-card">
+                    <div class="rating-card" @onclick="() => OpenUserProfile(user.UserId)">
                         <p style="margin: 0"><b>@user.User.Name (@user.User.GithubUsername)</b></p>
                         <p style="margin: 0; font-weight: bold; font-size: large; color: black">@points</p>
                     </div>
@@ -63,4 +64,6 @@ else
 
         _users = response?.OrderByDescending(u => u.UserAchievements.Sum(a => a.Points)).ToList() ?? new List<RecademyUserDto>();
     }
+
+    private void OpenUserProfile(int userId) => NavigationManager.NavigateTo($"/users/{userId}");
 }

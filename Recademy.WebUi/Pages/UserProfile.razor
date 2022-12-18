@@ -1,0 +1,53 @@
+﻿@page "/users/{UserId:int}"
+@using Recademy.Dto.Users
+@using Recademy.Dto.Achievements
+@using Recademy.Dto.Enums
+@inject HttpClient Http
+
+@if (MainLayout.User is null)
+{
+    <Unauthorized />
+}
+else
+{
+    @if (_user is not null)
+    {
+        <h3>
+            @_user.User.Name (@_user.User.GithubUsername) <BSBadge Color="BSColor.Primary" style="border-radius: 12px">@_user.User.UserType.TranslateToString()</BSBadge>
+        </h3>
+
+        <h5>Роль: @GetUserRole()</h5>
+
+        <h5>Достижения</h5>
+
+        <div style="display: flex; flex-direction: row; flex-flow: row; justify-content: flex-start; align-items: baseline">
+            @foreach (UserAchievementDto achievement in _user.UserAchievements)
+            {
+                <BSFigure style="width: 6em; padding: 4px 10px">
+                    <BSSvg Source="../images/trophy-cup-8.svg" />
+                    <BSFigureCaption style="font-weight: bold">@achievement.Title</BSFigureCaption>
+                </BSFigure>
+            }
+        </div>
+    }
+}
+
+@code {
+    [Parameter]
+    public int UserId { get; set; }
+
+    private RecademyUserDto _user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = await Http.GetFromJsonAsync<RecademyUserDto>($"api/users/{UserId}");
+
+        if (user is not null)
+            _user = user;
+    }
+
+    private string GetUserRole()
+    {
+        return @_user.Role?.Name ?? "Нет роли";
+    }
+}
