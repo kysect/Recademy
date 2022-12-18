@@ -12,6 +12,7 @@ public class DbContextSeeder : IDbContextSeeder
         const int userCount = 10;
 
         _generators.Add(new UserSeedingGenerator(userCount));
+        _generators.Add(new UserAchievementsSeedingGenerator(2));
     }
     public void Seed(ModelBuilder modelBuilder)
     {
