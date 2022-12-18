@@ -15,30 +15,30 @@
     </div>
 
     <main>
-        <div class="flex-row top-row px-4">
+        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: baseline; padding: 1em 1em">
             @if (User is null)
             {
                 <div>
-                    <button class="btn btn-primary" @onclick="SignIn">Sign in</button>
+                    <button style="position: absolute; right: 1em" @onclick="SignIn">Войти</button>
                 </div>
             }
             else
             {
                 <div>
-                    <button class="btn btn-primary" @onclick="MakeUserAdmin">Go admin!</button>
+                    <button @onclick="MakeUserAdmin">Получить админку!</button>
                 </div>
                 @if (!string.IsNullOrEmpty(@UserRole?.Name))
                 {
                     <div>
                         [@UserRole.Name] @User.GithubUsername
-                        <button class="btn btn-primary" @onclick="SignOut">Sign out</button>
+                        <button @onclick="SignOut">Выйти</button>
                     </div>
                 }
                 else
                 {
                     <div>
                         @User.GithubUsername
-                        <button class="btn btn-primary" @onclick="SignOut">Sign out</button>
+                        <button @onclick="SignOut">Выйти</button>
                     </div>
                 }
             }

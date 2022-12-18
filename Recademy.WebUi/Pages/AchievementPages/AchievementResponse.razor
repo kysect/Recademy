@@ -13,20 +13,20 @@ else
     <h3>Ответить на запрос @_request?.User.GithubUsername на получение достижения @_request?.Achievement.Title</h3>
 
     <BSLabel MarginTop="Margins.Small">Ответ</BSLabel>
-    <BSInput InputType="InputType.Select" @bind-Value="_selectedResponseType">
+    <BSInput InputType="InputType.Select" Class="form-input" @bind-Value="_achievementResponseNumber">
         @if (_responseTypes is not null)
         {
             @foreach (UserAchievementResponseTypeDto responseType in _responseTypes)
             {
-                <option value="@((int)responseType)">@responseType</option>
+                <option value="@((int)responseType)">@responseType.TranslateToString()</option>
             }
         }
     </BSInput>
 
     <BSLabel MarginTop="Margins.Small">Комментарий к ответу</BSLabel>
-    <BSInput InputType="InputType.Text" @bind-Value="_responseComment" />
+    <BSInput InputType="InputType.Text" Class="form-input" @bind-Value="_responseComment" />
 
-    <BSButton Color="BSColor.Primary" @onclick="SendAchievementResponse" MarginTopAndBottom="Margins.Medium">Отправить ответ</BSButton>
+    <button style="margin-top: 1em" @onclick="SendAchievementResponse">Отправить ответ</button>
 }
 
 @code {
@@ -36,7 +36,7 @@ else
     private readonly IReadOnlyCollection<UserAchievementResponseTypeDto> _responseTypes = Enum.GetValues<UserAchievementResponseTypeDto>();
 
     private UserAchievementRequestDto _request;
-    private UserAchievementResponseTypeDto _selectedResponseType = UserAchievementResponseTypeDto.Approved;
+    private int _achievementResponseNumber = 0;
     private string _responseComment;
 
     protected override async Task OnInitializedAsync()
@@ -49,7 +49,7 @@ else
         var achievementResponse = new UserAchievementResponseDto
         {
             RequestId = RequestId,
-            Response = _selectedResponseType,
+            Response = (UserAchievementResponseTypeDto)_achievementResponseNumber,
             Comment = _responseComment,
             ResponseTime = DateTime.UtcNow,
         };
@@ -75,7 +75,7 @@ else
             });
         }
 
-        _selectedResponseType = UserAchievementResponseTypeDto.Approved;
+        _achievementResponseNumber = 0;
         _responseComment = default;
     }
 }

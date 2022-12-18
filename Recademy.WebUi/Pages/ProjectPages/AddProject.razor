@@ -12,17 +12,17 @@
 else
 {
     <BSLabel MarginTop="Margins.Small">Название проекта</BSLabel>
-    <BSInput InputType="InputType.Text" ValidateOnInput="true" @bind-Value="_projectTitle"></BSInput>
+    <BSInput InputType="InputType.Text" Class="form-input" ValidateOnInput="true" @bind-Value="_projectTitle"></BSInput>
 
     <BSLabel MarginTop="Margins.Small">Описание проекта</BSLabel>
-    <BSInput InputType="InputType.TextArea" @bind-Value="_projectDescription"></BSInput>
+    <BSInput InputType="InputType.TextArea" Class="form-input" @bind-Value="_projectDescription"></BSInput>
 
     <BSLabel MarginTop="Margins.Small">Ссылка на проект</BSLabel>
-    <BSInput InputType="InputType.Url" ValidateOnInput="true" @bind-Value="_projectLink"></BSInput>
+    <BSInput InputType="InputType.Url" Class="form-input" ValidateOnInput="true" @bind-Value="_projectLink"></BSInput>
 
     <!-- TODO: tags -->
 
-    <BSButton Color="BSColor.Primary" @onclick="CreateProject" MarginTopAndBottom="Margins.Medium">Отправить</BSButton>
+    <button style="margin-top: 1em;" @onclick="CreateProject" MarginTopAndBottom="Margins.Medium">Отправить</button>
 }
 
 @code {

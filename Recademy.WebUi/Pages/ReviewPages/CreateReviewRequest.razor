@@ -15,7 +15,7 @@ else
     <h3>Запрос на ревью</h3>
 
     <BSLabel MarginTop="Margins.Small">Проект</BSLabel>
-    <BSInput InputType="InputType.Select" @bind-Value="ProjectId">
+    <BSInput InputType="InputType.Select" Class="form-input" @bind-Value="ProjectId">
         @if (_userProjects is not null)
         {
             @foreach (ProjectInfoDto project in _userProjects)
@@ -26,9 +26,9 @@ else
     </BSInput>
 
     <BSLabel MarginTop="Margins.Small">Комментарий</BSLabel>
-    <BSInput InputType="InputType.Text" @bind-Value="_comment" />
+    <BSInput InputType="InputType.Text" Class="form-input" @bind-Value="_comment" />
 
-    <BSButton Color="BSColor.Primary" @onclick="SendReviewRequest" MarginTopAndBottom="Margins.Medium">Отправить запрос</BSButton>
+    <button style="margin-top: 1em" @onclick="SendReviewRequest">Отправить запрос</button>
 }
 
 @code {
