@@ -30,7 +30,7 @@ public class UserController : Controller
         return Ok(allUsers);
     }
 
-    [HttpGet("/detailed")]
+    [HttpGet("detailed")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<IReadOnlyCollection<RecademyUserDto>> GetAllRecademyUsers()
     {

@@ -17,6 +17,7 @@ public static class AchievementMappingExtensions
         return new UserAchievementDto
         {
             Id = achievement.AchievementId,
+            Points = UserAchievementProvider.FindAchievementById(achievement.AchievementId).Points,
             // TODO: set other parameters
         };
     }

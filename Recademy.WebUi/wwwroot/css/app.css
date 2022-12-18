@@ -87,3 +87,27 @@ button {
     border-radius: 12px;
     padding: 2px 10px;
 }
+
+.rating-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.5em 1em;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 5px 5px lightgray;
+    margin: 1em
+}
+
+    .rating-card.gold {
+        background-color: #FFD700;
+    }
+
+    .rating-card.silver {
+        background-color: silver;
+    }
+
+    .rating-card.bronze {
+        background-color: #CD7F32;
+    }
