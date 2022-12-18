@@ -97,7 +97,8 @@ button {
     background-color: white;
     border-radius: 12px;
     box-shadow: 5px 5px lightgray;
-    margin: 1em
+    margin: 1em;
+    cursor: pointer;
 }
 
     .rating-card.gold {

@@ -14,11 +14,14 @@ public static class AchievementMappingExtensions
         if (achievement is null)
             return null;
 
+        IUserAchievement userAchievement = UserAchievementProvider.FindAchievementById(achievement.AchievementId);
+
         return new UserAchievementDto
         {
             Id = achievement.AchievementId,
-            Points = UserAchievementProvider.FindAchievementById(achievement.AchievementId).Points,
-            // TODO: set other parameters
+            Title = userAchievement.Title,
+            Points = userAchievement.Points,
+            Description = userAchievement.Description,
         };
     }
 
