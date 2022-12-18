@@ -64,7 +64,18 @@ a, .btn-link {
     content: "An error has occurred."
 }
 
-.r-table th, td {
-    border: 1px solid black !important;
-    border-radius: 10px !important;
+.form-input {
+    width: 50%;
+}
+
+@media screen and (min-width: 0px) and (max-width: 600px) {
+    .form-input {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1000px) {
+    .form-input {
+        width: 75%;
+    }
 }

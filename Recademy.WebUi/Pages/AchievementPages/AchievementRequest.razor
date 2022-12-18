@@ -14,7 +14,7 @@ else
     <h3>Запрос достижения</h3>
 
     <BSLabel MarginTop="Margins.Small">Достижение</BSLabel>
-    <BSInput InputType="InputType.Select" style="max-width: 50%" @bind-Value="_achievementId">
+    <BSInput InputType="InputType.Select" Class="form-input" @bind-Value="_achievementId">
         @if (_achievements is not null)
         {
             @foreach (UserAchievementDto achievement in _achievements)
@@ -25,7 +25,7 @@ else
     </BSInput>
 
     <BSLabel MarginTop="Margins.Small">Причина запроса</BSLabel>
-    <BSInput InputType="InputType.Text" placeholder="Указание причины позволит ускорить процесс обработки запроса" style="max-width: 50%" @bind-Value="_achievementReason" />
+    <BSInput InputType="InputType.Text" placeholder="Указание причины позволит ускорить процесс обработки запроса" Class="form-input" @bind-Value="_achievementReason" />
 
     <BSButton Color="BSColor.Primary" @onclick="SendAchievementRequest" MarginTopAndBottom="Margins.Medium" style="background-color: slateblue; border: 0; border-radius: 12px;">Отправить запрос</BSButton>
 }
