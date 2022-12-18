@@ -4,7 +4,6 @@ using Recademy.Core.Types;
 using Recademy.DataAccess;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Users;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using User = Recademy.Core.Models.Users.User;
@@ -18,6 +17,20 @@ public class UserService : IUserService
     public UserService(RecademyContext context)
     {
         _context = context;
+    }
+
+    public IReadOnlyCollection<UserInfoDto> GetAllUsers()
+    {
+        return _context.Users
+            .Select(user => user.ToDto())
+            .ToList();
+    }
+
+    public IReadOnlyCollection<RecademyUserDto> GetAllRecademyUsers()
+    {
+        return _context.RecademyUsers
+            .Select(user => user.ToDto())
+            .ToList();
     }
 
     public RecademyUserDto GetById(int userId)

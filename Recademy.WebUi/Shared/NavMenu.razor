@@ -1,4 +1,5 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using Recademy.Dto.Enums
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Recademy</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -16,7 +17,7 @@
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="projects">
-                <span class="oi oi-plus" aria-hidden="true"></span> Проекты
+                <span class="oi oi-book" aria-hidden="true"></span> Проекты
             </NavLink>
         </div>
         <div class="nav-item px-3">
@@ -24,6 +25,14 @@
                 <span class="oi oi-plus" aria-hidden="true"></span> Достижения
             </NavLink>
         </div>
+        @if (MainLayout.User?.UserType is UserTypeDto.Admin)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="administration">
+                    <span class="oi oi-people" aria-hidden="true" /> Управление
+                </NavLink>
+            </div>
+        }
     </nav>
 </div>
 

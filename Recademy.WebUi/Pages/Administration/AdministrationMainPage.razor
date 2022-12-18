@@ -1,0 +1,46 @@
+﻿@page "/administration"
+@using Recademy.Dto.Enums
+@using Recademy.Dto.Users
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+@if (MainLayout.User is null)
+{
+    <Unauthorized />
+}
+
+@if (MainLayout.User?.UserType != UserTypeDto.Admin)
+{
+    <BSAlert Color="BSColor.Danger">Управление пользователями доступно только администраторам!</BSAlert>
+}
+else
+{
+    <h3>Управление пользователями</h3>
+
+    @if (_users is not null)
+    {
+        @foreach (UserInfoDto user in _users)
+        {
+            <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: baseline; padding: 1em; background-color: white; border-radius: 12px; box-shadow: 5px 5px lightgray; margin: 1em">
+                <p style="margin: 0"><b>@user.Name</b></p>
+                <p style="margin: 0">@user.GithubUsername</p> @user.UserType
+                <button style="padding: 2px 10px; background-color: slateblue; color: white; border: 0; border-radius: 12px;" @onclick="() => Manage(user.Id)">
+                    Управлять
+                </button>
+            </div>
+        }
+    }
+}
+
+@code {
+    private IReadOnlyCollection<UserInfoDto> _users = new List<UserInfoDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Http.GetFromJsonAsync<IReadOnlyCollection<UserInfoDto>>("api/users");
+
+        _users = response ?? new List<UserInfoDto>();
+    }
+
+    private void Manage(int userId) => NavigationManager.NavigateTo($"/administration/{userId}");
+}

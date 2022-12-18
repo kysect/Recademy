@@ -1,0 +1,127 @@
+﻿@page "/administration/{UserId:int}"
+@using Recademy.Dto.Enums
+@using Recademy.Dto.Roles
+@using Recademy.Dto.Users
+@using Microsoft.AspNetCore.Components
+@inject HttpClient Http
+@inject IBlazorStrap BlazorStrap
+
+<BSToaster />
+
+@if (MainLayout.User is null)
+{
+    <Unauthorized />
+}
+
+@if (MainLayout.User?.UserType != UserTypeDto.Admin)
+{
+    <BSAlert Color="BSColor.Danger">Управление пользователями доступно только администраторам!</BSAlert>
+}
+else
+{
+    <p><b>@_user?.User?.Name</b> (@_user?.User?.GithubUsername)</p>
+
+    <BSInput InputType="InputType.Select" Class="form-input" @bind-Value="_userRoleId">
+        @if (_userRole is null)
+        {
+            <option value="0">Нет роли</option>
+        }
+        else
+        {
+            <option value="@_userRole.RoleId">@_userRole.Name (@_userRole.RequiredPoints требуется kysочков)</option>
+        }
+
+        @if (_allUserRoles is not null)
+        {
+            @foreach (UserRoleDto role in _allUserRoles.Where(r => r.RoleId != _userRole?.RoleId))
+            {
+                <option value="@role.RoleId">@role.Name (@role.RequiredPoints требуется kysочков)</option>
+            }
+        }
+    </BSInput>
+
+    <button style="margin-top: 1em" @onclick="SaveChanges">Сохранить изменения</button>
+}
+
+@code {
+    [Parameter]
+    public int UserId { get; set; }
+
+    private RecademyUserDto _user;
+    private UserRoleDto _userRole;
+    private int _userRoleId;
+
+    private IReadOnlyCollection<UserRoleDto> _allUserRoles = new List<UserRoleDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = await Http.GetFromJsonAsync<RecademyUserDto>($"api/users/{UserId}");
+
+        if (user is not null)
+            _user = user;
+
+        _allUserRoles = await Http.GetFromJsonAsync<IReadOnlyCollection<UserRoleDto>>($"api/roles");
+
+        if (_user is not null)
+        {
+            try
+            {
+                var userRole = await Http.GetFromJsonAsync<UserRoleDto>($"api/roles/users/{_user.User.Id}");
+
+                if (userRole is not null)
+                {
+                    _userRole = userRole;
+                    _userRoleId = userRole.RoleId;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+
+    private async Task SaveChanges()
+    {
+        if (_userRole is not null && _userRole.RoleId == _userRoleId)
+        {
+            BlazorStrap.Toaster.Add($"Пользователь уже имеет роль {_userRole.Name}", o =>
+            {
+                o.Color = BSColor.Warning;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+
+            return;
+        }
+
+        var roleUpdateResponse = await Http.PostAsJsonAsync($"api/roles/users/{UserId}/{_userRoleId}", new UserRoleDto());
+
+        if (roleUpdateResponse.IsSuccessStatusCode)
+        {
+            _userRole = _allUserRoles.Single(r => r.RoleId == _userRoleId);
+
+            BlazorStrap.Toaster.Add("Роль пользователя успешно обновлена", o =>
+            {
+                o.Color = BSColor.Success;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+        }
+        else
+        {
+            string errorMessage = await roleUpdateResponse.Content.ReadAsStringAsync();
+            string toasterMessage = "Произошла ошибка при обновлении роли пользователя";
+
+            if (!string.IsNullOrEmpty(errorMessage))
+                toasterMessage += $": {errorMessage}";
+
+            BlazorStrap.Toaster.Add(toasterMessage, o =>
+            {
+                o.Color = BSColor.Danger;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+        }
+    }
+}

@@ -12,6 +12,7 @@ public static class RoleMappingExtensions
 
         return new UserRoleDto
         {
+            RoleId = role.Id,
             Name = role.Name,
             RequiredPoints = role.RequiredPoints,
         };
