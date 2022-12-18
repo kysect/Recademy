@@ -1,4 +1,5 @@
-﻿using Recademy.Core.Models.Users;
+﻿using Recademy.Application.Providers;
+using Recademy.Core.Models.Users;
 using Recademy.Core.Types;
 using Recademy.Dto.Enums;
 using Recademy.Dto.Users;
@@ -47,6 +48,8 @@ public static class UserMappingExtensions
         {
             UserId = recademyUser.User.Id,
             User = recademyUser.User.ToDto(),
+            // TODO: refactor
+            Role = UserRoleProvider.FindRoleById(recademyUser.Role?.RoleId ?? 0)?.ToDto(),
             UserSkills = recademyUser.UserSkills.Select(skill => skill.ToDto()).ToList(),
             ProjectInfos = recademyUser.ProjectInfos.Select(project => project.ToDto()).ToList(),
             ReviewRequests = recademyUser.ReviewRequests.Select(request => request.ToDto()).ToList(),

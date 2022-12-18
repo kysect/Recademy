@@ -1,6 +1,7 @@
 ﻿using Recademy.Dto.Achievements;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Reviews;
+using Recademy.Dto.Roles;
 using Recademy.Dto.Skills;
 
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ public class RecademyUserDto
 
     public int UserId { get; init; }
     public UserInfoDto User { get; init; }
+    public UserRoleDto Role { get; init; }
     public ICollection<UserSkillDto> UserSkills { get; init; }
     public ICollection<ProjectInfoDto> ProjectInfos { get; init; }
     public ICollection<ReviewRequestInfoDto> ReviewRequests { get; init; }
