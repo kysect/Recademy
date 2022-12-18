@@ -3,6 +3,7 @@ using Recademy.Api.Attributes;
 using Recademy.Application.Services.Abstractions;
 using Recademy.Dto.Projects;
 using Recademy.Dto.Users;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -49,7 +50,14 @@ public class ProjectsController : Controller
     [HttpPost]
     public async Task<ActionResult<ProjectInfoDto>> CreateProject(CreateProjectDto createProjectDto)
     {
-        ProjectInfoDto project = await _projectService.CreateProject(createProjectDto);
-        return Ok(project);
+        try
+        {
+            ProjectInfoDto project = await _projectService.CreateProject(createProjectDto);
+            return Ok(project);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
