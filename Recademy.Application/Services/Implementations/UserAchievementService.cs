@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Recademy.Dto.Achievements;
 using Recademy.Application.Mappings;
 using Recademy.Application.Providers;
+using Recademy.Core.Tools;
 using Recademy.Core.Types;
 using System;
 
@@ -113,6 +114,12 @@ public sealed class UserAchievementService : IUserAchievementService
 
         if (isRequestAlreadyExists)
             throw new RecademyException($"Request of achievement {request.AchievementId} by user {request.UserId} already exists");
+
+        bool isUserAlreadyHasAchievement = await _context.UserAchievementInfos
+            .AnyAsync(a => a.AchievementId == request.AchievementId && a.UserId == request.UserId);
+
+        if (isUserAlreadyHasAchievement)
+            throw new RecademyException($"User {request.UserId} already has achievement {request.AchievementId}");
 
         UserAchievementRequest achievementRequest = request.FromDto();
 
