@@ -21,6 +21,22 @@ else
 {
     <p><b>@_user?.User?.Name</b> (@_user?.User?.GithubUsername)</p>
 
+    <BSLabel MarginTop="Margins.Small">Тип пользователя</BSLabel>
+    <BSInput InputType="InputType.Select" Class="form-input" @bind-Value="_userTypeNumber">
+        @if (_user?.User is not null)
+        {
+            <option value="@((int)_user.User.UserType)">@_user.User.UserType.TranslateToString()</option>
+        }
+
+        @if (_userTypes is not null)
+        {
+            @foreach (UserTypeDto userType in _userTypes.Where(t => t != _user?.User?.UserType))
+            {
+                <option value="@((int) userType)">@userType.TranslateToString()</option>
+            }
+        }
+    </BSInput>
+
     <BSInput InputType="InputType.Select" Class="form-input" @bind-Value="_userRoleId">
         @if (_userRole is null)
         {
@@ -47,6 +63,9 @@ else
     [Parameter]
     public int UserId { get; set; }
 
+    private readonly IReadOnlyCollection<UserTypeDto> _userTypes = Enum.GetValues<UserTypeDto>();
+    private int _userTypeNumber = 0;
+
     private RecademyUserDto _user;
     private UserRoleDto _userRole;
     private int _userRoleId;
@@ -58,7 +77,10 @@ else
         var user = await Http.GetFromJsonAsync<RecademyUserDto>($"api/users/{UserId}");
 
         if (user is not null)
+        {
             _user = user;
+            _userTypeNumber = (int)_user.User.UserType;
+        }
 
         _allUserRoles = await Http.GetFromJsonAsync<IReadOnlyCollection<UserRoleDto>>($"api/roles");
 
@@ -83,6 +105,15 @@ else
 
     private async Task SaveChanges()
     {
+        await SaveRole();
+        await SaveUserType();
+    }
+
+    private async Task SaveRole()
+    {
+        if (_userRoleId == 0)
+            return;
+
         if (_userRole is not null && _userRole.RoleId == _userRoleId)
         {
             BlazorStrap.Toaster.Add($"Пользователь уже имеет роль {_userRole.Name}", o =>
@@ -112,6 +143,59 @@ else
         {
             string errorMessage = await roleUpdateResponse.Content.ReadAsStringAsync();
             string toasterMessage = "Произошла ошибка при обновлении роли пользователя";
+
+            if (!string.IsNullOrEmpty(errorMessage))
+                toasterMessage += $": {errorMessage}";
+
+            BlazorStrap.Toaster.Add(toasterMessage, o =>
+            {
+                o.Color = BSColor.Danger;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+        }
+    }
+
+    private async Task SaveUserType()
+    {
+        if (_userTypeNumber == 0)
+            return;
+
+        var userType = (UserTypeDto) _userTypeNumber;
+
+        if (_userTypeNumber != 0 && _user is not null && _user.User?.UserType == userType)
+        {
+            BlazorStrap.Toaster.Add($"Пользователь уже имеет тип {userType.TranslateToString()}", o =>
+            {
+                o.Color = BSColor.Warning;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+
+            return;
+        }
+
+        var userTypeUpdateResponse = await Http.PostAsJsonAsync($"api/users/{UserId}/permissions", userType);
+
+        if (userTypeUpdateResponse.IsSuccessStatusCode)
+        {
+            // TODO: change in DTO
+            var user = await Http.GetFromJsonAsync<RecademyUserDto>($"api/users/{UserId}");
+
+            if (user is not null)
+                _user = user;
+
+            BlazorStrap.Toaster.Add("Тип пользователя успешно обновлён", o =>
+            {
+                o.Color = BSColor.Success;
+                o.CloseAfter = 3000;
+                o.Toast = Toast.BottomRight;
+            });
+        }
+        else
+        {
+            string errorMessage = await userTypeUpdateResponse.Content.ReadAsStringAsync();
+            string toasterMessage = "Произошла ошибка при обновлении типа пользователя";
 
             if (!string.IsNullOrEmpty(errorMessage))
                 toasterMessage += $": {errorMessage}";

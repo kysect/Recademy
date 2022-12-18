@@ -52,13 +52,11 @@ public sealed class UserRoleService : IUserRoleService
         if (roleAssociation is not null)
         {
             roleAssociation.RoleId = roleId;
-            _context.UserRoleAssociations.Update(roleAssociation);
-        }
-        else
-        {
-            _context.Add(new UserRoleAssociation(userId, roleId));
+            _context.UserRoleAssociations.Remove(roleAssociation);
+            await _context.SaveChangesAsync();
         }
 
+        _context.Add(new UserRoleAssociation(userId, roleId));
         await _context.SaveChangesAsync();
     }
 }
