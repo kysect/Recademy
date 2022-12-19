@@ -19,26 +19,31 @@
             @if (User is null)
             {
                 <div>
-                    <button style="position: absolute; right: 1em" @onclick="SignIn">Войти</button>
+                    <button style="position: absolute; right: 1em; font-size: 20px" @onclick="SignIn">Войти</button>
                 </div>
             }
             else
             {
                 <div>
-                    <button @onclick="MakeUserAdmin">Получить админку!</button>
+                    <button style="font-size: 20px" @onclick="MakeUserAdmin">Получить админку!</button>
                 </div>
                 @if (!string.IsNullOrEmpty(@UserRole?.Name))
                 {
+                    <div style="cursor: pointer; font-size: 20px; font-weight: bold">
+                        <p>[@UserRole.Name]</p>
+                        <p @onclick="() => OpenUserProfile(User.Id)">@User.GithubUsername</p>
+                    </div>
                     <div>
-                        [@UserRole.Name] @User.GithubUsername
-                        <button @onclick="SignOut">Выйти</button>
+                        <button style="font-size: 20px" @onclick="SignOut">Выйти</button>
                     </div>
                 }
                 else
                 {
+                    <div style="cursor: pointer; margin-left: auto; padding-right: 1em; font-size: 20px; font-weight: bold">
+                        <p @onclick="() => OpenUserProfile(User.Id)">@User.GithubUsername</p>
+                    </div>
                     <div>
-                        @User.GithubUsername
-                        <button @onclick="SignOut">Выйти</button>
+                        <button style="font-size: 20px" @onclick="SignOut">Выйти</button>
                     </div>
                 }
             }
@@ -132,4 +137,6 @@
             Logger.LogError(ex, $"An error occurred while updating user permissions");
         }
     }
+
+    private void OpenUserProfile(int userId) => NavigationManager.NavigateTo($"/users/{userId}");
 }
