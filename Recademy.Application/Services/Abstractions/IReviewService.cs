@@ -10,6 +10,7 @@ public interface IReviewService
     Task<IReadOnlyCollection<ReviewRequestInfoDto>> GetReviewRequestsByUserId(int userId);
     ReviewRequestInfoDto GetReviewRequestById(int requestId);
     ReviewResponseInfoDto GetReviewResponseById(int responseId);
+    IReadOnlyCollection<ReviewResponseInfoDto> GetReviewResponsesByProjectId(int projectId);
     Task<ReviewRequestInfoDto> CreateReviewRequest(CreateReviewRequestDto createReviewRequestDto);
     Task<ReviewResponseInfoDto> CreateReviewResponse(CreateReviewResponseDto createReviewResponseDto);
     ReviewRequestInfoDto CompleteReview(int requestId);

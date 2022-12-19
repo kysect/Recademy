@@ -45,6 +45,13 @@ public class ReviewsController : Controller
         return Ok(reviewRequest);
     }
 
+    [HttpGet("responses/{projectId}")]
+    public ActionResult<IReadOnlyCollection<ReviewResponseInfoDto>> GetReviewResponsesByProjectId(int projectId)
+    {
+        IReadOnlyCollection<ReviewResponseInfoDto> reviewResponses = _reviewService.GetReviewResponsesByProjectId(projectId);
+        return Ok(reviewResponses);
+    }
+
     [HttpPost("requests")]
     public async Task<ActionResult<ReviewRequestInfoDto>> CreateReviewRequest(CreateReviewRequestDto createReviewRequestDto)
     {
@@ -53,7 +60,7 @@ public class ReviewsController : Controller
     }
 
     [HttpPost("responses")]
-    public async Task<ActionResult<ReviewRequestInfoDto>> CreateReviewResponse(CreateReviewResponseDto createReviewResponseDto)
+    public async Task<ActionResult<ReviewResponseInfoDto>> CreateReviewResponse(CreateReviewResponseDto createReviewResponseDto)
     {
         ReviewResponseInfoDto reviewResponse = await _reviewService.CreateReviewResponse(createReviewResponseDto);
         return Ok(reviewResponse);

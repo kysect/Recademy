@@ -53,6 +53,14 @@ public class ReviewService : IReviewService
             .ToDto();
     }
 
+    public IReadOnlyCollection<ReviewResponseInfoDto> GetReviewResponsesByProjectId(int projectId)
+    {
+        return _context.ReviewResponses
+            .Where(r => r.Request.ProjectId == projectId)
+            .Select(r => r.ToDto())
+            .ToList();
+    }
+
     public async Task<ReviewRequestInfoDto> CreateReviewRequest(CreateReviewRequestDto createReviewRequestDto)
     {
         ArgumentNullException.ThrowIfNull(createReviewRequestDto);
