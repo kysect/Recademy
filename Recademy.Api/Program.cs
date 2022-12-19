@@ -33,7 +33,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddRecademyAuthentication(builder.Configuration);
 
 builder.Services.AddDbContext<RecademyContext>(options => options
-    .UseInMemoryDatabase("RecademyDb")
+    .UseSqlite("Recademy.db")
     .UseLazyLoadingProxies());
 
 builder.Services.AddScoped<IDbContextSeeder, DbContextSeeder>();
