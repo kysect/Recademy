@@ -29,8 +29,8 @@
                 </div>
                 @if (!string.IsNullOrEmpty(@UserRole?.Name))
                 {
-                    <div style="cursor: pointer; font-size: 20px; font-weight: bold">
-                        <p>[@UserRole.Name]</p>
+                    <div style="cursor: pointer; font-size: 20px; font-weight: bold; display: flex; flex-direction: row; padding-right: 1em; margin-left: auto">
+                        <p style="padding-right: 0.5em">[@UserRole.Name]</p>
                         <p @onclick="() => OpenUserProfile(User.Id)">@User.GithubUsername</p>
                     </div>
                     <div>

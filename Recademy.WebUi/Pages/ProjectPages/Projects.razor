@@ -29,39 +29,40 @@ else
 
     @if (_userProjects.Count > 0)
     {
-        <BSCard CardType="CardType.Deck" Class="row">
-            @foreach (ProjectInfoDto project in _userProjects)
-            {
-                <BSCard CardType="CardType.Card" style="width: 25%; margin: 0.2rem">
-                    <BSCard CardType="CardType.Body" PaddingBottom="Padding.ExtraSmall">
-                        <BSCard CardType="CardType.Title">
-                            <p style="font-size: 16px">@project.Title</p>
+        <div style="margin: 1em;">
+            <BSCard CardType="CardType.Deck" Class="row">
+                @foreach (ProjectInfoDto project in _userProjects)
+                {
+                    <BSCard CardType="CardType.Card" style="width: 25%; margin: 0.2rem; border-radius: 12px; box-shadow: 5px 5px lightgray;">
+                        <BSCard CardType="CardType.Body" PaddingBottom="Padding.ExtraSmall">
+                            <BSCard CardType="CardType.Title">
+                                <p style="font-size: 16px">@project.Title</p>
+                            </BSCard>
+                            <BSCard CardType="CardType.Subtitle">
+                                @string.Join(", ", @project.ProjectSkills.Select(skill => skill.Skill?.Name))
+                            </BSCard>
+                            <BSCard CardType="CardType.Link">
+                                <a href="@project.Link" target="_blank" style="font-size: 14px; padding: auto; margin: auto">@project.Link</a>
+                            </BSCard>
+                            <BSCard CardType="CardType.Text">
+                                <p style="font-size: 14px; padding: auto; margin: auto">Автор: @project.Username</p>
+                            </BSCard>
+                            <button style="margin-bottom: 1em" @onclick="() => OpenProjectPage(project.ProjectId)">
+                                Подробнее
+                            </button>
+                            <button style="margin-bottom: 1em" @onclick="() => OpenReviewRequestPage(project.ProjectId)">
+                                Запросить ревью
+                            </button>
                         </BSCard>
-                        <BSCard CardType="CardType.Subtitle">
-                            @string.Join(", ", @project.ProjectSkills.Select(skill => skill.Skill?.Name))
-                        </BSCard>
-                        <BSCard CardType="CardType.Link">
-                            <a href="@project.Link" target="_blank" style="font-size: 14px; padding: auto; margin: auto">@project.Link</a>
-                        </BSCard>
-                        <BSCard CardType="CardType.Text">
-                            <p style="font-size: 14px; padding: auto; margin: auto">Автор: @project.Username</p>
-                        </BSCard>
-                        <button style="margin-bottom: 1em" @onclick="() => OpenProjectPage(project.ProjectId)">
-                            Подробнее
-                        </button>
-                        <button style="margin-bottom: 1em" @onclick="() => OpenReviewRequestPage(project.ProjectId)">
-                            Запросить ревью
-                        </button>
                     </BSCard>
-                </BSCard>
-            }
-        </BSCard>
+                }
+            </BSCard>
+        </div>
     }
     else
     {
         <div>
-            <p>У тебя ещё нет проектов :c</p>
-            <BSImage Source="images/white-white-cat.gif" IsFluid="true"></BSImage>
+            <p style="margin: 1em">У тебя ещё нет проектов :c</p>
         </div>
     }
 }
