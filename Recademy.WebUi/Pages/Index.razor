@@ -6,7 +6,7 @@
 
 <h1>Добро пожаловать в Kysect!</h1>
 
-@if (MainLayout.User is null)
+@if (MainLayout.User is null && !_isLoadingInProgress)
 {
     <Unauthorized />
 }
