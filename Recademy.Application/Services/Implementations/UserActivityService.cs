@@ -4,17 +4,23 @@ using Recademy.Application.Services.Abstractions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Recademy.Application.Mappings;
+using Recademy.Dto;
 using Recademy.Dto.Activity;
+using System;
 using System.Linq;
 
 namespace Recademy.Application.Services.Implementations;
 
 public sealed class UserActivityService : IUserActivityService
 {
-    private readonly GitHubClient _client = new(new ProductHeaderValue("Recademy"));
     public async Task<IReadOnlyCollection<UserActivityDto>> GetAllActivity()
     {
-        var organizationFetcher = new OrganizationContributionFetcher(_client);
+        if (string.IsNullOrEmpty(GhUtil.Token))
+            return Array.Empty<UserActivityDto>();
+
+        GitHubClient client = CreateClient();
+
+        var organizationFetcher = new OrganizationContributionFetcher(client);
 
         List<OrganizationContributor> result = await organizationFetcher.FetchOrganizationStatistic("kysect");
         return result
@@ -24,8 +30,21 @@ public sealed class UserActivityService : IUserActivityService
 
     public async Task<UserActivityDto> GetUserActivity(string userName)
     {
+        if (string.IsNullOrEmpty(GhUtil.Token))
+            return null;
+
         IReadOnlyCollection<UserActivityDto> result = await GetAllActivity();
         return result.FirstOrDefault(a => a.Name == userName);
+    }
+
+    private GitHubClient CreateClient()
+    {
+        var client = new GitHubClient(new ProductHeaderValue("Recademy"))
+        {
+            Credentials = new Credentials(GhUtil.Token)
+        };
+
+        return client;
     }
 }
 

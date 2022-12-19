@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using Recademy.Dto.Users
+@using Recademy.Dto.Activity
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
@@ -11,45 +12,65 @@
 }
 else
 {
-    @if (_users.Count > 0)
+    @if (_isLoadingInProgress)
     {
-        <div style="width: fit-content; width: 50%;">
-            <h5 style="margin: 1em">Kysочковый рейтинг</h5>
-            
-            @for (int i = 0; i < _users.Count; i++)
-            {
-                var user = _users[i];
-                var points = user.UserAchievements.Sum(a => a.Points);
+        <img src="https://media4.giphy.com/media/Qrca6tBIdqXYXhnB4v/giphy.gif?cid=ecf05e47hrd7353pvr2c1ex64xd8lvo7f9aasb2vqgjvid6v&amp;rid=giphy.gif&amp;ct=g">
+    }
+    else
+    {
+        <div style="display: flex; flex-direction: row; flex-flow: row">
+            <div style="width: 50%">
+                <h5 style="margin: 1em">Kysочковый рейтинг</h5>
 
-                @if (i == 0 && points > 0)
+                @for (int i = 0; i < _users.Count; i++)
                 {
-                    <div class="rating-card gold" @onclick="() => OpenUserProfile(user.UserId)">
-                        <p style="margin: 0; font-size: 1.25em"><b>@user.User.Name (@user.User.GithubUsername)</b></p>
-                        <p style="margin: 0; font-weight: bold; font-size: 2em; color: black">@points</p>
+                    var user = _users[i];
+                    var points = user.UserAchievements.Sum(a => a.Points);
+
+                    var ratingNumber = i + 1;
+
+                    @if (i == 0 && points > 0)
+                    {
+                        <div class="rating-card gold" @onclick="() => OpenUserProfile(user.UserId)">
+                            <p style="margin: 0; font-size: 1.25em"><b>#@ratingNumber @user.User.Name (@user.User.GithubUsername)</b></p>
+                            <p style="margin: 0; font-weight: bold; font-size: 2em; color: black">@points</p>
+                        </div>
+                    }
+                    else if (i == 1 && points > 0)
+                    {
+                        <div class="rating-card silver" @onclick="() => OpenUserProfile(user.UserId)">
+                            <p style="margin: 0; font-size: 1.15em"><b>#@ratingNumber @user.User.Name (@user.User.GithubUsername)</b></p>
+                            <p style="margin: 0; font-weight: bold; font-size: 1.9em; color: black">@points</p>
+                        </div>
+                    }
+                    else if (i == 2 && points > 0)
+                    {
+                        <div class="rating-card bronze" @onclick="() => OpenUserProfile(user.UserId)">
+                            <p style="margin: 0; font-size: 1.05em"><b>#@ratingNumber @user.User.Name (@user.User.GithubUsername)</b></p>
+                            <p style="margin: 0; font-weight: bold; font-size: 1.8em; color: black">@points</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="rating-card" @onclick="() => OpenUserProfile(user.UserId)">
+                            <p style="margin: 0"><b>#@ratingNumber @user.User.Name (@user.User.GithubUsername)</b></p>
+                            <p style="margin: 0; font-weight: bold; font-size: large; color: black">@points</p>
+                        </div>
+                    }
+                }
+            </div>
+
+            <div style="width: 50%;">
+                <h5 style="margin: 1em">Топ-5 контрибуторов в Kysect</h5>
+                
+                @foreach (var activity in _activities.Take(5))
+                {
+                    <div class="rating-card" style="background-color:slateblue; color: white">
+                        <p style="margin: 0; font-size: 1.25em"><b>@activity.Name</b></p>
+                        <p style="margin: 0; font-weight: bold; font-size: 2em;">@activity.ContributionsCount</p>
                     </div>
                 }
-                else if (i == 1 && points > 0)
-                {
-                    <div class="rating-card silver" @onclick="() => OpenUserProfile(user.UserId)">
-                        <p style="margin: 0; font-size: 1.15em"><b>@user.User.Name (@user.User.GithubUsername)</b></p>
-                        <p style="margin: 0; font-weight: bold; font-size: 1.9em; color: black">@points</p>
-                    </div>
-                }
-                else if (i == 2 && points > 0)
-                {
-                    <div class="rating-card bronze" @onclick="() => OpenUserProfile(user.UserId)">
-                        <p style="margin: 0; font-size: 1.05em"><b>@user.User.Name (@user.User.GithubUsername)</b></p>
-                        <p style="margin: 0; font-weight: bold; font-size: 1.8em; color: black">@points</p>
-                    </div>
-                }
-                else
-                {
-                    <div class="rating-card" @onclick="() => OpenUserProfile(user.UserId)">
-                        <p style="margin: 0"><b>@user.User.Name (@user.User.GithubUsername)</b></p>
-                        <p style="margin: 0; font-weight: bold; font-size: large; color: black">@points</p>
-                    </div>
-                }
-            }
+            </div>
         </div>
     }
 }
@@ -57,12 +78,26 @@ else
 @code
 {
     private IReadOnlyList<RecademyUserDto> _users = new List<RecademyUserDto>();
+    private IReadOnlyList<UserActivityDto> _activities = new List<UserActivityDto>();
+    private bool _isLoadingInProgress = false;
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await Http.GetFromJsonAsync<IReadOnlyCollection<RecademyUserDto>>("api/users/detailed");
+        _isLoadingInProgress = true;
 
-        _users = response?.OrderByDescending(u => u.UserAchievements.Sum(a => a.Points)).ToList() ?? new List<RecademyUserDto>();
+        var users = await Http.GetFromJsonAsync<IReadOnlyCollection<RecademyUserDto>>("api/users/detailed");
+
+        _users = users
+            ?.OrderByDescending(u => u.UserAchievements.Sum(a => a.Points))
+            .ToList() ?? new List<RecademyUserDto>();
+
+        var activities = await Http.GetFromJsonAsync<IReadOnlyCollection<UserActivityDto>>("api/activity/users");
+
+        _activities = activities
+            ?.OrderByDescending(a => a.ContributionsCount)
+            .ToList() ?? new List<UserActivityDto>();
+
+        _isLoadingInProgress = false;
     }
 
     private void OpenUserProfile(int userId) => NavigationManager.NavigateTo($"/users/{userId}");
